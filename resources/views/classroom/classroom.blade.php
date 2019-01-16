@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Add Venue</h1>
-    {!! Form::open(['action' => 'VenuesController@store', 'method' => 'POST']) !!}
+    <h1>Add Classroom</h1>
+    {!! Form::open(['action' => 'ClassroomsController@store', 'method' => 'POST']) !!}
     <div class="form-group">
         {{Form::label('name', 'Name')}}
         {{Form::text('name', '', ['class' => 'form-control', 'placeholder'

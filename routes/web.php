@@ -32,5 +32,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/venues', 'VenuesController');
 
+Route::resource('/venues', 'VenuesController');
+Route::resource('/classrooms', 'ClassroomsController');
