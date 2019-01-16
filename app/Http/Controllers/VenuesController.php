@@ -81,7 +81,8 @@ class VenuesController extends Controller
      */
     public function show($id)
     {
-        //
+        $venue = Venue::find($id);
+        return view('venues.showvenue')->with('venue', $venue);
     }
 
     /**
@@ -92,7 +93,12 @@ class VenuesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $venue = Venue::find($id);
+        // Check for correct user
+       // if(auth()->user()->id !==$post->user_id){
+       //     return redirect('/posts')->with('error', 'Unauthorized Page');
+       // }
+        return view('venues.editvenue')->with('venue', $venue);
     }
 
     /**
@@ -104,7 +110,20 @@ class VenuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'place' => 'required'
+        ]);
+
+        // Create post
+        $venue = Venue::find($id);
+        $venue->name = $request->input('name');
+        $venue->description = $request->input('description');
+        $venue->place = $request->input('place');
+        $venue->save();
+
+        return redirect('/venues')->with('success', 'Venue Updated');
     }
 
     /**
