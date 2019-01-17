@@ -15,7 +15,7 @@ class ClassroomsController extends Controller
     public function index()
     {
         $classrooms = Classroom::all();
-        return view('classroom.classroomindex')->with('classrooms', $classrooms);
+        return view('classrooms.classroomindex')->with('classrooms', $classrooms);
     }
 
     /**
@@ -25,7 +25,7 @@ class ClassroomsController extends Controller
      */
     public function create()
     {
-        return view('classroom.createclassroom');
+        return view('classrooms.createclassroom');
     }
 
     /**
@@ -63,7 +63,7 @@ class ClassroomsController extends Controller
     public function show($id)
     {
         $classroom = Classroom::find($id);
-        return view('classroom.showclassroom')->with('classroom', $classroom);
+        return view('classrooms.showclassroom')->with('classrooms', $classroom);
     }
 
     /**
@@ -79,7 +79,7 @@ class ClassroomsController extends Controller
         // if(auth()->user()->id !==$post->user_id){
         //     return redirect('/posts')->with('error', 'Unauthorized Page');
         // }
-        return view('classroom.editclassroom')->with('classroom', $classroom);
+        return view('classrooms.editclassroom')->with('classrooms', $classroom);
     }
 
     /**
