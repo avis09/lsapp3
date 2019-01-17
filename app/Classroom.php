@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Classroom extends Model
 {
     // Table Name
-    protected $table ='classroomtest';
+    protected $table ='rooms';
 
     // Primary Key
-    public $primaryKey = 'id';
+    public $primaryKey = 'roomsID';
+    // public $table->foreign('venue_id')->references('id')->on('venues');
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['name', 'description', 'place'];
+    protected $fillable = ['RoomFloor', 'RoomNumber'];
+    public function venues(){
+        return $this->hasMany('App\Venue');
+    }
 }

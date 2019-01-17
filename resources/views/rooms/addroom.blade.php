@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Add Rooms</h1>
-    {!! Form::open(['action' => 'VenuesController@store', 'method' => 'POST' ,
+    {!! Form::open(['action' => 'RoomsController@store', 'method' => 'POST' ,
     'enctype' => 'multipart/form-data']) !!}
     <div class="form-group">
         {{Form::label('venueName', 'Name')}}

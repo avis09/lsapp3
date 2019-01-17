@@ -68,6 +68,9 @@ class VenuesController extends Controller
         $venue->save();
 
         return redirect('/venues')->with('success', 'Venue Added');
+
+
+
     }
 
     /**

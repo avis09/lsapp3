@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classroom;
 use Illuminate\Http\Request;
+use DB;
 
 class ClassroomsController extends Controller
 {
@@ -25,7 +26,8 @@ class ClassroomsController extends Controller
      */
     public function create()
     {
-        return view('classrooms.createclassroom');
+        $venues = array('venues' => DB::table('venue')->get());
+        return view('classrooms.addclassroom', $venues);
     }
 
     /**
@@ -37,19 +39,18 @@ class ClassroomsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'place' => 'required',
+            'RoomFloor' => 'required',
+            'RoomNumber' => 'required',
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
         // Create post
         $classroom = new Classroom;
-        $classroom->name = $request->input('name');
-        $classroom->description = $request->input('description');
-        $classroom->place = $request->input('place');
+        $classroom->RoomFloor = $request->input('RoomFloor');
+        $classroom->RoomNumber = $request->input('RoomNumber');
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;
         $classroom->save();
+
 
         return redirect('/classrooms')->with('success', 'Classroom Added');
     }
@@ -63,6 +64,7 @@ class ClassroomsController extends Controller
     public function show($id)
     {
         $classroom = Classroom::find($id);
+
         return view('classrooms.showclassroom')->with('classrooms', $classroom);
     }
 
@@ -92,16 +94,14 @@ class ClassroomsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'place' => 'required'
+            'RoomFloor' => 'required',
+            'RoomNumber' => 'required'
         ]);
 
         // Create post
         $classroom = Classroom::find($id);
-        $classroom->name = $request->input('name');
-        $classroom->description = $request->input('description');
-        $classroom->place = $request->input('place');
+        $classroom->RoomFloor = $request->input('RoomFloor');
+        $classroom->RoomNumber = $request->input('RoomNumber');
         $classroom->save();
 
         return redirect('/classrooms')->with('success', 'Classroom Updated');

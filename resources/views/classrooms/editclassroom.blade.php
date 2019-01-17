@@ -6,20 +6,14 @@
      'method' => 'POST']) !!}
     <div class="form-group">
         {{Form::label('name', 'Name')}}
-        {{Form::text('name', $classroom->name, ['class' => 'form-control', 'placeholder'
-        => 'Name'])}}
+        {{Form::text('RoomFloor', $classroom->RoomFloor, ['class' => 'form-control', 'placeholder'
+        => 'Room Floor'])}}
     </div>
     <div class="form-group">
         {{Form::label('description', 'Description')}}
-        {{Form::textarea('description', $classroom->description, ['id' => 'article-ckeditor',
+        {{Form::textarea('RoomNumber', $classroom->RoomNumber, ['id' => 'article-ckeditor',
         'class' => 'form-control', 'placeholder'
-        => 'Description'])}}
-    </div>
-    <div class="form-group">
-        {{Form::label('place', 'Place')}}
-        {{Form::textarea('place', $classroom->place, ['id' => 'article-ckeditor',
-        'class' => 'form-control', 'placeholder'
-        => 'Place'])}}
+        => 'Room Number'])}}
     </div>
     {{Form::hidden('_method', 'PUT')}}
     {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}

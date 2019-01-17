@@ -2,12 +2,9 @@
 
 @section('content')
     <a href="/classrooms" class="btn btn-default">Go Back</a>
-    <h1>{{$classroom->name}}</h1>
+    <h1>{{$classroom->RoomFloor}}</h1>
     <div>
-        {!!$classroom->description!!}
-    </div>
-    <div>
-        {!!$classroom->place!!}
+        {!!$classroom->RoomNumber!!}
     </div>
     <a href="/classrooms/{{$classroom->id}}/edit" class="btn btn-default">Edit</a>
 

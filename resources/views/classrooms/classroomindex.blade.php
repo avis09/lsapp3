@@ -5,8 +5,8 @@
     @if(count($classrooms) > 0)
         @foreach($classrooms as $classroom)
             <div class="well">
-                <h3><a href="/classrooms/{{$classroom->id}}">{{$classroom->name}}</a></h3>
-                <small><a href="/classrooms/{{$classroom->description}}"></a></small>
+                <h3><a href="/classrooms/{{$classroom->roomsID}}">{{$classroom->RoomFloor}}</a></h3>
+                <small><a href="/classrooms/{{$classroom->RoomNumber}}"></a></small>
             </div>
         @endforeach
     @else

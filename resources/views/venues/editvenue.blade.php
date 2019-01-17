@@ -6,7 +6,7 @@
      'method' => 'POST']) !!}
     <div class="form-group">
         {{Form::label('venueName', 'Name')}}
-        {{Form::text('venueName', $venue->name, ['class' => 'form-control', 'placeholder'
+        {{Form::text('venueName', $venue->venueName, ['class' => 'form-control', 'placeholder'
         => 'VenueName'])}}
     </div>
     {{Form::hidden('_method', 'PUT')}}

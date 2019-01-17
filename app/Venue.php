@@ -16,4 +16,8 @@ class Venue extends Model
 
     protected $fillable = ['venueName'];
 
+    public function classroom(){
+        return $this->belongsTo('App\Classroom');
+    }
+
 }
