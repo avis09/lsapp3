@@ -108,15 +108,15 @@ class VenuesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $venueID)
     {
         $this->validate($request, [
-            'venueName' => 'required',
+            'venueName' => 'required'
 
         ]);
 
-        // Create post
-        $venue = Venue::find($id);
+        // Update post
+        $venue = Venue::find($venueID);
         $venue->venueName = $request->input('venueName');
 
         $venue->save();

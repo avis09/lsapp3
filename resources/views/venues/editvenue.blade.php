@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Edit Venue</h1>
-    {!! Form::open(['action' => ['VenuesController@update', $venue->id],
+    {!! Form::open(['action' => ['VenuesController@update', $venue->venueID],
      'method' => 'POST']) !!}
     <div class="form-group">
         {{Form::label('venueName', 'Name')}}
