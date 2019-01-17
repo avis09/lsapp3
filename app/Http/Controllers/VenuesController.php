@@ -26,7 +26,7 @@ class VenuesController extends Controller
      */
     public function create()
     {
-        return view('venues.createvenue');
+        return view('venues.addvenue');
     }
 
     /**
@@ -38,9 +38,8 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'place' => 'required',
+            'venueName' => 'required',
+
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
@@ -63,9 +62,7 @@ class VenuesController extends Controller
 
         // Create post
         $venue = new Venue;
-        $venue->name = $request->input('name');
-        $venue->description = $request->input('description');
-        $venue->place = $request->input('place');
+        $venue->venueName = $request->input('venueName');
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
         $venue->save();
@@ -111,16 +108,14 @@ class VenuesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'place' => 'required'
+            'venueName' => 'required',
+
         ]);
 
         // Create post
         $venue = Venue::find($id);
-        $venue->name = $request->input('name');
-        $venue->description = $request->input('description');
-        $venue->place = $request->input('place');
+        $venue->venueName = $request->input('venueName');
+
         $venue->save();
 
         return redirect('/venues')->with('success', 'Venue Updated');

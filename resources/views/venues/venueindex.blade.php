@@ -5,8 +5,8 @@
     @if(count($venues) > 0)
         @foreach($venues as $venue)
             <div class="well">
-                <h3><a href="/venues/{{$venue->id}}">{{$venue->name}}</a></h3>
-                <small><a href="/venues/{{$venue->description}}"></a></small>
+                <h3><a href="/venues/{{$venue->venueID}}">{{$venue->venueName}}</a></h3>
+                <small><a href="/venues/{{$venue->campus}}"></a></small>
             </div>
         @endforeach
     @else

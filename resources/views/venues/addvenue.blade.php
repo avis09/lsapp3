@@ -5,19 +5,9 @@
     {!! Form::open(['action' => 'VenuesController@store', 'method' => 'POST' ,
     'enctype' => 'multipart/form-data']) !!}
     <div class="form-group">
-        {{Form::label('name', 'Name')}}
-        {{Form::text('name', '', ['class' => 'form-control', 'placeholder'
-        => 'Title'])}}
-    </div>
-    <div class="form-group">
-        {{Form::label('title', 'Title')}}
-        {{Form::text('description', '', ['class' => 'form-control', 'placeholder'
-        => 'Description'])}}
-    </div>
-    <div class="form-group">
-        {{Form::label('title', 'Title')}}
-        {{Form::text('place', '', ['class' => 'form-control', 'placeholder'
-        => 'Place'])}}
+        {{Form::label('venueName', 'Name')}}
+        {{Form::text('venueName', '', ['class' => 'form-control', 'placeholder'
+        => 'VenueName'])}}
     </div>
 
 

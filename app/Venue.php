@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Venue extends Model
 {
     // Table Name
-    protected $table ='venuetest';
+    protected $table ='venue';
 
     // Primary Key
-    public $primaryKey = 'id';
+    public $primaryKey = 'venueID';
     // Timestamps
      public $timestamps = false;
 
-    protected $fillable = ['name', 'description', 'place'];
+    protected $fillable = ['venueName'];
 
 }
