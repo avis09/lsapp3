@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classroom;
 use Illuminate\Http\Request;
 use DB;
+use App\Venue;
 
 class ClassroomsController extends Controller
 {
@@ -40,16 +41,18 @@ class ClassroomsController extends Controller
     {
         $this->validate($request, [
             'RoomFloor' => 'required',
-            'RoomNumber' => 'required',
+            'RoomNumber' => 'required'
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
         // Create post
         $classroom = new Classroom;
         $classroom->RoomFloor = $request->input('RoomFloor');
         $classroom->RoomNumber = $request->input('RoomNumber');
+        $classroom->venueID = $request->input('venues');
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;
         $classroom->save();
+
 
 
         return redirect('/classrooms')->with('success', 'Classroom Added');

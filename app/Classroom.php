@@ -15,7 +15,7 @@ class Classroom extends Model
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['RoomFloor', 'RoomNumber'];
+    protected $fillable = ['RoomFloor', 'RoomNumber', 'venueID'];
     public function venues(){
         return $this->hasMany('App\Venue');
     }
