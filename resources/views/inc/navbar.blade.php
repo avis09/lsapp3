@@ -47,11 +47,13 @@
                             <li><a class="nav-link active" href="/">Home</a></li>
                             <li><a class="nav-link" href="/about">About</a></li>
                             <li><a class="nav-link" href="/services">Services</a></li>
-                            <li><a class="nav-link" href="/posts">Post</a></li>
+                            <li><a class="nav-link" href="/venues">View Venues</a></li>
+                            <li><a class="nav-link" href="/venues/create">Add Venue</a></li>
+                            <li><a class="nav-link" href="/classrooms">View Classrooms</a></li>
                             <ul class="nav navbar-nav navbar-right">
                             </ul>
                             <li>
-                                <a class="nav-link" href="/posts/create">Create Post</a>
+                                <a class="nav-link" href="/classrooms/create">Add Classroom</a>
                             </li>
                         </ul>
                         <!-- Right Side Of Navbar -->

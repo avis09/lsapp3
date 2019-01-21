@@ -15,6 +15,12 @@
         'class' => 'form-control', 'placeholder'
         => 'Room Number'])}}
     </div>
+    <div class="form-group">
+        {{Form::label('description', 'Description')}}
+        {{Form::textarea('venueID', $classroom->venueID, ['id' => 'article-ckeditor',
+        'class' => 'form-control', 'placeholder'
+        => 'Venue'])}}
+    </div>
     {{Form::hidden('_method', 'PUT')}}
     {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! ! Form::close() !!}

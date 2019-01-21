@@ -49,6 +49,7 @@ class ClassroomsController extends Controller
         $classroom->RoomFloor = $request->input('RoomFloor');
         $classroom->RoomNumber = $request->input('RoomNumber');
         $classroom->venueID = $request->input('venues');
+        $classroom->venueName = $request->input('venues');
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;
         $classroom->save();
