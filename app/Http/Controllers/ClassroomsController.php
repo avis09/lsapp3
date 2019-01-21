@@ -68,6 +68,7 @@ class ClassroomsController extends Controller
     public function show($id)
     {
         $classroom = Classroom::find($id);
+        // $venues = Venue::find($user_id);
         return view('classrooms.showclassroom')->with('classrooms', $classroom);
 
     }

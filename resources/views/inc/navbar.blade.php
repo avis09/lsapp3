@@ -44,9 +44,8 @@
                         </ul>
 
                         <ul class="nav navbar-nav">
-                            <li><a class="nav-link active" href="/">Home</a></li>
-                            <li><a class="nav-link" href="/about">About</a></li>
-                            <li><a class="nav-link" href="/services">Services</a></li>
+                            <li><a class="nav-link active" href="/">GASD</a></li>
+                            <li><a class="nav-link active" href="/">Registrar</a></li>
                             <li><a class="nav-link" href="/venues">View Venues</a></li>
                             <li><a class="nav-link" href="/venues/create">Add Venue</a></li>
                             <li><a class="nav-link" href="/classrooms">View Classrooms</a></li>

@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Classroom;
+use Eloquent;
 
 class Venue extends Model
 {
@@ -16,8 +18,7 @@ class Venue extends Model
 
     protected $fillable = ['venueName'];
 
-    public function classroom(){
-        return $this->belongsTo('App\Classroom');
+    public function f_classrooms(){
+        return $this->hasMany('App\Classroom', 'roomID');
     }
-
 }

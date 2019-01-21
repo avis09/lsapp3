@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Venues;
+use Eloquent;
 
 class Classroom extends Model
 {
     // Table Name
-    protected $table ='rooms';
+    protected $table = 'rooms';
 
     // Primary Key
     public $primaryKey = 'roomsID';
@@ -15,8 +17,11 @@ class Classroom extends Model
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['RoomFloor', 'RoomNumber', 'venueName'];
-    public function venues(){
-        return $this->hasMany('App\Venue');
+    protected $fillable = ['RoomFloor', 'RoomNumber', 'venueID'];
+
+    public function f_venues()
+    {
+        return $this->belongsTo('App\Venue', 'venueID');
     }
 }
+
