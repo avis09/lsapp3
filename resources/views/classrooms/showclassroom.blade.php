@@ -6,6 +6,7 @@
     <div>
         {!!$classroom->RoomNumber!!}
     </div>
+
     <a href="/classrooms/{{$classroom->id}}/edit" class="btn btn-default">Edit</a>
 
 

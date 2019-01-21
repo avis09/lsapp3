@@ -33,6 +33,7 @@ Auth::routes();
 // Thesis
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/broshome', 'BroshomeController@index')->name('bros');
 
 
 Route::resource('/venues', 'VenuesController');
