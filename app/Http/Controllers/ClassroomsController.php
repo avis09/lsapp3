@@ -107,6 +107,7 @@ class ClassroomsController extends Controller
         $classroom = Classroom::find($id);
         $classroom->RoomFloor = $request->input('RoomFloor');
         $classroom->RoomNumber = $request->input('RoomNumber');
+        $classroom->venueID = $request->input('venues');
         $classroom->save();
 
         return redirect('/classrooms')->with('success', 'Classroom Updated');

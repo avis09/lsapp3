@@ -12,7 +12,7 @@
     <div>
         {!!$classrooms->f_venues->venueName!!}
     </div>
-    <a href="/classrooms/{{$classrooms->id}}edit" class="btn btn-default">Edit</a>
+    <a href="/classrooms/{{$classrooms->roomsID}}/edit" class="btn btn-default">Edit</a>
 
 
 @endsection
