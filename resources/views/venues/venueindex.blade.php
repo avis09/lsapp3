@@ -6,7 +6,7 @@
         @foreach($venues as $venue)
             <div class="well">
                 <h3><a href="/venues/{{$venue->venueID}}">{{$venue->venueName}}</a></h3>
-                <small><a href="/venues/{{$venue->campus}}"></a></small>
+                <small><a href="/venues/{{$venue->campus}}">{{$venue->venueName}}</a></small>
             </div>
         @endforeach
     @else
