@@ -16,9 +16,15 @@ class User extends Authenticatable
      */
     protected $primaryKey = "userID";
 
+    public $timestamps = false;
+
     protected $fillable = [
         'userRoleID', 'firstName', 'LastName', 'userStatusID', 'Password', 'phoneNumber', 'email', 'apiToken', 'departmentID'
     ];
+
+//    public function f_classrooms(){
+//        return $this->hasMany('App\Classroom', 'roomID');
+//    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -28,8 +34,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+//
+//    public function posts(){
+//        return $this->hasMany('App\Post');
+//    }
 
-    public function posts(){
-        return $this->hasMany('App\Post');
+
+ public function f_userrole(){
+     return $this->belongsTo('App\UserRole', 'userRoleID');
+ }
+    public function f_userstatus(){
+        return $this->belongsTo('App\UserStatus', 'userStatusID');
+    }
+    public function f_department(){
+        return $this->belongsTo('App\Department', 'departmentID');
     }
 }

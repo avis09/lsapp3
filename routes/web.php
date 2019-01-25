@@ -35,6 +35,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/broshome', 'BroshomeController@index')->name('bros');
 
-
+// CRUD Venues
 Route::resource('/venues', 'VenuesController');
+// CRUD Classrooms
 Route::resource('/classrooms', 'ClassroomsController');
+// CRUD Users
+Route::resource('/users', 'Auth\UsersController');
