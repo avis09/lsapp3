@@ -82,11 +82,8 @@ class ClassroomsController extends Controller
     public function edit($id)
     {
         $classroom = Classroom::find($id);
-        // Check for correct user
-        // if(auth()->user()->id !==$post->user_id){
-        //     return redirect('/posts')->with('error', 'Unauthorized Page');
-        // }
-        return view('classrooms.editclassroom')->with('classrooms', $classroom);
+        $venues = array('venues' => DB::table('venue')->get());
+        return view('classrooms.editclassroom')->with('classrooms', $classroom)->with('venue', $venues);
     }
 
     /**
@@ -104,10 +101,12 @@ class ClassroomsController extends Controller
         ]);
 
         // Create post
+
         $classroom = Classroom::find($id);
         $classroom->RoomFloor = $request->input('RoomFloor');
         $classroom->RoomNumber = $request->input('RoomNumber');
         $classroom->venueID = $request->input('venues');
+        $classroom->venueName = $request->input('venues');
         $classroom->save();
 
         return redirect('/classrooms')->with('success', 'Classroom Updated');

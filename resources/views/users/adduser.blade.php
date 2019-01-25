@@ -19,9 +19,9 @@
             @endforeach
         </select>
 
-        {{Form::label('firstName', 'firstName')}}
+        {Form::label('firstName', 'firstName')}}
         {{Form::text('firstName', '', ['class' => 'form-control', 'placeholder'
-        => 'First Name'])}}
+        => 'First Name'])}}{
     </div>
     <div class="form-group">
         {{Form::label('LastName', 'LastName')}}
