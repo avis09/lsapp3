@@ -41,3 +41,9 @@ Route::resource('/venues', 'VenuesController');
 Route::resource('/classrooms', 'ClassroomsController');
 // CRUD Users
 Route::resource('/users', 'Auth\UsersController');
+
+// Reservations
+Route::resource('/schedules', 'SchedulesController');
+
+// New log in
+Route::post('/login', 'Login1Controller@login');

@@ -19,17 +19,20 @@
             @endforeach
         </select>
 
-        {Form::label('firstName', 'firstName')}}
+        {{Form::label('firstName', 'First Name')}}
         {{Form::text('firstName', '', ['class' => 'form-control', 'placeholder'
-        => 'First Name'])}}{
+        => 'First Name'])}}
     </div>
     <div class="form-group">
-        {{Form::label('LastName', 'LastName')}}
+        {{Form::label('LastName', 'Last Name')}}
         {{Form::text('LastName', '', ['class' => 'form-control', 'placeholder'
         => 'Last Name'])}}
     </div>
 
     {{--User Status ID--}}
+    {{Form::label('Status', 'Status')}}
+    {{--{{Form::text('Status', '', ['class' => 'form-control', 'placeholder'--}}
+    {{--=> 'Status'])}}--}}
     <select class="form-control" name="userstatus" id="userstatus" data-parsley-required="true">
         @foreach ($userSs['userstatus'] as $userS)
             {
@@ -40,12 +43,15 @@
 
     <div class="form-group">
         {{Form::label('Password', 'Password')}}
-        {{Form::text('Password', '', ['class' => 'form-control', 'placeholder'
-        => 'Password'])}}
+        {{--{{Form::text('Password', '', ['class' => 'form-control', 'placeholder'--}}
+        {{--=> 'Password'])}}--}}
+
+
+        {{ Form::password('Password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}
     </div>
 
     <div class="form-group">
-        {{Form::label('phoneNumber', 'phoneNumber')}}
+        {{Form::label('phoneNumber', 'Phone Number')}}
         {{Form::text('phoneNumber', '', ['class' => 'form-control', 'placeholder'
         => 'Phone Number'])}}
     </div>
@@ -70,6 +76,7 @@
 
 
     {{--departmentID--}}
+    {{Form::label('department', 'Department')}}
     <select class="form-control" name="department" id="department" data-parsley-required="true">
         @foreach ($userDs['department'] as $userD)
             {
@@ -77,6 +84,13 @@
             }
             @endforeach
     </select>
+
+    {{--ID number--}}
+    <div class="form-group">
+        {{Form::label('idnumber', 'IDnumber')}}
+        {{Form::number('IDnumber', '',['class' => 'form-control', 'placeholder'
+        => 'ID number'])}}
+    </div>
     {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! ! Form::close() !!}
 @endsection

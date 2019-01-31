@@ -13,9 +13,12 @@ class CreateReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->string('reservation_name');
+            $table->date('start_date');
+            $table->date('end_date');
         });
     }
 
@@ -26,6 +29,6 @@ class CreateReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('schedules');
     }
 }

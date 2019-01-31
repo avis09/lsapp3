@@ -19,7 +19,7 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-        'userRoleID', 'firstName', 'LastName', 'userStatusID', 'Password', 'phoneNumber', 'email', 'apiToken', 'departmentID'
+        'userRoleID', 'firstName', 'LastName', 'userStatusID', 'Password', 'phoneNumber', 'email', 'apiToken', 'departmentID', 'IDnumber'
     ];
 
 //    public function f_classrooms(){

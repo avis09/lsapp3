@@ -48,13 +48,17 @@
                             <li><a class="nav-link active" href="/">Registrar</a></li>
                             <li><a class="nav-link" href="/venues">View Venues</a></li>
                             <li><a class="nav-link" href="/venues/create">Add Venue</a></li>
+                            <li><a class="nav-link" href="/users">View Users</a></li>
+                            <li><a class="nav-link" href="/users/create">Create Users</a></li>
                             <li><a class="nav-link" href="/classrooms">View Classrooms</a></li>
+
                             <ul class="nav navbar-nav navbar-right">
                             </ul>
                             <li>
                                 <a class="nav-link" href="/classrooms/create">Add Classroom</a>
                             </li>
                         </ul>
+
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
                             <!-- Authentication Links -->

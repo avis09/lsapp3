@@ -3,7 +3,7 @@
 @section('content')
     <h1>Edit User Info</h1>
     <div class="form-group">
-    {!! Form::open(['action' => ['Auth.UsersController@update', $users->userID],
+    {!! Form::open(['action' => ['Auth\UsersController@update', $users->userID],
      'method' => 'POST']) !!}
     <select class="form-control" name="userrole" id="userrole" data-parsley-required="true">
         @foreach ($userRs['userrole'] as $userR)
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group">
         {{Form::label('name', 'Name')}}
-        {{Form::text('LastName', $users->LastName, ['class' => 'form-control', 'placeholder'
+        {{Form::text('LastName', $users->lastName, ['class' => 'form-control', 'placeholder'
         => 'Last Name'])}}
     </div>
     <select class="form-control" name="userstatus" id="userstatus" data-parsley-required="true">
@@ -33,9 +33,12 @@
     </select>
 
     <div class="form-group">
-        {{Form::label('name', 'Name')}}
-        {{Form::text('Password', $users->Password, ['class' => 'form-control', 'placeholder'
-        => 'Password'])}}
+        {{Form::label('Password', 'Password')}}
+        {{--{{Form::text('Password', '', ['class' => 'form-control', 'placeholder'--}}
+        {{--=> 'Password'])}}--}}
+
+
+        {{ Form::password('Password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}
     </div>
     <div class="form-group">
         {{Form::label('name', 'Name')}}
@@ -55,6 +58,11 @@
             }
         @endforeach
     </select>
+    <div class="form-group">
+        {{Form::label('idnumber', 'IDnumber')}}
+        {{Form::text('IDnumber', $users->IDnumber, ['class' => 'form-control', 'placeholder'
+        => 'ID number'])}}
+    </div>
     {{Form::hidden('_method', 'PUT')}}
     {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! ! Form::close() !!}

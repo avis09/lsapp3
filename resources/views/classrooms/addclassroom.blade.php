@@ -15,6 +15,7 @@
         => 'Room Number'])}}
     </div>
 
+
     <label for="venues">Venues</label>
     <select class="form-control" name="venues" id="venues" data-parsley-required="true">
         @foreach ($venues as $venue)
