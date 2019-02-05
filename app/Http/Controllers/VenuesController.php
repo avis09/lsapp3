@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Venue;
 use Illuminate\Http\Request;
+use DB;
 // use App\VenuesController;
 
 class VenuesController extends Controller
@@ -26,7 +27,10 @@ class VenuesController extends Controller
      */
     public function create()
     {
-        return view('venues.addvenue');
+        $venueB = array('building' => DB::table('building')->get());
+        $venueF = array('venuefloor' => DB::table('venuefloor')->get());
+        $venueT = array('venuetype' => DB::table('venuetype')->get());
+        return view('venues.addvenue')->with('venueB', $venueB)->with('venueF', $venueF)->with('venueT', $venueT);
     }
 
     /**
@@ -38,7 +42,10 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+   
             'venueName' => 'required',
+
+
 
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
@@ -61,12 +68,15 @@ class VenuesController extends Controller
         */
 
         // Create post
-        $venue = new Venue;
-        $venue->venueName = $request->input('venueName');
+        $venues = new Venue;
+        $venues->buildingID = $request->input('buildingID');
+        $venues->venueName = $request->input('venueName');
+        $venues->venueFloorID = $request->input('venueFloorID');
+        $venues->venueTypeID = $request->input('venueTypeID');
+        $venues->userID = $request->input('');
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
-        $venue->save();
-
+        $venues->save();
         return redirect('/venues')->with('success', 'Venue Added');
 
 
@@ -111,17 +121,28 @@ class VenuesController extends Controller
     public function update(Request $request, $venueID)
     {
         $this->validate($request, [
-            'venueName' => 'required'
+            'buildingID' => 'required',
+            'venueName' => 'required',
+            'venueFloorID' => 'required',
+            'venueTypeID' => 'required',
+            'userID' => 'required'
 
+
+            //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
-        // Update post
-        $venue = Venue::find($venueID);
-        $venue->venueName = $request->input('venueName');
+        // update post
+        $venues = new Venue;
+        $venues->buildingID = $request->input('buildingID');
+        $venues->venueName = $request->input('venueName');
+        $venues->venueFloorID = $request->input('venueFloorID');
+        $venues->venueTypeID = $request->input('venueTypeID');
+        $venues->userID = $request->input('userID');
+        //  $venue->place = auth()->user()->id;
+        //  $venue->cover_image = $fileNameToStore;
+        $venues->save();
+        return redirect('/venues')->with('success', 'Venue Added');
 
-        $venue->save();
-
-        return redirect('/venues')->with('success', 'Venue Updated');
     }
 
     /**

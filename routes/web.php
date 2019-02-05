@@ -46,4 +46,10 @@ Route::resource('/users', 'Auth\UsersController');
 Route::resource('/schedules', 'SchedulesController');
 
 // New log in
+//Route::post('/login', 'Auth\LoginController@login');
+//Route::get('/login', 'Auth\LoginController@viewlogin');
+//route for show login form
+Route::get('/', 'Login1Controller@showLoginForm');
+
+//route for login
 Route::post('/login', 'Login1Controller@login');
