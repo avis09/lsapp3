@@ -30,7 +30,7 @@
                         <div class="form-group">
                             {!! Form::label('purpose', 'Purpose:') !!}
                             <div class="">
-                                {!! Form::text('purpose', null, ['class' => 'form-control']) !!}
+                                {!! Form::text('purpose',null, ['class' => 'form-control']) !!}
                                 {{--{!! $errors->first('dateAdded', '<p class=alert alert-danger>:message</p>') !!}--}}
                             </div>
                         </div>
@@ -39,10 +39,10 @@
                     <br/>
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <div class="form-group">
-                            {!! Form::label('dateAdded', 'Date:') !!}
+                            {!! Form::label('date', 'Date:') !!}
                             <div class="">
-                                {!! Form::date('dateAdded', null, ['class' => 'form-control']) !!}
-                                {!! $errors->first('dateAdded', '<p class="alert alert-danger">:message</p>') !!}
+                                {!! Form::date('date','', ['class' => 'form-control']) !!}
+                                {!! $errors->first('date', '<p class="alert alert-danger">:message</p>') !!}
                             </div>
                         </div>
                     </div>
@@ -75,6 +75,20 @@
                     <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
                         {!! Form::submit('Schedule', ['class' => 'btn btn-primary']) !!}
                     </div>
+
+
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>Venue: </th>
+
+                        <th>Purpose: </th>
+                        <th>Date: </th>
+                        <th>Time: </th>
+                <th style="text-align:center"><a href="#" class="addRow"><i class="glyphicon glyphicon-plus"></i></a></th>
+                        </thead>
+                    </table>
                 </div>
                 {!! Form::close() !!}
             </div>

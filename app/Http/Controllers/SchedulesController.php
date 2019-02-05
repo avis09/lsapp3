@@ -43,8 +43,7 @@ class SchedulesController extends Controller
     {
         $this->validate($request, [
             'purpose' => 'required',
-            'dateAdded' => 'required',
-            'timeID' => 'required'
+//            'dateAdded' => 'required'
 
         ]);
 //        $validator = Validator::make($request->all(), [
@@ -60,14 +59,17 @@ class SchedulesController extends Controller
 
 
         $schedule = new Schedule();
-        $schedule->userID = $request->input('6');
-        $schedule->purpose = $request['purpose'];
-        $schedule->dateAdded = $request['dateAdded'];
-        $schedule->statusID = $request['statusID'];
-        $schedule->date = $request['date'];
-        $schedule->venueID = $request['venueID'];
-        $schedule->timeID = $request['timeID'];
+        $schedule->userID = $request->input('1');
+        $schedule->purpose = $request->input('purpose');
+        $schedule->dateAdded = $request->input('dateAdded');
+        $schedule->statusID = ('1');
+        $schedule->date = $request->input('date');
+        $schedule->venueID = $request->input('venue');
+        $schedule->timeID = $request->input('time');
         $schedule->save();
+//        if ($schedule->save()){
+//
+//        }
 
 //        \Session::flash('success','Schedule made successfully');
         return Redirect::to('/schedules')->with('success', 'Reservation made');

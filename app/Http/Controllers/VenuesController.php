@@ -106,11 +106,8 @@ class VenuesController extends Controller
     public function update(Request $request, $venueID)
     {
         $this->validate($request, [
-            'buildingID' => 'required',
+
             'venueName' => 'required',
-            'venueFloorID' => 'required',
-            'venueTypeID' => 'required',
-            'userID' => 'required'
 
 
             //    'cover_image' => 'image|nullable|max:1999'
@@ -122,7 +119,7 @@ class VenuesController extends Controller
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
         $venues->venueTypeID = $request->input('venueTypeID');
-        $venues->userID = $request->input('userID');
+        $venues->userID = $request->input('1');
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;
         $venues->save();
