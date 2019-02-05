@@ -42,7 +42,7 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-   
+
             'venueName' => 'required',
 
 
@@ -50,22 +50,6 @@ class VenuesController extends Controller
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
-        // Handle File Upload
-        /* if($request->hasFile('cover_image')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('cover_image')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore= $filename.'_'.time().'.'.$extension;
-            // Upload image
-            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
-        } else {
-            $fileNameToStore ='noimage.jpg';
-        }
-        */
 
         // Create post
         $venues = new Venue;
@@ -73,9 +57,10 @@ class VenuesController extends Controller
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
         $venues->venueTypeID = $request->input('venueTypeID');
-        $venues->userID = $request->input('');
+        $venues->userID = $request->input('1');
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
+
         $venues->save();
         return redirect('/venues')->with('success', 'Venue Added');
 

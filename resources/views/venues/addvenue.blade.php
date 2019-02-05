@@ -3,17 +3,20 @@
 @section('content')
     <h1>Add Venue</h1>
 
+
+
+
+    {!! Form::open(['action' => 'VenuesController@store', 'method' => 'POST' ,
+    'enctype' => 'multipart/form-data']) !!}
+    <div class="form-group">
     <label for="venues">Building</label>
-    <select class="form-control" name="venues" id="venues" data-parsley-required="true">
+    <select class="form-control" name="buildingID" id="buildingID" data-parsley-required="true">
         @foreach ($venueB['building'] as $venueBs)
             {
             <option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>
             }
         @endforeach
     </select>
-
-    {!! Form::open(['action' => 'VenuesController@store', 'method' => 'POST' ,
-    'enctype' => 'multipart/form-data']) !!}
     <div class="form-group">
         {{Form::label('venueName', 'Name')}}
         {{Form::text('venueName', '', ['class' => 'form-control', 'placeholder'
@@ -21,7 +24,7 @@
     </div>
 
     <label for="venues">Venue Floor</label>
-    <select class="form-control" name="venues" id="venues" data-parsley-required="true">
+    <select class="form-control" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
         @foreach ($venueF['venuefloor'] as $venueFs)
             {
             <option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>
@@ -30,7 +33,7 @@
     </select>
 
     <label for="venues">Venue Type</label>
-    <select class="form-control" name="venues" id="venues" data-parsley-required="true">
+    <select class="form-control" name="venueTypeID" id="venueTypeID" data-parsley-required="true">
         @foreach ($venueT['venuetype'] as $venueTs)
             {
             <option value="{{ $venueTs->venueTypeID }}">{{ $venueTs->venueTypeName }}</option>
