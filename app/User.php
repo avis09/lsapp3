@@ -19,11 +19,35 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-        'userRoleID', 'firstName', 'LastName', 'userStatusID', 'Password', 'phoneNumber', 'email', 'apiToken', 'departmentID', 'IDnumber'
+        'userRoleID', 'firstName', 'LastName', 'userStatusID', 'password', 'phoneNumber', 'email', 'apiToken', 'departmentID', 'IDnumber'
     ];
+
+    protected $table = 'users';
+
+    public function setAttribute($key, $value)
+    {
+        $isRememberTokenAttribute = $key == $this->getRememberTokenName();
+        if (!$isRememberTokenAttribute)
+        {
+            parent::setAttribute($key, $value);
+        }
+    }
 
 //    public function f_classrooms(){
 //        return $this->hasMany('App\Classroom', 'roomID');
+//    }
+//    public function setPasswordAttribute($pass){
+//
+//        $this->attributes['password'] = Hash::make($pass);
+//
+//    }
+
+//    public function getAuthIdentifier() {
+//        return $this->getKey();
+//    }
+//    public function getAuthPassword()
+//    {
+//        return $this->password;
 //    }
 
     /**

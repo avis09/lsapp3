@@ -42,12 +42,12 @@
     </select>
 
     <div class="form-group">
-        {{Form::label('Password', 'Password')}}
+        {{Form::label('password', 'Password')}}
         {{--{{Form::text('Password', '', ['class' => 'form-control', 'placeholder'--}}
         {{--=> 'Password'])}}--}}
 
 
-        {{ Form::password('Password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}
+        {{ Form::password('password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}
     </div>
 
     <div class="form-group">

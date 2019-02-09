@@ -3,9 +3,6 @@
 @section('content')
     <h1>Add Venue</h1>
 
-
-
-
     {!! Form::open(['action' => 'VenuesController@store', 'method' => 'POST' ,
     'enctype' => 'multipart/form-data']) !!}
     <div class="form-group">
@@ -17,9 +14,10 @@
             }
         @endforeach
     </select>
+    </div>
     <div class="form-group">
         {{Form::label('venueName', 'Name')}}
-        {{Form::text('venueName', '', ['class' => 'form-control', 'placeholder'
+        {{Form::text('venueName', '', ['class ' => 'form-control', 'placeholder'
         => 'VenueName'])}}
     </div>
 

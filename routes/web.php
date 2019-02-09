@@ -48,8 +48,15 @@ Route::resource('/schedules', 'SchedulesController');
 // New log in
 //Route::post('/login', 'Auth\LoginController@login');
 //Route::get('/login', 'Auth\LoginController@viewlogin');
+
+
 //route for show login form
-Route::get('/', 'Login1Controller@showLoginForm');
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 //route for login
-Route::post('/login', 'Login1Controller@login');
+Route::post('/login', 'Auth\LoginController@login');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
