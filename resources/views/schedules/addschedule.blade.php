@@ -16,6 +16,15 @@
                         @endif
                     </div>
 
+                     {{--<label for="venue">Venue Type:</label>--}}
+                    {{--<select class="form-control" name="venuetype" id="venuetype" data-parsley-required="true">--}}
+                        {{--@foreach ($scheduleVT['venuetype'] as $scheduleVTs)--}}
+                            {{--{--}}
+                            {{--<option value="{{ $scheduleVTs->venueTypeID }}">{{ $scheduleVTs->venueTypeName }}</option>--}}
+                            {{--}--}}
+                        {{--@endforeach--}}
+                    {{--</select>--}}
+
                     <label for="venue">Venue:</label>
                     <select class="form-control" name="venue" id="venue" data-parsley-required="true">
                         @foreach ($scheduleV['venue'] as $scheduleVs)

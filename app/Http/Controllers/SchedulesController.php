@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
 use App\Http\Controllers\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class SchedulesController extends Controller
 {
@@ -31,7 +33,11 @@ class SchedulesController extends Controller
         $schedule = array('schedules' => DB::table('schedules')->get());
         $scheduleT = array('time' => DB::table('time')->get());
         $scheduleV = array('venue' => DB::table('venue')->get());
-        return view('schedules.addschedule')->with('schedule', $schedule)->with('scheduleT', $scheduleT)->with('scheduleV', $scheduleV);
+        $scheduleVT = array('venuetype' =>DB::table('venuetype')->get());
+        return view('schedules.addschedule')->with('schedule', $schedule)
+            ->with('scheduleT', $scheduleT)
+            ->with('scheduleV', $scheduleV)
+            ->with('scheduleVT', $scheduleVT);
     }
     /**
      * Store a newly created resource in storage.
@@ -59,9 +65,9 @@ class SchedulesController extends Controller
 
 
         $schedule = new Schedule();
-        $schedule->userID = $request->input('1');
+        $schedule->userID = auth()->user()->userID;
         $schedule->purpose = $request->input('purpose');
-        $schedule->dateAdded = $request->input('dateAdded');
+        $schedule->created_at = $request->input('created_at');
         $schedule->statusID = ('1');
         $schedule->date = $request->input('date');
         $schedule->venueID = $request->input('venue');
@@ -72,7 +78,7 @@ class SchedulesController extends Controller
 //        }
 
 //        \Session::flash('success','Schedule made successfully');
-        return Redirect::to('/schedules')->with('success', 'Reservation made');
+        return Redirect::to('/schedules/create')->with('success', 'Reservation made');
     }
 
     /**

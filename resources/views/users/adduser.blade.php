@@ -43,10 +43,6 @@
 
     <div class="form-group">
         {{Form::label('password', 'Password')}}
-        {{--{{Form::text('Password', '', ['class' => 'form-control', 'placeholder'--}}
-        {{--=> 'Password'])}}--}}
-
-
         {{ Form::password('password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}
     </div>
 

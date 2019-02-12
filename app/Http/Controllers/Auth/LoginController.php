@@ -31,7 +31,7 @@ class LoginController extends Controller
 //            email::where('IDnumber', $request->IDnumber)->first();
 
             Session::save();
-            return redirect()->route('schedules.index');
+            return redirect()->route('schedules.create');
         }
         else {
             return redirect()->route('login');
