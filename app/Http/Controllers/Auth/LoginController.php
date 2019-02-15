@@ -25,13 +25,22 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $attempt = Auth::attempt(['email' => $request->email, 'password' => $request->password], false);
+        $attempt = Auth::attempt(['IDnumber' => $request->IDnumber, 'password' => $request->password], false);
         if ($attempt) {
 //            Auth::user();
 //            email::where('IDnumber', $request->IDnumber)->first();
 
             Session::save();
-            return redirect()->route('schedules.create');
+//            return redirect()->route('schedules.create');
+            if(auth::user()->userRoleID == 1) {
+                return redirect()->route('schedules.create');
+            }elseif (auth::user()->userRoleID == 2){
+                return redirect()->route('venues.create');
+            }elseif (auth::user()->userRoleID == 3) {
+                return redirect()->route('venues.index');
+            }elseif (auth::user()->userRoleID == 4) {
+                return redirect()->route('users.create');
+            }
         }
         else {
             return redirect()->route('login');

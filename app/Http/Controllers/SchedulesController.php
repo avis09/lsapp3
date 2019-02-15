@@ -38,6 +38,7 @@ class SchedulesController extends Controller
             ->with('scheduleT', $scheduleT)
             ->with('scheduleV', $scheduleV)
             ->with('scheduleVT', $scheduleVT);
+
     }
     /**
      * Store a newly created resource in storage.

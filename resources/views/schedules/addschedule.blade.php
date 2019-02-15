@@ -61,7 +61,7 @@
                     <label for="time">Time:</label>
                     <select class="form-control" name="time" id="time" data-parsley-required="true">
 
-
+             
                         @foreach ($scheduleT['time'] as $scheduleTs){
                             @if($scheduleTs->timeTypeID == 1){
 
