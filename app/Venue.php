@@ -25,4 +25,9 @@ class Venue extends Model
     public function f_buildingV(){
         return $this->hasMany('App\Building', 'buildingID');
     }
+
+    public function f_pictureP()
+    {
+        return $this->hasMany('App\Picture');
+    }
 }

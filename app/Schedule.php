@@ -19,7 +19,7 @@ class Schedule extends Model
     ];
 
     public function setCreatedAtAttribute($value) {
-        $this->attributes['created_at'] = \Carbon\Carbon::now();
+        $this->attributes['created_at'] = \Carbon\Carbon::now()->setTimezone('Asia/Manila');
     }
 
 //    public function setUpdatedAtAttribute($value) {

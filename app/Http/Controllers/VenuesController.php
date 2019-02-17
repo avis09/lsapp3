@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Picture;
 use App\Venue;
 use Illuminate\Http\Request;
 use DB;
@@ -60,8 +61,27 @@ class VenuesController extends Controller
         $venues->userID = $request->input('1');
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
-
         $venues->save();
+
+        $picture = new Picture();
+        $picture->venueID = $venues->venueID;
+        // Handle File Upload
+        if($request->hasFile('pictureName')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('pictureName')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('pictureName')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('pictureName')->storeAs('public/cover_images', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
+        $picture->pictureName = $fileNameToStore;
+        $picture->save();
         return redirect('/venues')->with('success', 'Venue Added');
 
 

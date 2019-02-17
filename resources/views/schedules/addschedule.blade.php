@@ -63,10 +63,10 @@
 
              
                         @foreach ($scheduleT['time'] as $scheduleTs){
-                            @if($scheduleTs->timeTypeID == 1){
+                            @if($scheduleTs->venueTypeID == 1){
 
                         <option value="{{ $scheduleTs->timeID}}">{{ $scheduleTs->timeStartTime . ' - ' . $scheduleTs->timeEndTime}}</option>
-                            }@elseif ($scheduleTs->timeTypeID == 2){
+                            }@elseif ($scheduleTs->venueTypeID == 2){
                         <option value="{{ $scheduleTs->timeID}}">{{ $scheduleTs->timeStartTime . ' - ' . $scheduleTs->timeEndTime}}</option>
                         }@endif
 

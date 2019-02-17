@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\LogTime;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\Login1Controller;
 use Illuminate\Http\Request;
@@ -27,30 +29,43 @@ class LoginController extends Controller
     {
         $attempt = Auth::attempt(['IDnumber' => $request->IDnumber, 'password' => $request->password], false);
         if ($attempt) {
+
+            $user = Auth::user();
 //            Auth::user();
 //            email::where('IDnumber', $request->IDnumber)->first();
-
-            Session::save();
 //            return redirect()->route('schedules.create');
-            if(auth::user()->userRoleID == 1) {
+            $log = new LogTime();
+            $log->userID = $user->userID;
+            $log->inTime = Carbon::now()->setTimezone('Asia/Manila');
+            $log->save();
+
+            if($user->userRoleID == 1) {
+//                dd(auth::user());
                 return redirect()->route('schedules.create');
-            }elseif (auth::user()->userRoleID == 2){
+            }elseif ($user->userRoleID == 2){
                 return redirect()->route('venues.create');
-            }elseif (auth::user()->userRoleID == 3) {
-                return redirect()->route('venues.index');
-            }elseif (auth::user()->userRoleID == 4) {
+            }elseif ($user->userRoleID == 3) {
+                return redirect()->route('venues.create');
+            }elseif ($user->userRoleID == 4) {
                 return redirect()->route('users.create');
             }
+
+            Session::save();
         }
         else {
             return redirect()->route('login');
         }
     }
+
     public function logout(Request $request)
     {
+        $log = LogTime::where('userID', Auth::user()->userID)->first();
+        $log->outTime = Carbon::now()->setTimezone('Asia/Manila');
+        $log->save();
+
         Auth::logout();
         $request->session()->flush();
-        $request->session()->regenerate();
+//        $request->session()->regenerate();
         return redirect()->route('login');
     }
     /**

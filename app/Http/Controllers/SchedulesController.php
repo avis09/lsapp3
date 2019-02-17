@@ -31,8 +31,18 @@ class SchedulesController extends Controller
     public function create()
     {
         $schedule = array('schedules' => DB::table('schedules')->get());
-        $scheduleT = array('time' => DB::table('time')->get());
         $scheduleV = array('venue' => DB::table('venue')->get());
+
+//        $venueID = $request->get('venue');
+//        //Get venue ID
+//        $venueTypeID = array('venue' => DB::table('venue')
+//            ->select('venue.venueTypeID')
+//            ->where('venue.venueID', '=', $venueID)
+//            ->get());
+//
+//        dd($venueTypeID);
+        $scheduleT = array('time' => DB::table('time')->get());
+
         $scheduleVT = array('venuetype' =>DB::table('venuetype')->get());
         return view('schedules.addschedule')->with('schedule', $schedule)
             ->with('scheduleT', $scheduleT)
@@ -114,7 +124,7 @@ class SchedulesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

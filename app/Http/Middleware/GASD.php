@@ -9,7 +9,19 @@
 namespace App\Http\Middleware;
 
 
+use Closure;
+use Illuminate\Support\Facades\Auth;
+
 class GASD
 {
-
+    public function handle($request, Closure $next)
+    {
+        if (!Auth::user()) {
+            return redirect('login');
+        } else if (Auth::user()->userRoleID != 2) {
+            return redirect('home');
+        }
+        //
+        return $next($request);
+    }
 }

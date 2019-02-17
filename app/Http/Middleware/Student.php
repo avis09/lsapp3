@@ -16,13 +16,12 @@ class Student
 {
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()){
+        if (!Auth::user()) {
             return redirect('login');
-        }else{
-            if(Auth::user()->userRoleID != 1){}
-            //
-
-            return redirect('/welcome');
-    }
+        } else if (Auth::user()->userRoleID != 1) {
+            return redirect('home');
+        }
+        //
+        return $next($request);
     }
 }
