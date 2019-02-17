@@ -70,13 +70,13 @@ Route::group(['middleware' => 'itd'], function () {
     Route::get('/schedules/create', 'SchedulesController@create')->name('schedules.create');
     Route::post('/schedules/create', 'SchedulesController@store')->name('schedules.store');
 
-    //Venues
-    Route::get('/users/create', 'VenuesController@create')->name('users.create');
-    Route::post('/users/create', 'VenuesController@store')->name('users.store');
-    Route::get('/users/{id}/edit', 'VenuesController@edit')->name('users.edit');
-    Route::post('/users/update', 'VenuesController@update')->name('users.update');
-});
 
+});
+//Users
+Route::get('/users/create', 'Auth\UsersController@create')->name('users.create');
+Route::post('/users/create', 'Auth\UsersController@store')->name('users.store');
+Route::get('/users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
+Route::post('/users/update', 'Auth\UsersControllerd@update')->name('users.update');
 //---------------------------------------------------------------------------------------------------------------------
 //route for show login form
 Route::get('/', 'Auth\LoginController@showLoginForm');

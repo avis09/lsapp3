@@ -29,17 +29,18 @@
         => 'Last Name'])}}
     </div>
 
+    {{--status should always be active--}}
     {{--User Status ID--}}
-    {{Form::label('Status', 'Status')}}
+    {{--{{Form::label('Status', 'Status')}}--}}
     {{--{{Form::text('Status', '', ['class' => 'form-control', 'placeholder'--}}
     {{--=> 'Status'])}}--}}
-    <select class="form-control" name="userstatus" id="userstatus" data-parsley-required="true">
-        @foreach ($userSs['userstatus'] as $userS)
-            {
-            <option value="{{ $userS->userStatusID }}">{{ $userS->userStatusType }}</option>
-            }
-            @endforeach
-    </select>
+    {{--<select class="form-control" name="userstatus" id="userstatus" data-parsley-required="true">--}}
+        {{--@foreach ($userSs['userstatus'] as $userS)--}}
+            {{--{--}}
+            {{--<option value="{{ $userS->userStatusID }}">{{ $userS->userStatusType }}</option>--}}
+            {{--}--}}
+            {{--@endforeach--}}
+    {{--</select>--}}
 
     <div class="form-group">
         {{Form::label('password', 'Password')}}
