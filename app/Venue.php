@@ -23,11 +23,19 @@ class Venue extends Model
     }
 
     public function f_buildingV(){
-        return $this->hasMany('App\Building', 'buildingID');
+        return $this->belongsTo('App\Building', 'buildingID');
+    }
+    public function f_venueTypeV(){
+        return $this->belongsTo('App\VenueType', 'venueTypeID');
+    }
+    public function f_userV()
+    {
+        return $this->belongsTo('App\User');
     }
 
     public function f_pictureP()
     {
         return $this->hasMany('App\Picture');
     }
+
 }

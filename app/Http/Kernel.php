@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'registrar' => \App\Http\Middleware\Registrar::class,
         'gasd' => \App\Http\Middleware\GASD::class,
         'itd' => \App\Http\Middleware\ITD::class,
+        'extrarole' => \App\Http\Middleware\extrarole::class,
     ];
 
     /**

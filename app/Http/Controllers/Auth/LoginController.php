@@ -40,14 +40,14 @@ class LoginController extends Controller
             $log->save();
 
             if($user->userRoleID == 1) {
-//                dd(auth::user());
-                return redirect()->route('schedules.create');
+        //          dd(auth::user());
+                return redirect('student/schedules/index');
             }elseif ($user->userRoleID == 2){
-                return redirect()->route('venues.create');
+                return redirect('gasd/venues/index2');
             }elseif ($user->userRoleID == 3) {
-                return redirect()->route('venues.create');
+                return redirect('registrar/venues/index');
             }elseif ($user->userRoleID == 4) {
-                return redirect()->route('users.create');
+                return redirect('itd/users/index');
             }
 
             Session::save();

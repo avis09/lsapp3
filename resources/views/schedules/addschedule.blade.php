@@ -16,22 +16,29 @@
                         @endif
                     </div>
 
-                     {{--<label for="venue">Venue Type:</label>--}}
+                    {{--<label for="venue">Venue Type:</label>--}}
                     {{--<select class="form-control" name="venuetype" id="venuetype" data-parsley-required="true">--}}
-                        {{--@foreach ($scheduleVT['venuetype'] as $scheduleVTs)--}}
-                            {{--{--}}
-                            {{--<option value="{{ $scheduleVTs->venueTypeID }}">{{ $scheduleVTs->venueTypeName }}</option>--}}
-                            {{--}--}}
-                        {{--@endforeach--}}
+                    {{--@foreach ($scheduleVT['venuetype'] as $scheduleVTs)--}}
+                    {{--{--}}
+                    {{--<option value="{{ $scheduleVTs->venueTypeID }}">{{ $scheduleVTs->venueTypeName }}</option>--}}
+                    {{--}--}}
+                    {{--@endforeach--}}
                     {{--</select>--}}
 
                     <label for="venue">Venue:</label>
                     <select class="form-control" name="venue" id="venue" data-parsley-required="true">
+                        <option value=""></option>
+                        {{--@foreach ($scheduleV['venue'] as $scheduleVs)--}}
+                        {{--{--}}
+                        {{--<option value="{{ $scheduleVs->venueID }}">{{ $scheduleVs->venueName }}</option>--}}
+                        {{--}--}}
+                        {{--@endforeach--}}
                         @foreach ($scheduleV['venue'] as $scheduleVs)
                             {
-                            <option value="{{ $scheduleVs->venueID }}">{{ $scheduleVs->venueName }}</option>
+                            {{ $scheduleVs->venueTypeID }}
                             }
                         @endforeach
+
                     </select>
 
 
@@ -58,44 +65,46 @@
                     {{--Time --}}
 
                     <break>
-                    <label for="time">Time:</label>
-                    <select class="form-control" name="time" id="time" data-parsley-required="true">
+                        <label for="time">Time:</label>
+                        <select class="form-control" name="time" id="time" data-parsley-required="true">
 
-             
-                        @foreach ($scheduleT['time'] as $scheduleTs){
-                            @if($scheduleTs->venueTypeID == 1){
+                            <option value=""></option>
 
-                        <option value="{{ $scheduleTs->timeID}}">{{ $scheduleTs->timeStartTime . ' - ' . $scheduleTs->timeEndTime}}</option>
-                            }@elseif ($scheduleTs->venueTypeID == 2){
-                        <option value="{{ $scheduleTs->timeID}}">{{ $scheduleTs->timeStartTime . ' - ' . $scheduleTs->timeEndTime}}</option>
-                        }@endif
+                            {{--@foreach ($scheduleT['time'] as $scheduleTs){--}}
+                            {{--@if($scheduleTs->venueTypeID == 1){--}}
 
-                        }@endforeach
-                    </select>
-                    {{--<div class="col-xs-3 col-sm-3 col-md-3">--}}
+                            {{--<option value="{{ $scheduleTs->timeID}}">{{ $scheduleTs->timeStartTime . ' - ' . $scheduleTs->timeEndTime}}</option>--}}
+                            {{--}@elseif ($scheduleTs->venueTypeID == 2){--}}
+                            {{--<option value="{{ $scheduleTs->timeID}}">{{ $scheduleTs->timeStartTime . ' - ' . $scheduleTs->timeEndTime}}</option>--}}
+                            {{--}@endif--}}
+
+                            {{--}@endforeach--}}
+                        </select>
+                        {{--<div class="col-xs-3 col-sm-3 col-md-3">--}}
                         {{--<div class="form-group">--}}
-                            {{--{!! Form::label('timeTypeID', 'Time:') !!}--}}
-                            {{--<div class="">--}}
-                                {{--{!! Form::date('timeTypeID', null, ['class' => 'form-control']) !!}--}}
-                                {{--{!! $errors->first('timeTypeID', '<p class="alert alert-danger">:message</p>') !!}--}}
-                            {{--</div>--}}
+                        {{--{!! Form::label('timeTypeID', 'Time:') !!}--}}
+                        {{--<div class="">--}}
+                        {{--{!! Form::date('timeTypeID', null, ['class' => 'form-control']) !!}--}}
+                        {{--{!! $errors->first('timeTypeID', '<p class="alert alert-danger">:message</p>') !!}--}}
                         {{--</div>--}}
-                    {{--</div>--}}
-                    <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
-                        {!! Form::submit('Schedule', ['class' => 'btn btn-primary']) !!}
-                    </div>
+                        {{--</div>--}}
+                        {{--</div>--}}
+                        <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
+                            {!! Form::submit('Schedule', ['class' => 'btn btn-primary']) !!}
+                        </div>
 
 
                 </div>
                 <div class="col-lg-12 col-sm-12">
                     <table class="table table-bordered">
                         <thead>
-                        <th>Venue: </th>
+                        <th>Venue:</th>
 
-                        <th>Purpose: </th>
-                        <th>Date: </th>
-                        <th>Time: </th>
-                <th style="text-align:center"><a href="#" class="addRow"><i class="glyphicon glyphicon-plus"></i></a></th>
+                        <th>Purpose:</th>
+                        <th>Date:</th>
+                        <th>Time:</th>
+                        <th style="text-align:center"><a href="#" class="addRow"><i
+                                        class="glyphicon glyphicon-plus"></i></a></th>
                         </thead>
                     </table>
                 </div>
@@ -104,3 +113,18 @@
         </div>
     </div>
 @endsection
+
+{{--<script>--}}
+    {{--$('#venue').on('change', function (e) {--}}
+        {{--console.log(e);--}}
+        {{--var venue_id = e.target.value;--}}
+
+        {{--$.get('{{ url('schedules') }}/create?venueTypeID=' + venue_id, function (data) {--}}
+            {{--console.log(data);--}}
+            {{--$('#time').empty();--}}
+            {{--$.each(data, function (index, subCatObj) {--}}
+                {{--$('#time').append('' + subCatObj.time + '');--}}
+            {{--});--}}
+        {{--});--}}
+    {{--});--}}
+{{--</script>--}}

@@ -59,19 +59,6 @@
         => 'Email'])}}
     </div>
 
-{{--apiToken--}}
-
-
-    {{--<label for="venues">Venues</label>--}}
-    {{--<select class="form-control" name="venues" id="venues" data-parsley-required="true">--}}
-        {{--@foreach ($venues as $venue)--}}
-            {{--{--}}
-            {{--<option value="{{ $venue->venueID }}">{{ $venue->venueName }}</option>--}}
-            {{--}--}}
-        {{--@endforeach--}}
-    {{--</select>--}}
-
-
     {{--departmentID--}}
     {{Form::label('department', 'Department')}}
     <select class="form-control" name="department" id="department" data-parsley-required="true">

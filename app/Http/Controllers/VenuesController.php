@@ -17,8 +17,22 @@ class VenuesController extends Controller
      */
     public function index()
     {
-        $venues = Venue::all();
-        return view('venues.venueindex')->with('venues', $venues);
+        //$users = User::select('users.id', 'first_name', 'last_name', 'email', 'phone', 'birth_date','created_at')->orderBy('created_at', 'dsc')->leftjoin('patients','patients.patient_id','users.id')->where('role_id', 3)->paginate(10);
+        //index for ROOM
+        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID')->where('venueTypeID', 1)->paginate(10);
+        $f_buildingV = array('building' => DB::table('building')->get());
+        $f_userV = array('users' => DB::table('users')->get());
+        return view('venues.venueindex')
+                ->with('venues', $venues)
+                ->with('f_buildingV', $f_buildingV)
+                ->with('f_userV', $f_userV);
+    }
+    public function index2()
+    {
+        //Index Court
+        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID')->where('venueTypeID', 2)->paginate(10);
+        return view('venues.venueindex')
+            ->with('venues', $venues);
     }
 
     /**
@@ -63,25 +77,25 @@ class VenuesController extends Controller
       //  $venue->cover_image = $fileNameToStore;
         $venues->save();
 
-        $picture = new Picture();
-        $picture->venueID = $venues->venueID;
-        // Handle File Upload
-        if($request->hasFile('pictureName')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('pictureName')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('pictureName')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore= $filename.'_'.time().'.'.$extension;
-            // Upload Image
-            $path = $request->file('pictureName')->storeAs('public/cover_images', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage.jpg';
-        }
-        $picture->pictureName = $fileNameToStore;
-        $picture->save();
+//        $picture = new Picture();
+//        $picture->venueID = $venues->venueID;
+//        // Handle File Upload
+//        if($request->hasFile('pictureName')){
+//            // Get filename with the extension
+//            $filenameWithExt = $request->file('pictureName')->getClientOriginalName();
+//            // Get just filename
+//            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+//            // Get just ext
+//            $extension = $request->file('pictureName')->getClientOriginalExtension();
+//            // Filename to store
+//            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+//            // Upload Image
+//            $path = $request->file('pictureName')->storeAs('public/cover_images', $fileNameToStore);
+//        } else {
+//            $fileNameToStore = 'noimage.jpg';
+//        }
+//        $picture->pictureName = $fileNameToStore;
+//        $picture->save();
         return redirect('/venues')->with('success', 'Venue Added');
 
 
