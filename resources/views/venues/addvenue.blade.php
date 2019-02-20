@@ -38,6 +38,14 @@
             }
         @endforeach
     </select>
+    <label for="venues">Venue Status</label>
+    <select class="form-control" name="venueStatus" id="venueStatus" data-parsley-required="true">
+        @foreach ($venueST['venueStatus'] as $venueSTs)
+            {
+            <option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>
+            }
+        @endforeach
+    </select>
 
 
     {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}

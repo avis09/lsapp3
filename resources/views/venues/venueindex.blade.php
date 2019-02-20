@@ -22,6 +22,7 @@
                 <td>Venue Name </td>
                 <td>Floor </td>
                 <td>Venue Type </td>
+                <td>Venue Status</td>
                 <td>Added by User Type </td>
             </tr>
             @foreach($venues as $venue)
@@ -31,9 +32,10 @@
                     <td>{{$venue->venueName}}</td>
                     <td>{{$venue->venueFloorID}}</td>
                     <td>{!!$venue->f_venueTypeV->venueTypeName!!}</td>
+                    <td>{!!$venue->venueStatusID->venueStatusType !!}</td>
                     <td>{!!$venue->userID!!}</td>
                     {{--<a href="/users/{{$user->userID}}/edit">EDIT</a>--}}
-                    <td><a href=" {{ route('venues.index',$venue->venueID) }}" class="btn btn-primary">Edit</a></td>
+                    <td><a href=" {{ route('venues.edit',$venue->venueID) }}" class="btn btn-primary">Edit</a></td>
                 </tr>
             @endforeach
         </table>

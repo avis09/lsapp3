@@ -19,7 +19,7 @@ class VenuesController extends Controller
     {
         //$users = User::select('users.id', 'first_name', 'last_name', 'email', 'phone', 'birth_date','created_at')->orderBy('created_at', 'dsc')->leftjoin('patients','patients.patient_id','users.id')->where('role_id', 3)->paginate(10);
         //index for ROOM
-        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID')->where('venueTypeID', 1)->paginate(10);
+        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
         $f_buildingV = array('building' => DB::table('building')->get());
         $f_userV = array('users' => DB::table('users')->get());
         return view('venues.venueindex')
@@ -30,7 +30,7 @@ class VenuesController extends Controller
     public function index2()
     {
         //Index Court
-        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID')->where('venueTypeID', 2)->paginate(10);
+        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID')->where('venueTypeID', 2)->paginate(10);
         return view('venues.venueindex')
             ->with('venues', $venues);
     }
@@ -45,7 +45,12 @@ class VenuesController extends Controller
         $venueB = array('building' => DB::table('building')->get());
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
-        return view('venues.addvenue')->with('venueB', $venueB)->with('venueF', $venueF)->with('venueT', $venueT);
+        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+        return view('venues.addvenue')
+            ->with('venueB', $venueB)
+            ->with('venueF', $venueF)
+            ->with('venueT', $venueT)
+            ->with('venueST', $venueST);
     }
 
     /**

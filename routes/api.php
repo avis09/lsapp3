@@ -53,3 +53,24 @@ Route::put('venuetype', 'VenueTypeApiController@store');
 
 // delete
 Route::delete('venuetype/{id}', 'VenueTypeApiController@destroy');
+
+
+
+//list user
+Route::get('users', 'LoginApiController@index');
+
+//list single user
+Route::get('user/{id}', 'LoginApiController@show');
+
+Route::post('user', 'LoginApiController@store');
+//login
+Route::post('login', 'LoginApiController@login');
+
+
+//list feedback
+Route::get('feedbacks', 'FeedbackApiController@index');
+
+//list single feedback
+Route::get('feedback/{id}', 'FeedbackApiController@show');
+//Create new feedback
+Route::post('feedback', 'FeedbackApiController@store');
