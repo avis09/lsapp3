@@ -77,4 +77,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Venue', 'venueID');
     }
+    public function f_logTime()
+    {
+        return $this->hasMany('App\LogTime');
+    }
 }

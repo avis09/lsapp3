@@ -15,4 +15,9 @@ class LogTime extends Model
     ];
 
     protected $table = 'logtime';
+
+    public function f_logs()
+    {
+        return $this->belongsTo('App\User', 'userID');
+    }
 }

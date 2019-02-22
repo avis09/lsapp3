@@ -2,12 +2,11 @@
 
 @section('content')
     <h1>Edit User Info</h1>
+
+
+        {!! Form::open(['action' => ['Auth\UsersController@update', $users->usersID],
+    'method' => 'POST']) !!}
     <div class="form-group">
-
-        <form method="post" action="{{ route('users.update', $users->userID) }}">
-            @method('PATCH')
-            @csrf
-
             {{--User type--}}
             <div class="form-group">
                 {{Form::label('usertype', 'User Type')}}
@@ -84,10 +83,12 @@
                 {{Form::number('IDnumber', '',['class' => 'form-control', 'placeholder'
                 => 'ID number'])}}
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
     </div>
     </div>
+        {{Form::hidden('_method', 'PUT')}}
+        {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
+        {!! ! Form::close() !!}
+
 @endsection
 
 {{--{!! Form::open(['action' => ['Auth\UsersController@update', $users->userID],--}}
