@@ -101,7 +101,7 @@ class UsersController extends Controller
         $userRs = array('userrole' => DB::table('userrole')->get());
         $userSs = array('userstatus' => DB::table('userstatus')->get());
         $userDs = array('department' => DB::table('department')->get());
-        return view('users.edituser')->with('users', $user)->with('userRs', $userRs)->with('userSs', $userSs)->with('userDs', $userDs);
+        return view('users.edituser')->with('user', $user)->with('userRs', $userRs)->with('userSs', $userSs)->with('userDs', $userDs);
     }
 
     /**
@@ -114,12 +114,12 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            //  'userRoleID' => 'required',
-//            'firstName' => 'required',
-//            'LastName' => 'required',
+              'userRoleID' => 'required',
+            'firstName' => 'required',
+            'LastName' => 'required',
 //            'password' => 'required',
 //            'phoneNumber' => 'required',
-//            'email' => 'required'
+            'email' => 'required'
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
         // Create post
@@ -128,14 +128,14 @@ class UsersController extends Controller
         $user->firstName = $request->input('firstName');
         $user->LastName = $request->input('LastName');
         $user->userStatusID = $request->input('userstatus');
-        $password = $request->input('password');
-        $user->password = Hash::make($password);
+//        $password = $request->input('password');
+//        $user->password = Hash::make($password);
         //$user->password = Hash::make($user['password']);
         //$user->Password = bcrypt(request('Password'));
         //$user->Password = $request->Hash(['password']);
         $user->phoneNumber = $request->input('phoneNumber');
         $user->email = $request->input('email');
-        $user->apiToken =  $request->input('');
+        //$user->apiToken =  $request->input('');
         $user->departmentID = $request->input('department');
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;

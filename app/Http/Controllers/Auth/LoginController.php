@@ -27,7 +27,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $attempt = Auth::attempt(['IDnumber' => $request->IDnumber, 'password' => $request->password], false);
+        $attempt = Auth::attempt(['IDnumber' => $request->IDnumber, 'password' => $request->password, 'userStatusID' => 1],  false);
         if ($attempt) {
 
             $user = Auth::user();

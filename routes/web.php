@@ -53,6 +53,8 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 //
 //});
 
+Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
+
 
 //Student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
@@ -103,7 +105,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::post('users/create', 'Auth\UsersController@store')->name('users.store');
     Route::get('users/show','Auth\UsersController@show')->name('users.show');
     Route::get('users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
-    Route::post('users/update', 'Auth\UsersControllera@update')->name('users.update');
+    Route::post('users/{id}/edit', 'Auth\UsersControllera@update')->name('users.update');
     Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
 
 });

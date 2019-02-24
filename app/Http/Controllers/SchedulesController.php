@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Venue;
 use App\Schedule;
+use App\Time;
+use App\VenueSchedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
 use App\Http\Controllers\Validator;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 class SchedulesController extends Controller
@@ -30,30 +34,34 @@ class SchedulesController extends Controller
      */
     public function create()
     {
-        $schedule = array('schedules' => DB::table('schedules')->get());
-        $scheduleV = array('venue' => DB::table('venue')->get());
+//        $schedule = array('schedules' => DB::table('schedules')->get());
+//        $scheduleV = array('venue' => DB::table('venue')->get());
+        $venues = DB::table('venue')
+            ->select('*')
+            ->get();
 
-//        $venueID = $request->get('venue');
-//        //Get venue ID
-//        $venueTypeID = array('venue' => DB::table('venue')
+        //Get venue ID
+//        $venues = array('venue' => DB::table('venue')
 //            ->select('venue.venueTypeID')
 //            ->where('venue.venueID', '=', $venueID)
 //            ->get());
-//
-//        dd($venueTypeID);
+
         $scheduleT = array('time' => DB::table('time')->get());
 
-        $scheduleVT = array('venuetype' =>DB::table('venuetype')->get());
-        return view('schedules.addschedule')->with('schedule', $schedule)
-            ->with('scheduleT', $scheduleT)
-            ->with('scheduleV', $scheduleV)
-            ->with('scheduleVT', $scheduleVT);
+        $scheduleVT = array('venuetype' => DB::table('venuetype')->get());
+//        return view('schedules.addschedule')->with('schedule', $schedule)
+//            ->with('scheduleT', $scheduleT)
+//            ->with('scheduleV', $scheduleV)
+//            ->with('scheduleVT', $scheduleVT);
 
+        return view('schedules.addschedule')
+            ->with('venues', $venues);
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -82,8 +90,12 @@ class SchedulesController extends Controller
         $schedule->statusID = ('1');
         $schedule->date = $request->input('date');
         $schedule->venueID = $request->input('venue');
-        $schedule->timeID = $request->input('time');
+        $schedule->timeID = Input::get('time');
         $schedule->save();
+
+        //$venueSchedule = VenueSchedule::where('venueScheduleID', $schedule->venueScheduleID)->first();
+        //$venueSchedule->venueSchedStatus = "Occupied";
+        //$venueSchedule->save();
 //        if ($schedule->save()){
 //
 //        }
@@ -95,7 +107,7 @@ class SchedulesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -107,19 +119,19 @@ class SchedulesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -130,11 +142,71 @@ class SchedulesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    public function findVenueSched(Request $request)
+    {
+//        $venueExist = DB::table('venue')
+//            ->join('venueschedule', $request->venueID, '=', 'venueschedule.venueID')
+//            ->select('venueschedule.venueScheduleID')
+//            ->first();
+
+        //check if existing venue
+        $existsVenue = DB::table('venue')
+            //->join('venueschedule', 'venueschedule.venueScheduleID', '=', $venueExist)
+            ->where('venueID', $request->venueID)
+            ->select('venueID')
+            ->value('venueID');
+
+        //check if existing date
+        $existsDate = DB::table('schedules')
+            //->join('venueschedule', 'venueschedule.venueScheduleID', '=', $venueExist)
+            ->where('date', $request->date)
+            ->select('date')
+            ->value('date');
+
+        //get time id from based on values above
+        $timeID = DB::table('schedules')
+            ->where('date', $existsDate)
+            ->where('venueID', $existsVenue)
+            ->select('timeID')
+            ->value('timeID');
+
+
+        //get venue type based on venue id selected
+        $venueType = DB::table('venue')
+            ->select('venueTypeID')
+            ->where('venueID', $request->venueID)
+            ->value('venueTypeID');
+
+        //if it exists, show only time that is not in schedules table
+        if($existsVenue && $existsDate){
+            $data = DB::table('time')
+                ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
+                ->where('venueTypeID', $venueType)
+                ->where('timeID', '!=', $timeID)
+                ->get();
+
+            //dd($data);
+        }
+
+        //else pakita lahat ng time depende sa venue type nung venue id
+        else{
+            $data = DB::table('time')
+                ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
+                ->where('venueTypeID', $venueType)
+                ->get();
+        }
+        return response()->json($data);
+
+//        $venueID = Input::get('venue');
+//        $data = Regencies::where('venueID', '=', $venueID)->get();
+//        return response()->json($data);
     }
 }

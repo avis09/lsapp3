@@ -38,4 +38,8 @@ class Venue extends Model
         return $this->hasMany('App\Picture');
     }
 
+    public function venueSched(){
+        return $this->hasMany('App\VenueSchedule', 'venueID');
+    }
+
 }

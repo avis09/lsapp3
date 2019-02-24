@@ -6,6 +6,7 @@
             <div class="panel-body">
                 {!! Form::open(['action' => 'SchedulesController@store', 'method' => 'POST' ,
         'enctype' => 'multipart/form-data']) !!}
+                {{csrf_field()}}
                 {{--{!! Form::open(array('route' => 'schedules.addreservation','method'=>'POST','files'=>'true')) !!}--}}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -27,17 +28,16 @@
 
                     <label for="venue">Venue:</label>
                     <select class="form-control" name="venue" id="venue" data-parsley-required="true">
-                        <option value=""></option>
-                        {{--@foreach ($scheduleV['venue'] as $scheduleVs)--}}
-                        {{--{--}}
-                        {{--<option value="{{ $scheduleVs->venueID }}">{{ $scheduleVs->venueName }}</option>--}}
-                        {{--}--}}
-                        {{--@endforeach--}}
-                        @foreach ($scheduleV['venue'] as $scheduleVs)
-                            {
-                            {{ $scheduleVs->venueTypeID }}
-                            }
+                        @foreach ($venues as $venue)
+                        {
+                            <option value="{{ $venue->venueID }}">{{ $venue->venueName }}</option>
+                        }
                         @endforeach
+                        {{--@foreach ($scheduleV['venue'] as $scheduleVs)--}}
+                            {{--{--}}
+                            {{--{{ $scheduleVs->venueTypeID }}--}}
+                            {{--}--}}
+                        {{--@endforeach--}}
 
                     </select>
 
@@ -66,10 +66,8 @@
 
                     <break>
                         <label for="time">Time:</label>
-                        <select class="form-control" name="time" id="time" data-parsley-required="true">
-
+                        <select class="form-control sched" name="time" id="time" data-parsley-required="true">
                             <option value=""></option>
-
                             {{--@foreach ($scheduleT['time'] as $scheduleTs){--}}
                             {{--@if($scheduleTs->venueTypeID == 1){--}}
 
@@ -92,8 +90,7 @@
                         <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
                             {!! Form::submit('Schedule', ['class' => 'btn btn-primary']) !!}
                         </div>
-
-
+                    </break>
                 </div>
                 <div class="col-lg-12 col-sm-12">
                     <table class="table table-bordered">
@@ -103,6 +100,8 @@
                         <th>Purpose:</th>
                         <th>Date:</th>
                         <th>Time:</th>
+
+
                         <th style="text-align:center"><a href="#" class="addRow"><i
                                         class="glyphicon glyphicon-plus"></i></a></th>
                         </thead>
@@ -113,18 +112,3 @@
         </div>
     </div>
 @endsection
-
-{{--<script>--}}
-    {{--$('#venue').on('change', function (e) {--}}
-        {{--console.log(e);--}}
-        {{--var venue_id = e.target.value;--}}
-
-        {{--$.get('{{ url('schedules') }}/create?venueTypeID=' + venue_id, function (data) {--}}
-            {{--console.log(data);--}}
-            {{--$('#time').empty();--}}
-            {{--$.each(data, function (index, subCatObj) {--}}
-                {{--$('#time').append('' + subCatObj.time + '');--}}
-            {{--});--}}
-        {{--});--}}
-    {{--});--}}
-{{--</script>--}}

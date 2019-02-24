@@ -4,7 +4,7 @@
     <h1>Edit User Info</h1>
 
 
-        {!! Form::open(['action' => ['Auth\UsersController@update', $users->usersID],
+        {!! Form::open(['route' => ['users.update', $user->userID],
     'method' => 'POST']) !!}
     <div class="form-group">
             {{--User type--}}
@@ -22,14 +22,14 @@
             {{--First name--}}
             <div class="form-group">
             {{Form::label('firstname', 'First Name')}}
-            {{Form::text('firstName', $users->firstName, ['class' => 'form-control', 'placeholder'
+            {{Form::text('firstName', $user->firstName, ['class' => 'form-control', 'placeholder'
             => 'First Name'])}}
             </div>
 
             {{--last name--}}
             <div class="form-group">
             {{Form::label('lastname', 'Last Name')}}
-            {{Form::text('LastName', $users->lastName, ['class' => 'form-control', 'placeholder'
+            {{Form::text('LastName', $user->lastName, ['class' => 'form-control', 'placeholder'
             => 'Last Name'])}}
             </div>
 
@@ -46,12 +46,12 @@
             </div>
 
             {{--Password--}}
-            <div class="form-group">
-            {{Form::label('Password', 'Password')}}
+            {{--<div class="form-group">--}}
+            {{--{{Form::label('Password', 'Password')}}--}}
             {{--{{Form::text('Password', '', ['class' => 'form-control', 'placeholder'--}}
             {{--=> 'Password'])}}--}}
-            {{ Form::password('Password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}
-            </div>
+            {{--{{ Form::password('Password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}--}}
+            {{--</div>--}}
 
             {{--Phone number--}}
             <div class="form-group">
@@ -78,11 +78,11 @@
             </select>
 
             {{--ID number--}}
-            <div class="form-group">
-                {{Form::label('idnumber', 'IDnumber')}}
-                {{Form::number('IDnumber', '',['class' => 'form-control', 'placeholder'
-                => 'ID number'])}}
-            </div>
+            {{--<div class="form-group">--}}
+                {{--{{Form::label('idnumber', 'IDnumber')}}--}}
+                {{--{{Form::number('IDnumber', '',['class' => 'form-control', 'placeholder'--}}
+                {{--=> 'ID number'])}}--}}
+            {{--</div>--}}
     </div>
     </div>
         {{Form::hidden('_method', 'PUT')}}

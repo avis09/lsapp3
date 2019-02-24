@@ -14,9 +14,13 @@ class Time extends Model
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['timeTypeID', 'timeStartTime', 'timeEndtime'];
+    protected $fillable = ['timeStartTime', 'timeEndTime'];
 
     public function f_scheduleT(){
         return $this->belongsTo('App\Schedule');
+    }
+
+    public function venueSched(){
+        return $this->hasMany('App\VenueSchedule', 'timeID');
     }
 }
