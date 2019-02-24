@@ -54,6 +54,8 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 //});
 
 Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
+Route::get('/showSchedules', 'SchedulesController@showSchedules');
+
 
 
 //Student-----------------------------------------------------------------------------------------------------------

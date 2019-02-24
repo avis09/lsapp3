@@ -71,4 +71,39 @@
         })
     });
 </script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', function () {
+
+            // console.log('changed');
+            var venueID = $('#venue').val();
+            var date = $('#date').val();
+            // console.log(Floor_Id);
+            var table = $('.availSched');
+            var op = " ";
+
+            $.ajax({
+                type: 'get',
+                url: '{!! URL::to('showSchedules') !!}',
+                data: {'venueID': venueID, 'date': date},
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        //op += '<option selected for="time" value="" disabled>Select a time now</option>';
+                        op += '<tr> + <td>"' + data[i].venueID + '"</td> + <td>"' + data[i].timeID + '"</td> + <tr>';
+                    }
+                    if(data.length == 0){
+                        op += '<option selected for="time" value="" disabled selected>No time available</option>';
+                    }
+                    $(table).html(" ");
+                    $(table).append(op);
+                },
+                error: function () {
+                    console.log('error');
+                }
+            })
+        })
+    });
+</script>
 </html>
