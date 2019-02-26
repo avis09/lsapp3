@@ -83,7 +83,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 
 //Feedbacks
-    Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
+    Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index2');
     //Venues
     Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
     Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
