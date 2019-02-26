@@ -8,17 +8,17 @@
 
     <div class="form-group">
         <label for="venues">Choose Venue</label>
-        <select class="form-control" name="f_venues" id="f_venue" data-parsley-required="true">
+        <select class="form-control" name="f_venue" id="f_venue" data-parsley-required="true">
             @foreach ($f_venue as $f_venues)
                 {
-                <option value="{{ $f_venues->venueID }}"></option>
+                    <option value="{{ $f_venues->venueID }}"> {{ $f_venues->venueName }}</option>
                 }
             @endforeach
         </select>
     </div>
 
     <div class="form-group">
-        {{Form::label('comment', 'Comment')}}
+        {{Form::label('comment', 'comment')}}
         {{Form::text('Comment', '', ['class ' => 'form-control', 'placeholder'
         => 'Comment'])}}
     </div>

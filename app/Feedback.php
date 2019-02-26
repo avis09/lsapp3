@@ -17,14 +17,16 @@ class Feedback extends Model
     protected $fillable = ['comment', 'created_at', 'venueID', 'userID'];
 
 
-    public function f_venue()
+    public function f_venue ()
     {
         return $this->belongsTo('App\Venue', 'venueID');
     }
+
     public function f_user()
     {
         return $this->belongsTo('App\User', 'userID');
     }
+
 
     public function setCreatedAtAttribute($value) {
         $this->attributes['created_at'] = \Carbon\Carbon::now();

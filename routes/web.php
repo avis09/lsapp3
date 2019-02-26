@@ -48,12 +48,15 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 //Functions for schedule
 Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
 Route::get('/showSchedules', 'SchedulesController@showSchedules');
+Route::group(['middleware' => ['guest']], function () {
+    // Guest routs
+});
 
 //Student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
-        //Feedbacks
-        Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
+    //Feedbacks
+         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
         Route::get('feedbacks/create', 'FeedbacksController@create')->name('feedbacks.create');
     Route::post('feedbacks/create', 'FeedbacksController@store')->name('feedbacks.store');
 
@@ -67,10 +70,8 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
 
-    //schedules
-    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
-    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
-    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+    //Feedbacks
+    Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
     //Venues
     Route::get('venues/index', 'VenuesController@index')->name('venues.index');
     Route::get('venues/create', 'VenuesController@create')->name('venues.create');
@@ -81,10 +82,8 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 //GASD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 
-    //schedules
-    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
-    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
-    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+//Feedbacks
+    Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
     //Venues
     Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
     Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
@@ -106,6 +105,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
 
 });
+
 
 //---------------------------------------------------------------------------------------------------------------------
 
