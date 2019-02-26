@@ -21,20 +21,24 @@ class VenuesController extends Controller
         //index for ROOM
         $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
         $f_buildingV = array('building' => DB::table('building')->get());
+        //$f_statusV = array('status' => DB::table('status')->get());
         $f_userV = array('users' => DB::table('users')->get());
         return view('venues.venueindex')
                 ->with('venues', $venues)
                 ->with('f_buildingV', $f_buildingV)
                 ->with('f_userV', $f_userV);
+                //->with('f_statusV', $f_statusV);
     }
     public function index2()
     {
         //Index Court
         $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID')->where('venueTypeID', 2)->paginate(10);
         $f_venueStatusV = array('venuestatus' => DB::table('venuestatus')->get());
+        $f_userV = array('users' => DB::table('users')->get());
         return view('venues.venueindex')
             ->with('venues', $venues)
-            ->with('f_venueStatusVu', $f_venueStatusV);
+            ->with('f_venueStatusVu', $f_venueStatusV)
+            ->with('f_userV', $f_userV);
     }
 
     /**
@@ -49,6 +53,18 @@ class VenuesController extends Controller
         $venueT = array('venuetype' => DB::table('venuetype')->get());
         $venueST = array('venueStatus' => DB::table('venueStatus')->get());
         return view('venues.addvenue')
+            ->with('venueB', $venueB)
+            ->with('venueF', $venueF)
+            ->with('venueT', $venueT)
+            ->with('venueST', $venueST);
+    }
+    public function create2()
+    {
+        $venueB = array('building' => DB::table('building')->get());
+        $venueF = array('venuefloor' => DB::table('venuefloor')->get());
+        $venueT = array('venuetype' => DB::table('venuetype')->get());
+        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+        return view('venues.addvenue2')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
@@ -78,32 +94,41 @@ class VenuesController extends Controller
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
-        $venues->venueTypeID = $request->input('venueTypeID');
-        $venues->userID = $request->input('1');
+        //Add venue type room
+        $venues->venueTypeID = '1';
+        $venues->venueStatusID = $request->input('venueStatus');
+        $venues->userID = auth()->user()->userID;
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
         $venues->save();
 
-//        $picture = new Picture();
-//        $picture->venueID = $venues->venueID;
-//        // Handle File Upload
-//        if($request->hasFile('pictureName')){
-//            // Get filename with the extension
-//            $filenameWithExt = $request->file('pictureName')->getClientOriginalName();
-//            // Get just filename
-//            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-//            // Get just ext
-//            $extension = $request->file('pictureName')->getClientOriginalExtension();
-//            // Filename to store
-//            $fileNameToStore= $filename.'_'.time().'.'.$extension;
-//            // Upload Image
-//            $path = $request->file('pictureName')->storeAs('public/cover_images', $fileNameToStore);
-//        } else {
-//            $fileNameToStore = 'noimage.jpg';
-//        }
-//        $picture->pictureName = $fileNameToStore;
-//        $picture->save();
-        return redirect('/venues')->with('success', 'Venue Added');
+        return redirect('registrar/venues/create')->with('success', 'Venue Added');
+
+
+
+    }
+    public function store2(Request $request)
+    {
+        $this->validate($request, [
+
+            'venueName' => 'required',
+
+        ]);
+
+
+        // Create post
+        $venues = new Venue;
+        $venues->buildingID = $request->input('buildingID');
+        $venues->venueName = $request->input('venueName');
+        $venues->venueFloorID = $request->input('venueFloorID');
+        //Add venue type court
+        $venues->venueTypeID = '2';
+        $venues->venueStatusID = $request->input('venueStatus');
+        $venues->userID = auth()->user()->userID;
+        //  $venue->place = auth()->user()->id;
+        //  $venue->cover_image = $fileNameToStore;
+        $venues->save();
+        return redirect('gasd/venues/create2')->with('success', 'Venue Added');
 
 
 

@@ -29,7 +29,7 @@ class Venue extends Model
         return $this->belongsTo('App\VenueType', 'venueTypeID');
     }
     public function f_venueStatusV(){
-        return $this->belongsTo('App\VenueStatus', 'venueID');
+        return $this->belongsTo('App\VenueStatus', 'venueStatusID');
     }
     public function f_userV()
     {

@@ -55,6 +55,7 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         //Feedbacks
         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
         Route::get('feedbacks/create', 'FeedbacksController@create')->name('feedbacks.create');
+    Route::post('feedbacks/create', 'FeedbacksController@store')->name('feedbacks.store');
 
         //schedules
         Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
@@ -62,20 +63,6 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
-});
-//GASD-----------------------------------------------------------------------------------------------------------
-Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
-
-    //schedules
-    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
-    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
-    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
-    //Venues
-    Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
-    Route::get('venues/create', 'VenuesController@create')->name('venues.create');
-    Route::post('venues/create', 'VenuesController@store')->name('venues.store');
-    Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
-    Route::post('venues/update', 'VenuesController@update')->name('venues.update');
 });
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
@@ -88,6 +75,20 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('venues/index', 'VenuesController@index')->name('venues.index');
     Route::get('venues/create', 'VenuesController@create')->name('venues.create');
     Route::post('venues/create', 'VenuesController@store')->name('venues.store');
+    Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
+    Route::post('venues/update', 'VenuesController@update')->name('venues.update');
+});
+//GASD-----------------------------------------------------------------------------------------------------------
+Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
+
+    //schedules
+    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
+    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
+    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+    //Venues
+    Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
+    Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
+    Route::post('venues/create2', 'VenuesController@store2')->name('venues.store2');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
 });
