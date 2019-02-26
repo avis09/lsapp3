@@ -45,32 +45,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-//Route::get('schedules/create/sched',function()
-//{
-//    $venueTypeID = Input::get('venueTypeID');
-//    $subcategories = \App\Time::where('venueTypeID','=', $venueTypeID)->get();
-//    return $subcategories;
-//
-//});
-
+//Functions for schedule
 Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
 Route::get('/showSchedules', 'SchedulesController@showSchedules');
-
-
 
 //Student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
-        //schedules
-    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
-//    Route::get('schedules/create', 'SchedulesController@create', function()
-//    {
-//        $venueTypeID = Input::get('venueTypeID');
-//        $subcategories = \App\Time::where('venueTypeID','=', $venueTypeID)->get();
-//        return $subcategories;
-//
-//    });
+        //Feedbacks
+        Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
+        Route::get('feedbacks/create', 'FeedbacksController@create')->name('feedbacks.create');
 
+        //schedules
+        Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
         Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
         Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
@@ -79,7 +66,10 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 //GASD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 
-
+    //schedules
+    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
+    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
+    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
     //Venues
     Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
     Route::get('venues/create', 'VenuesController@create')->name('venues.create');
@@ -90,6 +80,10 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
 
+    //schedules
+    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
+    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
+    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
     //Venues
     Route::get('venues/index', 'VenuesController@index')->name('venues.index');
     Route::get('venues/create', 'VenuesController@create')->name('venues.create');
@@ -119,6 +113,21 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
 //Route::post('/schedules/create', 'SchedulesController@store')->name('schedules.store');
 
 
+//    Route::get('schedules/create', 'SchedulesController@create', function()
+//    {
+//        $venueTypeID = Input::get('venueTypeID');
+//        $subcategories = \App\Time::where('venueTypeID','=', $venueTypeID)->get();
+//        return $subcategories;
+//
+//    });
+
+//Route::get('schedules/create/sched',function()
+//{
+//    $venueTypeID = Input::get('venueTypeID');
+//    $subcategories = \App\Time::where('venueTypeID','=', $venueTypeID)->get();
+//    return $subcategories;
+//
+//});
 
 //NOTES *************************************************************************************************
 // Traversy Media Laravel --------------------------------------

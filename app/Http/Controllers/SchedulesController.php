@@ -71,6 +71,7 @@ class SchedulesController extends Controller
     {
         $this->validate($request, [
             'purpose' => 'required',
+            'time' => 'required'
 //            'dateAdded' => 'required'
 
         ]);

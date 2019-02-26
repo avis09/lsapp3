@@ -26,16 +26,17 @@
         </div>
     </div>
     <!-- Scripts -->
+    <script type="text/javascript" src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'article-ckeditor' );
+    </script>
 </body>
 
-<script type="text/javascript" src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{ asset('js/app.js') }}" defer></script>
-<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'article-ckeditor' );
-</script>
+
 
 <script>
     $(document).ready(function () {

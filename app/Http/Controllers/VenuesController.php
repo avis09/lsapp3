@@ -31,8 +31,10 @@ class VenuesController extends Controller
     {
         //Index Court
         $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID')->where('venueTypeID', 2)->paginate(10);
+        $f_venueStatusV = array('venuestatus' => DB::table('venuestatus')->get());
         return view('venues.venueindex')
-            ->with('venues', $venues);
+            ->with('venues', $venues)
+            ->with('f_venueStatusVu', $f_venueStatusV);
     }
 
     /**

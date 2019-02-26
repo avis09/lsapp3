@@ -14,12 +14,16 @@ class Feedback extends Model
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['comment', 'dateAdded', 'venueID', 'userID'];
+    protected $fillable = ['comment', 'created_at', 'venueID', 'userID'];
 
 
     public function f_venue()
     {
         return $this->belongsTo('App\Venue', 'venueID');
+    }
+    public function f_user()
+    {
+        return $this->belongsTo('App\User', 'userID');
     }
 
     public function setCreatedAtAttribute($value) {

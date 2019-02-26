@@ -32,7 +32,7 @@
                     <td>{{$venue->venueName}}</td>
                     <td>{{$venue->venueFloorID}}</td>
                     <td>{!!$venue->f_venueTypeV->venueTypeName!!}</td>
-                    <td>{!!$venue->venueStatusID->venueStatusType !!}</td>
+                    <td>{!!$venue->f_venueStatusV->venueStatusType!!}</td>
                     <td>{!!$venue->userID!!}</td>
                     {{--<a href="/users/{{$user->userID}}/edit">EDIT</a>--}}
                     <td><a href=" {{ route('venues.edit',$venue->venueID) }}" class="btn btn-primary">Edit</a></td>

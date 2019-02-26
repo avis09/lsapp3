@@ -28,6 +28,9 @@ class Venue extends Model
     public function f_venueTypeV(){
         return $this->belongsTo('App\VenueType', 'venueTypeID');
     }
+    public function f_venueStatusV(){
+        return $this->belongsTo('App\VenueStatus', 'venueID');
+    }
     public function f_userV()
     {
         return $this->belongsTo('App\User');
@@ -42,4 +45,7 @@ class Venue extends Model
         return $this->hasMany('App\VenueSchedule', 'venueID');
     }
 
+    public function f_feedbacksV(){
+        return $this->hasMany('App\Feedback', 'venueID');
+    }
 }
