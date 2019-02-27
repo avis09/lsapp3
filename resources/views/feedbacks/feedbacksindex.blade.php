@@ -8,19 +8,19 @@
     <div class="container">
         <table class="table">
             <tr>
+                <td>Feedback ID</td>
                 <td>Comment </td>
                 <td>Date sent </td>
                 <td>Venue Name </td>
-                <td>Venue ID </td>
                 <td>Added by User: </td>
             </tr>
             @foreach($feedbacks as $feedback)
                 <tr>
+                    <td>{{$feedback->feedbackID}}</td>
                     <td>{{$feedback->comment}}</td>
                     <td>{{$feedback->created_at}}</td>
-                    <td>{!!$feedback->f_venue->venueName!!}</td>
-                    <td>{!!$feedback->venueID!!}</td>
-                    <td>{!!$feedback->f_user->firstName!!}  {!!$feedback->f_user->lastName!!}</td>
+                    <td>{!!$feedback->venueName!!}</td>
+                    <td>{!!$feedback->userID!!} </td>
                 </tr>
             @endforeach
         </table>
