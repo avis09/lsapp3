@@ -20,7 +20,7 @@
                     <td>{{$feedback->comment}}</td>
                     <td>{{$feedback->created_at}}</td>
                     <td>{!!$feedback->venueName!!}</td>
-                    <td>{!!$feedback->userID!!} </td>
+                    <td>{!!$feedback->firstName!!} </td>
                 </tr>
             @endforeach
         </table>

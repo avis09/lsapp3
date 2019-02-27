@@ -45,13 +45,10 @@
             </select>
             </div>
 
-            {{--Password--}}
-            {{--<div class="form-group">--}}
-            {{--{{Form::label('Password', 'Password')}}--}}
-            {{--{{Form::text('Password', '', ['class' => 'form-control', 'placeholder'--}}
-            {{--=> 'Password'])}}--}}
-            {{--{{ Form::password('Password', array('id' => 'password', "class" => "form-control", "autocomplete" => "off")) }}--}}
-            {{--</div>--}}
+            <div class="form-group">
+            {{Form::label('Password', 'Password')}}
+            {{Form::text('Password', '', ['class' => 'form-control', 'placeholder'
+            => 'Password'])}}
 
             {{--Phone number--}}
             <div class="form-group">
@@ -77,12 +74,11 @@
                 @endforeach
             </select>
 
-            {{--ID number--}}
-            {{--<div class="form-group">--}}
-                {{--{{Form::label('idnumber', 'IDnumber')}}--}}
-                {{--{{Form::number('IDnumber', '',['class' => 'form-control', 'placeholder'--}}
-                {{--=> 'ID number'])}}--}}
-            {{--</div>--}}
+            <div class="form-group">
+                {{Form::label('idnumber', 'IDnumber')}}
+                {{Form::number('IDnumber', '',['class' => 'form-control', 'placeholder'
+                => 'ID number'])}}
+            </div>
     </div>
     </div>
         {{Form::hidden('_method', 'PUT')}}

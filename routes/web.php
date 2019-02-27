@@ -83,7 +83,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 
 //Feedbacks
-    Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index2');
+    Route::get('feedbacks/index2', 'FeedbacksController@index2')->name('feedbacks.index2');
     //Venues
     Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
     Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
@@ -101,7 +101,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::post('users/create', 'Auth\UsersController@store')->name('users.store');
     Route::get('users/show','Auth\UsersController@show')->name('users.show');
     Route::get('users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
-    Route::post('users/{id}/edit', 'Auth\UsersControllera@update')->name('users.update');
+    Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
     Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
 
 });

@@ -114,7 +114,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-              'userRoleID' => 'required',
+             // 'userRoleID' => 'required',
             'firstName' => 'required',
             'LastName' => 'required',
 //            'password' => 'required',
@@ -122,26 +122,25 @@ class UsersController extends Controller
             'email' => 'required'
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
-        // Create post
+        //update
         $user = new User;
         $user->userRoleID = $request->input('userrole');
         $user->firstName = $request->input('firstName');
         $user->LastName = $request->input('LastName');
         $user->userStatusID = $request->input('userstatus');
-//        $password = $request->input('password');
-//        $user->password = Hash::make($password);
+        $password = $request->input('password');
+        $user->password = Hash::make($password);
         //$user->password = Hash::make($user['password']);
         //$user->Password = bcrypt(request('Password'));
         //$user->Password = $request->Hash(['password']);
         $user->phoneNumber = $request->input('phoneNumber');
         $user->email = $request->input('email');
-        //$user->apiToken =  $request->input('');
+        $user->apiToken =  str_random(60);
         $user->departmentID = $request->input('department');
-        //  $venue->place = auth()->user()->id;
-        //  $venue->cover_image = $fileNameToStore;
+        $user->IDnumber = $request->input('IDnumber');
         $user->save();
 
-        return redirect('/users')->with('success', 'User Profile Updated');
+        return redirect('/users/{id}/edit')->with('success', 'User Profile Updated');
 
 
     }

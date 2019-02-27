@@ -27,9 +27,11 @@ class FeedbacksController extends Controller
 //        ->get();
 //        $feedbacks = Feedback::all();
       $feedbacks = DB::table('feedbacks')
-            ->join('venue', 'venue.venueID', '=', 'feedbackID')
-            ->select('feedbacks.feedbackID', 'feedbacks.comment', 'feedbacks.created_at', 'venue.venueName', 'feedbacks.userID')
-            //->where('venue.venueType', '=', '1')
+          ->join('venue', 'venue.venueID', '=', 'feedbacks.venueID')
+          ->join('users', 'users.userID', '=', 'feedbacks.userID')
+          ->select('feedbacks.feedbackID', 'feedbacks.comment', 'feedbacks.created_at', 'venue.venueName', 'users.firstName')
+          ->orderBy('feedbacks.created_at', 'desc')
+            ->where('venue.venueTypeID', '=', '1')
             ->get();
         return view ('feedbacks.feedbacksindex')
             ->with('feedbacks', $feedbacks);
@@ -37,16 +39,15 @@ class FeedbacksController extends Controller
     }
     public function index2()
     {
-        $users = User::all();
-        $feedbacks = Feedback::all();
-        $f_venue = Venue::all();
-
-        return view ('feedbacks.feedbacksindex')
-            //->with('venues', $venues);
-            ->with('users', $users)
-            ->with('f_venue', $f_venue)
+        $feedbacks = DB::table('feedbacks')
+            ->join('venue', 'venue.venueID', '=', 'feedbacks.venueID')
+            ->join('users', 'users.userID', '=', 'feedbacks.userID')
+            ->select('feedbacks.feedbackID', 'feedbacks.comment', 'feedbacks.created_at', 'venue.venueName', 'users.firstName')
+            ->orderBy('feedbacks.created_at', 'desc')
+            ->where('venue.venueTypeID', '=', '2')
+            ->get();
+        return view ('feedbacks.feedbacksindex2')
             ->with('feedbacks', $feedbacks);
-        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
     }
 
     /**
