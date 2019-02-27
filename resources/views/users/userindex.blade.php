@@ -32,13 +32,13 @@
      @foreach($users as $user)
      <tr>
       <td>{{$user->userID}}</td>
-      <td>{{$user->userRoleID}}</td>
+      <td>{{$user->f_userrole->roleType}}</td>
       <td>{{$user->firstName}}</td>
       <td>{{$user->lastName}}</td>
       <td>{{$user->phoneNumber}}</td>
       <td>{{$user->email}}</td>
-      <td>{{$user->departmentID}}</td>
-      <td>{{$user->userStatusID}}</td>
+      <td>{{$user->f_department->departmentName}}</td>
+      <td>{{$user->f_userstatus->userStatusType}}</td>
       <td>{{$user->IDnumber}}</td>
       <td>
        {{--<a href="/users/{{$user->userID}}/edit">EDIT</a>--}}

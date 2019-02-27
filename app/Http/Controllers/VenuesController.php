@@ -15,6 +15,13 @@ class VenuesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // *****************
+    // 1 = Registrar
+    // 2 = GASD
+    //******************
+
+    // Registrar List of Venues (ROOMS)
     public function index()
     {
         //$users = User::select('users.id', 'first_name', 'last_name', 'email', 'phone', 'birth_date','created_at')->orderBy('created_at', 'dsc')->leftjoin('patients','patients.patient_id','users.id')->where('role_id', 3)->paginate(10);
@@ -29,6 +36,7 @@ class VenuesController extends Controller
                 ->with('f_userV', $f_userV);
                 //->with('f_statusV', $f_statusV);
     }
+    // GASD List of Venues (Venues)
     public function index2()
     {
         //Index Court
@@ -40,12 +48,42 @@ class VenuesController extends Controller
             ->with('f_venueStatusVu', $f_venueStatusV)
             ->with('f_userV', $f_userV);
     }
+    // Registrar Reports on number Active Rooms
+    public function indexReports()
+    {
+        $count = DB::table('venue')
+            ->join('venuetype', 'venuetype.venueTypeID', '=', 'venue.venueTypeID')
+            ->select('venue.venueID')
+            //->orderBy('feedbacks.created_at', 'desc')
+            ->where('venue.venueTypeID', '=', '1')
+            ->count();
+
+        return view('venues.venueReports')
+            ->with('count', $count);
+    }
+    // GASD Reports on number Active Courts
+    public function indexReports2()
+    {
+        $count = DB::table('venue')
+            ->join('venuetype', 'venuetype.venueTypeID', '=', 'venue.venueTypeID')
+            ->join('venuestatus', 'venuestatus.venueStatusID', '=', 'venue.venueStatusID')
+            //->select('venue.venueID')
+            //->orderBy('feedbacks.created_at', 'desc')
+            ->where('venue.venueTypeID', '=', '2')
+            ->where('venue.venueStatusID', '=', '1')
+            ->count();
+
+        return view('venues.venueReports')
+            ->with('count', $count);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    //Registar Create
     public function create()
     {
         $venueB = array('building' => DB::table('building')->get());
@@ -58,6 +96,7 @@ class VenuesController extends Controller
             ->with('venueT', $venueT)
             ->with('venueST', $venueST);
     }
+    //GASD Create
     public function create2()
     {
         $venueB = array('building' => DB::table('building')->get());

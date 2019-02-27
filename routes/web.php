@@ -78,6 +78,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('venues/create', 'VenuesController@store')->name('venues.store');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
+    Route::get('venues/reports', 'VenuesController@indexReports')->name('venues.indexReports');
 });
 //GASD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
@@ -90,6 +91,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('venues/create2', 'VenuesController@store2')->name('venues.store2');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
+    Route::get('venues/reports2', 'VenuesController@indexReports2')->name('venues.indexReports2');
 });
 //ITD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {

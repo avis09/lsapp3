@@ -25,6 +25,6 @@
         </div>
 
     @else
-        <p>No Users found</p>
+        <p>No User logs found</p>
     @endif
 @endsection
