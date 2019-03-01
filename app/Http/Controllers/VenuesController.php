@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Picture;
+use App\User;
 use App\Venue;
 use Illuminate\Http\Request;
 use DB;
@@ -109,6 +110,7 @@ class VenuesController extends Controller
             ->with('venueT', $venueT)
             ->with('venueST', $venueST);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -242,4 +244,44 @@ class VenuesController extends Controller
     {
         //
     }
+
+//SEND MESSAGE TRIAL
+    public function sendcreate()
+    {
+        $user = User::all();
+        return view('send')
+            ->with('user', $user);
+
+    }
+     public function sendstore()
+    {
+
+	// Account details
+	$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
+
+	// Message details
+	$numbers = array('639176245666');
+	$sender = urlencode('Anz' + 'Santos');
+	$message = rawurlencode('Code worked!');
+
+	$numbers = implode(',', $numbers);
+
+	// Prepare data for POST request
+	$data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
+
+	// Send the POST request with cURL
+	$ch = curl_init('https://api.txtlocal.com/send/');
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$response = curl_exec($ch);
+	curl_close($ch);
+
+	// Process your response here
+	echo $response;
+
+
+    }
+
+
 }
