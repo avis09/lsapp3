@@ -70,6 +70,7 @@ class UsersController extends Controller
         $user->apiToken = str_random(60);
         $user->departmentID = $request->input('department');
         $user->IDnumber = $request->input('IDnumber');
+        $user->fcmtoken = str_random(60);
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;
         $user->save();

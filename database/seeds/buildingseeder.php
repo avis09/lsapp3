@@ -13,10 +13,10 @@ class buildingseeder extends Seeder
     public function run()
     {
         DB::table('building')->insert([
-            'buildingName' => "Sandejas Building"
+            'buildingName' => "Sandejas"
         ]);
         DB::table('building')->insert([
-            'buildingName' => "Main Building"
+            'buildingName' => "Taft Main"
         ]);
     }
 }

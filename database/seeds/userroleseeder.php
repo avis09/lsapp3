@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\support\facades\DB;
 
-class userroleseeder extends Seeder
+class userRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class userroleseeder extends Seeder
     public function run()
     {
         DB::table('userrole')->insert([
-            'roleType' => "Student"
+            'roleType' => "Students"
         ]);
         DB::table('userrole')->insert([
             'roleType' => "GASD"

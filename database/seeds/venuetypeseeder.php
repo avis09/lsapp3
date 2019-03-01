@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\support\facades\DB;
+
 class venuetypeseeder extends Seeder
 {
     /**
@@ -12,10 +13,10 @@ class venuetypeseeder extends Seeder
     public function run()
     {
         DB::table('venuetype')->insert([
-            'venueTypeName' => "Court"
+            'venueTypeName' => "Room"
         ]);
         DB::table('venuetype')->insert([
-            'venueTypeName' => "Room"
+            'venueTypeName' => "Court"
         ]);
     }
 }

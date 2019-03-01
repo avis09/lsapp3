@@ -14,7 +14,7 @@ class Time extends Model
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['timeStartTime', 'timeEndTime'];
+    protected $fillable = ['venueTypeID', 'timeStartTime','timeEndTime'];
 
     public function f_scheduleT(){
         return $this->belongsTo('App\Schedule');

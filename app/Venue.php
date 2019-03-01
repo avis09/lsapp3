@@ -16,7 +16,7 @@ class Venue extends Model
     // Timestamps
      public $timestamps = false;
 
-    protected $fillable = ['buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID'];
+    protected $fillable = ['buildingID', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID','venueName','created_at','updated_at'];
 
     public function f_scheduleV(){
         return $this->hasMany('App\Schedule');

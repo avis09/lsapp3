@@ -15,7 +15,7 @@ class Schedule extends Model
 
     protected $fillable = [
 //        'reservation_name', 'start_date', 'end_date'
-         'scheduleID', 'userID', 'purpose', 'dateAdded', 'statusID', 'date', 'venueScheduleID'
+         'scheduleID', 'userID', 'venueID', 'timeID', 'statusID', 'purpose', 'updatedMessage', 'date', 'created_at', 'updated_at'
     ];
 
     public function setCreatedAtAttribute($value) {

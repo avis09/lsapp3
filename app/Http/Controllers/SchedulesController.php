@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Calendar;
 use DB;
 use App\Http\Controllers\Validator;
+use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
@@ -65,7 +68,7 @@ class SchedulesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -85,7 +88,7 @@ class SchedulesController extends Controller
 //            \Session::flash('warning', 'Please enter the valid details');
 //            return Redirect::to('/schedules')->withInput()->withErrors($validator);
 //        }
-
+//        $user = Auth::user();
 
         $schedule = new Schedule();
         $schedule->userID = auth()->user()->userID;
@@ -96,16 +99,25 @@ class SchedulesController extends Controller
         $schedule->venueID = $request->input('venue');
         $schedule->timeID = Input::get('time');
         $schedule->save();
-
         //$venueSchedule = VenueSchedule::where('venueScheduleID', $schedule->venueScheduleID)->first();
         //$venueSchedule->venueSchedStatus = "Occupied";
         //$venueSchedule->save();
 //        if ($schedule->save()){
 //
 //        }
+        //        \Session::flash('success','Schedule made successfully');
 
-//        \Session::flash('success','Schedule made successfully');
-        return Redirect::to('/schedules/create')->with('success', 'Reservation made');
+
+//        if($user->userRoleID == 1) {
+            //          dd(auth::user());
+            return Redirect::to('schedules/create')->with('success', 'Reservation made');
+//        }elseif ($user->userRoleID == 2){
+//            return Redirect::to('gasd/schedules/create')->with('success', 'Reservation made');
+//        }elseif ($user->userRoleID == 3) {
+//            return Redirect::to('registrar/schedules/create')->with('success', 'Reservation made');
+//        }
+
+
     }
 
     /**

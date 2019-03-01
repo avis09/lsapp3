@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class departmentseeder extends Seeder
+class departmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,16 +13,16 @@ class departmentseeder extends Seeder
     public function run()
     {
         DB::table('department')->insert([
-            'departmentType' => "Registrar"
+            'departmentName' => "SMIT"
         ]);
         DB::table('department')->insert([
-            'departmentType' => "GASD"
+            'departmentName' => "GASD"
         ]);
         DB::table('department')->insert([
-            'departmentType' => "ITD"
+            'departmentName' => "Registrar"
         ]);
         DB::table('department')->insert([
-            'departmentType' => "SMIT"
+            'departmentName' => "ITD"
         ]);
     }
 }

@@ -67,7 +67,7 @@ class VenuesController extends Controller
         $count = DB::table('venue')
             ->join('venuetype', 'venuetype.venueTypeID', '=', 'venue.venueTypeID')
             ->join('venuestatus', 'venuestatus.venueStatusID', '=', 'venue.venueStatusID')
-            //->select('venue.venueID')
+            ->select('venue.venueID')
             //->orderBy('feedbacks.created_at', 'desc')
             ->where('venue.venueTypeID', '=', '2')
             ->where('venue.venueStatusID', '=', '1')
