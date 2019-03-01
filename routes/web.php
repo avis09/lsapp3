@@ -48,9 +48,15 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 //Functions for schedule
 Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
 Route::get('/showSchedules', 'SchedulesController@showSchedules');
-Route::group(['middleware' => ['guest']], function () {
-    // Guest routs
-});
+
+
+//TRIAL
+Route::get('/send', 'VenuesController@sendcreate');
+Route::post('/send', 'VenuesController@sendstore');
+//Route::group(['middleware' => ['guest']], function () {
+//    // Guest routs
+//
+//});
 
 //Student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
@@ -83,6 +89,8 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('Picture/create', 'PictureController@create')->name('Picture.create');
     Route::post('Picture/create', 'PictureController@store')->name('Picture.store');
     Route::get('Picture/index', 'PictureController@index')->name('Picture.index');
+
+
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');

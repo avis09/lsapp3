@@ -53,6 +53,7 @@ class LoginController extends Controller
             Session::save();
         }
         else {
+
             return redirect()->route('login');
         }
     }
