@@ -21,9 +21,17 @@ class UsersController extends Controller
     public function index()
     {
         $user = User::all();
-        return view('users.userindex')->with('users', $user);
+        // return view('users.userindex')->with('users', $user);
+        return view('pages.dashboard.users')->with('users', $user);
     }
 
+    public function getUsers(){
+        $users = User::with('f_userrole',
+        'f_userstatus',
+        'f_department')->get();
+        
+         return json_encode($users);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -89,6 +97,9 @@ class UsersController extends Controller
         $user = User::find($id);
         return view('users.showuser')->with('users', $user);
     }
+    
+
+
 
     /**
      * Show the form for editing the specified resource.

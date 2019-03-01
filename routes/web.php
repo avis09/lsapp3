@@ -131,6 +131,8 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
     Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
 
+    //RM
+    Route::get('/users/get-users', 'Auth\UsersController@getUsers');
 });
 
 
