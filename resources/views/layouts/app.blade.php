@@ -95,10 +95,10 @@
                     console.log(data);
                     for (var i = 0; i < data.length; i++) {
                         //op += '<option selected for="time" value="" disabled>Select a time now</option>';
-                        op += '<tr> + <td>"' + data[i].venueID + '"</td> + <td>"' + data[i].timeID + '"</td> + <tr>';
+                        op += '<tr> + <td>' + data[i].date + '</td> + <td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td> + <td>' + data[i].statusName + '</td> + <tr>';
                     }
                     if(data.length == 0){
-                        op += '<option selected for="time" value="" disabled selected>No time available</option>';
+                        op += '<option selected for="time" value="" disabled selected>No reservations</option>';
                     }
                     $(table).html(" ");
                     $(table).append(op);

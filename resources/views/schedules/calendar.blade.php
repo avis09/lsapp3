@@ -25,9 +25,14 @@
     <div class="container">
         <table class="table availSched">
             <tr>
-                <td>Venue</td> ?
+                <td>Venue</td>
                 <td>User Role</td>
                 <td>First Name</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             {{--@foreach($users as $user)--}}
                 {{--<tr>--}}

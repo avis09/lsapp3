@@ -42,7 +42,7 @@ Route::post('/login', 'Auth\LoginController@login');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/faq', 'FAQController@index');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //Functions for schedule
