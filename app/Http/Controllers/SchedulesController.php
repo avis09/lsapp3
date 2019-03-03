@@ -189,10 +189,13 @@ class SchedulesController extends Controller
             ->value('date');
 
         //get time id from based on values above
-        $timeID = DB::table('schedules')
+        $timeIDs = DB::table('schedules')
+            ->select('*')
             ->where('date', $existsDate)
             ->where('venueID', $existsVenue)
-            ->get();
+            ->whereIn('statusID', [1, 2])
+            ->get('timeID')
+            ->pluck('timeID');
 
         //get venue type based on venue id selected
         $venueType = DB::table('venue')
@@ -202,22 +205,20 @@ class SchedulesController extends Controller
 
         //if it exists, show only time that is not in schedules table
         if ($existsVenue && $existsDate) {
-            foreach ($timeID as $item){
-                $this->data = DB::table('time')
-                    ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
-                    ->where('venueTypeID', $venueType)
-                    ->where('timeID', '!=', $item->timeID)
-                    ->get();
-            }
+            $data = DB::table('time')
+                ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
+                ->where('venueTypeID', $venueType)
+                ->whereNotIn('timeID', $timeIDs)
+                ->get();
         } //else pakita lahat ng time depende sa venue type nung venue id
         else {
-            $this->data = DB::table('time')
+            $data = DB::table('time')
                 ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
                 ->where('venueTypeID', $venueType)
                 ->get();
         }
 
-        return response()->json($this->data);
+        return response()->json($data);
 
 
 //        $venueID = Input::get('venue');
@@ -241,24 +242,25 @@ class SchedulesController extends Controller
             ->value('date');
 
         //get time id from based on values above
-        $timeID = DB::table('schedules')
-            ->where('date', $existsDate)
-            ->where('venueID', $existsVenue)
-            ->select('timeID')
-            ->value('timeID');
-
-        //get venue type based on venue id selected
-        $venueType = DB::table('venue')
-            ->select('venueTypeID')
-            ->where('venueID', $request->venueID)
-            ->value('venueTypeID');
+//        $timeID = DB::table('schedules')
+//            ->where('date', $existsDate)
+//            ->where('venueID', $existsVenue)
+//            ->select('timeID')
+//            ->value('timeID');
+//
+//        //get venue type based on venue id selected
+//        $venueType = DB::table('venue')
+//            ->select('venueTypeID')
+//            ->where('venueID', $request->venueID)
+//            ->value('venueTypeID');
 
         //if it exists, show only time that is not in schedules table
         if ($existsVenue && $existsDate) {
             $data = DB::table('schedules')
                 ->join('time', 'time.timeID', 'schedules.timeID')
                 ->join('status', 'status.statusID', 'schedules.statusID')
-                ->select('time.timeStartTime', 'time.timeEndTime', 'date', 'statusName')
+                ->join('users', 'users.userID', 'schedules.userID')
+                ->select('time.timeStartTime', 'time.timeEndTime', 'date', 'status.statusName', 'users.firstName', 'users.lastName')
                 ->where('date', $existsDate)
                 ->where('venueID', $existsVenue)
                 ->get();

@@ -22,28 +22,33 @@
         </div>
     </div>
 
+
     <div class="container">
+        <table class="table">
+            <tr>
+                <td>Date</td>
+                <td>Time</td>
+                <td>Status</td>
+                <td>Reserved By</td>
+            </tr>
+        </table>
         <table class="table availSched">
             <tr>
-                <td>Venue</td>
-                <td>User Role</td>
-                <td>First Name</td>
-            </tr>
-            <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
             {{--@foreach($users as $user)--}}
-                {{--<tr>--}}
-                    {{--<td>{{$user->userID}}</td>--}}
-                    {{--<td>{{$user->userRoleID}}</td>--}}
-                    {{--<td>{{$user->firstName}}</td>--}}
-                    {{--<td>--}}
-                        {{--<a href="/users/{{$user->userID}}/edit">EDIT</a>--}}
-                    {{--<td><a href="{{ route('users.edit',$user->userID)}}" class="btn btn-primary">Edit</a></td>--}}
-                    {{--</td>--}}
-                {{--</tr>--}}
+            {{--<tr>--}}
+            {{--<td>{{$user->userID}}</td>--}}
+            {{--<td>{{$user->userRoleID}}</td>--}}
+            {{--<td>{{$user->firstName}}</td>--}}
+            {{--<td>--}}
+            {{--<a href="/users/{{$user->userID}}/edit">EDIT</a>--}}
+            {{--<td><a href="{{ route('users.edit',$user->userID)}}" class="btn btn-primary">Edit</a></td>--}}
+            {{--</td>--}}
+            {{--</tr>--}}
             {{--@endforeach--}}
         </table>
     </div>

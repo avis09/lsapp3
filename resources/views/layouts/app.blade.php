@@ -25,21 +25,21 @@
             @yield('content')
         </div>
     </div>
-    <!-- Scripts -->
-    <script type="text/javascript" src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    {{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
-    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace( 'article-ckeditor' );
-    </script>
+
 </body>
 
-
+<!-- Scripts -->
+<script type="text/javascript" src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'article-ckeditor' );
+</script>
 
 <script>
     $(document).ready(function () {
@@ -95,7 +95,7 @@
                     console.log(data);
                     for (var i = 0; i < data.length; i++) {
                         //op += '<option selected for="time" value="" disabled>Select a time now</option>';
-                        op += '<tr> + <td>' + data[i].date + '</td> + <td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td> + <td>' + data[i].statusName + '</td> + <tr>';
+                        op += '<tr> + <td>' + data[i].date + '</td> + <td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td> + <td>' + data[i].statusName + '</td> + <td>' + data[i].firstName + '</td> + <tr>';
                     }
                     if(data.length == 0){
                         op += '<option selected for="time" value="" disabled selected>No reservations</option>';
