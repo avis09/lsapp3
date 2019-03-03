@@ -21,8 +21,12 @@ class UsersController extends Controller
     public function index()
     {
         $user = User::all();
+        $userRs = array('userrole' => DB::table('userrole')->get());
+        $userSs = array('userstatus' => DB::table('userstatus')->get());
+        $userDs = array('department' => DB::table('department')->get());
+
         // return view('users.userindex')->with('users', $user);
-        return view('pages.dashboard.users')->with('users', $user);
+        return view('pages.dashboard.users')->with('userRs', $userRs)->with('userSs', $userSs)->with('userDs', $userDs)->with('users', $user);
     }
 
     public function getUsers(){
