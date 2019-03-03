@@ -260,9 +260,9 @@ class VenuesController extends Controller
 	$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
 
 	// Message details
-	$numbers = array('639176245666');
-	$sender = urlencode('Anz' + 'Santos');
-	$message = rawurlencode('Code worked!');
+	$numbers = array('639778025843');
+	$sender = urlencode('FBI');
+	$message = rawurlencode('stop watching!');
 
 	$numbers = implode(',', $numbers);
 
