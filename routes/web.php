@@ -125,14 +125,18 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
 //Users
     Route::get('users/index', 'Auth\UsersController@index')->name('users.index');
     Route::get('users/create', 'Auth\UsersController@create')->name('users.create');
-    Route::post('users/create', 'Auth\UsersController@store')->name('users.store');
+    Route::post('/users/create', 'Auth\UsersController@store')->name('users.store');
     Route::get('users/show','Auth\UsersController@show')->name('users.show');
     Route::get('users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
     Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
 
     //RM
+    Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
     Route::get('/users/get-users', 'Auth\UsersController@getUsers');
+    Route::post('/users/get-specific-userinfo', 'Auth\UsersController@getSpecificUserInfo');
+    Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
+    Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
 });
 
 

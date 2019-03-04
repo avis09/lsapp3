@@ -36,18 +36,69 @@ class UsersController extends Controller
         
          return json_encode($users);
     }
+
+   
+        public function getSpecificUserInfo(Request $request){
+        $user = User::with('f_userrole',
+        'f_userstatus',
+        'f_department')->where('userID', $request->id)->first();
+        
+         return json_encode($user);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected function validateEmailPhoneNumber(Request $request){
+            if(!empty($request->email)){
+                $check_email = User::where('email', $request->email)->first();
+                $data['email'] = (empty($check_email)) ? 1 : 0;
+            }
+            else{
+                $data['email'] = 0;
+            }
+            if(!empty($request->phoneNumber)){
+                $checkPhoneNumber = User::where('phoneNumber', $request->phoneNumber)->first();
+                $data['phoneNumber'] =  (empty($checkPhoneNumber)) ? 1 : 0;
+            }
+            else{
+                $data['phoneNumber'] = 0;
+            }
+            if(!empty($request->IDnumber)){
+                $checkIDnumber = User::where('IDnumber', $request->IDnumber)->first();
+                $data['IDnumber'] =  (empty($checkIDnumber)) ? 1 : 0;
+            }
+            else{
+                $data['phoneNumber'] = 0;
+            }
+
+            // $data['password'] = ($request->password == $request->password_confirmation) ? 1 : 0;
+            print_r(json_encode($data));
+
+    }
+
+    public function generatePassword(){
+        $plength = 4;
+        $password = substr(str_shuffle(str_repeat($x='abcdefghijklmnopqrstuvwxyz', ceil($plength/strlen($x)) )),1,$plength);
+        $plength = 3;
+        $password .= substr(str_shuffle(str_repeat($x='0123456789', ceil($plength/strlen($x)) )),1,$plength);
+
+       return json_encode($password);
+
+    }
+
     public function create()
     {
         $userRs = array('userrole' => DB::table('userrole')->get());
         $userSs = array('userstatus' => DB::table('userstatus')->get());
         $userDs = array('department' => DB::table('department')->get());
+
         return view('users.adduser')->with('userRs', $userRs)->with('userSs', $userSs)->with('userDs', $userDs);
        //  return view('users.adduser')->with($userRs)->with($userSs)->with($userDs);
+
     }
 
     /**
@@ -61,7 +112,7 @@ class UsersController extends Controller
         $this->validate($request, [
            //  'userRoleID' => 'required',
             'firstName' => 'required',
-            'LastName' => 'required',
+            'lastName' => 'required',
             'password' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required'
@@ -71,23 +122,26 @@ class UsersController extends Controller
         $user = new User;
         $user->userRoleID = $request->input('userrole');
         $user->firstName = $request->input('firstName');
-        $user->LastName = $request->input('LastName');
+        $user->lastName = $request->input('lastName');
         $user->userStatusID = 1;
         $password = $request->input('password');
         $user->password = Hash::make($password);
         //$user->Password = bcrypt(request('Password'));
         //$user->Password = $request->Hash(['password']);
+        $user->areaCode = $request->input('areaCode');
         $user->phoneNumber = $request->input('phoneNumber');
         $user->email = $request->input('email');
         $user->apiToken = str_random(60);
         $user->departmentID = $request->input('department');
         $user->IDnumber = $request->input('IDnumber');
         $user->fcmtoken = str_random(60);
+        $user->userStatusID = $request->input('userStatus');
         //  $venue->place = auth()->user()->id;
         //  $venue->cover_image = $fileNameToStore;
         $user->save();
 
-        return redirect('/users/create')->with('success', 'User Profile Added');
+        // return redirect('/users/create')->with('success', 'User Profile Added');
+        return response()->json(['message' => 'Account Successfully Added.', 'success' => true]);
     }
 
     /**
