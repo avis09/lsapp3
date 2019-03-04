@@ -86,9 +86,12 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports', 'VenuesController@indexReports')->name('venues.indexReports');
 
-    Route::get('Picture/create', 'PictureController@create')->name('Picture.create');
-    Route::post('Picture/create', 'PictureController@store')->name('Picture.store');
-    Route::get('Picture/index', 'PictureController@index')->name('Picture.index');
+    // venues gallery
+    Route::get('gallery/index', 'GalleryController@index')->name('Gallery.index');
+    //add pictures
+    Route::get('picture/create', 'PictureController@create')->name('Picture.create');
+    Route::post('picture/create', 'PictureController@store')->name('Picture.store');
+    Route::get('picture/index', 'PictureController@index')->name('Picture.index');
 
 
 //    //schedules
