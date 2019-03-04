@@ -257,12 +257,18 @@ class VenuesController extends Controller
     {
 
 	// Account details
-	$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
+        // API key  acc for
+        // User: anz.zel17@gmail.com Pass: Anzel123
+	    //$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
+        // API key  acc for
+        // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
+        $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8');
+
 
 	// Message details
-	$numbers = array('639778025843');
-	$sender = urlencode('FBI');
-	$message = rawurlencode('stop watching!');
+	$numbers = array('639065581339');
+	$sender = urlencode('ANZEL');
+	$message = rawurlencode('Code worked!');
 
 	$numbers = implode(',', $numbers);
 
