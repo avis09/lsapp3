@@ -1,3 +1,17 @@
 .dt-buttons{
     margin-bottom: 20px;
 }
+
+.required{
+    color: red;
+    font-size: 14px;
+}
+
+.err_inputs {
+    border: 2px solid red!important;
+}
+
+.validate_error_message{
+    color:red!important;
+    width: 100%;
+}
