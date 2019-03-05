@@ -53,8 +53,8 @@ class VenuesController extends Controller
     public function getVenues(){
          // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
 
-         $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV')->where('venueTypeID', 1)->get();
-         return json_encode($venues);
+         $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV','floor','f_venueStatusV')->where('venueTypeID', 1)->get();
+          print_r(json_encode($venues));
         // $f_buildingV = array('building' => DB::table('building')->get());
         // //$f_statusV = array('status' => DB::table('status')->get());
         // $f_userV = array('users' => DB::table('users')->get());

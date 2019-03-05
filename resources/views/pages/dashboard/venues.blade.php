@@ -106,7 +106,7 @@
                     <div class="modal-body">
                             <div class="form-group">
                                 <label>Building <span class="required">*</span></label>
-                                <select class="form-control" name="buildingID" id="buildingID" data-parsley-required="true">
+                                <select class="form-control required-input" name="buildingID" id="buildingID" data-parsley-required="true">
                                         @foreach ($venueB['building'] as $venueBs)
                                             {
                                             <option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>
@@ -122,7 +122,7 @@
 
                             <div class="form-group">
                                     <label>Venue Room<span class="required">*</span></label>
-                                    <select class="form-control" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
+                                    <select class="form-control required-input" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
                                         @foreach ($venueF['venuefloor'] as $venueFs)
                                             {
                                             <option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>
@@ -131,8 +131,27 @@
                                     </select>
                             </div>
                             <div class="form-group">
-                                <label for="venues">Venue Status</label>
-                                <select class="form-control" name="venueStatus" id="venueStatus" data-parsley-required="true">
+                                <label>Venue Images <span class="required">*</span></label>
+                                <div class="my-2">
+                                    <button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>
+                                </div>
+                                
+                                <table id="table-venue-images" class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <td>Image </td>
+                                            <td>Status </td>
+                                            <td>Actions</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="venue-images">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <label for="venues">Venue Status <span class="required">*</span></label>
+                                <select class="form-control required-input" name="venueStatus" id="venueStatus" data-parsley-required="true">
                                     @foreach ($venueST['venueStatus'] as $venueSTs)
                                         {
                                         <option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>
@@ -150,29 +169,34 @@
             </div>
             </div>
 
-<!-- 
-<div id="add-image-modal" class="modal fade" data-backdrop="static" role="dialog" style="overflow:auto;">
-    <div class="modal-dialog modal-lg">
+
+<div class="modal fade" id="venue-image-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title social_modal_title">Add Slider</h4>
+                <span class="modal-title modal-venue-image-title" id="smallmodalLabel">Add New Image</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <div class="modal-body">
-
+                <div class="form-group">
+                    <label>Image <span class="required">*</span></label>
+                    <input type="file" name="venue_image" id="venue-image" class="form-control required-input">
                 </div>
-                <div class="form-group" style="padding: 10px 0px;">
-                    <label class="control-label col-sm-2"></label>
-                    <div class="col-sm-10 text-right">
-                        <button class="btn btn-success btn_confirm_addImage" id="">Add</button>
-                    </div>
-                </div>
-
+<!--                 <div class="form-group">
+                    <label>Status <span class="required">*</span></label>
+                    <input type="" name="">
+                </div> -->
+            </div>
+            <div class="modal-footer text-right">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-confirm-venue-image">Confirm</button>
+            </div>
             </div>
         </div>
     </div>
-</div>
- -->
+
 
     @endsection
 
@@ -180,6 +204,7 @@
      <script type="text/javascript"> 
         var users;
         $(document).ready(function() {
+            $('#menu-venues').addClass('active');
           users = $('#table-venues').DataTable({
             ajax: {
             url: "/registrar/venues/get-venues",
@@ -190,18 +215,17 @@
             columns: [
             // { data: 'userID'},
             { data: 'venueName'},
+            { data: 'f_building_v.buildingName'},
+            { data: 'floor.venueFloorName'},
+            { data: 'f_venue_type_v.venueTypeName'},
             { data: null,
                 render:function(data){
-                    return data.firstName+' '+data.lastName;
+                    return data.f_user_v.firstName+' '+data.f_user_v.lastName;
 
                 }
             },
-            
-            { data: 'f_buildingV.buildingName'},
-            { data: 'phoneNumber'},
-            { data: 'f_userrole.roleType'},
             // { data: 'f_department.departmentName'},
-            { data: 'f_userstatus.userStatusType'},
+            { data: 'f_venue_status_v.venueStatusType'},
             
             // { data: 'actions'},
             { data: null,
@@ -333,6 +357,11 @@
                             }
                     });
             });
+            $(document).on('click', '.btn-add-image', function(e){
+                $('#venue-image-modal').modal('show');
+            });
+            
+
         });
 
             function validateAddUser(response){

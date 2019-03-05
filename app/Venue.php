@@ -33,7 +33,7 @@ class Venue extends Model
     }
     public function f_userV()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'userID');
     }
 
     public function f_pictureP()
@@ -50,9 +50,9 @@ class Venue extends Model
         return $this->hasMany('App\VenueSchedule', 'venueID');
     }
 
-    // public function floor(){
-    //      return $this->hasOne('App\VenueSchedule', 'venueID');
-    // }
+    public function floor(){
+         return $this->belongsTo('App\VenueFloor', 'venueFloorID');
+    }
 
     public function f_feedbacksV(){
         return $this->hasMany('App\Feedback', 'venueID');
