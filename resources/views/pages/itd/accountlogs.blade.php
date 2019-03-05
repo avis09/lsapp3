@@ -26,29 +26,43 @@
                 <li class="breadcrumb-item"><a href="#">Account</a></li>
             </ul>
         </div>
+        <div class="card">
+                <div class="card-body">
+                    @if(count($logtime) > 0)
+                    <div class="container">
+                            <table id="table-venues" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>In Time </th>
+                                <th>Out Time </th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>In Time </th>
+                                    <th>Out Time </th>
+                                </tr>
+                            </tfoot>
+                        <tbody>
+                            @foreach($logtime as $logtimes)
+                                <tr>
+                                    <td>{{$logtimes->f_logs->firstName}} {{$logtimes->f_logs->lastName}}</td>
+                                    <td>{{$logtimes->inTime}}</td>
+                                    <td>{{$logtimes->outTime}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        </table>
+
+                    </div>
+
+                @else
+                    <p>No User logs found</p>
+                @endif
+            </div>
+        </div>
     </main>
 
-    @if(count($logtime) > 0)
-        <div class="container">
-            <table class="table">
-
-                <tr>
-                    <td>User ID </td>
-                    <td>In Time </td>
-                    <td>Out Time </td>
-                </tr>
-                @foreach($logtime as $logtimes)
-                    <tr>
-                        <td>{{$logtimes->f_logs->firstName}} {{$logtimes->f_logs->lastName}}</td>
-                        <td>{{$logtimes->inTime}}</td>
-                        <td>{{$logtimes->outTime}}</td>
-                    </tr>
-                @endforeach
-            </table>
-
-        </div>
-
-    @else
-        <p>No User logs found</p>
-    @endif
 @endsection

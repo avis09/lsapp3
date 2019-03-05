@@ -72,6 +72,9 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+        Route::get('/change-password', function(){
+            return view('pages.change-password');
+        });
     //FAQ
     Route::get('/studentfaq', function() {
         return view('pages.student.studentfaq');
@@ -148,6 +151,9 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
     Route::get('accountlogs/index', 'LogtimesController@index')->name('accountlogs.index');
     Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
+    Route::get('/change-password', function(){
+        return view('pages.change-password');
+    });
     //FAQ
     Route::get('/itdfaq', function() {
         return view('pages.itd.itdfaq');
