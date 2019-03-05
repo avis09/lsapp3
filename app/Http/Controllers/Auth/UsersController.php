@@ -80,6 +80,35 @@ class UsersController extends Controller
 
     }
 
+    protected function validateUpdateEmailPhoneNumber(Request $request){
+        if(!empty($request->email)){
+            $check_email = User::where('email', $request->email)->where('userID', $request->userID)->first();
+            $data['email'] = (empty($check_email)) ? 1 : 0;
+        }
+        else{
+            $data['email'] = 0;
+        }
+        if(!empty($request->phoneNumber)){
+            $checkPhoneNumber = User::where('phoneNumber', $request->phoneNumber)->first();
+            $data['phoneNumber'] =  (empty($checkPhoneNumber)) ? 1 : 0;
+        }
+        else{
+            $data['phoneNumber'] = 0;
+        }
+        if(!empty($request->IDnumber)){
+            $checkIDnumber = User::where('IDnumber', $request->IDnumber)->first();
+            $data['IDnumber'] =  (empty($checkIDnumber)) ? 1 : 0;
+        }
+        else{
+            $data['phoneNumber'] = 0;
+        }
+
+        // $data['password'] = ($request->password == $request->password_confirmation) ? 1 : 0;
+        print_r(json_encode($data));
+
+}
+
+
     public function generatePassword(){
         $plength = 4;
         $password = substr(str_shuffle(str_repeat($x='abcdefghijklmnopqrstuvwxyz', ceil($plength/strlen($x)) )),1,$plength);

@@ -158,6 +158,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('/users/get-users', 'Auth\UsersController@getUsers');
     Route::post('/users/get-specific-userinfo', 'Auth\UsersController@getSpecificUserInfo');
     Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
+    Route::post('/users/validate-update-email-phone', 'Auth\UsersController@validateUpdateEmailPhoneNumber');
     Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
 });
 

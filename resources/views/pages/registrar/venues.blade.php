@@ -62,7 +62,7 @@
         </div> -->
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-success btn-add-venue mb-3">Add Venue</button>
+                        <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Venue</button>
                     <div class="table-responsive">
                                 <table id="table-venues" class="table table-striped">
                                     <thead>
@@ -230,7 +230,8 @@
             // { data: 'actions'},
             { data: null,
                 render:function(data){
-                    return '<button type="button" class="btn btn-primary btn-edit-user btn-sm" data-id="'+data.userID+'">Edit</button>';
+                    return '<button type="button" class="btn btn-primary btn-edit-venue btn-sm" data-id="'+data.userID+'">Edit</button> '+
+                    '<button type="button" class="btn btn-secondary btn-archive-venue btn-sm" data-id="'+data.userID+'">Archive</button>';
 
                 }
             }
@@ -317,7 +318,7 @@
                     });
             });
 
-            $(document).on('click', '.btn-edit-user', function(){
+            $(document).on('click', '.btn-edit-venue', function(){
                     var id = $(this).attr('data-id');
                     $('.btn-reset-password').show();
                     $('.modal-venue-title').html('Edit Account');

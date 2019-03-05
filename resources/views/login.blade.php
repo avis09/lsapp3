@@ -7,21 +7,45 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('dashboard/css/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/particles.css')}}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Login | BROS</title>
+    <style>
+      .site-logo{
+        height: 70px;
+        width:auto;
+      }
+      .bg-primary{
+        background-color: #025f33!important;
+      }
+      .login-head{
+        margin-bottom: 10px;
+        padding: 8px;
+      }
+    </style>
   </head>
   <body>
-    <section class="material-half-bg">
+    {{-- <section class="material-half-bg"> --}}
+
+       <div id="particles-js"></div> 
+       {{-- <div class="count-particles"> <span class="js-count-particles"></span> particles  --}}
+      </div>
+
+      <section class="bg-primary">
       <div class="cover"></div>
     </section>
-    <section class="login-content">
+    <section class="login-content bg-primary">
       {{-- <div class="logo">
         <h1>BROS</h1>
       </div> --}}
       <div class="login-box">
         <form class="login-form" method="POST" action="{{ route('login') }}">
-          <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>BROS</h3>
+          {{-- <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>BROS</h3> --}}
+          <div class="text-center">
+            <img class="site-logo" src="{{asset('images/benilde.png')}}" alt="">
+            <h5 class="login-head">Benilde Reservation Online Services</h5>
+          </div>
           @csrf
         <div class="form-group">
             <label class="control-label">ID Number</label>
@@ -87,3 +111,7 @@
     </script>
   </body>
 </html>
+
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+{{-- <script src="http://threejs.org/examples/js/libs/stats.min.js"></script> --}}
+<script src="{{asset('js/particles.js')}}"></script>

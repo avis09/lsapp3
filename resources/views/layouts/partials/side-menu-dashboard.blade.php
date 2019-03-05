@@ -95,17 +95,13 @@
         {{--</div>--}}
         {{--</div>--}}
         <ul class="app-menu">
-            <li class="treeview">
-                <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
-                    <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="{{url('registrar/schedules/create') }}"><i class="icon fa fa-circle-o"></i> Reserve Room</a></li>
-                    <li><a class="treeview-item" href="{{ url('registrar/schedules/index') }}"><i class="icon fa fa-circle-o"></i> Reservations</a></li>
-                    <li><a class="treeview-item" href="{{ url('registrar/schedules/index') }}"><i class="icon fa fa-circle-o"></i> Calendar</a></li>
-                </ul>
+            <li>
+                <a id="menu-venues" class="app-menu__item" href="{{ url('registrar/venues/index') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Venues</span></a>
             </li>
-            <li><a class="app-menu__item active" href="{{ url('registrar/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
+            <li>
+                <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">FeedBacks</span></a>
+            </li>
+            <li><a class="app-menu__item" href="{{ url('registrar/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
             <li><a class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-building"></i>Rooms</a></li>
             <li><a class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
             <li class="treeview">
