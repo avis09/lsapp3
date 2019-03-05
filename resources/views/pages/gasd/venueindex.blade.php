@@ -1,7 +1,32 @@
-@extends('layouts.app')
+@extends('layouts.dashboard-master')
+
+@section('title')
+    <title>Venues | GASD Bros </title>
+@endsection
+
+@section('css')
+    <style>
+        .modal-title{
+            font-size: 18px;
+            font-weight: 500;
+        }
+    </style>
+@endsection
 
 @section('content')
-    <h1>Venues</h1>
+
+    <main class="app-content">
+        <div class="app-title">
+            <div>
+                <h1><i class="fa fa-calendar"></i> Venue Reports</h1>
+                {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
+            </div>
+            <ul class="app-breadcrumb breadcrumb">
+                <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                <li class="breadcrumb-item"><a href="#">Venue Reports</a></li>
+            </ul>
+        </div>
+    </main>
     {{--@if(count($venues) > 0)--}}
         {{--@foreach($venues as $venue)--}}
             {{--<div class="well">--}}

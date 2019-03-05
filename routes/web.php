@@ -72,6 +72,10 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+    //FAQ
+    Route::get('/studentfaq', function() {
+        return view('pages.student.studentfaq');
+    });
 });
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
@@ -95,6 +99,10 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 
     //reinn
      Route::get('/venues/get-venues', 'VenuesController@getVenues');
+    //FAQ
+    Route::get('/registrarfaq', function() {
+        return view('pages.registrar.registrarfaq');
+    });
 
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
@@ -115,6 +123,10 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports2', 'VenuesController@indexReports2')->name('venues.indexReports2');
+    //FAQ
+    Route::get('/gasdfaq', function() {
+        return view('pages.gasd.gasdfaq');
+    });
 
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
@@ -134,7 +146,12 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('users/show','Auth\UsersController@show')->name('users.show');
     Route::get('users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
-    Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
+    Route::get('accountlogs/index', 'LogtimesController@index')->name('accountlogs.index');
+    Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
+    //FAQ
+    Route::get('/itdfaq', function() {
+        return view('pages.itd.itdfaq');
+    });
 
     //RM
     Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');

@@ -1,8 +1,32 @@
-@extends('layouts.app')
+@extends('layouts.dashboard-master')
+
+@section('title')
+    <title>Calendar | Bros </title>
+@endsection
+
+@section('css')
+    <style>
+        .modal-title{
+            font-size: 18px;
+            font-weight: 500;
+        }
+    </style>
+@endsection
 
 @section('content')
-    <h1>Calendar </h1>
 
+    <main class="app-content">
+        <div class="app-title">
+            <div>
+                <h1><i class="fa fa-calendar"></i> Calendar</h1>
+                {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
+            </div>
+            <ul class="app-breadcrumb breadcrumb">
+                <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                <li class="breadcrumb-item"><a href="#">Calendar</a></li>
+            </ul>
+        </div>
+    </main>
     <label for="venue">Venue:</label>
     <select class="form-control" name="venue" id="venue" data-parsley-required="true">
         @foreach ($venues as $venue)
