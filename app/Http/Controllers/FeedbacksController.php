@@ -33,7 +33,7 @@ class FeedbacksController extends Controller
           ->orderBy('feedbacks.created_at', 'desc')
             ->where('venue.venueTypeID', '=', '1')
             ->get();
-        return view ('feedbacks.feedbacksindex')
+        return view ('pages.registrar.feedbacksindex')
             ->with('feedbacks', $feedbacks);
 
     }
@@ -62,7 +62,7 @@ class FeedbacksController extends Controller
         //$f_venue = array('venue' => DB::table('venue')->get());
         $f_venue = Venue::all();
 
-        return view ('feedbacks.sendfeedbacks')
+        return view ('pages.student.sendfeedbacks')
             //->with('venues', $venues);
             ->with('users', $users)
             ->with('f_venue', $f_venue);

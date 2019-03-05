@@ -29,7 +29,7 @@ class SchedulesController extends Controller
     {
         $schedule =
         $venues = Venue::all();
-        return view('schedules.calendar')
+        return view('pages.student.calendar')
             ->with('schedules', $schedule)
             ->with('venues', $venues);
     }
@@ -61,7 +61,7 @@ class SchedulesController extends Controller
 //            ->with('scheduleV', $scheduleV)
 //            ->with('scheduleVT', $scheduleVT);
 
-        return view('schedules.addschedule')
+        return view('pages.student.addschedule')
             ->with('venues', $venues);
     }
 
@@ -111,7 +111,7 @@ class SchedulesController extends Controller
 
 //        if($user->userRoleID == 1) {
         //          dd(auth::user());
-        return Redirect::to('schedules/create')->with('success', 'Reservation made');
+        return Redirect::to('student/create')->with('success', 'Reservation made');
 //        }elseif ($user->userRoleID == 2){
 //            return Redirect::to('gasd/schedules/create')->with('success', 'Reservation made');
 //        }elseif ($user->userRoleID == 3) {
@@ -130,7 +130,7 @@ class SchedulesController extends Controller
     public function show($id)
     {
         $schedule = Schedule::find($id);
-        return view('schedules.showschedule')->with('schedules', $schedule);
+        return view('pages.student.showschedule')->with('schedules', $schedule);
     }
 
     /**

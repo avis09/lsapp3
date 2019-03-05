@@ -20,7 +20,7 @@ class LogtimesController extends Controller
         $f_logs = array('f_logs' => DB::table('logtime')->get());
         $logtime = logtime::orderBy('inTime', 'DESC')->get();
         //$logtime = logtime::select('userID', 'inTime', 'outTime')->orderBy('inTime', 'dsc');
-        return view('users.userlogs')
+        return view('pages.itd.accountlogs')
             ->with('logtime', $logtime)
             ->with('f_logs', $f_logs);
     }

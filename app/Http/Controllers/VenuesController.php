@@ -31,7 +31,7 @@ class VenuesController extends Controller
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
         $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('pages.dashboard.venues')
+        return view('pages.registrar.venues')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
@@ -71,7 +71,7 @@ class VenuesController extends Controller
         $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID')->where('venueTypeID', 2)->paginate(10);
         $f_venueStatusV = array('venuestatus' => DB::table('venuestatus')->get());
         $f_userV = array('users' => DB::table('users')->get());
-        return view('venues.venueindex')
+        return view('pages.gasd.venueindex')
             ->with('venues', $venues)
             ->with('f_venueStatusVu', $f_venueStatusV)
             ->with('f_userV', $f_userV);
@@ -86,7 +86,7 @@ class VenuesController extends Controller
             ->where('venue.venueTypeID', '=', '1')
             ->count();
 
-        return view('venues.venueReports')
+        return view('pages.registrar.venuereportsregistrar')
             ->with('count', $count);
     }
     // GASD Reports on number Active Courts
@@ -101,7 +101,7 @@ class VenuesController extends Controller
             ->where('venue.venueStatusID', '=', '1')
             ->count();
 
-        return view('venues.venueReports')
+        return view('pages.gasd.venuereportsgasd')
             ->with('count', $count);
     }
 
@@ -118,7 +118,7 @@ class VenuesController extends Controller
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
         $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('venues.addvenue')
+        return view('pages.registrar.addvenue')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
@@ -131,7 +131,7 @@ class VenuesController extends Controller
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
         $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('venues.addvenue2')
+        return view('pages.gasd.addvenue2')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
@@ -145,6 +145,7 @@ class VenuesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //Registrar Store
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -157,7 +158,6 @@ class VenuesController extends Controller
         ]);
 
 
-        // Create post
         $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
@@ -175,6 +175,7 @@ class VenuesController extends Controller
 
 
     }
+    // GASD Store
     public function store2(Request $request)
     {
         $this->validate($request, [

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Venues | ITD Bros</title>
+    <title>Registrar Venues | ITD Bros</title>
 @endsection
 
 @section('css')
@@ -18,7 +18,7 @@
 <main class="app-content">
         <div class="app-title">
           <div>
-            <h1><i class="fa fa-dashboard"></i> Venues</h1>
+            <h1><i class="fa fa-dashboard"></i> Registrar Venues</h1>
             {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
           </div>
           <ul class="app-breadcrumb breadcrumb">
