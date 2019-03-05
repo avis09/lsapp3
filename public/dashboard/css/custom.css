@@ -15,3 +15,7 @@
     color:red!important;
     width: 100%;
 }
+
+.hidden{
+	display: none;
+}

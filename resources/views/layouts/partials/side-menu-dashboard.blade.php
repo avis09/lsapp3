@@ -12,8 +12,8 @@
         {{--</div>--}}
         <ul class="app-menu">
             <li><a class="app-menu__item active" href="{{ url('itd/users/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Users</span></a></li>
-            <li><a class="app-menu__item active" href="{{ url('itd/logtimes/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">User Reports</span></a></li>
-            <li><a class="app-menu__item active" href="{{ url('itd/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQs</span></a></li>
+            <li><a class="app-menu__item" href="{{ url('itd/logtimes/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">User Reports</span></a></li>
+            <li><a class="app-menu__item" href="{{ url('itd/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQs</span></a></li>
         </ul>
 
     </aside>
@@ -47,13 +47,20 @@
         {{--</div>--}}
         {{--</div>--}}
         <ul class="app-menu">
-            <li><a class="app-menu__item active" href="{{ url('itd/users/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Users</span></a></li>
-            <li><a class="app-menu__item active" href="{{ url('itd/logtimes/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">User Reports</span></a></li>
-            <li><a class="app-menu__item active" href="{{ url('itd/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQs</span></a></li>
+            <li>
+                <a id="menu-venues" class="app-menu__item" href="{{ url('registrar/venues/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Venues</span></a>
+            </li>
+            <li>
+                <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">FeedBacks</span></a>
+            </li>
+            <li>
+                <a id="menu-faqs" class="app-menu__item" href="{{ url('') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQs</span></a>
+            </li>
+            <li>
+                <a id="menu-reservations" class="app-menu__item" href="{{ url('registrar/schedules/index') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Reservations</span></a>
+            </li>
         </ul>
-
     </aside>
-
 {{--ITD------------------------------------------------------------}}
 @elseif (Auth::check() && Auth::user()->userRoleID == 4)
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
@@ -65,14 +72,22 @@
     {{--</div>--}}
     {{--</div>--}}
     <ul class="app-menu">
-        <li><a class="app-menu__item active" href="{{ url('itd/users/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Users</span></a></li>
-        {{--<li><a class="app-menu__item active" href="{{ url('itd/logtimes/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">User Reports</span></a></li>--}}
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">User Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-        <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{ url('itd/logtimes/index') }}"><i class="icon fa fa-circle-o"></i> Audit Logs</a></li>
-            <li><a class="treeview-item" href="{{ url('itd/users/activeUsers') }}"><i class="icon fa fa-circle-o"></i> Active Users</a></li>
-        </ul>
-        <li><a class="app-menu__item active" href="{{ url('itd/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQs</span></a></li>
+        <li>
+            <a id="menu-users" class="app-menu__item" href="{{ url('itd/users/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Users</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
+                <span class="app-menu__label">User Reports</span><i class="treeview-indicator fa fa-angle-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a class="treeview-item" href="{{ url('itd/logtimes/index') }}"><i class="icon fa fa-circle-o"></i> Audit Logs</a></li>
+                <li><a class="treeview-item" href="{{ url('itd/users/activeUsers') }}"><i class="icon fa fa-circle-o"></i> Active Users</a></li>
+            </ul>
+        </li>
+        <li>
+            <a id="menu-faqs" class="app-menu__item" href="{{ url('itd/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQs</span></a>
+        </li>
     </ul>
 
 </aside>

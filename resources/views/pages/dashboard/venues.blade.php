@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Users | ITD Bros</title>
+    <title>Venues | ITD Bros</title>
 @endsection
 
 @section('css')
@@ -18,19 +18,19 @@
 <main class="app-content">
         <div class="app-title">
           <div>
-            <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+            <h1><i class="fa fa-dashboard"></i> Venues</h1>
             {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
           </div>
           <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="#">Venues</a></li>
           </ul>
         </div>
-        <div class="row">
+      <!--   <div class="row">
           <div class="col-md-6 col-lg-3">
             <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Students</h4>
+                <h4>Venues</h4>
                 <p><b>5</b></p>
               </div>
             </div>
@@ -38,7 +38,7 @@
           <div class="col-md-6 col-lg-3">
                 <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Active Users</h4>
+                <h4></h4>
                 <p><b>25</b></p>
               </div>
             </div>
@@ -59,34 +59,32 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-success btn-add-user mb-3">Add Account</button>
+                        <button type="button" class="btn btn-success btn-add-venue mb-3">Add Venue</button>
                     <div class="table-responsive">
-                                <table id="table-users" class="table table-striped">
+                                <table id="table-venues" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>ID No. </th>
-                                            <th>Name</th>
-                                            <th>Email </th>
-                                            <th>Phone No. </th>
-                                            <th>Role </th>
-                                            <!-- <th>Department </th> -->
-                                            <th>Status </th>
-                                            <th>Actions</th>
+                                            <td>Venue Name </td>
+                                            <td>Building </td>
+                                            <td>Floor </td>
+                                            <td>Venue Type </td>
+                                            <td>Added by </td>
+                                            <td>Status</td>
+                                            <td>Actions</td>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>ID No. </th>
-                                            <th>Name</th>
-                                            <th>Email </th>
-                                            <th>Phone No. </th>
-                                            <th>Role </th>
-                                            <!-- <th>Department </th> -->
-                                            <th>Status </th>
-                                            <th>Actions</th>
+                                            <td>Venue Name </td>
+                                            <td>Building </td>
+                                            <td>Floor </td>
+                                            <td>Venue Type </td>
+                                            <td>Venue Status</td>
+                                            <td>Added by User Type </td>
+                                            <td>Actions</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -94,91 +92,52 @@
                         </div>
                 </div>
             </main>
-      
-        <div class="modal fade" id="user-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+    
+        <div class="modal fade" id="venue-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <span class="modal-title modal-user-title" id="smallmodalLabel">Add New Account</span>
+                        <span class="modal-title modal-venue-title" id="smallmodalLabel">Add New Venue</span>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form class="form-user">
+                    <form class="form-venue">
                     <div class="modal-body">
                             <div class="form-group">
-                                <label>Account Type <span class="required">*</span></label>
-                                <select class="form-control required-input" name="userrole" id="userRole" data-parsley-required="true">
-                                    <option value="">Select Role Type</option>
-                                    @foreach ($userRs['userrole'] as $userR)
-                                        {
-                                        <option value="{{ $userR->userRoleID }}">{{ $userR->roleType }}</option>
-                                        }
-                                    @endforeach
+                                <label>Building <span class="required">*</span></label>
+                                <select class="form-control" name="buildingID" id="buildingID" data-parsley-required="true">
+                                        @foreach ($venueB['building'] as $venueBs)
+                                            {
+                                            <option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>
+                                            }
+                                        @endforeach
                                 </select>
                             </div>
                             <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
                             <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                            <label>First Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control required-input" name="firstName" id="firstName">
-                                    </div>
-                                    <div class="col-md-6">
-                                            <label>Last Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control required-input" name="lastName" id="lastName">
-                                    </div>
-                                </div>                               
+                                <label>Venue Name </label> 
+                                 <input type="text" class="form-control required-input" name="venueName" id="venueName"> 
                             </div>
 
                             <div class="form-group">
-                                    <label class="labelinput" for="contact">Phone Number<span class="required">*</span></label>
-                                    <div class="input-group contact-number">
-                                            <div class="input-group-prepend">
-                                                    <select id="areacode" class="form-control required-input" name="areaCode" id="areaCode" required>
-                                                        <option value="63">+63 (PH)</option>
-                                                    </select>
-                                            </div>
-                                            <input type="text" class="form-control required-input mobile_number" name="phoneNumber" id="phoneNumber" maxlength=10>
-                                    </div>
-                            </div>
-                            <div class="form-group">
-                                    <label>Email <span class="required">*</span></label>
-                                    <input type="text" class="form-control required-input email" name="email" id="email">
-                            </div>
-                        
-                            {{--departmentID--}}
-                            <div class="form-group">
-                                <label>Department <span class="required">*</span></label>
-                                <select class="form-control required-input" name="department" id="department" data-parsley-required="true">
-                                    <option value="" disabled selected>Select Department</option>
-                                    @foreach ($userDs['department'] as $userD)
-                                        {
-                                    <option value="{{ $userD->departmentID }}">{{ $userD->departmentName }}</option>
-                                        }
+                                    <label>Venue Room<span class="required">*</span></label>
+                                    <select class="form-control" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
+                                        @foreach ($venueF['venuefloor'] as $venueFs)
+                                            {
+                                            <option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>
+                                            }
                                         @endforeach
-                                </select>
-                            </div>
-                            {{--ID number--}}
-
-                            <div class="form-group">
-                                    <label>ID Number <span class="required">*</span></label>
-                                    <input type="text" class="form-control numbers-only required-input" name="IDnumber" id="IDnumber" maxlength="8">
+                                    </select>
                             </div>
                             <div class="form-group">
-                                    <label>Password <span class="required">*</span></label>
-                                    <input type="text" class="form-control required-input password" name="password" id="password" readonly>
-                                    <button type="button" class="btn btn-danger btn-sm btn-reset-password hidden mt-2">Reset Password</button>
-                            </div>
-                            <div class="form-group">
-                               <label>Status <span class="required">*</span></label>
-                               <select class="form-control required-input" name="userStatus" id="userStatus" data-parsley-required="true">
-                                <option value="">Select Status</option>
-                                    @foreach ($userSs['userstatus'] as $userS)
+                                <label for="venues">Venue Status</label>
+                                <select class="form-control" name="venueStatus" id="venueStatus" data-parsley-required="true">
+                                    @foreach ($venueST['venueStatus'] as $venueSTs)
                                         {
-                                          <option value="{{ $userS->userStatusID }}">{{ $userS->userStatusType }}</option>
+                                        <option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>
                                         }
-                                     @endforeach
+                                    @endforeach
                                 </select>
                             </div>
                     </div>
@@ -221,17 +180,16 @@
      <script type="text/javascript"> 
         var users;
         $(document).ready(function() {
-            $('#menu-users').addClass('active');
-          users = $('#table-users').DataTable({
+          users = $('#table-venues').DataTable({
             ajax: {
-            url: "/itd/users/get-users",
+            url: "/registrar/venues/get-venues",
             dataSrc: ''
             },
             responsive:true,
                 // "order": [[ 5, "desc" ]],
             columns: [
             // { data: 'userID'},
-            { data: 'IDnumber'},
+            { data: 'venueName'},
             { data: null,
                 render:function(data){
                     return data.firstName+' '+data.lastName;
@@ -239,7 +197,7 @@
                 }
             },
             
-            { data: 'email'},
+            { data: 'f_buildingV.buildingName'},
             { data: 'phoneNumber'},
             { data: 'f_userrole.roleType'},
             // { data: 'f_department.departmentName'},
@@ -302,27 +260,19 @@
               }]
           });
           
-               $(document).on('click', '.btn-add-user', function(e){
+               $(document).on('click', '.btn-add-venue', function(e){
                  e.preventDefault();        
-                //  $('#user-modal').remove('fade in');
-                //   $('#user-modal').addClass('show');
-                //   $('#user-modal').modal('show');
+                //  $('#venue-modal').remove('fade in');
+                //   $('#venue-modal').addClass('show');
+                //   $('#venue-modal').modal('show');
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
                 $('input[type="password"]').val("");
                 $('input[type="email"]').val("");
                 $('select').prop("selectedIndex", 0);
-                $('.modal-user-title').html('Add New Account');
-                $('.form-user').attr('id', 'form-add-user');
-                $('#user-modal').modal('show');
-                $.ajax({
-                    url: "/itd/users/generate-password",
-                    type: 'GET',
-                    success:function(data){
-                        var response = JSON.parse(data);
-                        $('#password').val(response);
-                    }
-                })
+                $('.modal-venue-title').html('Add New Venue');
+                $('.form-venue').attr('id', 'form-add-venue');
+                $('#venue-modal').modal('show');
             });
 
 
@@ -346,7 +296,7 @@
             $(document).on('click', '.btn-edit-user', function(){
                     var id = $(this).attr('data-id');
                     $('.btn-reset-password').show();
-                    $('.modal-user-title').html('Edit Account');
+                    $('.modal-venue-title').html('Edit Account');
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
                      $.ajax({
@@ -357,7 +307,7 @@
                             id: id
                         },
                         success:function(data){
-                            $('#user-modal').modal('show');
+                            $('#venue-modal').modal('show');
                             var response = JSON.parse(data);
                             $('#firstName').val(response.firstName);
                             $('#lastName').val(response.lastName);
@@ -414,7 +364,7 @@
                     data: form,
                     success:function(data){
                         if(data.success === true) {
-                            $('#user-modal').modal('hide');
+                            $('#venue-modal').modal('hide');
                             // $('.modal-backdrop').hide();
                              Swal.fire(
                                   'Success',

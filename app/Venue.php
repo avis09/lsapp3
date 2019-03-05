@@ -50,6 +50,10 @@ class Venue extends Model
         return $this->hasMany('App\VenueSchedule', 'venueID');
     }
 
+    // public function floor(){
+    //      return $this->hasOne('App\VenueSchedule', 'venueID');
+    // }
+
     public function f_feedbacksV(){
         return $this->hasMany('App\Feedback', 'venueID');
     }

@@ -93,6 +93,8 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('picture/create', 'PictureController@store')->name('Picture.store');
     Route::get('picture/index', 'PictureController@index')->name('Picture.index');
 
+    //reinn
+     Route::get('/venues/get-venues', 'VenuesController@getVenues');
 
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
