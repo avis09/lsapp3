@@ -121,7 +121,7 @@ $('.numbers-only').on('keypress', function(evt) {
   
           $(this).css('border-color','#b8b8b8');
           $(".validate_error_message").remove();
-          var error_message = "<span class='validate_error_message'>"+form_empty_error+"<br></span>"
+          var error_message = "<span class='validate_error_message'>"+form_empty_error+"<br></span>";
           $(element).each(function(){
   
               var type = $(this).attr("type");

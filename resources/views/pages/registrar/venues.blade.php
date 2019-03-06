@@ -86,8 +86,8 @@
                                             <td>Building </td>
                                             <td>Floor </td>
                                             <td>Venue Type </td>
-                                            <td>Venue Status</td>
-                                            <td>Added by User Type </td>
+                                            <td>Added by </td>
+                                            <td>Status</td>
                                             <td>Actions</td>
                                         </tr>
                                     </tfoot>
@@ -318,29 +318,30 @@
                         $('.validate_error_message').remove();
                         $('.required-input').removeClass('err_inputs');
                     if(validate.standard('.required-input') == 0){
-                        
                         $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
-                        var venue_images = [];
-                        $('.file-venue-image').each(function(){
-                            venue_images.push($(this).val());
-                        });
-                        // form.push("venueImages": venue_images);
-                        var form = $(this).serialize() + '&venueImages ='+JSON.stringify(venue_images);
-                        // venue_images = JSON.stringify(venue_images);
+                        var formData = new FormData(this);
                          $.ajax({
                             url: "/registrar/venues/add-venue",
                             type: 'POST',
-                            data: form,
+                            data: formData,
+                            async: false,
                             success:function(data){
-                                console.log(data);
                                 if(data.success === true){
-                                    Swal.fire(
-                                      'Success',
-                                      data.message,
-                                      'success'
-                                    );
+                                    Swal.fire({
+                                    type: 'success',
+                                    title: 'Success',
+                                    text: data.message,
+                                  })
+                                  .then((result) => {
+                                      if (result.value) {
+                                        $('#venue-modal').modal('hide');
+                                      }
+                                    });
                                 }
-                            }
+                            },
+                            cache: false,
+                            contentType: false,
+                            processData: false,
                         });
                      }
             });

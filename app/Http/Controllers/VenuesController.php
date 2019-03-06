@@ -7,6 +7,8 @@ use App\User;
 use App\Venue;
 use Illuminate\Http\Request;
 use DB;
+use Storage;
+use Carbon\Carbon;
 // use App\VenuesController;
 
 class VenuesController extends Controller
@@ -112,18 +114,18 @@ class VenuesController extends Controller
      */
 
     //Registar Create
-    public function create(Request $request)
-    {
-        $venueB = array('building' => DB::table('building')->get());
-        $venueF = array('venuefloor' => DB::table('venuefloor')->get());
-        $venueT = array('venuetype' => DB::table('venuetype')->get());
-        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('pages.registrar.addvenue')
-            ->with('venueB', $venueB)
-            ->with('venueF', $venueF)
-            ->with('venueT', $venueT)
-            ->with('venueST', $venueST);
-    }
+    // public function create(Request $request)
+    // {
+    //     $venueB = array('building' => DB::table('building')->get());
+    //     $venueF = array('venuefloor' => DB::table('venuefloor')->get());
+    //     $venueT = array('venuetype' => DB::table('venuetype')->get());
+    //     $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+    //     return view('pages.registrar.addvenue')
+    //         ->with('venueB', $venueB)
+    //         ->with('venueF', $venueF)
+    //         ->with('venueT', $venueT)
+    //         ->with('venueST', $venueST);
+    // }
 
 
     //GASD Create
@@ -141,6 +143,12 @@ class VenuesController extends Controller
     }
 
 
+    public function GenerateFilename($reqtype, $filename)
+    {
+        return strtoupper(date('Y-m-d').'-'.$reqtype.'-'.md5($filename . microtime()));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -151,12 +159,10 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
 
-        
         $this->validate($request, [
             'venueName' => 'required',
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
-
 
         $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
@@ -169,15 +175,25 @@ class VenuesController extends Controller
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
             $venueImages = $request->venueImages;
-            print_r($venueImages);
-            die();
         if($venues->save()){
-            foreach ($venueImages as $key => $value) {
-               $venue_image = new Picture;
-               $venue_image->venueID = $venue->venueID;
-               $venue_image->pictureName = $value;
-               $venue_image->save();
-            }
+
+                if($request->hasfile('venue_image'))
+                {
+                    foreach($request->file('venue_image') as $venueImage)
+                    {
+                        $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
+                        // Store file or image to storage
+                        Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
+                        $venue_image = new Picture;
+                        $venue_image->venueID = $venues->venueID;
+                        $venue_image->pictureName = $venueImageName;
+                        $venue_image->created_at = Carbon::now()->toDateTimeString();
+                        $venue_image->save();
+                    }
+                }
+
+
+            // }
         }
 
 

@@ -128,6 +128,7 @@
         if(validate.standard('.login-input') == 0){
           $('.login-form').submit();
         }
+        return false;
       });
 
 
