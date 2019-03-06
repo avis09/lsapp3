@@ -55,7 +55,8 @@ class LoginController extends Controller
         }
         else {
 
-            return redirect()->route('login');
+            // return redirect()->route('login');
+            return back()->withErrors(['errorMessage' => 'Invalid username or password.']);
         }
     }
 

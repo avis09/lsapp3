@@ -112,7 +112,7 @@ class VenuesController extends Controller
      */
 
     //Registar Create
-    public function create()
+    public function create(Request $request)
     {
         $venueB = array('building' => DB::table('building')->get());
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
@@ -124,6 +124,8 @@ class VenuesController extends Controller
             ->with('venueT', $venueT)
             ->with('venueST', $venueST);
     }
+
+
     //GASD Create
     public function create2()
     {
@@ -148,12 +150,10 @@ class VenuesController extends Controller
     //Registrar Store
     public function store(Request $request)
     {
+
+        
         $this->validate($request, [
-
             'venueName' => 'required',
-
-
-
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
@@ -168,9 +168,22 @@ class VenuesController extends Controller
         $venues->userID = auth()->user()->userID;
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
-        $venues->save();
+            $venueImages = $request->venueImages;
+            print_r($venueImages);
+            die();
+        if($venues->save()){
+            foreach ($venueImages as $key => $value) {
+               $venue_image = new Picture;
+               $venue_image->venueID = $venue->venueID;
+               $venue_image->pictureName = $value;
+               $venue_image->save();
+            }
+        }
 
-        return redirect('registrar/venues/create')->with('success', 'Venue Added');
+
+        return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]); 
+
+        // return redirect('registrar/venues/create')->with('success', 'Venue Added');
 
 
 

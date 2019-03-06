@@ -10,6 +10,10 @@
             font-size: 18px;
             font-weight: 500;
         }
+        .venue-image{
+           height: 120px;
+           width: 120px;
+        }
     </style>
 @endsection
 
@@ -102,11 +106,12 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form class="form-venue">
+                    <form class="form-venue" enctype="multipart/form-data">
                     <div class="modal-body">
                             <div class="form-group">
                                 <label>Building <span class="required">*</span></label>
                                 <select class="form-control required-input" name="buildingID" id="buildingID" data-parsley-required="true">
+                                    <option value="" selected disabled>Select Building</option>
                                         @foreach ($venueB['building'] as $venueBs)
                                             {
                                             <option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>
@@ -116,13 +121,14 @@
                             </div>
                             <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
                             <div class="form-group">
-                                <label>Venue Name </label> 
+                                <label>Venue Name <span class="required">*</span></label> 
                                  <input type="text" class="form-control required-input" name="venueName" id="venueName"> 
                             </div>
 
                             <div class="form-group">
-                                    <label>Venue Room<span class="required">*</span></label>
+                                    <label>Venue Floor<span class="required">*</span></label>
                                     <select class="form-control required-input" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
+                                            <option value="" selected disabled>Select Venue Floor</option>
                                         @foreach ($venueF['venuefloor'] as $venueFs)
                                             {
                                             <option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>
@@ -132,26 +138,35 @@
                             </div>
                             <div class="form-group">
                                 <label>Venue Images <span class="required">*</span></label>
-                                <div class="my-2">
+                                <div class="venue-image-container">
+                                   <div class="venue-image-parent1">
+                                       <div class="input-group venue-image-preview-container1">
+                                                    <input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">
+                                                    <div class="input-group-prepend">
+                                                        <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
                                     <button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>
                                 </div>
-                                
-                                <table id="table-venue-images" class="table table-bordered table-sm">
+                                <!-- <table id="table-venue-images" class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <td>Image </td>
-                                            <td>Status </td>
                                             <td>Actions</td>
                                         </tr>
                                     </thead>
                                     <tbody class="venue-images">
                                         
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                             <div class="form-group">
                                 <label for="venues">Venue Status <span class="required">*</span></label>
                                 <select class="form-control required-input" name="venueStatus" id="venueStatus" data-parsley-required="true">
+                                        <option value="" selected disabled>Select Status</option>
                                     @foreach ($venueST['venueStatus'] as $venueSTs)
                                         {
                                         <option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>
@@ -170,8 +185,8 @@
             </div>
 
 
-<div class="modal fade" id="venue-image-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<!--     <div class="modal fade" id="venue-image-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <span class="modal-title modal-venue-image-title" id="smallmodalLabel">Add New Image</span>
@@ -179,23 +194,19 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Image <span class="required">*</span></label>
-                    <input type="file" name="venue_image" id="venue-image" class="form-control required-input">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Image <span class="required">*</span></label>
+                        <input type="file" name="venue_image" id="venue-image" class="form-control required-input">
+                    </div>
                 </div>
-<!--                 <div class="form-group">
-                    <label>Status <span class="required">*</span></label>
-                    <input type="" name="">
-                </div> -->
-            </div>
-            <div class="modal-footer text-right">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary btn-confirm-venue-image">Confirm</button>
-            </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-confirm-venue-image">Confirm</button>
+                </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     @endsection
@@ -203,6 +214,7 @@
     @section('scripts')
      <script type="text/javascript"> 
         var users;
+        var venue_ctr = 1;
         $(document).ready(function() {
             $('#menu-venues').addClass('active');
           users = $('#table-venues').DataTable({
@@ -301,21 +313,36 @@
             });
 
 
-            $(document).on('submit', '#form-add-user', function(e){
+            $(document).on('submit', '#form-add-venue', function(e){
                     e.preventDefault();
-                    var form = $(this).serialize();
-                    $('.validate_error_message').remove();
-                    $('.required-input').removeClass('err_inputs');
-                    $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
-                     $.ajax({
-                        url: "/itd/users/validate-email-phone",
-                        type: 'POST',
-                        data: form,
-                        success:function(data){
-                            var response = JSON.parse(data);
-                            validateAddUser(response);
-                        }
-                    });
+                        $('.validate_error_message').remove();
+                        $('.required-input').removeClass('err_inputs');
+                    if(validate.standard('.required-input') == 0){
+                        
+                        $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                        var venue_images = [];
+                        $('.file-venue-image').each(function(){
+                            venue_images.push($(this).val());
+                        });
+                        // form.push("venueImages": venue_images);
+                        var form = $(this).serialize() + '&venueImages ='+JSON.stringify(venue_images);
+                        // venue_images = JSON.stringify(venue_images);
+                         $.ajax({
+                            url: "/registrar/venues/add-venue",
+                            type: 'POST',
+                            data: form,
+                            success:function(data){
+                                console.log(data);
+                                if(data.success === true){
+                                    Swal.fire(
+                                      'Success',
+                                      data.message,
+                                      'success'
+                                    );
+                                }
+                            }
+                        });
+                     }
             });
 
             $(document).on('click', '.btn-edit-venue', function(){
@@ -348,72 +375,60 @@
                     });
             });
 
-            $(document).on('click', '.btn-reset-password', function(e){
-                    $.ajax({
-                            type: 'get',
-                            url: '/itd/users/generate-password',
-                            success: function(data) {
-                                var response = JSON.parse(data);
-                                $('#password').val(response);
-                            }
-                    });
-            });
             $(document).on('click', '.btn-add-image', function(e){
-                $('#venue-image-modal').modal('show');
+                venue_ctr++;
+                var html = '';
+                html += '<div class="venue-image-parent'+venue_ctr+'">';
+                html += '<div class="input-group mt-2 venue-image-preview-container'+venue_ctr+'">';
+                html += '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="'+venue_ctr+'">';
+                html += '<div class="input-group-prepend">';
+                html +=    '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="'+venue_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                html +=   '</div></div></div>';
+                $('.venue-image-container').append(html);
             });
             
+            $(document).on('click', '.btn-delete-venue-image', function(e){
+                var ctr = $(this).attr('data-ctr');
+                $('.venue-image-parent'+ctr).remove();
+            });
 
-        });
-
-            function validateAddUser(response){
-                if((validate.standard('.required-input') == 0) && (response.email > 0 && response.phoneNumber > 0 && response.IDnumber > 0)){
-                        addUser();
-                }
-                else{
-                    if(response.email == 0){
-                        $('.email').addClass('err_inputs');
-                        $("<span class='validate_error_message'>Email Address already exists.<br></span>").insertAfter('.email');
-                    }
-                    if(response.phoneNumber == 0){
-                        $('.mobile_number').addClass('err_inputs');
-                        $(" <span class='validate_error_message'>Phone Number already exists.<br></span>").insertAfter('.mobile_number');
-                    }
-                    if(response.IDnumber == 0){
-                        $('#IDnumber').addClass('err_inputs');
-                        $(" <span class='validate_error_message'>ID Number already exists.<br></span>").insertAfter('#IDnumber');
-                    }
-                    $('.btn-confirm').removeClass('disabled').html('Confirm');
-                }
-            }
-
-            function addUser(){
-                var form = $('#form-add-user').serialize();
-                $.ajax({
-                    url: "/itd/users/create",
-                    type: 'POST',
-                    data: form,
-                    success:function(data){
-                        if(data.success === true) {
-                            $('#venue-modal').modal('hide');
-                            // $('.modal-backdrop').hide();
+            
+            $(document).on('change', '.file-venue-image', function(){
+                var test = this;
+                  var FileUploadPath = this.value;
+                  var file_size = this.files[0].size;
+                  var ctr = $(this).attr('data-ctr');
+                  var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                  if (Extension != "gif" && Extension != "png" && Extension != "bmp"
+                    && Extension != "jpeg" && Extension != "jpg") {
                              Swal.fire(
-                                  'Success',
-                                  'Account Successfuly Added!',
-                                  'success'
+                                  'Error',
+                                  'Invalid File Format!',
+                                  'error'
                             );
-                            $('#form-add-user').find("input[type=text]").val("");
-                            $('#form-add-user').find("input[type=email]").val("");
-                            $('#form-add-user').find('input[type=password]').val('');
-                            $('select').prop('selectedIndex', 0);
-                            $('.email').removeClass('err_inputs');
-                            $('.mobile_number').removeClass('err_inputs');
-                            $('.validate_error_message').remove();
-                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
-                            users.ajax.reload();
+                            this.value = '';
+                  }
+                  else if(file_size > 2000000){
+                             swal.fire(
+                                  'Error',
+                                  'File is too big!',
+                                  'error'
+                            );
+                            this.value = '';
+                   }
+                  else {
+                      if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                        var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
+                        $(html).insertAfter('.venue-image-preview-container'+ctr);
                         }
-                    }
-                });
-            }
+                        reader.readAsDataURL(this.files[0]);
+          
+                      }
+                  }
+            });
+        });
   </script>
 
     @endsection

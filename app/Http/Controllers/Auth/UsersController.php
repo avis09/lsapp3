@@ -210,6 +210,51 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function UpdatePassword(Request $request) {
+        $user = User::find(auth()->user()->userID);
+        $old = $user->toJson();
+        $field = array();
+        $message = '';
+        if($request->new_password === $request->confirm_password && Hash::check($request->current_password, $user->password)) {
+          if(Hash::check($request->new_password, $user->password)){
+            $status = false;
+            $result = "error";
+            $message = "New password cannot be the same as your current password.";
+          }
+          else{
+            $user->password = Hash::make($request->new_password);
+
+            $user->save();
+
+            $status = true;
+            $result = "success";
+            $message = "You have successfully updated your password.";
+          }
+        }
+        else{
+              $status = false;
+              $result = "error";
+              if(!Hash::check($request->current_password, $user->password)){
+                $message = "Incorrect Password";
+                $field[] = array('field' => 'current_password', 'message' => $message); 
+              }
+              if($request->new_password != $request->confirm_password){
+                $message = "New Password does not match";
+                $field[] = array('field' => 'confirm_password', 'message' => $message);
+              }
+        }
+
+          $response = array(
+            "success" => $status,
+            "result" => $result,
+            "message" => $message,
+            "field" => $field
+          );
+
+        return response($response)->header('Content-Type', 'application/json');
+    }
+
     public function update(Request $request, $id)
     {
         $this->validate($request, [

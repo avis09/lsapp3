@@ -32,21 +32,22 @@
                             <div class="col-md-12">
                                 <div class="row">
                                 <div class="col-md-4">
-                                    <form>
+                                    <form id="form-change-password">
+                                        @csrf
                                         <div class="form-group">
                                                 <label class="control-label">Current Password <span class="required">*</span></label>
-                                                <input type="password" name="current_password" class="form-control required-input">
+                                                <input type="password" id="current_password" name="current_password" class="form-control password">
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">New Password <span class="required">*</span></label>
-                                                <input type="password" name="new_password" class="form-control required-input">
+                                                <input type="password" id="new_password" name="new_password" class="form-control password">
                                             </div>
                                             <div class="form-group">
                                                     <label class="control-label">Confirm New Password <span class="required">*</span></label>
-                                                    <input type="password" name="confirm_new_password" class="form-control required-input">
+                                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control password">
                                             </div>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-change-password btn-md">Save Password</button>
+                                                <button type="submit" class="btn btn-primary btn-save-password btn-md">Save Password</button>
                                             </div>
                                     </form>
                                 </div>
@@ -63,7 +64,51 @@
      <script type="text/javascript"> 
 
         $(document).ready(function() {
-          
+            $(document).on('submit', '#form-change-password', function(e) {
+                e.preventDefault();
+                $('.validate_error_message').remove();
+                $('.password').removeClass('err_inputs');
+                if(validate.standard('.password') == 0){
+                $('.btn-save-password').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                    var form = $(this);
+                    $.ajax({
+                       type: "POST",
+                       url: "/auth/update-password",
+                       data: form.serialize(),
+                       success: function(data) {
+                            if(data.result == 'error'){
+                                if(data.field.length > 0){
+                                    $.each(data.field, function(x,y){
+                                        $('#'+y.field).addClass('err_inputs');
+                                        $("<span class='validate_error_message'>"+y.message+"<br></span>").insertAfter('#'+y.field);
+                                    });
+                                }
+                                else{
+                                    Swal.fire(
+                                      'Error',
+                                      'New password cannot be the same as your current password!',
+                                      'error'
+                                    );
+                                }
+                            }
+                            else{
+                                  Swal.fire({
+                                    type: 'success',
+                                    title: 'Success',
+                                    text: 'You have successfully changed your password!'
+                                  })
+                                  .then((result) => {
+                                      if (result.value) {
+                                        window.location.href = "/itd/users/index";
+                                      }
+                                    });
+                            }
+
+                            $('.btn-save-password').removeClass('disabled').html('Save Password');
+                       }
+                     });
+                }
+            });
         });
   </script>
 
