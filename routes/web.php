@@ -185,6 +185,9 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
     Route::post('/users/archive-user', 'Auth\UsersController@archiveUser');
     Route::get('/profile', 'Auth\UsersController@showProfile');
+    Route::get('/users/get-archivedusers', 'Auth\UsersController@getArchiveUsers');
+    Route::get('/users/reports-archived-users', 'Auth\UsersController@showArchiveUsersPage');
+
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });

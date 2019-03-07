@@ -133,14 +133,14 @@
             <a id="menu-users" class="app-menu__item" href="{{ url('itd/users/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Users</span>
             </a>
         </li>
-        <li class="treeview">
+        <li id="menu-user-reports" class="treeview">
             <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
                 <span class="app-menu__label">User Reports</span><i class="treeview-indicator fa fa-angle-right"></i>
             </a>
             <ul class="treeview-menu">
-                <li><a class="treeview-item" href="{{ url('itd/accountlogs/index') }}"><i class="icon fa fa-circle-o"></i> Audit Logs</a></li>
-                <li><a class="treeview-item" href="{{ url('itd/users/activeUsers') }}"><i class="icon fa fa-circle-o"></i> Active Users</a></li>
-                <li><a class="treeview-item" href="{{ url('itd/users/archivedUsers') }}"><i class="icon fa fa-circle-o"></i> Archived Users</a></li>
+                <li><a id="audit-logs" class="treeview-item" href="{{ url('itd/accountlogs/index') }}"><i class="icon fa fa-circle-o"></i> Audit Logs</a></li>
+                <li><a id="active-users" class="treeview-item" href="{{ url('itd/users/activeUsers') }}"><i class="icon fa fa-circle-o"></i> Active Users</a></li>
+                <li><a id="archived-users" class="treeview-item" href="{{ url('itd/users/reports-archived-users') }}"><i class="icon fa fa-circle-o"></i> Archived Users</a></li>
             </ul>
         </li>
         <li>
