@@ -37,6 +37,18 @@ class UsersController extends Controller
          return json_encode($users);
     }
 
+    public function showArchiveUsersPage(){
+        return view('pages.itd.reports-archiveusers');
+    }
+
+    public function getArchiveUsers(){
+        $users = User::with('f_userrole',
+            'f_userstatus',
+            'f_department')->where('userStatusID', '3')->get();
+
+        return json_encode($users);
+    }
+
    
         public function getSpecificUserInfo(Request $request){
         $user = User::with('f_userrole',
