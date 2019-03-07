@@ -30,9 +30,10 @@ Route::get('/users/{id}', function($id){
 // Thesis Home -----------------------------------------------------------------------------------------------------
 
 use Illuminate\Support\Facades\Input;
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/broshome', 'BroshomeController@index')->name('bros');
+Route::get('emails/create', 'EmailsController@index')->name('bros');
+Route::post('/sendmail', 'EmailsController@sendmail')->name('bros');
 // LOG IN ----------------------------------------------------------------------------------------------------------
 //route for show login form
 Route::get('/', 'Auth\LoginController@showLoginForm');
