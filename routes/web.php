@@ -30,9 +30,10 @@ Route::get('/users/{id}', function($id){
 // Thesis Home -----------------------------------------------------------------------------------------------------
 
 use Illuminate\Support\Facades\Input;
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/broshome', 'BroshomeController@index')->name('bros');
+Route::get('emails/create', 'EmailsController@index')->name('bros');
+Route::post('/sendmail', 'EmailsController@sendmail')->name('bros');
 // LOG IN ----------------------------------------------------------------------------------------------------------
 //route for show login form
 Route::get('/', 'Auth\LoginController@showLoginForm');
@@ -185,6 +186,9 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
     Route::post('/users/archive-user', 'Auth\UsersController@archiveUser');
     Route::get('/profile', 'Auth\UsersController@showProfile');
+    Route::get('/users/get-archivedusers', 'Auth\UsersController@getArchiveUsers');
+    Route::get('/users/reports-archived-users', 'Auth\UsersController@showArchiveUsersPage');
+
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });
