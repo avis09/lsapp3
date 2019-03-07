@@ -6,14 +6,11 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <script src="carousel.js"></script>
     <title>{{config('app.name', 'LSAPP')}}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
 
 
     <style>
@@ -31,7 +28,7 @@
     <!-- Custom styles for this template -->
     <link href="cover.css" rel="stylesheet">
 </head>
-<body class="text-center"/>
+<body class="text-center">
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -67,7 +64,7 @@
                             <li><a class="dropdown-item" href="{{ url('student/users/index') }}">View Profile</a></li>
                             <li><a class="dropdown-item" href="{{ url('student/users/{id}/edit') }}">Edit Profile</a></li>
                         </ul>
-                            <li><a class="nav-link" href="{{ url('student/feedbacks/create') }}">Send Feedback</a></li>
+                    <li><a class="nav-link" href="{{ url('student/feedbacks/create') }}">Send Feedback</a></li>
                     <li><a class="nav-link" href="/">FAQ</a></li>
                 @elseif (Auth::check() && Auth::user()->userRoleID == 2)
                     <li><a class="nav-link" href="/">FAQ</a></li>
@@ -80,7 +77,7 @@
                             <li><a class="dropdown-item" href="{{ url('gasd/venues/{id}/edit') }}">Update Venue</a></li>
                             <li><a class="dropdown-item" href="{{ url('gasd/venues/index') }}">View Venue</a></li>
                         </ul>
-                    <li><a class="nav-link" href="{{ url('gasd/feedbacks/index') }}">Feedbacks</a></li>
+                    <li><a class="nav-link" href="{{ url('gasd/feedbacks/index2') }}">Feedbacks</a></li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Venue Reservation<span class="caret"></span>
@@ -101,7 +98,7 @@
                             <li><a class="dropdown-item" href="{{ url('registrar/venues/{id}/edit') }}">Edit Venues</a></li>
                             <li><a class="dropdown-item" href="{{ url('registrar/venues/index') }}">View Venues</a></li>
                         </ul>
-                            <li><a class="nav-link" href="{{ url('registrar/feedbacks/index') }}">Feedbacks</a></li>
+                    <li><a class="nav-link" href="{{ url('registrar/feedbacks/index') }}">Feedbacks</a></li>
 
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -138,13 +135,18 @@
     </div>
 
 
-
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
             @guest
-
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/create">Register</a>
+                    </li>
+                @endif
             @endguest
             @auth
                 <li class="nav-item dropdown">
@@ -168,4 +170,5 @@
     </div>
     </div>
 </nav>
+</body>
 </html>

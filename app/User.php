@@ -19,7 +19,7 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-        'userRoleID', 'firstName', 'LastName', 'userStatusID', 'password', 'phoneNumber', 'email', 'apiToken', 'departmentID', 'IDnumber'
+        'userRoleID', 'departmentID', 'userStatusID', 'firstName', 'lastName', 'password', 'phoneNumber', 'email', 'apitoken', 'IDnumber','fcmtoken','created_at','updated_at'
     ];
 
     protected $table = 'users';

@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
     {
         Eloquent::unguard();
         $this->call('buildingseeder');
-        $this->call('departmentseeder');
+        $this->call('departmentSeeder');
+        $this->call('equipmentstatusseeder');
         $this->call('statusseeder');
-        $this->call('userroleseeder');
+        $this->call('userRoleSeeder');
+        $this->call('userstatusseeder');
         $this->call('venuefloorseeder');
+        $this->call('venuestatusseeder');
         $this->call('venuetypeseeder');
+        $this->call('timetableseeder');
+        $this->call('usersseeder');
+        $this->call('venueSeeder');
+        $this->call('XequipmentSeeder');
     }
 }
 

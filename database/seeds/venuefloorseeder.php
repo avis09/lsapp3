@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\support\facades\DB;
 
 class venuefloorseeder extends Seeder
 {
@@ -13,19 +13,19 @@ class venuefloorseeder extends Seeder
     public function run()
     {
         DB::table('venuefloor')->insert([
-            'venueFloorName' => "First Floor"
+            'venueFloorName' => "Ground"
         ]);
         DB::table('venuefloor')->insert([
-            'venueFloorName' => "Second Floor"
+            'venueFloorName' => "2nd Floor"
         ]);
         DB::table('venuefloor')->insert([
-            'venueFloorName' => "Third Floor"
+            'venueFloorName' => "3rd Floor"
         ]);
         DB::table('venuefloor')->insert([
-            'venueFloorName' => "Fourth Floor"
+            'venueFloorName' => "4th Floor"
         ]);
         DB::table('venuefloor')->insert([
-            'venueFloorName' => "Fifth Floor"
+            'venueFloorName' => "5th Floor"
         ]);
     }
 }

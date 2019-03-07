@@ -11,11 +11,15 @@ use Illuminate\Http\Request;
 use Calendar;
 use DB;
 use App\Http\Controllers\Validator;
+use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 class SchedulesController extends Controller
 {
+    private $data;
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +29,7 @@ class SchedulesController extends Controller
     {
         $schedule =
         $venues = Venue::all();
-        return view('schedules.calendar')
+        return view('pages.student.calendar')
             ->with('schedules', $schedule)
             ->with('venues', $venues);
     }
@@ -57,7 +61,7 @@ class SchedulesController extends Controller
 //            ->with('scheduleV', $scheduleV)
 //            ->with('scheduleVT', $scheduleVT);
 
-        return view('schedules.addschedule')
+        return view('pages.student.addschedule')
             ->with('venues', $venues);
     }
 
@@ -65,7 +69,7 @@ class SchedulesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -85,7 +89,7 @@ class SchedulesController extends Controller
 //            \Session::flash('warning', 'Please enter the valid details');
 //            return Redirect::to('/schedules')->withInput()->withErrors($validator);
 //        }
-
+//        $user = Auth::user();
 
         $schedule = new Schedule();
         $schedule->userID = auth()->user()->userID;
@@ -96,16 +100,25 @@ class SchedulesController extends Controller
         $schedule->venueID = $request->input('venue');
         $schedule->timeID = Input::get('time');
         $schedule->save();
-
         //$venueSchedule = VenueSchedule::where('venueScheduleID', $schedule->venueScheduleID)->first();
         //$venueSchedule->venueSchedStatus = "Occupied";
         //$venueSchedule->save();
 //        if ($schedule->save()){
 //
 //        }
+        //        \Session::flash('success','Schedule made successfully');
 
-//        \Session::flash('success','Schedule made successfully');
-        return Redirect::to('/schedules/create')->with('success', 'Reservation made');
+
+//        if($user->userRoleID == 1) {
+        //          dd(auth::user());
+        return Redirect::to('student/create')->with('success', 'Reservation made');
+//        }elseif ($user->userRoleID == 2){
+//            return Redirect::to('gasd/schedules/create')->with('success', 'Reservation made');
+//        }elseif ($user->userRoleID == 3) {
+//            return Redirect::to('registrar/schedules/create')->with('success', 'Reservation made');
+//        }
+
+
     }
 
     /**
@@ -117,7 +130,7 @@ class SchedulesController extends Controller
     public function show($id)
     {
         $schedule = Schedule::find($id);
-        return view('schedules.showschedule')->with('schedules', $schedule);
+        return view('pages.student.showschedule')->with('schedules', $schedule);
     }
 
     /**
@@ -176,12 +189,13 @@ class SchedulesController extends Controller
             ->value('date');
 
         //get time id from based on values above
-        $timeID = DB::table('schedules')
+        $timeIDs = DB::table('schedules')
+            ->select('*')
             ->where('date', $existsDate)
             ->where('venueID', $existsVenue)
-            ->select('timeID')
-            ->value('timeID');
-
+            ->whereIn('statusID', [1, 2])
+            ->get('timeID')
+            ->pluck('timeID');
 
         //get venue type based on venue id selected
         $venueType = DB::table('venue')
@@ -190,31 +204,29 @@ class SchedulesController extends Controller
             ->value('venueTypeID');
 
         //if it exists, show only time that is not in schedules table
-        if($existsVenue && $existsDate){
+        if ($existsVenue && $existsDate) {
             $data = DB::table('time')
                 ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
                 ->where('venueTypeID', $venueType)
-                ->where('timeID', '!=', $timeID)
+                ->whereNotIn('timeID', $timeIDs)
                 ->get();
-
-            //dd($data);
-        }
-
-        //else pakita lahat ng time depende sa venue type nung venue id
-        else{
+        } //else pakita lahat ng time depende sa venue type nung venue id
+        else {
             $data = DB::table('time')
                 ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
                 ->where('venueTypeID', $venueType)
                 ->get();
         }
+
         return response()->json($data);
+
 
 //        $venueID = Input::get('venue');
 //        $data = Regencies::where('venueID', '=', $venueID)->get();
-//        return response()->json($data);
     }
 
-    public function showSchedules(Request $request){
+    public function showSchedules(Request $request)
+    {
         //check if existing venue
         $existsVenue = DB::table('venue')
             //->join('venueschedule', 'venueschedule.venueScheduleID', '=', $venueExist)
@@ -230,27 +242,31 @@ class SchedulesController extends Controller
             ->value('date');
 
         //get time id from based on values above
-        $timeID = DB::table('schedules')
-            ->where('date', $existsDate)
-            ->where('venueID', $existsVenue)
-            ->select('timeID')
-            ->value('timeID');
-
-        //get venue type based on venue id selected
-        $venueType = DB::table('venue')
-            ->select('venueTypeID')
-            ->where('venueID', $request->venueID)
-            ->value('venueTypeID');
+//        $timeID = DB::table('schedules')
+//            ->where('date', $existsDate)
+//            ->where('venueID', $existsVenue)
+//            ->select('timeID')
+//            ->value('timeID');
+//
+//        //get venue type based on venue id selected
+//        $venueType = DB::table('venue')
+//            ->select('venueTypeID')
+//            ->where('venueID', $request->venueID)
+//            ->value('venueTypeID');
 
         //if it exists, show only time that is not in schedules table
-        if($existsVenue && $existsDate) {
+        if ($existsVenue && $existsDate) {
             $data = DB::table('schedules')
-                ->select('venueID', 'timeID')
+                ->join('time', 'time.timeID', 'schedules.timeID')
+                ->join('status', 'status.statusID', 'schedules.statusID')
+                ->join('users', 'users.userID', 'schedules.userID')
+                ->select('time.timeStartTime', 'time.timeEndTime', 'date', 'status.statusName', 'users.firstName', 'users.lastName')
                 ->where('date', $existsDate)
                 ->where('venueID', $existsVenue)
                 ->get();
+
+            return response()->json($data);
         }
-        return response()->json($data);
 
 //        $venueID = Input::get('venue');
 //        $data = Regencies::where('venueID', '=', $venueID)->get();

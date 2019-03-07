@@ -43,21 +43,27 @@ Route::post('/login', 'Auth\LoginController@login');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/faq', 'FAQController@index');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //Functions for schedule
 Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
 Route::get('/showSchedules', 'SchedulesController@showSchedules');
-Route::group(['middleware' => ['guest']], function () {
-    // Guest routs
-});
+
+
+//TRIAL
+Route::get('/send', 'VenuesController@sendcreate');
+Route::post('/send', 'VenuesController@sendstore');
+//Route::group(['middleware' => ['guest']], function () {
+//    // Guest routs
+//
+//});
 
 //Student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
     //Feedbacks
-         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
+//         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
         Route::get('feedbacks/create', 'FeedbacksController@create')->name('feedbacks.create');
     Route::post('feedbacks/create', 'FeedbacksController@store')->name('feedbacks.store');
 
@@ -67,6 +73,10 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+    //FAQ
+    Route::get('/studentfaq', function() {
+        return view('pages.student.studentfaq');
+    });
 });
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
@@ -80,6 +90,27 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports', 'VenuesController@indexReports')->name('venues.indexReports');
+
+    // venues gallery
+    Route::get('gallery/index', 'GalleryController@index')->name('Gallery.index');
+    //add pictures
+    Route::get('picture/create', 'PictureController@create')->name('Picture.create');
+    Route::post('picture/create', 'PictureController@store')->name('Picture.store');
+    Route::get('picture/index', 'PictureController@index')->name('Picture.index');
+
+    //reinn
+     Route::get('/venues/get-venues', 'VenuesController@getVenues');
+    //FAQ
+    Route::get('/registrarfaq', function() {
+        return view('pages.registrar.registrarfaq');
+    });
+
+//    //schedules
+//    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
+//    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
+//    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+//    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
+//    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
 });
 //GASD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
@@ -93,6 +124,17 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports2', 'VenuesController@indexReports2')->name('venues.indexReports2');
+    //FAQ
+    Route::get('/gasdfaq', function() {
+        return view('pages.gasd.gasdfaq');
+    });
+
+//    //schedules
+//    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
+//    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
+//    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+//    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
+//    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
 });
 //ITD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
@@ -101,12 +143,23 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
 //Users
     Route::get('users/index', 'Auth\UsersController@index')->name('users.index');
     Route::get('users/create', 'Auth\UsersController@create')->name('users.create');
-    Route::post('users/create', 'Auth\UsersController@store')->name('users.store');
+    Route::post('/users/create', 'Auth\UsersController@store')->name('users.store');
     Route::get('users/show','Auth\UsersController@show')->name('users.show');
     Route::get('users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
-    Route::get('logtimes/index', 'LogtimesController@index')->name('logtimes.index');
+    Route::get('accountlogs/index', 'LogtimesController@index')->name('accountlogs.index');
+    Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
+    //FAQ
+    Route::get('/itdfaq', function() {
+        return view('pages.itd.itdfaq');
+    });
 
+    //RM
+    Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
+    Route::get('/users/get-users', 'Auth\UsersController@getUsers');
+    Route::post('/users/get-specific-userinfo', 'Auth\UsersController@getSpecificUserInfo');
+    Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
+    Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
 });
 
 

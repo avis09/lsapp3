@@ -14,7 +14,7 @@ class Feedback extends Model
     // Timestamps
     public $timestamps = false;
 
-    protected $fillable = ['comment', 'created_at', 'venueID', 'userID'];
+    protected $fillable = ['venueID', 'userID', 'comment', 'create_at'];
 
 
     public function f_venue ()

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class statusseeder extends Seeder
 {
@@ -12,13 +11,17 @@ class statusseeder extends Seeder
      */
     public function run()
     {
-
-            DB::table('status')->insert([
-                'statusType' => "Active",
-            ]);
-            DB::table('status')->insert([
-                'statusType' => "Inactive",
-            ]);
-
+        DB::table('status')->insert([
+            'statusName' => "Pending",
+        ]);
+        DB::table('status')->insert([
+            'statusName' => "Approved",
+        ]);
+        DB::table('status')->insert([
+            'statusName' => "Cancelled",
+        ]);
+        DB::table('status')->insert([
+            'statusName' => "Done",
+        ]);
     }
 }

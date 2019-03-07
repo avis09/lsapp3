@@ -16,7 +16,7 @@ class Venue extends Model
     // Timestamps
      public $timestamps = false;
 
-    protected $fillable = ['buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID'];
+    protected $fillable = ['buildingID', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID','venueName','created_at','updated_at'];
 
     public function f_scheduleV(){
         return $this->hasMany('App\Schedule');
@@ -38,12 +38,21 @@ class Venue extends Model
 
     public function f_pictureP()
     {
-        return $this->hasMany('App\Picture');
+        return $this->hasMany('App\Picture', 'venueID');
+    }
+
+    Public function f_equipment()
+    {
+        return $this->hasMany('App\Equipment', 'venueID');
     }
 
     public function venueSched(){
         return $this->hasMany('App\VenueSchedule', 'venueID');
     }
+
+    // public function floor(){
+    //      return $this->hasOne('App\VenueSchedule', 'venueID');
+    // }
 
     public function f_feedbacksV(){
         return $this->hasMany('App\Feedback', 'venueID');

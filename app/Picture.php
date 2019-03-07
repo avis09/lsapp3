@@ -16,10 +16,10 @@ class Picture extends Model
 
     protected $primaryKey = "pictureID";
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
-        'dateAdded', 'venueID', 'pictureName'
+        'venueID', 'pictureName ', 'created_at'
     ];
 
     public function f_venue()

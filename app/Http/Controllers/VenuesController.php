@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Picture;
+use App\User;
 use App\Venue;
 use Illuminate\Http\Request;
 use DB;
@@ -26,16 +27,43 @@ class VenuesController extends Controller
     {
         //$users = User::select('users.id', 'first_name', 'last_name', 'email', 'phone', 'birth_date','created_at')->orderBy('created_at', 'dsc')->leftjoin('patients','patients.patient_id','users.id')->where('role_id', 3)->paginate(10);
         //index for ROOM
-        $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
-        $f_buildingV = array('building' => DB::table('building')->get());
-        //$f_statusV = array('status' => DB::table('status')->get());
-        $f_userV = array('users' => DB::table('users')->get());
-        return view('venues.venueindex')
-                ->with('venues', $venues)
-                ->with('f_buildingV', $f_buildingV)
-                ->with('f_userV', $f_userV);
+        $venueB = array('building' => DB::table('building')->get());
+        $venueF = array('venuefloor' => DB::table('venuefloor')->get());
+        $venueT = array('venuetype' => DB::table('venuetype')->get());
+        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+        return view('pages.registrar.venues')
+            ->with('venueB', $venueB)
+            ->with('venueF', $venueF)
+            ->with('venueT', $venueT)
+            ->with('venueST', $venueST);
+
+        // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
+        // $f_buildingV = array('building' => DB::table('building')->get());
+        // //$f_statusV = array('status' => DB::table('status')->get());
+        // $f_userV = array('users' => DB::table('users')->get());
+        // return view('venues.venueindex')
+        //         ->with('venues', $venues)
+        //         ->with('f_buildingV', $f_buildingV)
+        //         ->with('f_userV', $f_userV);
                 //->with('f_statusV', $f_statusV);
     }
+
+
+
+    public function getVenues(){
+         // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
+
+         $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV')->where('venueTypeID', 1)->get();
+         return json_encode($venues);
+        // $f_buildingV = array('building' => DB::table('building')->get());
+        // //$f_statusV = array('status' => DB::table('status')->get());
+        // $f_userV = array('users' => DB::table('users')->get());
+        // $venues = view('venues.venueindex')
+        //         ->with('venues', $venues)
+        //         ->with('f_buildingV', $f_buildingV)
+        //         ->with('f_userV', $f_userV);
+    }
+
     // GASD List of Venues (Venues)
     public function index2()
     {
@@ -43,7 +71,7 @@ class VenuesController extends Controller
         $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID')->where('venueTypeID', 2)->paginate(10);
         $f_venueStatusV = array('venuestatus' => DB::table('venuestatus')->get());
         $f_userV = array('users' => DB::table('users')->get());
-        return view('venues.venueindex')
+        return view('pages.gasd.venueindex')
             ->with('venues', $venues)
             ->with('f_venueStatusVu', $f_venueStatusV)
             ->with('f_userV', $f_userV);
@@ -58,7 +86,7 @@ class VenuesController extends Controller
             ->where('venue.venueTypeID', '=', '1')
             ->count();
 
-        return view('venues.venueReports')
+        return view('pages.registrar.venuereportsregistrar')
             ->with('count', $count);
     }
     // GASD Reports on number Active Courts
@@ -67,13 +95,13 @@ class VenuesController extends Controller
         $count = DB::table('venue')
             ->join('venuetype', 'venuetype.venueTypeID', '=', 'venue.venueTypeID')
             ->join('venuestatus', 'venuestatus.venueStatusID', '=', 'venue.venueStatusID')
-            //->select('venue.venueID')
+            ->select('venue.venueID')
             //->orderBy('feedbacks.created_at', 'desc')
             ->where('venue.venueTypeID', '=', '2')
             ->where('venue.venueStatusID', '=', '1')
             ->count();
 
-        return view('venues.venueReports')
+        return view('pages.gasd.venuereportsgasd')
             ->with('count', $count);
     }
 
@@ -90,7 +118,7 @@ class VenuesController extends Controller
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
         $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('venues.addvenue')
+        return view('pages.registrar.addvenue')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
@@ -103,12 +131,13 @@ class VenuesController extends Controller
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
         $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('venues.addvenue2')
+        return view('pages.gasd.addvenue2')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
             ->with('venueST', $venueST);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -116,6 +145,7 @@ class VenuesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //Registrar Store
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -128,7 +158,6 @@ class VenuesController extends Controller
         ]);
 
 
-        // Create post
         $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
@@ -146,6 +175,7 @@ class VenuesController extends Controller
 
 
     }
+    // GASD Store
     public function store2(Request $request)
     {
         $this->validate($request, [
@@ -242,4 +272,50 @@ class VenuesController extends Controller
     {
         //
     }
+
+//SEND MESSAGE TRIAL
+    public function sendcreate()
+    {
+        $user = User::all();
+        return view('send')
+            ->with('user', $user);
+
+    }
+     public function sendstore()
+    {
+
+	// Account details
+        // API key  acc for
+        // User: anz.zel17@gmail.com Pass: Anzel123
+	    //$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
+        // API key  acc for
+        // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
+        $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8');
+
+
+	// Message details
+	$numbers = array('639065581339');
+	$sender = urlencode('ANZEL');
+	$message = rawurlencode('Code worked!');
+
+	$numbers = implode(',', $numbers);
+
+	// Prepare data for POST request
+	$data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
+
+	// Send the POST request with cURL
+	$ch = curl_init('https://api.txtlocal.com/send/');
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$response = curl_exec($ch);
+	curl_close($ch);
+
+	// Process your response here
+	echo $response;
+
+
+    }
+
+
 }
