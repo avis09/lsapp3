@@ -140,6 +140,7 @@
             <ul class="treeview-menu">
                 <li><a class="treeview-item" href="{{ url('itd/accountlogs/index') }}"><i class="icon fa fa-circle-o"></i> Audit Logs</a></li>
                 <li><a class="treeview-item" href="{{ url('itd/users/activeUsers') }}"><i class="icon fa fa-circle-o"></i> Active Users</a></li>
+                <li><a class="treeview-item" href="{{ url('itd/users/archivedUsers') }}"><i class="icon fa fa-circle-o"></i> Archived Users</a></li>
             </ul>
         </li>
         <li>

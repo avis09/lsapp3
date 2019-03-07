@@ -242,8 +242,8 @@
             // { data: 'actions'},
             { data: null,
                 render:function(data){
-                    return '<button type="button" class="btn btn-primary btn-edit-venue btn-sm" data-id="'+data.userID+'">Edit</button> '+
-                    '<button type="button" class="btn btn-secondary btn-archive-venue btn-sm" data-id="'+data.userID+'">Archive</button>';
+                    return '<button type="button" class="btn btn-primary btn-edit-venue btn-sm" data-id="'+data.venueID+'">Edit</button> '+
+                    '<button type="button" class="btn btn-secondary btn-archive-venue btn-sm" data-id="'+data.venueID+'">Archive</button>';
 
                 }
             }
@@ -335,9 +335,20 @@
                                   .then((result) => {
                                       if (result.value) {
                                         $('#venue-modal').modal('hide');
+                                        var html = '';
+                                        html += '<div class="venue-image-parent1">';
+                                        html += '<div class="input-group venue-image-preview-container1">';
+                                        html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                                        html += '<div class="input-group-prepend">';
+                                         html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+                                        html += '</div></div></div>';
+                                        $('.venue-image-container').html(html);
+                                        $('select').prop('selectedIndex', 0);
+                                        $('input[type="text"]').val('');
                                       }
                                     });
                                 }
+                                $('.btn-confirm').removeClass('disabled').html('Confirm');
                             },
                             cache: false,
                             contentType: false,
@@ -348,30 +359,27 @@
 
             $(document).on('click', '.btn-edit-venue', function(){
                     var id = $(this).attr('data-id');
-                    $('.btn-reset-password').show();
-                    $('.modal-venue-title').html('Edit Account');
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
                      $.ajax({
-                        url: "/itd/users/get-specific-userinfo",
+                        url: "/registrar/venues/get-specific-venues",
                         type: 'POST',
                         data: {
                             _token: "{{csrf_token()}}",
                             id: id
                         },
                         success:function(data){
-                            $('#venue-modal').modal('show');
-                            var response = JSON.parse(data);
-                            $('#firstName').val(response.firstName);
-                            $('#lastName').val(response.lastName);
-                            $('#areaCode').val(response.areaCode);
-                            $('#phoneNumber').val(response.phoneNumber);
-                            $('#email').val(response.email);
-                            $('#userRole').val(response.userRoleID);
-                            $('#department').val(response.departmentID);
-                            $('#IDnumber').val(response.IDnumber);
-                            $('#password').val('******');
-                            $('#userStatus').val(response.userStatusID);
+                            $('venue-image').modal('show');
+                            var html = '';
+                            $.each(data.venueImages, function(x,y){
+                                html += '<div class="venue-image-parent1">';
+                                html += '<div class="input-group venue-image-preview-container1">';
+                                html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                                html += '<div class="input-group-prepend">';
+                                 html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+                                html += '</div></div></div>';
+                                $('.venue-image-container').html(html);
+                            });
                         }
                     });
             });
@@ -434,4 +442,32 @@
 
     @endsection
 
-
+<!-- 
+<div>
+        <table width="90%" style="font-family: calibri; background-color: #ccc; border: 1px solid #555" align="center" cellpadding="0" cellspacing="0">
+            
+                <tr style="background-color: #298430;">
+                    <td style="border-bottom: 1px solid #126418; background-color: #298430; color: #fff; padding: 10px 15px;">
+                        <h2 style="margin: 10px; display: inline-block;">BROS</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 30px 50px 40px 50px; background-color: #eee; font-family: calibri; line-height: 30px;">
+                        <p>Dear <strong>'.$name.'</strong></span> <br/></p>
+                        <p>Sorry to inform you that your request has been rejected.</p?
+                        <br/>
+                        <br/>
+                        Thank you.
+                        <br>
+                        <br/>
+                        Regards,
+                        <br/>
+                        <strong>ITD</strong>
+                        </p>
+                    </td>
+                </tr>       
+        </table>
+        <div style="text-align: center; font-family: calibri; font-size: 12px; margin-top: 10px;">
+        </div>
+    </div>
+     -->

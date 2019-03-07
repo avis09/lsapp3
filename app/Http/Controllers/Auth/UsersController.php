@@ -32,7 +32,7 @@ class UsersController extends Controller
     public function getUsers(){
         $users = User::with('f_userrole',
         'f_userstatus',
-        'f_department')->get();
+        'f_department')->where('userStatusID', '!=', '3')->get();
         
          return json_encode($users);
     }
@@ -285,8 +285,23 @@ class UsersController extends Controller
         $user->save();
 
         return redirect('/users/{id}/edit')->with('success', 'User Profile Updated');
+    }
 
+    public function showProfile(){
+      $userInfo = User::find(auth()->user()->userID);
+      return view('pages.profile', compact('userInfo'));
 
+    }
+
+    public function archiveUser(Request $request){
+        $user = User::find($request->id);
+        $user->userStatusID = 3;
+        if($user->save()){
+          return response()->json(['title' => 'Archived', 'content' => 'User Successfully Archived.', 'type' => 'success', 'success' => true]);
+        }
+        else{
+          return response()->json(['title' => 'Error', 'content' => 'Something went wrong.', 'success' => false]);
+        }
     }
     /**
      * Remove the specified resource from storage.

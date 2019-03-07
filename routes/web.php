@@ -182,7 +182,8 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
     Route::post('/users/validate-update-email-phone', 'Auth\UsersController@validateUpdateEmailPhoneNumber');
     Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
-
+    Route::post('/users/archive-user', 'Auth\UsersController@archiveUser');
+    Route::get('/profile', 'Auth\UsersController@showProfile');
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });

@@ -264,7 +264,7 @@ $('.numbers-only').on('keypress', function(evt) {
   
     });
   
-  // IE9 SUPPORTED VALIDATIO
+  // IE9 SUPPORTED VALIDATION
   //  function numbersOnly(evt)
   //       {
   //          var charCode = (evt.which) ? evt.which : event.keyCode

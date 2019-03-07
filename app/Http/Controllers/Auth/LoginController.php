@@ -28,7 +28,8 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $attempt = Auth::attempt(['IDnumber' => $request->IDnumber, 'password' => $request->password, 'userStatusID' => 1],  false);
+        $attempt = Auth::attempt(['IDnumber' => $request->IDnumber, 'password' => $request->password],  false);
+        // 'userStatusID' => 1
         if ($attempt) {
 
             $user = Auth::user();
@@ -40,16 +41,25 @@ class LoginController extends Controller
             $log->inTime = Carbon::now()->setTimezone('Asia/Manila');
             $log->save();
 
-            if($user->userRoleID == 1) {
-        //          dd(auth::user());
-                return redirect('student/schedules/index');
-            }elseif ($user->userRoleID == 2){
-                return redirect('gasd/venues/index2');
-            }elseif ($user->userRoleID == 3) {
-                return redirect('registrar/venues/index');
-            }elseif ($user->userRoleID == 4) {
-                return redirect('itd/users/index');
-            }
+            if(auth()->user()->status == 2 || auth()->user()->status == 3) {
+                        auth()->logout();
+                        return back()->withErrors(['errorMessage' => 'Your account has been deactivated.']);
+             }
+             else{
+                    if($user->userRoleID == 1) {
+                //          dd(auth::user());
+                        return redirect('student/schedules/index');
+                    }
+                    elseif ($user->userRoleID == 2){
+                        return redirect('gasd/venues/index2');
+                    }
+                    elseif ($user->userRoleID == 3) {
+                        return redirect('registrar/venues/index');
+                    }
+                    elseif ($user->userRoleID == 4) {
+                        return redirect('itd/users/index');
+                     }
+            } 
 
             Session::save();
         }
