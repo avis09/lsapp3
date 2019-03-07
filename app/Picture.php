@@ -24,6 +24,6 @@ class Picture extends Model
 
     public function f_venue()
     {
-        return $this->belongsTo('App\Venue', 'venueID');
+        return $this->hasMany('App\Venue', 'venueID');
     }
 }

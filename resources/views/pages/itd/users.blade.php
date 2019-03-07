@@ -62,7 +62,7 @@
         </div>
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-success btn-add-user mb-3">Add Account</button>
+                        <button type="button" class="btn btn-primary btn-add-user mb-3">Add Account</button>
                     <div class="table-responsive">
                                 <table id="table-users" class="table table-striped">
                                     <thead>
@@ -132,7 +132,7 @@
                             </div>
 
                             <div class="form-group">
-                                    <label class="labelinput" for="contact">Phone Number<span class="required">*</span></label>
+                                    <label class="control-label" for="contact">Phone Number<span class="required">*</span></label>
                                     <div class="input-group contact-number">
                                             <div class="input-group-prepend">
                                                     <select id="areacode" class="form-control required-input" name="areaCode" id="areaCode" required>
@@ -205,7 +205,7 @@
                 <div class="form-group" style="padding: 10px 0px;">
                     <label class="control-label col-sm-2"></label>
                     <div class="col-sm-10 text-right">
-                        <button class="btn btn-success btn_confirm_addImage" id="">Add</button>
+                        <button class="btn btn-primary btn_confirm_addImage" id="">Add</button>
                     </div>
                 </div>
 
@@ -248,7 +248,8 @@
             // { data: 'actions'},
             { data: null,
                 render:function(data){
-                    return '<button type="button" class="btn btn-primary btn-edit-user btn-sm" data-id="'+data.userID+'">Edit</button>';
+                    return '<button type="button" class="btn btn-primary btn-edit-user btn-sm" data-id="'+data.userID+'">Edit</button> '+
+                    '<button type="button" class="btn btn-secondary btn-archive-user btn-sm" data-id="'+data.userID+'">Archive</button>';
 
                 }
             }
@@ -338,14 +339,16 @@
                         data: form,
                         success:function(data){
                             var response = JSON.parse(data);
-                            validateAddUser(response);
+                            validateSaveUser(response);
                         }
                     });
             });
 
             $(document).on('click', '.btn-edit-user', function(){
                     var id = $(this).attr('data-id');
+                    $('.btn-confirm').attr('data-id',id);
                     $('.btn-reset-password').show();
+                    $('.form-user').attr('id', 'form-edit-user');
                     $('.modal-user-title').html('Edit Account');
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
@@ -373,6 +376,25 @@
                     });
             });
 
+            $(document).on('submit', '#form-edit-user', function(e){
+                    e.preventDefault();
+                    var id = $('.btn-confirm').attr('data-id');
+                    var form = $(this).serialize() + '&userID=' + id;
+                    $('.validate_error_message').remove();
+                    $('.required-input').removeClass('err_inputs');
+                    $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                     $.ajax({
+                        url: "/itd/users/validate-update-email-phone",
+                        type: 'POST',
+                        data: form,
+                        success:function(data){
+                            var response = JSON.parse(data);
+                            var action_type = 'edit';
+                            validateSaveUser(response,action_type);
+                        }
+                    });
+            });
+
             $(document).on('click', '.btn-reset-password', function(e){
                     $.ajax({
                             type: 'get',
@@ -383,11 +405,52 @@
                             }
                     });
             });
-        });
 
-            function validateAddUser(response){
+            $(document).on('click', '.btn-archive-user', function(e){
+                var id = $(this).attr('data-id');
+                Swal.fire({
+                      title: 'Confirmation',
+                      text: "Are you sure you want to archive this user?",
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes, Archive it!',
+                      reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                          $.ajax({
+                            type: 'post',
+                            url: '/itd/users/archive-user',
+                            data: {
+                                     _token: "{{csrf_token()}}",
+                                     id: id
+                                    },
+                            success: function(data) {
+                                users.ajax.reload();
+                                Swal.fire(
+                                  'Archived!',
+                                  'User Successfully Archived.',
+                                  'success'
+                                );
+                               
+                            }
+                          });
+
+                        
+                      }
+                    })
+                    });
+                });
+
+            function validateSaveUser(response,action_type){
                 if((validate.standard('.required-input') == 0) && (response.email > 0 && response.phoneNumber > 0 && response.IDnumber > 0)){
+                    if(action_type == 'create'){
                         addUser();
+                    }    
+                    else if(action_type == 'update'){
+                        updateUser();
+                    }
                 }
                 else{
                     if(response.email == 0){

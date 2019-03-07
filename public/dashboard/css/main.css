@@ -2554,32 +2554,36 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #FFF;
-  background-color: #009688;
-  border-color: #009688;
+  background-color: #015f33;
+  /* background-color: #009688;
+  border-color: #009688; */
 }
 
 .btn-primary:hover {
   color: #FFF;
-  background-color: #007065;
-  border-color: #00635a;
+  background-color: #02542d;
+  /* border-color: #00635a; */
 }
 
 .btn-primary:focus, .btn-primary.focus {
-  -webkit-box-shadow: 0 0 0 0 rgba(0, 150, 136, 0.5);
-          box-shadow: 0 0 0 0 rgba(0, 150, 136, 0.5);
+  background-color: #02542d;
+   /* -webkit-box-shadow: 0 0 0 0 rgba(0, 150, 136, 0.5); */
+          box-shadow: 0 0 0 0 rgba(0, 150, 136, 0.5); 
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
   color: #FFF;
-  background-color: #009688;
-  border-color: #009688;
+  background-color: #02542d;
+  /* background-color: #009688;
+  border-color: #009688; */
 }
 
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
   color: #FFF;
-  background-color: #00635a;
-  border-color: #00564e;
+  background-color: #02542d;
+  /* background-color: #00635a;
+  border-color: #00564e; */
 }
 
 .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
@@ -3381,6 +3385,7 @@ input[type="button"].btn-block {
   width: 100%;
   padding: 8px 20px;
   clear: both;
+  cursor: pointer!important; /*custom*/
   font-weight: 400;
   color: #212529;
   text-align: inherit;
@@ -3390,15 +3395,18 @@ input[type="button"].btn-block {
 }
 
 .dropdown-item:hover, .dropdown-item:focus {
-  color: #16181b;
+  /* color: #16181b; */
+  color: #fff!important;
   text-decoration: none;
-  background-color: #f8f9fa;
+  background-color: #015f33;
+  /* background-color: #f8f9fa; */
 }
 
 .dropdown-item.active, .dropdown-item:active {
-  color: #FFF;
+  color: #fff!important;
   text-decoration: none;
-  background-color: #009688;
+  background-color: #015f33;
+  /* background-color: #009688; */
 }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
@@ -13554,7 +13562,8 @@ be a descendant of the grid when it is being dragged.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background-color: #009688;
+  background-color: #015f33;
+  /* background-color: #009688; */
   z-index: 1030;
   padding-right: 15px;
 }
@@ -13591,7 +13600,8 @@ be a descendant of the grid when it is being dragged.
             flex: 0 0 auto;
     display: block;
     width: 230px;
-    background-color: #007d71;
+    background-color: #02542d;
+    /* background-color: #007d71; */
   }
 }
 
@@ -13601,7 +13611,8 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-sidebar__toggle {
-  padding: 0 15px;
+  /* padding: 0 15px; */
+  padding: 10px 15px;
   font-family: fontAwesome;
   color: #fff;
   line-height: 2.4;
@@ -13618,14 +13629,14 @@ be a descendant of the grid when it is being dragged.
   }
 }
 
-.app-sidebar__toggle:before {
-  content: "\f0c9";
+.app-sidebar__toggle i {
+  /* content: "\f0c9"; */
   font-size: 21px;
 }
 
 .app-sidebar__toggle:focus, .app-sidebar__toggle:hover {
   color: #fff;
-  background-color: #00635a;
+  /* background-color: #00635a; */
   text-decoration: none;
 }
 
@@ -13651,6 +13662,7 @@ be a descendant of the grid when it is being dragged.
   display: block;
   padding: 15px;
   line-height: 20px;
+  text-decoration: none!important;
   color: #fff;
   -webkit-transition: background-color 0.3s ease;
   -o-transition: background-color 0.3s ease;
@@ -13788,7 +13800,8 @@ be a descendant of the grid when it is being dragged.
   width: 230px;
   overflow: auto;
   z-index: 10;
-  background-color: #222d32;
+  /* background-color: #222d32; */
+  background-color: #262727;
   -webkit-box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
   -webkit-transition: left 0.3s ease,
@@ -14893,7 +14906,8 @@ be a descendant of the grid when it is being dragged.
 .login-content .login-box {
   position: relative;
   min-width: 350px;
-  min-height: 390px;
+  /*min-height: 390px;*/
+  min-height: 420px;
   background-color: #fff;
   -webkit-box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05), 0px 29px 95px 0px rgba(0, 0, 0, 0.16);
           box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05), 0px 29px 95px 0px rgba(0, 0, 0, 0.16);
@@ -14906,8 +14920,10 @@ be a descendant of the grid when it is being dragged.
 
 .login-content .login-box .login-head {
   margin-top: 0;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  /* margin-bottom: 20px;
+  padding-bottom: 20px; */
+  margin-bottom: 10px;
+  padding: 8px 0px;
   border-bottom: 1px solid #ddd;
   text-align: center;
 }
@@ -14940,7 +14956,7 @@ be a descendant of the grid when it is being dragged.
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 40px;
+  padding: 30px 40px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-transition: all 0.5s ease-in-out;

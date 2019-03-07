@@ -17,6 +17,10 @@ class Building extends Model
     protected $fillable = ['buildingName'];
 
     public function f_venueB(){
-        return $this->hasMany('App\Venue');
-}
+        return $this->hasMany('App\Venue', 'buildingID');
+	}
+
+	// public function venueBuilding(){
+	// 	return $this->belongsTo('App\Venue');
+	// }
 }

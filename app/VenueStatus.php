@@ -18,7 +18,7 @@ class VenueStatus extends Model
 
 
     public function venues(){
-        return $this->belongsTo('App\Venues', 'venueStatusID');
+        return $this->hasOne('App\Venue', 'venueStatusID');
     }
 
 }

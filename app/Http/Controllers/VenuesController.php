@@ -7,6 +7,8 @@ use App\User;
 use App\Venue;
 use Illuminate\Http\Request;
 use DB;
+use Storage;
+use Carbon\Carbon;
 // use App\VenuesController;
 
 class VenuesController extends Controller
@@ -53,8 +55,8 @@ class VenuesController extends Controller
     public function getVenues(){
          // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
 
-         $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV')->where('venueTypeID', 1)->get();
-         return json_encode($venues);
+         $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV','floor','f_venueStatusV')->where('venueTypeID', 1)->get();
+          print_r(json_encode($venues));
         // $f_buildingV = array('building' => DB::table('building')->get());
         // //$f_statusV = array('status' => DB::table('status')->get());
         // $f_userV = array('users' => DB::table('users')->get());
@@ -112,18 +114,20 @@ class VenuesController extends Controller
      */
 
     //Registar Create
-    public function create()
-    {
-        $venueB = array('building' => DB::table('building')->get());
-        $venueF = array('venuefloor' => DB::table('venuefloor')->get());
-        $venueT = array('venuetype' => DB::table('venuetype')->get());
-        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
-        return view('pages.registrar.addvenue')
-            ->with('venueB', $venueB)
-            ->with('venueF', $venueF)
-            ->with('venueT', $venueT)
-            ->with('venueST', $venueST);
-    }
+    // public function create(Request $request)
+    // {
+    //     $venueB = array('building' => DB::table('building')->get());
+    //     $venueF = array('venuefloor' => DB::table('venuefloor')->get());
+    //     $venueT = array('venuetype' => DB::table('venuetype')->get());
+    //     $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+    //     return view('pages.registrar.addvenue')
+    //         ->with('venueB', $venueB)
+    //         ->with('venueF', $venueF)
+    //         ->with('venueT', $venueT)
+    //         ->with('venueST', $venueST);
+    // }
+
+
     //GASD Create
     public function create2()
     {
@@ -139,6 +143,12 @@ class VenuesController extends Controller
     }
 
 
+    public function GenerateFilename($reqtype, $filename)
+    {
+        return strtoupper(date('Y-m-d').'-'.$reqtype.'-'.md5($filename . microtime()));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -148,15 +158,11 @@ class VenuesController extends Controller
     //Registrar Store
     public function store(Request $request)
     {
+
         $this->validate($request, [
-
             'venueName' => 'required',
-
-
-
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
-
 
         $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
@@ -168,9 +174,32 @@ class VenuesController extends Controller
         $venues->userID = auth()->user()->userID;
       //  $venue->place = auth()->user()->id;
       //  $venue->cover_image = $fileNameToStore;
-        $venues->save();
+            $venueImages = $request->venueImages;
+        if($venues->save()){
 
-        return redirect('registrar/venues/create')->with('success', 'Venue Added');
+                if($request->hasfile('venue_image'))
+                {
+                    foreach($request->file('venue_image') as $venueImage)
+                    {
+                        $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
+                        // Store file or image to storage
+                        Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
+                        $venue_image = new Picture;
+                        $venue_image->venueID = $venues->venueID;
+                        $venue_image->pictureName = $venueImageName;
+                        $venue_image->created_at = Carbon::now()->toDateTimeString();
+                        $venue_image->save();
+                    }
+                }
+
+
+            // }
+        }
+
+
+        return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]); 
+
+        // return redirect('registrar/venues/create')->with('success', 'Venue Added');
 
 
 

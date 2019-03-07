@@ -59,6 +59,13 @@ Route::post('/send', 'VenuesController@sendstore');
 //
 //});
 
+//RM
+
+
+Route::group(['middleware' => 'auth', 'prefix' => 'auth'], function () {
+    Route::post('/update-password', 'Auth\UsersController@updatePassword');
+});
+
 //Student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
@@ -73,6 +80,10 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+        
+        Route::get('/change-password', function(){
+            return view('pages.change-password');
+        });
     //FAQ
     Route::get('/studentfaq', function() {
         return view('pages.student.studentfaq');
@@ -100,9 +111,15 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 
     //reinn
      Route::get('/venues/get-venues', 'VenuesController@getVenues');
+     Route::post('/venues/add-venue', 'VenuesController@store');
+
     //FAQ
     Route::get('/registrarfaq', function() {
         return view('pages.registrar.registrarfaq');
+    });
+
+    Route::get('/change-password', function(){
+        return view('pages.change-password');
     });
 
 //    //schedules
@@ -135,6 +152,10 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 //    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
 //    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
 //    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+
+    Route::get('/change-password', function(){
+        return view('pages.change-password');
+    });
 });
 //ITD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
@@ -149,6 +170,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
     Route::get('accountlogs/index', 'LogtimesController@index')->name('accountlogs.index');
     Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
+
     //FAQ
     Route::get('/itdfaq', function() {
         return view('pages.itd.itdfaq');
@@ -159,7 +181,13 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('/users/get-users', 'Auth\UsersController@getUsers');
     Route::post('/users/get-specific-userinfo', 'Auth\UsersController@getSpecificUserInfo');
     Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
+    Route::post('/users/validate-update-email-phone', 'Auth\UsersController@validateUpdateEmailPhoneNumber');
     Route::get('/users/generate-password', 'Auth\UsersController@generatePassword');
+    Route::post('/users/archive-user', 'Auth\UsersController@archiveUser');
+    Route::get('/profile', 'Auth\UsersController@showProfile');
+    Route::get('/change-password', function(){
+        return view('pages.change-password');
+    });
 });
 
 

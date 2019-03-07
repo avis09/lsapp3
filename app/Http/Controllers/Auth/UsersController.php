@@ -32,7 +32,7 @@ class UsersController extends Controller
     public function getUsers(){
         $users = User::with('f_userrole',
         'f_userstatus',
-        'f_department')->get();
+        'f_department')->where('userStatusID', '!=', '3')->get();
         
          return json_encode($users);
     }
@@ -79,6 +79,35 @@ class UsersController extends Controller
             print_r(json_encode($data));
 
     }
+
+    protected function validateUpdateEmailPhoneNumber(Request $request){
+        if(!empty($request->email)){
+            $check_email = User::where('email', $request->email)->where('userID', $request->userID)->first();
+            $data['email'] = (empty($check_email)) ? 1 : 0;
+        }
+        else{
+            $data['email'] = 0;
+        }
+        if(!empty($request->phoneNumber)){
+            $checkPhoneNumber = User::where('phoneNumber', $request->phoneNumber)->first();
+            $data['phoneNumber'] =  (empty($checkPhoneNumber)) ? 1 : 0;
+        }
+        else{
+            $data['phoneNumber'] = 0;
+        }
+        if(!empty($request->IDnumber)){
+            $checkIDnumber = User::where('IDnumber', $request->IDnumber)->first();
+            $data['IDnumber'] =  (empty($checkIDnumber)) ? 1 : 0;
+        }
+        else{
+            $data['phoneNumber'] = 0;
+        }
+
+        // $data['password'] = ($request->password == $request->password_confirmation) ? 1 : 0;
+        print_r(json_encode($data));
+
+}
+
 
     public function generatePassword(){
         $plength = 4;
@@ -181,6 +210,51 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function UpdatePassword(Request $request) {
+        $user = User::find(auth()->user()->userID);
+        $old = $user->toJson();
+        $field = array();
+        $message = '';
+        if($request->new_password === $request->confirm_password && Hash::check($request->current_password, $user->password)) {
+          if(Hash::check($request->new_password, $user->password)){
+            $status = false;
+            $result = "error";
+            $message = "New password cannot be the same as your current password.";
+          }
+          else{
+            $user->password = Hash::make($request->new_password);
+
+            $user->save();
+
+            $status = true;
+            $result = "success";
+            $message = "You have successfully updated your password.";
+          }
+        }
+        else{
+              $status = false;
+              $result = "error";
+              if(!Hash::check($request->current_password, $user->password)){
+                $message = "Incorrect Password";
+                $field[] = array('field' => 'current_password', 'message' => $message); 
+              }
+              if($request->new_password != $request->confirm_password){
+                $message = "New Password does not match";
+                $field[] = array('field' => 'confirm_password', 'message' => $message);
+              }
+        }
+
+          $response = array(
+            "success" => $status,
+            "result" => $result,
+            "message" => $message,
+            "field" => $field
+          );
+
+        return response($response)->header('Content-Type', 'application/json');
+    }
+
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -211,8 +285,23 @@ class UsersController extends Controller
         $user->save();
 
         return redirect('/users/{id}/edit')->with('success', 'User Profile Updated');
+    }
 
+    public function showProfile(){
+      $userInfo = User::find(auth()->user()->userID);
+      return view('pages.profile', compact('userInfo'));
 
+    }
+
+    public function archiveUser(Request $request){
+        $user = User::find($request->id);
+        $user->userStatusID = 3;
+        if($user->save()){
+          return response()->json(['title' => 'Archived', 'content' => 'User Successfully Archived.', 'type' => 'success', 'success' => true]);
+        }
+        else{
+          return response()->json(['title' => 'Error', 'content' => 'Something went wrong.', 'success' => false]);
+        }
     }
     /**
      * Remove the specified resource from storage.

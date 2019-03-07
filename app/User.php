@@ -73,6 +73,9 @@ class User extends Authenticatable
     public function f_department(){
         return $this->belongsTo('App\Department', 'departmentID');
     }
+    public function f_reservedBy(){
+        return $this->hasOne('App/Venue', 'userID');
+    }
     public function f_venueType()
     {
         return $this->hasMany('App\Venue', 'venueID');

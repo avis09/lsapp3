@@ -121,7 +121,7 @@ $('.numbers-only').on('keypress', function(evt) {
   
           $(this).css('border-color','#b8b8b8');
           $(".validate_error_message").remove();
-          var error_message = "<span class='validate_error_message'>"+form_empty_error+"<br></span>"
+          var error_message = "<span class='validate_error_message'>"+form_empty_error+"<br></span>";
           $(element).each(function(){
   
               var type = $(this).attr("type");
@@ -247,32 +247,6 @@ $('.numbers-only').on('keypress', function(evt) {
       }
   }
   
-  $(document).on('change', '#upload-picture', function(){
-      var FileUploadPath = this.value;
-      var file_size = this.files[0].size;
-      var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-          if (Extension != "gif" && Extension != "png" && Extension != "bmp"
-            && Extension != "jpeg" && Extension != "jpg") {
-              medsModal({message: 'Invalid File Format!', title: 'Error!', type: 'failed'});
-                  this.value = '';
-          }
-          else if(file_size > 1500000){
-              medsModal({message: 'File is too big!', title: 'Error!', type: 'failed'});
-              this.value = '';
-           }
-          else {
-              if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                  $('.image-preview').attr('src', e.target.result);
-                  $('.image-preview').attr('data-src', FileUploadPath);
-                }
-                reader.readAsDataURL(this.files[0]);
-  
-              }
-  
-          }
-    });
   
     $(document).on('change', '.upload-file', function(){
       var FileUploadPath = this.value;
@@ -290,7 +264,7 @@ $('.numbers-only').on('keypress', function(evt) {
   
     });
   
-  // IE9 SUPPORTED VALIDATIO
+  // IE9 SUPPORTED VALIDATION
   //  function numbersOnly(evt)
   //       {
   //          var charCode = (evt.which) ? evt.which : event.keyCode

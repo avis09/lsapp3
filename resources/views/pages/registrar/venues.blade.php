@@ -10,6 +10,10 @@
             font-size: 18px;
             font-weight: 500;
         }
+        .venue-image{
+           height: 120px;
+           width: 120px;
+        }
     </style>
 @endsection
 
@@ -62,7 +66,7 @@
         </div> -->
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-success btn-add-venue mb-3">Add Venue</button>
+                        <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Venue</button>
                     <div class="table-responsive">
                                 <table id="table-venues" class="table table-striped">
                                     <thead>
@@ -82,8 +86,8 @@
                                             <td>Building </td>
                                             <td>Floor </td>
                                             <td>Venue Type </td>
-                                            <td>Venue Status</td>
-                                            <td>Added by User Type </td>
+                                            <td>Added by </td>
+                                            <td>Status</td>
                                             <td>Actions</td>
                                         </tr>
                                     </tfoot>
@@ -102,11 +106,12 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form class="form-venue">
+                    <form class="form-venue" enctype="multipart/form-data">
                     <div class="modal-body">
                             <div class="form-group">
                                 <label>Building <span class="required">*</span></label>
-                                <select class="form-control" name="buildingID" id="buildingID" data-parsley-required="true">
+                                <select class="form-control required-input" name="buildingID" id="buildingID" data-parsley-required="true">
+                                    <option value="" selected disabled>Select Building</option>
                                         @foreach ($venueB['building'] as $venueBs)
                                             {
                                             <option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>
@@ -116,13 +121,14 @@
                             </div>
                             <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
                             <div class="form-group">
-                                <label>Venue Name </label> 
+                                <label>Venue Name <span class="required">*</span></label> 
                                  <input type="text" class="form-control required-input" name="venueName" id="venueName"> 
                             </div>
 
                             <div class="form-group">
-                                    <label>Venue Room<span class="required">*</span></label>
-                                    <select class="form-control" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
+                                    <label>Venue Floor<span class="required">*</span></label>
+                                    <select class="form-control required-input" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
+                                            <option value="" selected disabled>Select Venue Floor</option>
                                         @foreach ($venueF['venuefloor'] as $venueFs)
                                             {
                                             <option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>
@@ -131,8 +137,36 @@
                                     </select>
                             </div>
                             <div class="form-group">
-                                <label for="venues">Venue Status</label>
-                                <select class="form-control" name="venueStatus" id="venueStatus" data-parsley-required="true">
+                                <label>Venue Images <span class="required">*</span></label>
+                                <div class="venue-image-container">
+                                   <div class="venue-image-parent1">
+                                       <div class="input-group venue-image-preview-container1">
+                                                    <input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">
+                                                    <div class="input-group-prepend">
+                                                        <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>
+                                </div>
+                                <!-- <table id="table-venue-images" class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <td>Image </td>
+                                            <td>Actions</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="venue-images">
+                                        
+                                    </tbody>
+                                </table> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="venues">Venue Status <span class="required">*</span></label>
+                                <select class="form-control required-input" name="venueStatus" id="venueStatus" data-parsley-required="true">
+                                        <option value="" selected disabled>Select Status</option>
                                     @foreach ($venueST['venueStatus'] as $venueSTs)
                                         {
                                         <option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>
@@ -150,36 +184,39 @@
             </div>
             </div>
 
-<!-- 
-<div id="add-image-modal" class="modal fade" data-backdrop="static" role="dialog" style="overflow:auto;">
-    <div class="modal-dialog modal-lg">
+
+<!--     <div class="modal fade" id="venue-image-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title social_modal_title">Add Slider</h4>
+                <span class="modal-title modal-venue-image-title" id="smallmodalLabel">Add New Image</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="modal-body">
-
-                </div>
-                <div class="form-group" style="padding: 10px 0px;">
-                    <label class="control-label col-sm-2"></label>
-                    <div class="col-sm-10 text-right">
-                        <button class="btn btn-success btn_confirm_addImage" id="">Add</button>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Image <span class="required">*</span></label>
+                        <input type="file" name="venue_image" id="venue-image" class="form-control required-input">
                     </div>
                 </div>
-
+                <div class="modal-footer text-right">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-confirm-venue-image">Confirm</button>
+                </div>
             </div>
         </div>
-    </div>
-</div>
- -->
+    </div> -->
+
 
     @endsection
 
     @section('scripts')
      <script type="text/javascript"> 
         var users;
+        var venue_ctr = 1;
         $(document).ready(function() {
+            $('#menu-venues').addClass('active');
           users = $('#table-venues').DataTable({
             ajax: {
             url: "/registrar/venues/get-venues",
@@ -190,23 +227,23 @@
             columns: [
             // { data: 'userID'},
             { data: 'venueName'},
+            { data: 'f_building_v.buildingName'},
+            { data: 'floor.venueFloorName'},
+            { data: 'f_venue_type_v.venueTypeName'},
             { data: null,
                 render:function(data){
-                    return data.firstName+' '+data.lastName;
+                    return data.f_user_v.firstName+' '+data.f_user_v.lastName;
 
                 }
             },
-            
-            { data: 'f_buildingV.buildingName'},
-            { data: 'phoneNumber'},
-            { data: 'f_userrole.roleType'},
             // { data: 'f_department.departmentName'},
-            { data: 'f_userstatus.userStatusType'},
+            { data: 'f_venue_status_v.venueStatusType'},
             
             // { data: 'actions'},
             { data: null,
                 render:function(data){
-                    return '<button type="button" class="btn btn-primary btn-edit-user btn-sm" data-id="'+data.userID+'">Edit</button>';
+                    return '<button type="button" class="btn btn-primary btn-edit-venue btn-sm" data-id="'+data.venueID+'">Edit</button> '+
+                    '<button type="button" class="btn btn-secondary btn-archive-venue btn-sm" data-id="'+data.venueID+'">Archive</button>';
 
                 }
             }
@@ -276,116 +313,161 @@
             });
 
 
-            $(document).on('submit', '#form-add-user', function(e){
+            $(document).on('submit', '#form-add-venue', function(e){
                     e.preventDefault();
-                    var form = $(this).serialize();
-                    $('.validate_error_message').remove();
-                    $('.required-input').removeClass('err_inputs');
-                    $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
-                     $.ajax({
-                        url: "/itd/users/validate-email-phone",
-                        type: 'POST',
-                        data: form,
-                        success:function(data){
-                            var response = JSON.parse(data);
-                            validateAddUser(response);
-                        }
-                    });
+                        $('.validate_error_message').remove();
+                        $('.required-input').removeClass('err_inputs');
+                    if(validate.standard('.required-input') == 0){
+                        $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                        var formData = new FormData(this);
+                         $.ajax({
+                            url: "/registrar/venues/add-venue",
+                            type: 'POST',
+                            data: formData,
+                            async: false,
+                            success:function(data){
+                                if(data.success === true){
+                                    Swal.fire({
+                                    type: 'success',
+                                    title: 'Success',
+                                    text: data.message,
+                                  })
+                                  .then((result) => {
+                                      if (result.value) {
+                                        $('#venue-modal').modal('hide');
+                                        var html = '';
+                                        html += '<div class="venue-image-parent1">';
+                                        html += '<div class="input-group venue-image-preview-container1">';
+                                        html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                                        html += '<div class="input-group-prepend">';
+                                         html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+                                        html += '</div></div></div>';
+                                        $('.venue-image-container').html(html);
+                                        $('select').prop('selectedIndex', 0);
+                                        $('input[type="text"]').val('');
+                                      }
+                                    });
+                                }
+                                $('.btn-confirm').removeClass('disabled').html('Confirm');
+                            },
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                        });
+                     }
             });
 
-            $(document).on('click', '.btn-edit-user', function(){
+            $(document).on('click', '.btn-edit-venue', function(){
                     var id = $(this).attr('data-id');
-                    $('.btn-reset-password').show();
-                    $('.modal-venue-title').html('Edit Account');
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
                      $.ajax({
-                        url: "/itd/users/get-specific-userinfo",
+                        url: "/registrar/venues/get-specific-venues",
                         type: 'POST',
                         data: {
                             _token: "{{csrf_token()}}",
                             id: id
                         },
                         success:function(data){
-                            $('#venue-modal').modal('show');
-                            var response = JSON.parse(data);
-                            $('#firstName').val(response.firstName);
-                            $('#lastName').val(response.lastName);
-                            $('#areaCode').val(response.areaCode);
-                            $('#phoneNumber').val(response.phoneNumber);
-                            $('#email').val(response.email);
-                            $('#userRole').val(response.userRoleID);
-                            $('#department').val(response.departmentID);
-                            $('#IDnumber').val(response.IDnumber);
-                            $('#password').val('******');
-                            $('#userStatus').val(response.userStatusID);
+                            $('venue-image').modal('show');
+                            var html = '';
+                            $.each(data.venueImages, function(x,y){
+                                html += '<div class="venue-image-parent1">';
+                                html += '<div class="input-group venue-image-preview-container1">';
+                                html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                                html += '<div class="input-group-prepend">';
+                                 html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+                                html += '</div></div></div>';
+                                $('.venue-image-container').html(html);
+                            });
                         }
                     });
             });
 
-            $(document).on('click', '.btn-reset-password', function(e){
-                    $.ajax({
-                            type: 'get',
-                            url: '/itd/users/generate-password',
-                            success: function(data) {
-                                var response = JSON.parse(data);
-                                $('#password').val(response);
-                            }
-                    });
+            $(document).on('click', '.btn-add-image', function(e){
+                venue_ctr++;
+                var html = '';
+                html += '<div class="venue-image-parent'+venue_ctr+'">';
+                html += '<div class="input-group mt-2 venue-image-preview-container'+venue_ctr+'">';
+                html += '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="'+venue_ctr+'">';
+                html += '<div class="input-group-prepend">';
+                html +=    '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="'+venue_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                html +=   '</div></div></div>';
+                $('.venue-image-container').append(html);
+            });
+            
+            $(document).on('click', '.btn-delete-venue-image', function(e){
+                var ctr = $(this).attr('data-ctr');
+                $('.venue-image-parent'+ctr).remove();
+            });
+
+            
+            $(document).on('change', '.file-venue-image', function(){
+                var test = this;
+                  var FileUploadPath = this.value;
+                  var file_size = this.files[0].size;
+                  var ctr = $(this).attr('data-ctr');
+                  var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                  if (Extension != "gif" && Extension != "png" && Extension != "bmp"
+                    && Extension != "jpeg" && Extension != "jpg") {
+                             Swal.fire(
+                                  'Error',
+                                  'Invalid File Format!',
+                                  'error'
+                            );
+                            this.value = '';
+                  }
+                  else if(file_size > 2000000){
+                             swal.fire(
+                                  'Error',
+                                  'File is too big!',
+                                  'error'
+                            );
+                            this.value = '';
+                   }
+                  else {
+                      if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                        var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
+                        $(html).insertAfter('.venue-image-preview-container'+ctr);
+                        }
+                        reader.readAsDataURL(this.files[0]);
+          
+                      }
+                  }
             });
         });
-
-            function validateAddUser(response){
-                if((validate.standard('.required-input') == 0) && (response.email > 0 && response.phoneNumber > 0 && response.IDnumber > 0)){
-                        addUser();
-                }
-                else{
-                    if(response.email == 0){
-                        $('.email').addClass('err_inputs');
-                        $("<span class='validate_error_message'>Email Address already exists.<br></span>").insertAfter('.email');
-                    }
-                    if(response.phoneNumber == 0){
-                        $('.mobile_number').addClass('err_inputs');
-                        $(" <span class='validate_error_message'>Phone Number already exists.<br></span>").insertAfter('.mobile_number');
-                    }
-                    if(response.IDnumber == 0){
-                        $('#IDnumber').addClass('err_inputs');
-                        $(" <span class='validate_error_message'>ID Number already exists.<br></span>").insertAfter('#IDnumber');
-                    }
-                    $('.btn-confirm').removeClass('disabled').html('Confirm');
-                }
-            }
-
-            function addUser(){
-                var form = $('#form-add-user').serialize();
-                $.ajax({
-                    url: "/itd/users/create",
-                    type: 'POST',
-                    data: form,
-                    success:function(data){
-                        if(data.success === true) {
-                            $('#venue-modal').modal('hide');
-                            // $('.modal-backdrop').hide();
-                             Swal.fire(
-                                  'Success',
-                                  'Account Successfuly Added!',
-                                  'success'
-                            );
-                            $('#form-add-user').find("input[type=text]").val("");
-                            $('#form-add-user').find("input[type=email]").val("");
-                            $('#form-add-user').find('input[type=password]').val('');
-                            $('select').prop('selectedIndex', 0);
-                            $('.email').removeClass('err_inputs');
-                            $('.mobile_number').removeClass('err_inputs');
-                            $('.validate_error_message').remove();
-                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
-                            users.ajax.reload();
-                        }
-                    }
-                });
-            }
   </script>
 
     @endsection
 
-
+<!-- 
+<div>
+        <table width="90%" style="font-family: calibri; background-color: #ccc; border: 1px solid #555" align="center" cellpadding="0" cellspacing="0">
+            
+                <tr style="background-color: #298430;">
+                    <td style="border-bottom: 1px solid #126418; background-color: #298430; color: #fff; padding: 10px 15px;">
+                        <h2 style="margin: 10px; display: inline-block;">BROS</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 30px 50px 40px 50px; background-color: #eee; font-family: calibri; line-height: 30px;">
+                        <p>Dear <strong>'.$name.'</strong></span> <br/></p>
+                        <p>Sorry to inform you that your request has been rejected.</p?
+                        <br/>
+                        <br/>
+                        Thank you.
+                        <br>
+                        <br/>
+                        Regards,
+                        <br/>
+                        <strong>ITD</strong>
+                        </p>
+                    </td>
+                </tr>       
+        </table>
+        <div style="text-align: center; font-family: calibri; font-size: 12px; margin-top: 10px;">
+        </div>
+    </div>
+     -->
