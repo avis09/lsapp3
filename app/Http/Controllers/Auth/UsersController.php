@@ -157,7 +157,6 @@ class UsersController extends Controller
         $user->password = Hash::make($password);
         //$user->Password = bcrypt(request('Password'));
         //$user->Password = $request->Hash(['password']);
-        $user->areaCode = $request->input('areaCode');
         $user->phoneNumber = $request->input('phoneNumber');
         $user->email = $request->input('email');
         $user->apiToken = str_random(60);

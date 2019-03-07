@@ -83,9 +83,10 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
+        Route::get('/profile', 'Auth\UsersController@showProfile');
     //FAQ
-    Route::get('/studentfaq', function() {
-        return view('pages.student.studentfaq');
+    Route::get('/faq', function() {
+        return view('pages.student.faq');
     });
 });
 ////Registrar-----------------------------------------------------------------------------------------------------------
@@ -116,7 +117,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('/registrarfaq', function() {
         return view('pages.registrar.registrarfaq');
     });
-
+    Route::get('/profile', 'Auth\UsersController@showProfile');
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });
@@ -151,7 +152,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 //    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
 //    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
 //    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
-
+    Route::get('/profile', 'Auth\UsersController@showProfile');
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });

@@ -54,7 +54,7 @@
                                                       </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">Email <span class="required">*</span></label>
+                                                <label class="control-label">Email</label>
                                                 <input type="text" class="form-control" value="{{$userInfo->email}}" disabled>
                                             </div>
                                             <div class="form-group mt-4">

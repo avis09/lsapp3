@@ -26,7 +26,9 @@
                 <li class="breadcrumb-item"><a href="#">Calendar</a></li>
             </ul>
         </div>
-    </main>
+        <div class="card">
+                <div class="card-body">
+                    
     <label for="venue">Venue:</label>
     <select class="form-control" name="venue" id="venue" data-parsley-required="true">
         @foreach ($venues as $venue)
@@ -76,5 +78,83 @@
             {{--@endforeach--}}
         </table>
     </div>
+                    </div>
+            </div>
 
+    </main>
+    
+
+@endsection
+
+@section('scripts')
+<script>
+        $(document).ready(function () {
+            $(document).on('change', function () {
+    
+                // console.log('changed');
+                var venueID = $('#venue').val();
+                var date = $('#date').val();
+                // console.log(Floor_Id);
+                var div = $('.sched');
+                var op = " ";
+    
+                $.ajax({
+                    type: 'get',
+                    url: '{!! URL::to('findVenueSched') !!}',
+                    data: {'venueID': venueID, 'date': date},
+                    success: function (data) {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            //op += '<option selected for="time" value="" disabled>Select a time now</option>';
+                            op += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
+                        }
+                        if(data.length == 0){
+                            op += '<option selected for="time" value="" disabled selected>No time available</option>';
+                        }
+                        $(div).html(" ");
+                        $(div).append(op);
+                    },
+                    error: function () {
+                        console.log('error');
+                    }
+                })
+            })
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', function () {
+    
+                // console.log('changed');
+                var venueID = $('#venue').val();
+                var date = $('#date').val();
+                // console.log(Floor_Id);
+                var table = $('.availSched');
+                var op = " ";
+    
+                $.ajax({
+                    type: 'get',
+                    url: '{!! URL::to('showSchedules') !!}',
+                    data: {'venueID': venueID, 'date': date},
+                    success: function (data) {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            //op += '<option selected for="time" value="" disabled>Select a time now</option>';
+                            op += '<tr> + <td>' + data[i].date + '</td> + <td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td> + <td>' + data[i].statusName + '</td> + <td>' + data[i].firstName + '</td> + <tr>';
+                        }
+                        if(data.length == 0){
+                            op += '<option selected for="time" value="" disabled selected>No reservations</option>';
+                        }
+                        $(table).html(" ");
+                        $(table).append(op);
+                    },
+                    error: function () {
+                        console.log('error');
+                    }
+                })
+            })
+        });
+    </script>
+    
 @endsection

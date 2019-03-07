@@ -26,28 +26,27 @@
                 <li class="breadcrumb-item"><a href="#">Active</a></li>
             </ul>
         </div>
-    </main>
-    {!! Form::open(['action' => 'FeedbacksController@store', 'method' => 'POST' ,
-    'enctype' => 'multipart/form-data']) !!}
+        <div class="card">
+                <div class="card-body">
+        <form action="student/feedbacks/create" method="POST">
+            <div class="form-group">
+                <label for="venues">Choose Venue</label>
+                <select class="form-control" name="f_venue" id="f_venue" data-parsley-required="true">
+                    @foreach ($f_venue as $f_venues)
+                        {
+                            <option value="{{ $f_venues->venueID }}"> {{ $f_venues->venueName }}</option>
+                        }
+                    @endforeach
+                </select>
+            </div>
 
-    <div class="form-group">
-        <label for="venues">Choose Venue</label>
-        <select class="form-control" name="f_venue" id="f_venue" data-parsley-required="true">
-            @foreach ($f_venue as $f_venues)
-                {
-                    <option value="{{ $f_venues->venueID }}"> {{ $f_venues->venueName }}</option>
-                }
-            @endforeach
-        </select>
-    </div>
-
-    <div class="form-group">
-        {{Form::label('comment', 'comment')}}
-        {{Form::text('Comment', '', ['class ' => 'form-control', 'placeholder'
-        => 'Comment'])}}
-    </div>
-
-
-    {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
-    {!! ! Form::close() !!}
+            <div class="form-group">
+                <label>Comment <span class="required">*</span></label>
+                <input type="text" class="form-control" name="comment">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+</div>
+</div>
+</main>
 @endsection

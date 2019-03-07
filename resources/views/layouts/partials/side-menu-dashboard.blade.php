@@ -11,34 +11,18 @@
         {{--</div>--}}
         {{--</div>--}}
         <ul class="app-menu">
-            <li class="treeview">
+            <li id="menu-reservation" class="treeview">
                 <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
                     <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
                     <li><a class="treeview-item" href="{{url('student/schedules/create') }}"><i class="icon fa fa-circle-o"></i> Reserve Venue</a></li>
-                    <li><a class="treeview-item" href="{{ url('student/schedules/index') }}"><i class="icon fa fa-circle-o"></i> Reservations</a></li>
                     <li><a class="treeview-item" href="{{ url('student/schedules/index') }}"><i class="icon fa fa-circle-o"></i> Calendar</a></li>
                 </ul>
             </li>
-            <li><a class="app-menu__item active" href="{{ url('student/gallery/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Venues Gallery</span></a></li>
-            <li class="treeview">
-                <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
-                    <span class="app-menu__label">View Profile</span><i class="treeview-indicator fa fa-angle-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="{{url('student/{id}/edit') }}"><i class="icon fa fa-circle-o"></i> Edit Profile</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
-                    <span class="app-menu__label">Feedbacks</span><i class="treeview-indicator fa fa-angle-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="{{url('student/feedbacks/create') }}"><i class="icon fa fa-circle-o"></i> Send Feedback</a></li>
-                </ul>
-            </li>
-            <li><a class="app-menu__item active" href="{{ url('student/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
+            <li><a class="app-menu__item" href="{{ url('student/gallery/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Venues Gallery</span></a></li>
+            <li><a id="menu-feedbacks" class="app-menu__item" href="{{ url('student/feedbacks/create') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Feedbacks</span></a></li>
+            <li><a id="menu-faqs" class="app-menu__item" href="{{ url('student/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
         </ul>
 
     </aside>

@@ -191,30 +191,6 @@
             </div>
             </div>
 
-<!-- 
-<div id="add-image-modal" class="modal fade" data-backdrop="static" role="dialog" style="overflow:auto;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title social_modal_title">Add Slider</h4>
-            </div>
-            <div class="modal-body">
-
-                </div>
-                <div class="form-group" style="padding: 10px 0px;">
-                    <label class="control-label col-sm-2"></label>
-                    <div class="col-sm-10 text-right">
-                        <button class="btn btn-primary btn_confirm_addImage" id="">Add</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
- -->
-
     @endsection
 
     @section('scripts')
