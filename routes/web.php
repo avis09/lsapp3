@@ -47,7 +47,7 @@ Route::get('/faq', 'FAQController@index');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //Functions for schedule
-Route::get('/findVenueSched', 'SchedulesController@findVenueSched');
+Route::post('/findVenueSched', 'SchedulesController@findVenueSched');
 Route::get('/showSchedules', 'SchedulesController@showSchedules');
 
 
@@ -71,12 +71,15 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
     Route::post('feedbacks/create', 'FeedbacksController@store')->name('feedbacks.store');
 
         //schedules
-        Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
-        Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
-        Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+        Route::get('schedules/calendar', 'SchedulesController@showCalendarPage')->name('schedules.index');
+        Route::get('schedules/list', 'SchedulesController@showReservationPage');
+        Route::post('/schedules/create-reservation', 'SchedulesController@store')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
-        
+        Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
+        Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
+        Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
+
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });

@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
 
             if(auth()->user()->userRoleID == 1) {
-                return redirect('student/schedules/index');
+                return redirect('student/schedules/list');
             }elseif (auth()->user()->userRoleID == 2){
                 return redirect('gasd/venues/index2');
             }elseif (auth()->user()->userRoleID == 3) {

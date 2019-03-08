@@ -7,6 +7,7 @@ use App\Time;
 use App\VenueSchedule;
 use Carbon\Carbon;
 use App\Venue;
+use App\VenueType;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
@@ -34,36 +35,68 @@ class SchedulesController extends Controller
             ->with('venues', $venues);
     }
 
+    public function showCalendarPage()
+    {
+        $schedule =
+        $venues = Venue::all();
+        return view('pages.student.calendar')
+            ->with('schedules', $schedule)
+            ->with('venues', $venues);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function showReservationPage()
     {
-//        $schedule = array('schedules' => DB::table('schedules')->get());
-//        $scheduleV = array('venue' => DB::table('venue')->get());
-        $venues = DB::table('venue')
-            ->select('*')
-            ->get();
-
-        //Get venue ID
-//        $venues = array('venue' => DB::table('venue')
-//            ->select('venue.venueTypeID')
-//            ->where('venue.venueID', '=', $venueID)
-//            ->get());
-
-        $scheduleT = array('time' => DB::table('time')->get());
-
-        $scheduleVT = array('venuetype' => DB::table('venuetype')->get());
-//        return view('schedules.addschedule')->with('schedule', $schedule)
-//            ->with('scheduleT', $scheduleT)
-//            ->with('scheduleV', $scheduleV)
-//            ->with('scheduleVT', $scheduleVT);
-
-        return view('pages.student.addschedule')
-            ->with('venues', $venues);
+        $scheduleVenueType = VenueType::all();
+        return view('pages.student.showschedule', compact('scheduleVenueType'));
     }
+
+    public function getVenuesOfVenueType(Request $request){
+        $venues = Venue::where('venueTypeID', $request->id)->get();
+        return response()->json($venues);
+    }
+
+    public function getUserReservations(){
+        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')->where('userID', auth()->user()->userID)->where('statusID', '!=', '6')->get();
+
+         print_r(json_encode($schedules));
+    }
+
+    public function updateReservationStatus(Request $request){
+        $user = Schedule::find($request->id);
+        $user->statusID = $request->type;
+        if($user->save()){
+            switch ($request->type) {
+                case '2':
+                    $content_message = 'Approved';
+                    break;
+                case '3':
+                    $content_message = 'Rejected';
+                    break;
+                case '4':
+                    $content_message = 'Cancelled';
+                    break;
+                case '5':
+                    $content_message = 'Done';
+                    break;
+                case '6':
+                    $content_message = 'Archived';
+                    break;
+                default:
+                    break;
+            }
+
+          return response()->json(['title' => 'Success', 'content_message' => 'Reservation Successfully '.$content_message, 'type' => 'success', 'success' => true]);
+        }
+        else{
+          return response()->json(['title' => 'Error', 'content_message' => 'Something went wrong.', 'success' => false]);
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.

@@ -33,4 +33,13 @@ class Schedule extends Model
     {
         return $this->belongsTo('App\Venue', 'venueID');
     }
+
+    public function reservationStatus(){
+        return $this->belongsTo('App\ReservationStatus', 'statusID');
+    }
+
+    public function venueType()
+    {
+        return $this->belongsTo('App\VenueType', 'venueTypeID');
+    }
 }

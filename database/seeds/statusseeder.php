@@ -18,10 +18,16 @@ class statusseeder extends Seeder
             'statusName' => "Approved",
         ]);
         DB::table('status')->insert([
+            'statusName' => "Rejected",
+        ]);
+        DB::table('status')->insert([
             'statusName' => "Cancelled",
         ]);
         DB::table('status')->insert([
             'statusName' => "Done",
+        ]);
+        DB::table('status')->insert([
+            'statusName' => "Archived",
         ]);
     }
 }
