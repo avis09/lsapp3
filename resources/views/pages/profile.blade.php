@@ -45,11 +45,11 @@
                                             <div class="form-group">
                                                       <label class="control-label" for="contact">Phone Number<span class="required">*</span></label>
                                                       <div class="input-group">
-                                                              <div class="input-group-prepend">
-                                                                      <select id="areacode" class="form-control required-input" name="areaCode" id="areaCode" required>
-                                                                          <option value="63">+63 (PH)</option>
-                                                                      </select>
-                                                              </div>
+                                                              {{--<div class="input-group-prepend">--}}
+                                                                      {{--<select id="areacode" class="form-control required-input" name="areaCode" id="areaCode" required>--}}
+                                                                          {{--<option value="63">+63 (PH)</option>--}}
+                                                                      {{--</select>--}}
+                                                              {{--</div>--}}
                                                               <input type="text" class="form-control required-input mobile_number" name="phoneNumber" id="phoneNumber" value="{{$userInfo->phoneNumber}}" maxlength=10>
                                                       </div>
                                             </div>
@@ -84,19 +84,27 @@
                     var form = $(this);
                     $.ajax({
                        type: "POST",
-                       url: "/auth/update-profile",
+                       url: "/student/update-profile",
                        data: form.serialize(),
                        success: function(data) {
-                                  Swal.fire({
-                                    type: 'success',
-                                    title: 'Success',
-                                    text: 'You have successfully update your profile!'
-                                  })
-                                  .then((result) => {
-                                      if (result.value) {
-                                        window.location.href = "/student/profile";
-                                      }
-                                    });
+                           // Swal.fire({
+                           //   type: 'success',
+                           //   title: 'Success',
+                           //   text: 'updated profile!'
+                           // })
+                           if(data.success === true) {
+                               Swal.fire({
+                                   type: 'success',
+                                   title: 'Success',
+                                   text: data.message,
+                               })
+
+                                   .then((result) => {
+                                       if (result.value) {
+                                           window.location.href = "/student/profile";
+                                       }
+                                   });
+                           }
                             $('.btn-save-profile').html('Save Password');
                        }
                      });

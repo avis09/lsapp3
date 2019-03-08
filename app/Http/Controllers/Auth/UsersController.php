@@ -305,20 +305,12 @@ class UsersController extends Controller
     }
 
     public function updateProfile(Request $request){
-        $this->validate($request, [
-            // 'userRoleID' => 'required',
-            'firstName' => 'required',
-            'LastName' => 'required',
-//            'password' => 'required',
-//            'phoneNumber' => 'required',
-            'email' => 'required'
-            //    'cover_image' => 'image|nullable|max:1999'
-        ]);
-        $user = new User;
+
+        $user = User::find(auth()->user()->userID);
         $user->phoneNumber = $request->input('phoneNumber');
         $user->save();
 
-        return view('pages.profile', compact('userInfo'));
+        return response()->json(['message' => 'updated profile!', 'success' => true]);
     }
 
 
