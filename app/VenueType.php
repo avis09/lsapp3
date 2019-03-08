@@ -21,5 +21,10 @@ class VenueType extends Model
         return $this->belongsTo('App\Venue');
     }
 
+    public function schedule()
+    {
+        return $this->hasOne('App\Venue', 'venueTypeID');
+    }
+
 }
 

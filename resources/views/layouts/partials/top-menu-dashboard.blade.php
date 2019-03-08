@@ -27,7 +27,11 @@
                 @endphp
             @endif
 
-            <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">{{ auth()->user()->firstName.' '.auth()->user()->lastName }} <i class="fa fa-user fa-lg ml-1"></i></a>
+            <li class="dropdown">
+                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"> <i class="fas fa-user-circle fa-lg mr-1"></i> {{ auth()->user()->firstName.' '.auth()->user()->lastName }} 
+                <!-- <i class="fa fa-user fa-lg ml-1"></i> -->
+
+            </a>
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <li><a class="dropdown-item" href="{{$profile}}"><i class="fas fa-user fa-lg"></i> Profile</a></li>
 

@@ -314,6 +314,7 @@ class UsersController extends Controller
           return response()->json(['title' => 'Error', 'content' => 'Something went wrong.', 'success' => false]);
         }
     }
+    
     /**
      * Remove the specified resource from storage.
      *

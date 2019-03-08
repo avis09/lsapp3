@@ -4,24 +4,26 @@
 @if (Auth::check() && Auth::user()->userRoleID == 1)
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        {{--<div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">--}}
-        {{--<div>--}}
-        {{--<p class="app-sidebar__user-name">John Doe</p>--}}
-        {{--<p class="app-sidebar__user-designation">Frontend Developer</p>--}}
-        {{--</div>--}}
-        {{--</div>--}}
+        <div class="app-sidebar__user">
+            <i class="fas fa-user-circle mr-3 ml-1 fa-3x"></i>
+            <!-- <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"> -->
+        <div>
+        <p class="app-sidebar__user-name">{{ auth()->user()->firstName.' '.auth()->user()->lastName }}</p>
+        <p class="app-sidebar__user-designation">Student</p>
+        </div>
+        </div>
         <ul class="app-menu">
             <li id="menu-reservation" class="treeview">
-                <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
+                <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
                     <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="{{url('student/schedules/create') }}"><i class="icon fa fa-circle-o"></i> Reserve Venue</a></li>
-                    <li><a class="treeview-item" href="{{ url('student/schedules/index') }}"><i class="icon fa fa-circle-o"></i> Calendar</a></li>
+                    <li><a id="reservation-list" class="treeview-item" href="{{url('student/schedules/list') }}"><i class="icon fa fa-circle-o"></i> Reservation List</a></li>
+                    <li><a id="calendar" class="treeview-item" href="{{ url('student/schedules/calendar') }}"><i class="icon fa fa-circle-o"></i> Calendar</a></li>
                 </ul>
             </li>
-            <li><a class="app-menu__item" href="{{ url('student/gallery/index') }}"><i class="app-menu__icon fa fa-user-circle-o"></i><span class="app-menu__label">Venues Gallery</span></a></li>
-            <li><a id="menu-feedbacks" class="app-menu__item" href="{{ url('student/feedbacks/create') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Feedbacks</span></a></li>
+             <li><a id="menu-venue-gallery" class="app-menu__item" href="{{ url('student/gallery/index') }}"><i class="app-menu__icon fas fa-images"></i><span class="app-menu__label">Venues Gallery</span></a></li>
+            <li><a id="menu-feedbacks" class="app-menu__item" href="{{ url('student/feedbacks/create') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Send Feedback</span></a></li>
             <li><a id="menu-faqs" class="app-menu__item" href="{{ url('student/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
         </ul>
 

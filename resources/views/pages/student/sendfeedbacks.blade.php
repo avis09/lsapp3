@@ -23,7 +23,7 @@
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                <li class="breadcrumb-item"><a href="#">Active</a></li>
+                <li class="breadcrumb-item"><a href="#">Feedbacks</a></li>
             </ul>
         </div>
         <div class="card">

@@ -48,7 +48,7 @@ class LoginController extends Controller
              else{
                     if($user->userRoleID == 1) {
                 //          dd(auth::user());
-                        return redirect('student/schedules/index');
+                        return redirect('student/schedules/list');
                     }
                     elseif ($user->userRoleID == 2){
                         return redirect('gasd/venues/index2');
