@@ -307,7 +307,7 @@ class UsersController extends Controller
     public function updateProfile(Request $request){
 
         $user = User::find(auth()->user()->userID);
-        $user->phoneNumber = $request->input('phoneNumber');
+        $user->phoneNumber = "63".$request->input('phoneNumber');
         $user->save();
 
         return response()->json(['message' => 'updated profile!', 'success' => true]);
