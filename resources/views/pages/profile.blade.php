@@ -32,7 +32,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                 <div class="col-md-4">
-                                    <form id="form-profile">
+                                    <form id="form-update-profile">
                                         @csrf
                                             <div class="form-group">
                                                 <label class="control-label">ID Number</label>
@@ -79,12 +79,12 @@
                 e.preventDefault();
                 $('.validate_error_message').remove();
                 $('.mobile_number').removeClass('err_inputs');
-                if(validate.standard('.mobile_number') == 0){
-                $('.btn-save-profile').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                if(validate.standard('.mobile_number') === 0){
+                $('.btn-save-profile').html('<i class="fas fa-spinner fa-spin"></i>');
                     var form = $(this);
                     $.ajax({
                        type: "POST",
-                       url: "/auth/update-password",
+                       url: "/auth/update-profile",
                        data: form.serialize(),
                        success: function(data) {
                                   Swal.fire({
@@ -94,10 +94,10 @@
                                   })
                                   .then((result) => {
                                       if (result.value) {
-                                        window.location.href = "/itd/users/index";
+                                        window.location.href = "/student/profile";
                                       }
                                     });
-                            $('.btn-save-profile').removeClass('disabled').html('Save Password');
+                            $('.btn-save-profile').html('Save Password');
                        }
                      });
                 }

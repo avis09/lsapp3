@@ -304,6 +304,24 @@ class UsersController extends Controller
 
     }
 
+    public function updateProfile(Request $request){
+        $this->validate($request, [
+            // 'userRoleID' => 'required',
+            'firstName' => 'required',
+            'LastName' => 'required',
+//            'password' => 'required',
+//            'phoneNumber' => 'required',
+            'email' => 'required'
+            //    'cover_image' => 'image|nullable|max:1999'
+        ]);
+        $user = new User;
+        $user->phoneNumber = $request->input('phoneNumber');
+        $user->save();
+
+        return view('pages.profile', compact('userInfo'));
+    }
+
+
     public function archiveUser(Request $request){
         $user = User::find($request->id);
         $user->userStatusID = 3;
