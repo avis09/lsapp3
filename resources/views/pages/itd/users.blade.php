@@ -315,7 +315,8 @@
                         data: form,
                         success:function(data){
                             var response = JSON.parse(data);
-                            validateSaveUser(response);
+                            var action_type = 'create';
+                            validateSaveUser(response,action_type);
                         }
                     });
             });

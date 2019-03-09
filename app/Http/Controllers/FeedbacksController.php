@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Feedback;
 use App\User;
 use App\Venue;
+use App\VenueType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -55,17 +56,15 @@ class FeedbacksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function showFeedbackPage()
     {
-        $users = array('users' => DB::table('users')->get());
-        //$venues = array('venue' => DB::table('venue')->get());
-        //$f_venue = array('venue' => DB::table('venue')->get());
-        $f_venue = Venue::all();
+        $venueTypes = VenueType::all();
 
-        return view ('pages.student.sendfeedbacks')
-            //->with('venues', $venues);
-            ->with('users', $users)
-            ->with('f_venue', $f_venue);
+        return view('pages.student.sendfeedbacks', compact('venueTypes'));
+        // return view ('pages.student.sendfeedbacks')
+        //     //->with('venues', $venues);
+        //     ->with('users', $users)
+        //     ->with('f_venue', $f_venue);
     }
 
     /**
@@ -77,17 +76,20 @@ class FeedbacksController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Comment' => 'required'
+            'venue_name' => 'required',
+            'comment' => 'required'
         ]);
 
         $feedbacks = new Feedback();
-        $feedbacks->comment = $request->input('Comment');
+        $feedbacks->comment = $request->input('comment');
         $feedbacks->created_at = Carbon::now();
-        $feedbacks->venueID = $request->input('f_venue');
+        $feedbacks->venueID = $request->venue_name;
         $feedbacks->userID = auth()->user()->userID;
-        $feedbacks->save();
+        if($feedbacks->save()){
+            return response()->json(['message' => 'Comment has been sent!', 'success' => true]); 
+        }
 
-        return Redirect::to('student/schedules/create')->with('success', 'Feedback sent');
+        // return Redirect::to('student/schedules/create')->with('success', 'Feedback sent');
     }
 
     /**

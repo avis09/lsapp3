@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Calendar | Bros </title>
+    <title>Venue Gallery | Bros </title>
 @endsection
 
 @section('css')
@@ -18,19 +18,25 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar"></i> Calendar</h1>
+                <h1><i class="fa fa-calendar"></i> Venue Gallery</h1>
                 {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                <li class="breadcrumb-item"><a href="#">Calendar</a></li>
+                <li class="breadcrumb-item"><a href="#">Venue Gallery</a></li>
             </ul>
         </div>
         <div class="card">
                 <div class="card-body">
                     <div class="container">
-                    <div class="form-group">
-                        <label for="venue">Venue Type <span class="required">*</span></label>
+                        <h4>ROOMS</h4>
+                        
+
+
+
+                        <h4>COURT</h4>
+                    {{-- <div class="form-group">
+                        <label for="venue">Venue Type</label>
                         <select class="form-control required-input" name="venue_type" id="venue-type" data-parsley-required="true">
                             <option value="">Select Venue Type </option>
                             @foreach ($venueTypes as $venueType)
@@ -41,24 +47,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                    <label for="venue">Venue <span class="required">*</span></label>
+                    <label for="venue">Venue</label>
                     <select class="form-control" name="venue_name" id="venue-name" data-parsley-required="true">
                         <option value="" selected disabled>Select Venue</option>
                     </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date <span class="required">*</span></label>
-                        <input type="date" class="form-control required-input" id="date">
-                            {{-- {!! $errors->first('date', '<p class="alert alert-danger">:message</p>') !!} --}}
-                    </div>
-                        <table id="table-schedules" class="table table-bordered">
-                            <tr>
-                                <td>Date</td>
-                                <td>Time</td>
-                                <td>Status</td>
-                                <td>Reserved By</td>
-                            </tr>
-                        </table>
+                    </div> --}}
                     </div>
                 </div>
             </div>
@@ -71,8 +64,7 @@
 @section('scripts')
 <script>
         $(document).ready(function () {
-            $('#menu-reservation').addClass('is-expanded');
-            $('#calendar').addClass('active');
+            $('#menu-venue-gallery').addClass('active');
             $(document).on('change', '#venue-type', function () {
                 var id = $(this).val();
                 $.ajax({

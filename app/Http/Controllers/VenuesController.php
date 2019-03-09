@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\User;
 use App\Venue;
+use App\VenueType;
 use Illuminate\Http\Request;
 use DB;
 use Storage;
@@ -155,6 +156,12 @@ class VenuesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function showVenueGallery(){
+        $venueTypes = VenueType::all();
+        return view('pages.student.venue-gallery', compact('venueTypes'));
+    }
+
     //Registrar Store
     public function store(Request $request)
     {

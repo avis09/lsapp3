@@ -37,11 +37,8 @@ class SchedulesController extends Controller
 
     public function showCalendarPage()
     {
-        $schedule =
-        $venues = Venue::all();
-        return view('pages.student.calendar')
-            ->with('schedules', $schedule)
-            ->with('venues', $venues);
+        $venueTypes = VenueType::all();
+        return view('pages.student.calendar', compact('venueTypes'));
     }
 
     /**
@@ -52,7 +49,7 @@ class SchedulesController extends Controller
     public function showReservationPage()
     {
         $scheduleVenueType = VenueType::all();
-        return view('pages.student.showschedule', compact('scheduleVenueType'));
+        return view('pages.student.schedule', compact('scheduleVenueType'));
     }
 
     public function getVenuesOfVenueType(Request $request){
