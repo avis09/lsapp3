@@ -54,10 +54,6 @@ Route::get('/showSchedules', 'SchedulesController@showSchedules');
 //TRIAL
 Route::get('/send', 'VenuesController@sendcreate');
 Route::post('/send', 'VenuesController@sendstore');
-//Route::group(['middleware' => ['guest']], function () {
-//    // Guest routs
-//
-//});
 
 //RM
 
@@ -87,7 +83,9 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
+        //PROFILE UPDATE
         Route::get('/profile', 'Auth\UsersController@showProfile');
+        Route::post('/update-profile', 'Auth\UsersController@updateProfile');
     //FAQ
     Route::get('/faq', function() {
         return view('pages.student.faq');
