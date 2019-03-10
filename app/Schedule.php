@@ -27,8 +27,9 @@ class Schedule extends Model
 //    }
 
     public function f_time(){
-        return $this->hasMany('App\Time', 'timeID');
+        return $this->belongsTo('App\Time', 'timeID');
     }
+
     public function f_venue()
     {
         return $this->belongsTo('App\Venue', 'venueID');

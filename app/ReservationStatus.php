@@ -21,4 +21,6 @@ class ReservationStatus extends Model
         return $this->hasOne('App\Schedule', 'statusID');
     }
 
+
+
 }

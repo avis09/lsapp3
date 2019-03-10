@@ -22,12 +22,12 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar-o"></i> schedules </h1>
+                <h1><i class="fa fa-calendar-o"></i> room schedules </h1>
                 {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                <li class="breadcrumb-item"><a href="#">Schedules</a></li>
+                <li class="breadcrumb-item"><a href="#">room Schedules</a></li>
             </ul>
         </div>
         <div class="card">
@@ -168,8 +168,15 @@
                     },
                     // { data: 'user.firstName'},
                     { data: 'f_venue.venueName'},
-                    { data: 'timeID'},
-                    { data: 'reservationstatus.statusType'},
+                    // { data: 'timeID'},
+                    { data: null,
+                        render:function(data){
+                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
+
+                        }
+                    },
+                    { data: 'statusID'},
+                   // { data: 'reservationStatus.statusName'},
                     { data: 'purpose'},
                     { data: 'updatedMessage'},
                     { data: 'date'},
@@ -177,8 +184,8 @@
                     { data: 'updated_at'},
                     // { data: null,
                     //     render:function(data){
-                    //         return '<button type="button" class="btn btn-primary btn-edit-venue btn-sm" data-id="'+data.venueID+'">Edit</button> '+
-                    //             '<button type="button" class="btn btn-secondary btn-archive-venue btn-sm" data-id="'+data.venueID+'">Archive</button>';
+                    //         return '<button type="button" class="btn btn-primary btn-approve-schedule btn-sm" data-id="'+data.scheduleID+'">Approve</button> '+
+                    //             '<button type="button" class="btn btn-secondary btn-decline-schedule btn-sm" data-id="'+data.scheduleID+'">Decline</button>';
                     //
                     //     }
                     // }
@@ -186,30 +193,30 @@
                 ]
             });
 
-            $(document).on('click', '.btn-add-reservation', function () {
-                $('#reservation-modal').modal('show');
-            });
+            // $(document).on('click', '.btn-add-reservation', function () {
+            //     $('#reservation-modal').modal('show');
+            // });
 
-            $(document).on('submit', '#form-add-reservation', function () {
+            {{--$(document).on('submit', '#form-add-reservation', function () {--}}
 
-                if(validate.standard('.required-input') == 0){
-                    var form = $(this).serialize();
-                    $.ajax({
-                        url: "/student/schedules/create-reservation",
-                        type: "POST",
-                        data: {
-                            _token: "{{csrf_token()}}",
-                            form: form
-                        },
-                        success: function(data){
+                {{--if(validate.standard('.required-input') == 0){--}}
+                    {{--var form = $(this).serialize();--}}
+                    {{--$.ajax({--}}
+                        {{--url: "/student/schedules/create-reservation",--}}
+                        {{--type: "POST",--}}
+                        {{--data: {--}}
+                            {{--_token: "{{csrf_token()}}",--}}
+                            {{--form: form--}}
+                        {{--},--}}
+                        {{--success: function(data){--}}
 
-                        }
-                    });
-                }
-                return false;
-            });
+                        {{--}--}}
+                    {{--});--}}
+                {{--}--}}
+                {{--return false;--}}
+            {{--});--}}
 
-            $(document).on('click', '.btn-update-reservation-status', function(e){
+            $(document).on('click', '.btn-approve-schedule', function(e){
                 var id = $(this).attr('data-id');
                 var type = $(this).attr('data-type');
                 if(type == 4 || type == 6){
@@ -247,67 +254,67 @@
                 }
             });
 
-            $(document).on('change', '#venue-type', function () {
-                var id = $(this).val();
-                $.ajax({
-                    url: "/student/schedule/get-venuesofvenuetype",
-                    type: "POST",
-                    data:{
-                        _token: "{{csrf_token()}}",
-                        id:id
-                    },
-                    success:function(data){
-                        var html = '';
-                        html += '<option value="" selected disabled>Select Venue</option>';
-                        $.each(data, function(x,y){
-                            html += '<option value="'+y.venueID+'">'+y.venueName+'</option>';
-                        });
-                        $('#venue-name').html(html);
-                    }
-                });
-            });
+            {{--$(document).on('change', '#venue-type', function () {--}}
+                {{--var id = $(this).val();--}}
+                {{--$.ajax({--}}
+                    {{--url: "/student/schedule/get-venuesofvenuetype",--}}
+                    {{--type: "POST",--}}
+                    {{--data:{--}}
+                        {{--_token: "{{csrf_token()}}",--}}
+                        {{--id:id--}}
+                    {{--},--}}
+                    {{--success:function(data){--}}
+                        {{--var html = '';--}}
+                        {{--html += '<option value="" selected disabled>Select Venue</option>';--}}
+                        {{--$.each(data, function(x,y){--}}
+                            {{--html += '<option value="'+y.venueID+'">'+y.venueName+'</option>';--}}
+                        {{--});--}}
+                        {{--$('#venue-name').html(html);--}}
+                    {{--}--}}
+                {{--});--}}
+            {{--});--}}
 
-            $(document).on('change', '#schedule-date', function () {
-                var venueID = $('#venue-name').val();
-                var date = $('#schedule-date').val();
-                // console.log(Floor_Id);
-                var div = $('.schedule-time');
-                var op = "";
+            {{--$(document).on('change', '#schedule-date', function () {--}}
+                {{--var venueID = $('#venue-name').val();--}}
+                {{--var date = $('#schedule-date').val();--}}
+                {{--// console.log(Floor_Id);--}}
+                {{--var div = $('.schedule-time');--}}
+                {{--var op = "";--}}
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{!! URL::to('findVenueSched') !!}',
-                    data: {
-                        _token: "{{csrf_token()}}",
-                        venueID: venueID,
-                        date: date
-                    },
-                    success: function (data) {
-                        if(data.length == 0){
-                            op += '<option selected for="time" value="" disabled selected>No time Available</option>';
-                        }
-                        else{
-                            op += '<option value="" selected disabled>Select Time</option>';
-                        }
-                        for (var i = 0; i < data.length; i++) {
-                            //op += '<option selected for="time" value="" disabled>Select a time now</option>';
-                            op += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
-                        }
-                        $(div).html(" ");
-                        $(div).append(op);
-                    },
-                    error: function () {
-                        console.log('error');
-                    }
-                })
-            });
-            $(document).on('change', '.schedule-time', function () {
-                var venue_type = $('#venue-type').val();
-                if(venue_type == 2){
-                    var html = "";
+                {{--$.ajax({--}}
+                    {{--type: 'POST',--}}
+                    {{--url: '{!! URL::to('findVenueSched') !!}',--}}
+                    {{--data: {--}}
+                        {{--_token: "{{csrf_token()}}",--}}
+                        {{--venueID: venueID,--}}
+                        {{--date: date--}}
+                    {{--},--}}
+                    {{--success: function (data) {--}}
+                        {{--if(data.length == 0){--}}
+                            {{--op += '<option selected for="time" value="" disabled selected>No time Available</option>';--}}
+                        {{--}--}}
+                        {{--else{--}}
+                            {{--op += '<option value="" selected disabled>Select Time</option>';--}}
+                        {{--}--}}
+                        {{--for (var i = 0; i < data.length; i++) {--}}
+                            {{--//op += '<option selected for="time" value="" disabled>Select a time now</option>';--}}
+                            {{--op += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';--}}
+                        {{--}--}}
+                        {{--$(div).html(" ");--}}
+                        {{--$(div).append(op);--}}
+                    {{--},--}}
+                    {{--error: function () {--}}
+                        {{--console.log('error');--}}
+                    {{--}--}}
+                {{--})--}}
+            {{--});--}}
+            {{--$(document).on('change', '.schedule-time', function () {--}}
+                {{--var venue_type = $('#venue-type').val();--}}
+                {{--if(venue_type == 2){--}}
+                    {{--var html = "";--}}
 
-                }
-            });
+                {{--}--}}
+            {{--});--}}
 
         });
     </script>

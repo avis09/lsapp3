@@ -134,7 +134,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     });
     //Schedules
     Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
-    Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedules');
+    Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesReg');
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
@@ -160,11 +160,15 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     });
 
 //    //schedules
+    //Anz
+    Route::get('/schedules/list', 'SchedulesController@showReservationPageGasd');
+    Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesGasd');
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
 //    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
 //    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
 //    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+
     Route::get('/profile', 'Auth\UsersController@showProfile');
     Route::get('/change-password', function(){
         return view('pages.change-password');
