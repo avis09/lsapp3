@@ -89,4 +89,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Feedbacks', 'userID');
     }
+
+    public function f_schedule(){
+     return $this->hasMany('App\Schedule', 'userID');
+    }
 }

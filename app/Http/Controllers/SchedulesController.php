@@ -57,8 +57,30 @@ class SchedulesController extends Controller
         return response()->json($venues);
     }
 
+    //ANZ********************************************* check mo nga rcos
+    //Reg
+    public function showReservationPageReg()
+    {
+        $schedules = Schedule::with('f_time', 'f_venue', 'reservationStatus', 'venueType');
+        return view('pages.registrar.schedules', compact('$schedules'));
+    }
+    //Pending Reservations
+
+    public function getPendingSchedules(){
+        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+            ->where('statusID', '=', '1')
+            ->get();
+
+        return response()->json($schedules);
+    }
+    //ANZ********************************************* check mo nga rcos
+
+//User reservation list
     public function getUserReservations(){
-        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')->where('userID', auth()->user()->userID)->where('statusID', '!=', '6')->get();
+        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
+            ->where('userID', auth()->user()->userID)
+            ->where('statusID', '!=', '6')
+            ->get();
 
          print_r(json_encode($schedules));
     }
@@ -197,6 +219,7 @@ class SchedulesController extends Controller
         //
     }
 
+    //Logics in adding or creating a reservation
     public function findVenueSched(Request $request)
     {
 //        $venueExist = DB::table('venue')
@@ -277,6 +300,12 @@ class SchedulesController extends Controller
         }
         return response()->json($schedules);
 
-       
+
+//        $venueID = Input::get('venue');
+//        $data = Regencies::where('venueID', '=', $venueID)->get();
+//        return response()->json($data);
+
     }
+
+
 }

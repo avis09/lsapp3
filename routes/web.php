@@ -132,7 +132,9 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });
-
+    //Schedules
+    Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
+    Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedules');
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');

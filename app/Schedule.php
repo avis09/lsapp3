@@ -42,4 +42,8 @@ class Schedule extends Model
     {
         return $this->belongsTo('App\VenueType', 'venueTypeID');
     }
+
+    public function user(){
+        return $this->belongsTo('App\User', 'userID');
+    }
 }
