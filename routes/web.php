@@ -30,6 +30,11 @@ Route::get('/users/{id}', function($id){
 // Thesis Home -----------------------------------------------------------------------------------------------------
 
 use Illuminate\Support\Facades\Input;
+
+
+Route::get('/test', 'SchedulesController@showSchedules');
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/broshome', 'BroshomeController@index')->name('bros');
 Route::get('emails/create', 'EmailsController@index')->name('bros');
@@ -84,6 +89,9 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
+
+        Route::post('/show-schedules', 'SchedulesController@showSchedules');
+
         //PROFILE UPDATE
         Route::get('/profile', 'Auth\UsersController@showProfile');
         Route::post('/update-profile', 'Auth\UsersController@updateProfile');

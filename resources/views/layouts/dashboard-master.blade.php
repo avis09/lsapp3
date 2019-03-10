@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <!-- Twitter meta-->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:site" content="@pratikborsadiya">
-    <meta property="twitter:creator" content="@pratikborsadiya">
+    <meta name="description" content="">
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="BROS">
@@ -18,6 +14,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{ asset('images/icons/benilde.ico') }}">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('dashboard/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('dashboard/css/custom.css')}}">

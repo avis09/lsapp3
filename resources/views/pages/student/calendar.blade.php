@@ -29,36 +29,56 @@
         <div class="card">
                 <div class="card-body">
                     <div class="container">
-                    <div class="form-group">
-                        <label for="venue">Venue Type <span class="required">*</span></label>
-                        <select class="form-control required-input" name="venue_type" id="venue-type" data-parsley-required="true">
-                            <option value="">Select Venue Type </option>
-                            @foreach ($venueTypes as $venueType)
-                            {
-                            <option value="{{ $venueType->venueTypeID }}">{{ $venueType->venueTypeName }}</option>
-                            }
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                    <label for="venue">Venue <span class="required">*</span></label>
-                    <select class="form-control" name="venue_name" id="venue-name" data-parsley-required="true">
-                        <option value="" selected disabled>Select Venue</option>
-                    </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date <span class="required">*</span></label>
-                        <input type="date" class="form-control required-input" id="date">
-                            {{-- {!! $errors->first('date', '<p class="alert alert-danger">:message</p>') !!} --}}
-                    </div>
-                        <table id="table-schedules" class="table table-bordered">
-                            <tr>
-                                <td>Date</td>
-                                <td>Time</td>
-                                <td>Status</td>
-                                <td>Reserved By</td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                        <label for="venue">Venue Type <span class="required">*</span></label>
+                                        <select class="form-control required-input" name="venue_type" id="venue-type" data-parsley-required="true">
+                                            <option value="" disabled selected>Select Venue Type </option>
+                                            @foreach ($venueTypes as $venueType)
+                                            {
+                                            <option value="{{ $venueType->venueTypeID }}">{{ $venueType->venueTypeName }}</option>
+                                            }
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="venue">Venue <span class="required">*</span></label>
+                                    <select class="form-control required-input" name="venue_name" id="venue-name" data-parsley-required="true">
+                                        <option value="" selected disabled>Select Venue</option>
+                                    </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="date">Date <span class="required">*</span></label>
+                                        <input type="date" class="form-control required-input" id="scheduled-date">
+                                            {{-- {!! $errors->first('date', '<p class="alert alert-danger">:message</p>') !!} --}}
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-check-schedule" disabled>Check Schedule</button>
+                                    </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                                <table id="table-schedules" class="table table-bordered table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Time</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="tbody-schedules">
+                                                    </tbody>
+                                                </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -75,6 +95,8 @@
             $('#calendar').addClass('active');
             $(document).on('change', '#venue-type', function () {
                 var id = $(this).val();
+                $('.btn-check-schedule').prop('disabled', true);
+                $('#scheduled-date').val('');
                 $.ajax({
                     url: "/student/schedule/get-venuesofvenuetype",
                     type: "POST",
@@ -93,35 +115,52 @@
                 });
             });
 
-            $(document).on('change', '#date', function () {
-    
-                // console.log('changed');
-                var venueID = $('#venue').val();
-                var date = $('#date').val();
-                // console.log(Floor_Id);
-                var table = $('.availSched');
-                var op = " ";
-    
-                $.ajax({
-                    type: 'get',
-                    url: '{!! URL::to('showSchedules') !!}',
-                    data: {'venueID': venueID, 'date': date},
-                    success: function (data) {
-                        console.log(data);
-                        for (var i = 0; i < data.length; i++) {
-                            //op += '<option selected for="time" value="" disabled>Select a time now</option>';
-                            op += '<tr> + <td>' + data[i].date + '</td> + <td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td> + <td>' + data[i].statusName + '</td> + <td>' + data[i].firstName + '</td> + <tr>';
+            $(document).on('change', '#scheduled-date', function () {
+                if($(this).val() != ''){
+                    $('.btn-check-schedule').prop('disabled', false);
+                }
+                else{
+                    $('.btn-check-schedule').prop('disabled', true);
+                }
+            });
+
+            $(document).on('change', '#venue-name', function () {
+                $('#scheduled-date').val('');
+            });
+
+            $(document).on('click', '.btn-check-schedule', function () {
+                if(validate.standard('.required-input') == 0){
+                    var venueID = $('#venue-name').val();
+                    var date = $('#scheduled-date').val();
+                    var tbody = $('.tbody-schedules');
+                    var html = "";
+                    $.ajax({
+                        type: 'POST',
+                        url: '/student/show-schedules',
+                        data: {
+                            _token: "{{csrf_token()}}",
+                            id: venueID, 
+                            date: date
+                            },
+                        success: function (data) {
+                            console.log(data);
+                            for (var i = 0; i < data.length; i++) {
+                                var status = (data[i].check == 1) ? "<span class='badge badge-status badge-danger'>Not Available</span>" : "<span class='badge badge-status badge-success'>Available</span>";
+                                var schedule_date = (data[i].date === undefined) ? date : data[i].date;
+                                html += '<tr><td>' + schedule_date + '</td>';
+                                html +='<td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td>';
+                                html +='<td>' + status + '</td><tr>';
+                            }
+                            // if(data.length == 0){
+                            //     html += '<tr>No reservations</tr>';
+                            // }
+                            $(tbody).html(html);
+                        },
+                        error: function () {
+                            console.log('error');
                         }
-                        if(data.length == 0){
-                            op += '<option selected for="time" value="" disabled selected>No reservations</option>';
-                        }
-                        $(table).html(" ");
-                        $(table).append(op);
-                    },
-                    error: function () {
-                        console.log('error');
-                    }
-                })
+                    })
+              }
             })
         });
     </script>
