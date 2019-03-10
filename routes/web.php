@@ -30,6 +30,11 @@ Route::get('/users/{id}', function($id){
 // Thesis Home -----------------------------------------------------------------------------------------------------
 
 use Illuminate\Support\Facades\Input;
+
+
+Route::get('/test', 'SchedulesController@showSchedules');
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/broshome', 'BroshomeController@index')->name('bros');
 Route::get('emails/create', 'EmailsController@index')->name('bros');
@@ -67,8 +72,8 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
     //Feedbacks
 //         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
-        Route::get('feedbacks/create', 'FeedbacksController@create')->name('feedbacks.create');
-    Route::post('feedbacks/create', 'FeedbacksController@store')->name('feedbacks.store');
+        Route::get('/feedback', 'FeedbacksController@showFeedbackPage')->name('feedbacks.page');
+        Route::post('/feedbacks/send-feedback', 'FeedbacksController@store')->name('feedbacks.store');
 
         //schedules
         Route::get('schedules/calendar', 'SchedulesController@showCalendarPage')->name('schedules.index');
@@ -79,10 +84,14 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
         Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
         Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
-
+        //gallery
+        Route::get('/venue-gallery', 'VenuesController@showVenueGallery');
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
+
+        Route::post('/show-schedules', 'SchedulesController@showSchedules');
+
         //PROFILE UPDATE
         Route::get('/profile', 'Auth\UsersController@showProfile');
         Route::post('/update-profile', 'Auth\UsersController@updateProfile');
@@ -161,8 +170,6 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 });
 //ITD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
-
-
 //Users
     Route::get('users/index', 'Auth\UsersController@index')->name('users.index');
     Route::get('users/create', 'Auth\UsersController@create')->name('users.create');

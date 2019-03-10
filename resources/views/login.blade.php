@@ -44,7 +44,7 @@
         <form class="login-form" method="POST" action="{{ route('login') }}">
           {{-- <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>BROS</h3> --}}
           <div class="text-center">
-            <img class="site-logo" src="{{asset('images/benilde.png')}}" alt="">
+            <img class="site-logo" src="{{asset('images/icons/benilde.png')}}" alt="">
             <h5 class="login-head">Benilde Reservation Online Services</h5>
           </div>
           @csrf

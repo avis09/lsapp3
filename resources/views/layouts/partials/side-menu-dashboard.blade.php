@@ -22,8 +22,8 @@
                     <li><a id="calendar" class="treeview-item" href="{{ url('student/schedules/calendar') }}"><i class="icon fa fa-circle-o"></i> Calendar</a></li>
                 </ul>
             </li>
-             <li><a id="menu-venue-gallery" class="app-menu__item" href="{{ url('student/gallery/index') }}"><i class="app-menu__icon fas fa-images"></i><span class="app-menu__label">Venues Gallery</span></a></li>
-            <li><a id="menu-feedbacks" class="app-menu__item" href="{{ url('student/feedbacks/create') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Send Feedback</span></a></li>
+             <li><a id="menu-venue-gallery" class="app-menu__item" href="{{ url('student/venue-gallery') }}"><i class="app-menu__icon fas fa-images"></i><span class="app-menu__label">Venues Gallery</span></a></li>
+            <li><a id="menu-feedbacks" class="app-menu__item" href="{{ url('student/feedback') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Send Feedback</span></a></li>
             <li><a id="menu-faqs" class="app-menu__item" href="{{ url('student/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
         </ul>
 

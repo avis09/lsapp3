@@ -10,6 +10,10 @@
             font-size: 18px;
             font-weight: 500;
         }
+        #comment{
+            height: 130px;
+            resize: none;
+        }
     </style>
 @endsection
 
@@ -28,25 +32,99 @@
         </div>
         <div class="card">
                 <div class="card-body">
-        <form action="student/feedbacks/create" method="POST">
-            <div class="form-group">
-                <label for="venues">Choose Venue</label>
-                <select class="form-control" name="f_venue" id="f_venue" data-parsley-required="true">
-                    @foreach ($f_venue as $f_venues)
-                        {
-                            <option value="{{ $f_venues->venueID }}"> {{ $f_venues->venueName }}</option>
-                        }
-                    @endforeach
-                </select>
-            </div>
+                    <div class="container">
+                    <form id="form-send-feedback">
+                        <div class="alert-message hidden">
+                        </div>
+                        <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
+                        <div class="form-group">
+                            <label for="venue">Venue Type <span class="required">*</span></label>
+                            <select class="form-control required-input" name="venue_type" id="venue-type" data-parsley-required="true">
+                                <option value="" selected disabled>Select Venue Type </option>
+                                @foreach ($venueTypes as $venueType)
+                                {
+                                <option value="{{ $venueType->venueTypeID }}">{{ $venueType->venueTypeName }}</option>
+                                }
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="venues">Choose Venue <span class="required">*</span></label>
+                            <select class="form-control required-input" name="venue_name" id="venue-name" data-parsley-required="true">
+                                <option value="" selected disabled>Select Venue </option>
+                            </select>
+                        </div>
 
-            <div class="form-group">
-                <label>Comment <span class="required">*</span></label>
-                <input type="text" class="form-control" name="comment">
+                        <div class="form-group">
+                            <label>Comment <span class="required">*</span></label>
+                            <textarea class="form-control required-input" name="comment" id="comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-send-feedback">Submit</button>
+                    </form>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-</div>
+        </div>
 </div>
 </main>
+@endsection
+
+@section('scripts')
+<script>
+$(document).ready(function(){
+    $('#menu-feedbacks').addClass('active');
+    $(document).on('change', '#venue-type', function () {
+        var id = $(this).val();
+        $.ajax({
+            url: "/student/schedule/get-venuesofvenuetype",
+            type: "POST",
+            data:{
+                _token: "{{csrf_token()}}",
+                id:id
+            },
+            success:function(data){
+                var html = '';
+                    html += '<option value="" selected disabled>Select Venue</option>';
+                $.each(data, function(x,y){
+                    html += '<option value="'+y.venueID+'">'+y.venueName+'</option>';
+                });
+                    $('#venue-name').html(html);
+            }
+        });
+    });
+
+    $(document).on('submit', '#form-send-feedback', function (e) {
+        e.preventDefault();
+        $('.validate_error_message').remove();
+        $('.required-input').removeClass('err_inputs');
+        if(validate.standard('.required-input') == 0){
+            $('.btn-send-feedback').html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
+            var form = $('#form-send-feedback').serialize();
+                $.ajax({
+                    url: "/student/feedbacks/send-feedback",
+                    type: "POST",
+                    data: form,
+                    success: function(data){
+                        $('.btn-send-feedback').html('Send Feedback').prop('disabled', false);
+                        if(data.success){
+                            Swal.fire({
+                                    type: 'success',
+                                    title: 'Success',
+                                    text: data.message,
+                            })
+                            .then((result) => {
+                                if (result.value) {
+                                $('#venue-modal').modal('hide');
+                                $('select').prop('selectedIndex', 0);
+                                $('#venue-name').children('option:not(:first)').remove();
+                                $('textarea').val('');
+                                }
+                            });
+                        }
+                    }
+                });
+        }
+        return false;
+    });
+});
+</script>
+
 @endsection

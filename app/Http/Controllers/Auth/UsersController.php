@@ -169,7 +169,7 @@ class UsersController extends Controller
         $user->password = Hash::make($password);
         //$user->Password = bcrypt(request('Password'));
         //$user->Password = $request->Hash(['password']);
-        $user->phoneNumber = $request->input('phoneNumber');
+        $user->phoneNumber = '63'.$request->input('phoneNumber');
         $user->email = $request->input('email');
         $user->apiToken = str_random(60);
         $user->departmentID = $request->input('department');
@@ -300,12 +300,13 @@ class UsersController extends Controller
 
     public function showProfile(){
       $userInfo = User::find(auth()->user()->userID);
+
+      $userInfo->phoneNumber = str_replace("63", "", $userInfo->phoneNumber);
       return view('pages.profile', compact('userInfo'));
 
     }
 
     public function updateProfile(Request $request){
-
         $user = User::find(auth()->user()->userID);
         $user->phoneNumber = "63".$request->input('phoneNumber');
         $user->save();
