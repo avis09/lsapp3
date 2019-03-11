@@ -36,7 +36,7 @@ class Venue extends Model
         return $this->belongsTo('App\User', 'userID');
     }
 
-    public function f_pictureP()
+    public function pictures()
     {
         return $this->hasMany('App\Picture', 'venueID');
     }

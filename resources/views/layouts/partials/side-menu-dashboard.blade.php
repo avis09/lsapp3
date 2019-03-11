@@ -22,7 +22,18 @@
                     <li><a id="calendar" class="treeview-item" href="{{ url('student/schedules/calendar') }}"><i class="icon fa fa-circle-o"></i> Calendar</a></li>
                 </ul>
             </li>
-             <li><a id="menu-venue-gallery" class="app-menu__item" href="{{ url('student/venue-gallery') }}"><i class="app-menu__icon fas fa-images"></i><span class="app-menu__label">Venues Gallery</span></a></li>
+            <li id="menu-venues-gallery" class="treeview">
+                <a id="" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
+                    <span class="app-menu__label">Venues Gallery</span><i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a id="menu-venue-rooms" class="treeview-item" href="{{url('student/venue-rooms') }}"><i class="icon fa fa-circle-o"></i> Rooms</a></li>
+                    <li><a id="menu-venue-courts" class="treeview-item" href="{{ url('student/venue-courts') }}"><i class="icon fa fa-circle-o"></i> Courts</a></li>
+                </ul>
+            </li>
+
+             <!-- <li><a id="menu-venue-gallery" class="app-menu__item" href="{{ url('student/venue-gallery') }}"><i class="app-menu__icon fas fa-images"></i><span class="app-menu__label">Venues Gallery</span></a></li> -->
+
             <li><a id="menu-feedbacks" class="app-menu__item" href="{{ url('student/feedback') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Send Feedback</span></a></li>
             <li><a id="menu-faqs" class="app-menu__item" href="{{ url('student/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
         </ul>
