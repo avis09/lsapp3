@@ -52,17 +52,18 @@
             </li>
             <li><a class="app-menu__item" href="{{ url('gasd/faq') }}"><i class="app-menu__icon fa fa-comment"></i>FAQ</a></li>
             <li><a class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-soccer-ball-o"></i>Court</a></li>
-            <li><a class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
-            <li class="treeview">
-                <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
-                    <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="{{url('gasd/schedules/create2') }}"><i class="icon fa fa-circle-o"></i> Reservation Request</a></li>
-                    <li><a class="treeview-item" href="{{ url('gasd/schedules/index2') }}"><i class="icon fa fa-circle-o"></i> Reserved Venue</a></li>
-                    <li><a class="treeview-item" href="{{ url('gasd/gallery/index2') }}"><i class="icon fa fa-circle-o"></i> Venue Gallery</a></li>
-                </ul>
-            </li>
+            <li><a class="app-menu__item" href="{{url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-comment"></i>Feedback</a></li>
+            <li><a id="menu-reservations" class="app-menu__item" href="{{url('gasd/schedules/list') }}"><i class="app-menu__icon fa fa-comment"></i>Schedules</a></li>
+            {{--<li class="treeview">--}}
+                {{--<a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>--}}
+                    {{--<span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a class="treeview-item" href="{{url('gasd/schedules/create2') }}"><i class="icon fa fa-circle-o"></i> Reservation Request</a></li>--}}
+                    {{--<li><a class="treeview-item" href="{{ url('gasd/schedules/index2') }}"><i class="icon fa fa-circle-o"></i> Reserved Venue</a></li>--}}
+                    {{--<li><a class="treeview-item" href="{{ url('gasd/gallery/index2') }}"><i class="icon fa fa-circle-o"></i> Venue Gallery</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
         </ul>
 
     </aside>
@@ -90,7 +91,7 @@
             <li><a class="app-menu__item" href="{{ url('registrar/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
             <li><a id="menu-rooms" class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-building"></i>Rooms</a></li>
             <li><a id="menu-feedbacks" class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
-            <li><a id="menu-reservations" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-comment"></i>Reservations</a></li>
+            <li><a id="menu-reservations" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-comment"></i>Schedules</a></li>
         </ul>
 
     </aside>

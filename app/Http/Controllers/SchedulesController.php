@@ -78,13 +78,13 @@ class SchedulesController extends Controller
     public function showReservationPageGasd()
     {
         $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
-        return view('pages.gasd.schedules', compact('$schedules'));
+        return view('pages.gasd.schedules', compact('schedules'));
     }
     //Pending Reservations
 
     public function getPendingSchedulesGasd(){
         $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
-           // ->where('venueTypeID', '=','2')
+         //  ->where('venueTypeID', '=','2')
             ->where('statusID', '=', '1')
             ->get();
 
