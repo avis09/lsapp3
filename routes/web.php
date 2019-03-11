@@ -191,6 +191,8 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('accountlogs/index', 'LogtimesController@index')->name('accountlogs.index');
     Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
 
+    Route::get('/reset-password/{slug}', 'Auth\UsersController@showResetPasswordPage');
+
     //FAQ
     Route::get('/itdfaq', function() {
         return view('pages.itd.itdfaq');
@@ -207,6 +209,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('/profile', 'Auth\UsersController@showProfile');
     Route::get('/users/get-archivedusers', 'Auth\UsersController@getArchiveUsers');
     Route::get('/users/reports-archived-users', 'Auth\UsersController@showArchiveUsersPage');
+    Route::post('/users/update-user', 'Auth\UsersController@updateUser');
 
     Route::get('/change-password', function(){
         return view('pages.change-password');

@@ -22,7 +22,7 @@ class UsersController extends Controller
     {
         $user = User::all();
         $userRs = array('userrole' => DB::table('userrole')->get());
-        $userSs = array('userstatus' => DB::table('userstatus')->get());
+        $userSs = array('userstatus' => DB::table('userstatus')->where('userStatusID', '!=', 3)->get());
         $userDs = array('department' => DB::table('department')->get());
 
         // return view('users.userindex')->with('users', $user);
@@ -94,21 +94,21 @@ class UsersController extends Controller
 
     protected function validateUpdateEmailPhoneNumber(Request $request){
         if(!empty($request->email)){
-            $check_email = User::where('email', $request->email)->where('userID', $request->userID)->first();
+            $check_email = User::where('email', $request->email)->where('userID', '!=', $request->userID)->first();
             $data['email'] = (empty($check_email)) ? 1 : 0;
         }
         else{
             $data['email'] = 0;
         }
         if(!empty($request->phoneNumber)){
-            $checkPhoneNumber = User::where('phoneNumber', $request->phoneNumber)->first();
+            $checkPhoneNumber = User::where('phoneNumber', $request->phoneNumber)->where('userID', '!=', $request->userID)->first();
             $data['phoneNumber'] =  (empty($checkPhoneNumber)) ? 1 : 0;
         }
         else{
             $data['phoneNumber'] = 0;
         }
         if(!empty($request->IDnumber)){
-            $checkIDnumber = User::where('IDnumber', $request->IDnumber)->first();
+            $checkIDnumber = User::where('IDnumber', $request->IDnumber)->where('userID', '!=', $request->userID)->first();
             $data['IDnumber'] =  (empty($checkIDnumber)) ? 1 : 0;
         }
         else{
@@ -167,8 +167,6 @@ class UsersController extends Controller
         $user->userStatusID = 1;
         $password = $request->input('password');
         $user->password = Hash::make($password);
-        //$user->Password = bcrypt(request('Password'));
-        //$user->Password = $request->Hash(['password']);
         $user->phoneNumber = '63'.$request->input('phoneNumber');
         $user->email = $request->input('email');
         $user->apiToken = str_random(60);
@@ -195,16 +193,7 @@ class UsersController extends Controller
         $user = User::find($id);
         return view('users.showuser')->with('users', $user);
     }
-    
 
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = User::find($id);
@@ -213,14 +202,6 @@ class UsersController extends Controller
         $userDs = array('department' => DB::table('department')->get());
         return view('users.edituser')->with('user', $user)->with('userRs', $userRs)->with('userSs', $userSs)->with('userDs', $userDs);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
      public function UpdatePassword(Request $request) {
         $user = User::find(auth()->user()->userID);
@@ -266,36 +247,32 @@ class UsersController extends Controller
         return response($response)->header('Content-Type', 'application/json');
     }
 
-    public function update(Request $request, $id)
+    public function updateUser(Request $request)
     {
         $this->validate($request, [
-             // 'userRoleID' => 'required',
-            'firstName' => 'required',
-            'LastName' => 'required',
-//            'password' => 'required',
-//            'phoneNumber' => 'required',
-            'email' => 'required'
+             'userrole' => 'required',
+             'firstName' => 'required',
+             'lastName' => 'required',
+             'phoneNumber' => 'required',
+             'email' => 'required'
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
         //update
-        $user = new User;
+        $user = User::find($request->userID);
         $user->userRoleID = $request->input('userrole');
         $user->firstName = $request->input('firstName');
-        $user->LastName = $request->input('LastName');
-        $user->userStatusID = $request->input('userstatus');
-        $password = $request->input('password');
-        $user->password = Hash::make($password);
-        //$user->password = Hash::make($user['password']);
-        //$user->Password = bcrypt(request('Password'));
-        //$user->Password = $request->Hash(['password']);
-        $user->phoneNumber = $request->input('phoneNumber');
+        $user->lastName = $request->input('lastName');
+        $user->phoneNumber = '63'.$request->input('phoneNumber');
         $user->email = $request->input('email');
-        $user->apiToken =  str_random(60);
+        //$user->password = Hash::make($user['password']);
+        // $user->apiToken =  str_random(60);
         $user->departmentID = $request->input('department');
         $user->IDnumber = $request->input('IDnumber');
+        $user->userStatusID = $request->input('userStatus');
         $user->save();
 
-        return redirect('/users/{id}/edit')->with('success', 'User Profile Updated');
+        // return redirect('/users/{id}/edit')->with('success', 'User Profile Updated');
+        return response()->json(['message' => 'Account Successfully Updated.', 'success' => true]);
     }
 
     public function showProfile(){
@@ -326,14 +303,13 @@ class UsersController extends Controller
         }
     }
     
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function showResetPasswordPage($slug){
+        $user = User::where('IDnumber', $slug)->first();
+        if(count($user)>0){
+            return view('pages.reset-password', compact('user'));
+        }
+        else{
+
+        }
     }
 }

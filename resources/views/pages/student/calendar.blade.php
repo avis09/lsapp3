@@ -61,7 +61,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                                <table id="table-schedules" class="table table-bordered table-sm">
+                                                <table id="table-schedules" class="table table-bordered table-md">
                                                     <thead>
                                                         <tr>
                                                             <th>Date</th>

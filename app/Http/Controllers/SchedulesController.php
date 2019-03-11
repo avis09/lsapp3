@@ -146,21 +146,7 @@ class SchedulesController extends Controller
         $this->validate($request, [
             'purpose' => 'required',
         ]);
-//        if ($validator->fails()) {
-//            \Session::flash('warning', 'Please enter the valid details');
-//            return Redirect::to('/schedules')->withInput()->withErrors($validator);
-//        }
-//        $user = Auth::user();
 
-        // $schedule = new Schedule();
-        // $schedule->userID = auth()->user()->userID;
-        // $schedule->purpose = $request->input('purpose');
-        // $schedule->created_at = Carbon::now();
-        // $schedule->statusID = 1;
-        // $schedule->date = $request->date;
-        // $schedule->venueID = $request->venue;
-        // $schedule->timeID = Input::get('time');
-        // $schedule->save();
 
         $times = json_decode($request->times);
         foreach ($times as $key => $timeID) {
@@ -174,6 +160,10 @@ class SchedulesController extends Controller
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now()
             ]);
+        }
+
+        if(!empty($request->waiver)){
+            
         }
 
         if (!empty($schedule->scheduleID)) {
@@ -215,40 +205,6 @@ class SchedulesController extends Controller
         return view('pages.student.showschedule')->with('schedules', $schedule);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function getAvailableTimeToSchedule(Request $request)
     {
         $check_schedule = Schedule::where('venueID', $request->id)->where('date', $request->date)->get();
@@ -280,8 +236,6 @@ class SchedulesController extends Controller
 
     public function getNewAvailableTimeToSchedule(Request $request)
     {
-
-
         $check_schedule = Schedule::where('venueID', $request->id)->where('date', $request->date)->get();
         if(count($check_schedule) > 0){
             $timeIDs = Schedule::select('*')
@@ -318,67 +272,6 @@ class SchedulesController extends Controller
             return response()->json($data);
     }
 
-
-
-    //Logics in adding or creating a reservation
-    public function findVenueSched(Request $request)
-    {
-//        $venueExist = DB::table('venue')
-//            ->join('venueschedule', $request->venueID, '=', 'venueschedule.venueID')
-//            ->select('venueschedule.venueScheduleID')
-//            ->first();
-
-        //check if existing venue
-        $existsVenue = DB::table('venue')
-            //->join('venueschedule', 'venueschedule.venueScheduleID', '=', $venueExist)
-            ->where('venueID', $request->venueID)
-            ->select('venueID')
-            ->value('venueID');
-
-        //check if existing date
-        $existsDate = DB::table('schedules')
-            //->join('venueschedule', 'venueschedule.venueScheduleID', '=', $venueExist)
-            ->where('date', $request->date)
-            ->select('date')
-            ->value('date');
-
-        //get time id from based on values above
-        $timeIDs = DB::table('schedules')
-            ->select('*')
-            ->where('date', $existsDate)
-            ->where('venueID', $existsVenue)
-            ->whereIn('statusID', [1, 2])
-            ->get('timeID')
-            ->pluck('timeID');
-
-        //get venue type based on venue id selected
-        $venueType = DB::table('venue')
-            ->select('venueTypeID')
-            ->where('venueID', $request->venueID)
-            ->value('venueTypeID');
-
-        //if it exists, show only time that is not in schedules table
-        if ($existsVenue && $existsDate) {
-            $data = DB::table('time')
-                ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
-                ->where('venueTypeID', $venueType)
-                ->whereNotIn('timeID', $timeIDs)
-                ->get();
-        } //else pakita lahat ng time depende sa venue type nung venue id
-        else {
-            $data = DB::table('time')
-                ->select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
-                ->where('venueTypeID', $venueType)
-                ->get();
-        }
-
-        return response()->json($data);
-
-
-//        $venueID = Input::get('venue');
-//        $data = Regencies::where('venueID', '=', $venueID)->get();
-    }
-
     public function showSchedules(Request $request)
     {
         $check_schedule = Schedule::where('venueID', $request->id)->where('date', $request->date)->get();
@@ -400,11 +293,6 @@ class SchedulesController extends Controller
             ->where('venue.venueID', $request->id)->get();
         }
         return response()->json($schedules);
-
-
-//        $venueID = Input::get('venue');
-//        $data = Regencies::where('venueID', '=', $venueID)->get();
-//        return response()->json($data);
 
     }
 

@@ -96,12 +96,11 @@
                 <a id="menu-venues" class="app-menu__item" href="{{ url('registrar/venues/index') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Venues</span></a>
             </li>
             <li>
-                <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">FeedBacks</span></a>
+                <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">Feedbacks</span></a>
             </li>
             <li><a id="menu-registrarfaqs" class="app-menu__item" href="{{ url('registrar/registrarfaq') }}"><i class="app-menu__icon fa fa-question"></i><span class="app-menu__label">FAQ</span></a></li>
             <li><a id="menu-rooms" class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-building"></i>Rooms</a></li>
-            <li><a id="menu-registrarfeedbacks" class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
-            <li><a id="menu-reservations" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i>Reservations</a></li>
+            <li><a id="menu-reservations" class="app-menu__item" href="{{url('registrar/schedules/list') }}"><i class="app-menu__icon fa fa-book"></i>Reservations</a></li>
         </ul>
 
     </aside>
