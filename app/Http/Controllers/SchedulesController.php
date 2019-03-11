@@ -141,35 +141,47 @@ class SchedulesController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function createReservation(Request $request)
     {
         $this->validate($request, [
             'purpose' => 'required',
-            'time' => 'required'
-//            'dateAdded' => 'required'
-
         ]);
-//        $validator = Validator::make($request->all(), [
-//            'purpose' => 'required',
-//            'dateAdded' => 'required',
-//            'timeTypeID' => 'required',
-//        ]);
-//
 //        if ($validator->fails()) {
 //            \Session::flash('warning', 'Please enter the valid details');
 //            return Redirect::to('/schedules')->withInput()->withErrors($validator);
 //        }
 //        $user = Auth::user();
 
-        $schedule = new Schedule();
-        $schedule->userID = auth()->user()->userID;
-        $schedule->purpose = $request->input('purpose');
-        $schedule->created_at = $request->input('created_at');
-        $schedule->statusID = ('1');
-        $schedule->date = $request->input('date');
-        $schedule->venueID = $request->input('venue');
-        $schedule->timeID = Input::get('time');
-        $schedule->save();
+        // $schedule = new Schedule();
+        // $schedule->userID = auth()->user()->userID;
+        // $schedule->purpose = $request->input('purpose');
+        // $schedule->created_at = Carbon::now();
+        // $schedule->statusID = 1;
+        // $schedule->date = $request->date;
+        // $schedule->venueID = $request->venue;
+        // $schedule->timeID = Input::get('time');
+        // $schedule->save();
+
+        $times = json_decode($request->times);
+        foreach ($times as $key => $timeID) {
+           $schedule = Schedule::create([
+                "userID" => auth()->user()->userID,
+                "venueID" => $request->venue,
+                "timeID" => $timeID,
+                "statusID" => 1,
+                "purpose" => $request->purpose,
+                "date" => $request->date,
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now()
+            ]);
+        }
+
+        if (!empty($schedule->scheduleID)) {
+              return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
+         }
+         else{
+              return response()->json(["success"=>false, "message" => "Something went wrong."]);
+         }
         //$venueSchedule = VenueSchedule::where('venueScheduleID', $schedule->venueScheduleID)->first();
         //$venueSchedule->venueSchedStatus = "Occupied";
         //$venueSchedule->save();
@@ -236,6 +248,77 @@ class SchedulesController extends Controller
     {
         //
     }
+
+    public function getAvailableTimeToSchedule(Request $request)
+    {
+        $check_schedule = Schedule::where('venueID', $request->id)->where('date', $request->date)->get();
+        if(count($check_schedule) > 0){
+            $timeIDs = Schedule::select('*')
+            ->where('date', $request->date)
+            ->where('venueID', $request->id)
+            ->whereIn('statusID', [1, 2])
+            ->get('timeID')
+            ->pluck('timeID');
+
+            $data = Time::select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
+            ->join('venue', 'venue.venueTypeID', 'time.venueTypeID')
+            ->where('venue.venueID', $request->id)
+            ->whereNotIn('timeID', $timeIDs)
+            ->get();
+        }
+        // no schedule
+        else{
+            $data = Venue::select('time.timeID','time.timeStartTime','time.timeEndTime')
+            ->join('venuetype', 'venue.venueTypeID', 'venuetype.venueTypeID')
+            ->leftJoin('time', 'venueType.venueTypeID', 'time.venueTypeID')
+            ->where('venue.venueID', $request->id)->get();
+        }
+
+        return response()->json($data);
+    }
+
+
+    public function getNewAvailableTimeToSchedule(Request $request)
+    {
+
+
+        $check_schedule = Schedule::where('venueID', $request->id)->where('date', $request->date)->get();
+        if(count($check_schedule) > 0){
+            $timeIDs = Schedule::select('*')
+            ->where('date', $request->date)
+            ->where('venueID', $request->id)
+            ->whereIn('statusID', [1, 2])
+            ->get('timeID')
+            ->pluck('timeID');
+
+            $times = json_decode($request->times);
+            foreach ($times as $key => $time) {
+                array_push($timeIDs, $time);
+            }
+
+            $data = Time::select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
+            ->join('venue', 'venue.venueTypeID', 'time.venueTypeID')
+            ->where('venue.venueID', $request->id)
+            ->whereNotIn('timeID', $timeIDs)
+            ->get();
+        }
+        // no schedule
+        else{
+            $times = json_decode($request->times);
+            $timeIDs = array();
+            foreach ($times as $key => $time) {
+                array_push($timeIDs, $time);
+            }
+            $data = Venue::select('time.timeID','time.timeStartTime','time.timeEndTime')
+            ->join('venuetype', 'venue.venueTypeID', 'venuetype.venueTypeID')
+            ->leftJoin('time', 'venueType.venueTypeID', 'time.venueTypeID')
+            ->where('venue.venueID', $request->id)
+            ->whereNotIn('time.timeID', $timeIDs)->get();
+        }
+            return response()->json($data);
+    }
+
+
 
     //Logics in adding or creating a reservation
     public function findVenueSched(Request $request)

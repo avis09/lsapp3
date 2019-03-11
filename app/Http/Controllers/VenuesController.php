@@ -157,10 +157,18 @@ class VenuesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function showVenueGallery(){
-        $venueTypes = VenueType::all();
-        return view('pages.student.venue-gallery', compact('venueTypes'));
+    public function showRoomVenues(){
+        $venues = Venue::with('pictures')->where('venueTypeID', 1)->where('venueStatusID', 1)->get();
+        return view('pages.student.venue-rooms', compact('venues'));
+
     }
+
+    public function showCourtVenues(){
+        $venues = Venue::with('pictures')->where('venueTypeID', 2)->where('venueStatusID', 1)->get();
+        return view('pages.student.venue-courts', compact('venues'));
+    }
+
+
 
     //Registrar Store
     public function store(Request $request)

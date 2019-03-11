@@ -213,11 +213,11 @@
 
     @section('scripts')
      <script type="text/javascript"> 
-        var users;
+        var venues;
         var venue_ctr = 1;
         $(document).ready(function() {
             $('#menu-venues').addClass('active');
-          users = $('#table-venues').DataTable({
+          venues = $('#table-venues').DataTable({
             ajax: {
             url: "/registrar/venues/get-venues",
             dataSrc: ''
@@ -347,6 +347,7 @@
                                         $('input[type="text"]').val('');
                                       }
                                     });
+                                  venues.ajax.reload();
                                 }
                                 $('.btn-confirm').removeClass('disabled').html('Confirm');
                             },

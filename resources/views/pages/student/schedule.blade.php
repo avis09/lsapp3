@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Add Reservation | Bros</title>
+    <title>Add Reservation | BROS</title>
 @endsection
 
 @section('css')
@@ -11,9 +11,7 @@
             font-size: 18px;
             font-weight: 500;
         }
-        .waiver-content{
-            display: none;
-        }   
+
     </style>
 @endsection
 
@@ -23,7 +21,7 @@
         <div class="app-title">
             <div>
                 <h1><i class="fa fa-calendar-o"></i> Reservation </h1>
-                {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
+                {{-- <p></p> --}}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -76,16 +74,14 @@
                         </button>
                     </div>
                     <form class="form-reservation" id="form-add-reservation">
-                        @csrf
+                    @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="venue">Venue Type <span class="required">*</span></label>
-                            <select class="form-control required-input" name="venuetype" id="venue-type" data-parsley-required="true">
+                            <select class="form-control required-input" name="venue_type" id="venue-type" data-parsley-required="true">
                                 <option value="">Select Venue Type </option>
                                 @foreach ($scheduleVenueType as $venueType)
-                                {
                                 <option value="{{ $venueType->venueTypeID }}">{{ $venueType->venueTypeName }}</option>
-                                }
                                 @endforeach
                             </select>
                         </div>
@@ -96,41 +92,25 @@
         
                             </select>
                         </div>
-        
-        
                         <div class="form-group">
                             <label> Purpose <span class="required">*</span></label>
                             <div class="">
                                 <input type="text" name="purpose" class="form-control required-input">
-                                <!-- {!! Form::text('purpose',null, ['class' => 'form-control']) !!}
-                                {{--{!! $errors->first('dateAdded', '<p class=alert alert-danger>:message</p>') !!}--}} -->
                             </div>
                         </div>
                         <div class="form-group">
-                            <label> Date <span class="required">*</span></label>
-                            <div class="">
-                                <input type="date" name="date" id="schedule-date" class="form-control required-input">
-                               <!--  {!! Form::date('date','', ['class' => 'form-control']) !!}
-                                {!! $errors->first('date', '<p class="alert alert-danger">:message</p>') !!} -->
+                                    <label>Schedule Date <span class="required">*</span></label>
+                                    <input type="" name="date" id="schedule-date" class="form-control required-input" disabled>
+                        </div>
+                        <label for="time">Time <span class="required">*</span></label>
+                        <div class="schedule-time-container">
+                            <div class="schedule-time-content1 mb-2">
+                                <select class="form-control schedule-time required-input" name="time[]" id="schedule-time" data-parsley-required="true">
+                                    <option value="" selected disabled>Select Time</option>
+                                </select>
                             </div>
                         </div>
-                            {{--Time --}}
-        
-                            <div class="form-group">
-                                <label for="time">Time <span class="required">*</span></label>
-                                <select class="form-control schedule-time required-input" name="time" id="time" data-parsley-required="true">
-                                    <option value="" selected disabled>Select Time</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group waiver-content">
-                                <div class="alert alert-info">Please fill up the waiver form.</div>
-                                <label>Waiver <span class="required">*</span></label>
-                                <select class="form-control schedule-time required-input" name="time" id="time" data-parsley-required="true">
-                                    <option value="" selected disabled>Select Time</option>
-                                </select>
-                            </div>
-                            
+                        <button type="button" class="btn btn-primary btn-add-new-time" disabled>Add</button>
                     </div>
                     <div class="modal-footer text-right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -141,12 +121,78 @@
             </div>
             </div>
 
+
+        <div class="modal fade" id="waiver-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="modal-title modal-user-title" id="smallmodalLabel">Waiver Form</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="alert alert-warning">Fill out the waiver form in order to make a court reservation.</div>
+                            <label class="control-label">Enter all the user's name <span class="required">*</span></label>
+                            <div class="waiver-container">
+                                @for($i=1;$i <= 5;$i++)
+                                    <div class="form-group input-group waiver-content{{$i}}">
+                                        <input type="text" name="waiver" class="form-control waiver" id="waiver" data-ctr="{{$i}}">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-danger btn-delete-name" data-ctr="{{$i}}"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    </div>
+                                @endfor
+                            </div>
+                            <button type="button" class="btn btn-primary btn-add-new-name">Add</button>
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-submit-waiver">Submit</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
 @endsection
 
 
 @section('scripts')
 <script>
     var reservations;
+    var waiver_ctr = 5;
+    var time_ctr = 1;
+    var waiver_data = [];
+    var form, min_allowed_date, old_date;
+    function getMinimumAllowedDate(id){
+        var min = (id==2) ? 7 : 2;
+        var today = new Date();
+        var dd = today.getDate()+min;
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+                dd='0'+dd
+            } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+        min_allowed_date = yyyy+'-'+mm+'-'+dd;
+    }
+
+    function resetTimeSchedule(){
+         var schedule_time = $('.schedule-time').val();
+        if(schedule_time != ""){
+            var html = "";
+            html += '<div class="schedule-time-content1 mb-2">';
+            html += '<select class="form-control schedule-time required-input" name="time[]" id="schedule-time" data-parsley-required="true">';
+            html += '<option value="" selected disabled>Select Time</option>';
+            html += '</select></div>';
+            $('.schedule-time-container').html(html);
+            time_ctr = 1;
+        }
+
+    }
+
     $(document).ready(function () {
                 $('#menu-reservation').addClass('is-expanded');
                 $('#reservation-list').addClass('active');
@@ -189,7 +235,6 @@
 
                     }
                 }
-                // { defaultContent: ""}
                 ]
           });
 
@@ -197,21 +242,133 @@
             $('#reservation-modal').modal('show');
         });
 
+
+        $(document).on('click', '.btn-add-new-name', function(e){
+                waiver_ctr++;
+                var html = '';
+                html += '<div class="form-group input-group waiver-content'+waiver_ctr+'">';
+                html += '<input type="text" name="waiver" class="form-control waiver" id="waiver" data-ctr="'+waiver_ctr+'">';
+                html += '<div class="input-group-prepend">';
+                html +=   '<button type="button" class="btn btn-danger btn-delete-name" data-ctr="'+waiver_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                html +=   '</div></div>';
+                $('.waiver-container').append(html);
+        });
+
+        $(document).on('click', '.btn-delete-name', function(e){
+                var ctr = $(this).attr('data-ctr');
+                $('.waiver-content'+ctr).remove();
+        });
+
+        $(document).on('click', '.btn-delete-schedule-time', function(e){
+                var ctr = $(this).attr('data-ctr');
+                $('.schedule-time-content'+ctr).remove();
+        });
+
+        $(document).on('click', '.btn-submit-waiver', function(e){
+                if(validate.standard('.waiver') == 0){
+                    $('.waiver').each(function(){
+                        waiver_data.push($(this).val());
+                    });
+                    waiver_data = JSON.stringify(waiver_data);
+
+                    var time_arr = [];
+                    $('.schedule-time').each(function(){
+                        time_arr.push($(this).val());
+                    });
+                    time_arr = JSON.stringify(time_arr);
+                    var form = $('#form-add-reservation').serialize()+'&waiver_data='+waiver_data+'&times='+time_arr;
+                    $.ajax({
+                            url: "/student/schedules/create-reservation",
+                            type: "POST",
+                            data: form,
+                            success: function(data){
+                                if(data.success === true){
+                                      Swal.fire({
+                                            type: 'success',
+                                            title: 'Success',
+                                            text: data.message,
+                                          })
+                                      .then((result) => {
+                                          if (result.value) {
+                                            $('#waiver-modal').modal('hide');
+                                            $('#reservation-modal').modal('hide');
+                                            $('input[type="text"]').val('');
+                                            $('input[type="date"]').val('');
+                                            $('select').prop('selectedIndex', 0);
+                                            $('#venue-name').children('option:not(:first)').remove();
+                                            resetTimeSchedule();
+                                              var html = "";
+                                              for(var i=1;i<=5;i++){
+                                                    html += '<div class="form-group input-group waiver-content'+i+'">';
+                                                    html += '<input type="text" name="waiver" class="form-control waiver" id="waiver" data-ctr="{{$i}}">';
+                                                    html += '<div class="input-group-prepend">';
+                                                    html += '<button type="button" class="btn btn-danger btn-delete-name" data-ctr="{{$i}}"><i class="fas fa-trash-alt"></i></button>';
+                                                    html += '</div></div>';
+                                              }
+                                             $('.waiver-content').html(html);
+
+                                          }
+                                        });
+                                    reservations.ajax.reload();
+                                    }
+                                    else{
+                                        Swal.fire({
+                                            type: 'error',
+                                            title: 'Error',
+                                            text: data.message,
+                                          });
+                                    }
+                                
+                            }
+                    });
+                }
+        });
+
         $(document).on('submit', '#form-add-reservation', function () {
-                    
             if(validate.standard('.required-input') == 0){
-                var form = $(this).serialize();
+                var venue_type = $('#venue-type').val();
+                if(venue_type == 2){
+                    $('#waiver-modal').modal('show');
+                }
+                else{
+                    var time_arr = [];
+                    $('.schedule-time').each(function(){
+                        time_arr.push($(this).val());
+                    });
+                    time_arr = JSON.stringify(time_arr);
                     $.ajax({
                         url: "/student/schedules/create-reservation",
                         type: "POST",
-                        data: {
-                            _token: "{{csrf_token()}}",
-                            form: form
-                        },
+                        data: $('#form-add-reservation').serialize()+"&times="+time_arr,
                         success: function(data){
-
+                            if(data.success === true){
+                              Swal.fire({
+                                    type: 'success',
+                                    title: 'Success',
+                                    text: data.message,
+                                  })
+                              .then((result) => {
+                                  if (result.value) {
+                                    $('#reservation-modal').modal('hide');
+                                    $('input[type="text"]').val('');
+                                    $('input[type="date"]').val('');
+                                    $('select').prop('selectedIndex', 0);
+                                    $('#venue-name').children('option:not(:first)').remove();
+                                    resetTimeSchedule();
+                                  }
+                                });
+                            reservations.ajax.reload();
+                            }
+                            else{
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Error',
+                                    text: data.message,
+                                  });
+                            }
                         }
                     });
+                }
             }
             return false;
         });
@@ -256,6 +413,16 @@
 
         $(document).on('change', '#venue-type', function () {
             var id = $(this).val();
+            
+            $('#venue-name').html('<option selected>Loading . . .</option>');
+            $('#schedule-date').prop('disabled', true);
+            $('#schedule-date').attr('type', 'date');
+            $('#schedule-date').val('');
+             resetTimeSchedule();
+
+             getMinimumAllowedDate(id);
+            $('#schedule-date').attr('min', min_allowed_date);
+
             $.ajax({
                 url: "/student/schedule/get-venuesofvenuetype",
                 type: "POST",
@@ -274,48 +441,102 @@
             });
         });
 
-        $(document).on('change', '#schedule-date', function () {
-            var venueID = $('#venue-name').val();
+        $(document).on('change', '.schedule-time', function () {
+            $(this).prop('disabled', true);
+            $('.btn-add-new-time').prop('disabled', false);
+        });
+
+
+        $(document).on('click', '.btn-add-new-time', function(e){
+            time_ctr++;
+            var time_arr = [];
+            var id = $('#venue-name').val();
             var date = $('#schedule-date').val();
-            // console.log(Floor_Id);
+            $('.btn-add-new-time').prop('disabled', true);
+            $('.schedule-time').each(function(){
+                time_arr.push($(this).val());;
+            });
+                time_arr = JSON.stringify(time_arr);
+            $.ajax({
+                url: "/get-new-available-time",
+                type: "POST",
+                data: {
+                    _token: "{{csrf_token()}}",
+                    id: id,
+                    date: date,
+                    times: time_arr
+                },
+                success: function(data){
+                    var html = '';
+                    html += '<div class="input-group schedule-time-content'+time_ctr+' mb-2">';
+                    html += '<select class="form-control schedule-time required-input" name="time[]" id="schedule-time" data-parsley-required="true">';
+                    html += '<option value="" selected disabled>Select Time</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
+                    }
+                    html += '</select>';
+                    html += '<div class="input-group-prepend">';
+                    html +=   '<button type="button" class="btn btn-danger btn-delete-schedule-time" data-ctr="'+time_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                    html +=   '</div></div>';
+                    $('.schedule-time-container').append(html);
+                }
+            });  
+        });
+
+
+
+        $(document).on('change', '#venue-name', function(){
+            resetTimeSchedule();
+            $('#schedule-date').val('');
+            $('#schedule-date').prop('disabled', false);
+            var id = $('#venue-type').val();
+            getMinimumAllowedDate(id);
+            $('#schedule-date').attr('min', min_allowed_date);
+        });
+
+        $(document).on('change', '#schedule-date', function () {
+            var venue_type = $('#venue-type').val();
+            var venue_name = $('#venue-name').val();
+            var schedule_date = $('#schedule-date').val();
             var div = $('.schedule-time');
-            var op = "";
+            var html = "";
+            var date = $(this).val();
+            $('.schedule-time').html('<option selected>Loading . . .</option>');
+            getMinimumAllowedDate(venue_type);
+            if(schedule_date < min_allowed_date){
+                $('#schedule-date').val(old_date);
+                  html += '<option for="time" value="" disabled selected>Select Time</option>';
+                  $(div).append(html);
+                return false;
+            }else{
+                old_date = date;
+            }
 
             $.ajax({
                 type: 'POST',
-                url: '{!! URL::to('findVenueSched') !!}',
+                url: '/get-available-time',
                 data: {
                     _token: "{{csrf_token()}}",
-                    venueID: venueID,
-                     date: date
+                    id: venue_name,
+                    date: schedule_date
                  },
                 success: function (data) {
                     if(data.length == 0){
-                        op += '<option selected for="time" value="" disabled selected>No time Available</option>';
+                        html += '<option for="time" value="" disabled selected>No time Available</option>';
                     }
                     else{
-                        op += '<option value="" selected disabled>Select Time</option>';
+                        html += '<option value="" selected disabled>Select Time</option>';
                     }
                     for (var i = 0; i < data.length; i++) {
-                        //op += '<option selected for="time" value="" disabled>Select a time now</option>';
-                        op += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
+                        html += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
                     }
-                    $(div).html(" ");
-                    $(div).append(op);
+                    $(div).html(html);
                 },
                 error: function () {
                     console.log('error');
                 }
             })
         });
-        $(document).on('change', '.schedule-time', function () {
-            var venue_type = $('#venue-type').val();
-            if(venue_type == 2){
-                var html = "";
-
-            }
-        });
-
     });
 </script>
 
