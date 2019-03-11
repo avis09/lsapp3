@@ -50,3 +50,11 @@
     {{--<p>No Venue Reports found</p>--}}
     {{--@endif--}}
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-venues').addClass('active');
+        });
+    </script>
+@endsection

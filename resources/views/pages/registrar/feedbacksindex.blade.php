@@ -54,3 +54,10 @@
         <p>No Feedback found</p>
     @endif
 @endsection
+        @section('scripts')
+            <script>
+                $(document).ready(function(){
+                    $('#menu-registrarfeedbacks').addClass('active');
+                });
+            </script>
+@endsection

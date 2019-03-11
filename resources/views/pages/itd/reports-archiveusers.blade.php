@@ -365,4 +365,10 @@
 
 @endsection
 
-
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#archived-users').addClass('active');
+        });
+    </script>
+@endsection

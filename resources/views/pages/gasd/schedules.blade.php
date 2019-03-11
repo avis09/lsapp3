@@ -322,6 +322,13 @@
 
 @endsection
 
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-gasdroomreserve').addClass('active');
+        });
+    </script>
+@endsection
 <!--
 <script>
     $(document).ready(function () {

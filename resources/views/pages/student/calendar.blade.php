@@ -166,3 +166,11 @@
     </script>
     
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#calendar').addClass('active');
+        });
+    </script>
+@endsection

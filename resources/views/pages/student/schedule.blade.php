@@ -543,6 +543,14 @@
 
 @endsection
 
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#reservation-list').addClass('active');
+        });
+    </script>
+@endsection
 <!-- 
 <script>
     $(document).ready(function () {

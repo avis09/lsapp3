@@ -443,6 +443,14 @@
 
     @endsection
 
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-venues').addClass('active');
+        });
+    </script>
+@endsection
+
 <!-- 
 <div>
         <table width="90%" style="font-family: calibri; background-color: #ccc; border: 1px solid #555" align="center" cellpadding="0" cellspacing="0">
