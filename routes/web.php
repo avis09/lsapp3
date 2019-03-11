@@ -64,7 +64,7 @@ Route::get('/showSchedules', 'SchedulesController@showSchedules');
 Route::get('/send', 'VenuesController@sendcreate');
 Route::post('/send', 'VenuesController@sendstore');
 
-//RM
+//R
 
 
 Route::group(['middleware' => 'auth', 'prefix' => 'auth'], function () {
@@ -125,7 +125,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('picture/create', 'PictureController@store')->name('Picture.store');
     Route::get('picture/index', 'PictureController@index')->name('Picture.index');
 
-    //reinn
+    //R
      Route::get('/venues/get-venues', 'VenuesController@getVenues');
      Route::post('/venues/add-venue', 'VenuesController@store');
 
@@ -196,7 +196,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
         return view('pages.itd.itdfaq');
     });
 
-    //RM
+    //R
     Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
     Route::get('/users/get-users', 'Auth\UsersController@getUsers');
     Route::post('/users/get-specific-userinfo', 'Auth\UsersController@getSpecificUserInfo');
