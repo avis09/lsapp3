@@ -127,7 +127,7 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
-            $('#menu-faqs').addClass('active');
+            $('#menu-venue-courts').addClass('active');
         });
     </script>
 @endsection

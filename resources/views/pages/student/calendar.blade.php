@@ -170,7 +170,7 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
-            $('#menu-faqs').addClass('active');
+            $('#calendar').addClass('active');
         });
     </script>
 @endsection

@@ -76,3 +76,11 @@
     {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! ! Form::close() !!}
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-gasdroomreserve').addClass('active');
+        });
+    </script>
+@endsection

@@ -373,6 +373,13 @@
 
 @endsection
 
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-reservations').addClass('active');
+        });
+    </script>
+@endsection
 <!--
 <script>
     $(document).ready(function () {

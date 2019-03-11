@@ -96,7 +96,7 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
-            $('#menu-faqs').addClass('active');
+            $('#menu-gasdfaq').addClass('active');
         });
     </script>
 @endsection

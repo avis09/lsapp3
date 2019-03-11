@@ -547,7 +547,7 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
-            $('#calendar').addClass('active');
+            $('#reservation-list').addClass('active');
         });
     </script>
 @endsection

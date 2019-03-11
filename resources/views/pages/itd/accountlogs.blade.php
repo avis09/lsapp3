@@ -66,3 +66,11 @@
     </main>
 
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#audit-logs').addClass('active');
+        });
+    </script>
+@endsection

@@ -97,7 +97,7 @@
 @section('scripts')
     <script>
         $(document).ready(function(){
-            $('#menu-faqs').addClass('active');
+            $('#menu-registrarfaqs').addClass('active');
         });
     </script>
 @endsection

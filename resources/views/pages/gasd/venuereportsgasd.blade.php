@@ -50,3 +50,11 @@
     {{--<p>No Venue Reports found</p>--}}
     {{--@endif--}}
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-gasdgallery').addClass('active');
+        });
+    </script>
+@endsection

@@ -133,7 +133,7 @@ $(document).ready(function(){
 @section('scripts')
     <script>
         $(document).ready(function(){
-            $('#menu-faqs').addClass('active');
+            $('#menu-feedbacks').addClass('active');
         });
     </script>
 @endsection
