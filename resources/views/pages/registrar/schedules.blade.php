@@ -22,47 +22,90 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar-o"></i> room schedules </h1>
-                {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
+                <h1><i class="fa fa-calendar-o"></i>Reservations </h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                <li class="breadcrumb-item"><a href="#">room Schedules</a></li>
+                <li class="breadcrumb-item"><a href="#">Reservations</a></li>
             </ul>
         </div>
         <div class="card">
             <div class="card-body">
-                <button type="button" class="btn btn-primary btn-add-reservation mb-3">Add Reservation</button>
-                <div class="table-responsive">
-                    <table id="table-schedules" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>User Name </th>
-                            <th>Venue Name</th>
-                            <th>Time </th>
-                            <th>Status </th>
-                            <th>Purpose</th>
-                            <th>Registrar Message</th>
-                            <th>Date </th>
-                            <th>Created At </th>
-                            <th>Updated At </th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>User Name </th>
-                            <th>Venue Name</th>
-                            <th>Time </th>
-                            <th>Status </th>
-                            <th>Purpose</th>
-                            <th>Registrar Message</th>
-                            <th>Date </th>
-                            <th>Created At </th>
-                            <th>Updated At </th>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="pending-reservations-tab" data-toggle="tab" href="#pending-reservations-href" role="tab" aria-controls="pending-reservations-href" aria-selected="true">Pending Reservations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="all-reservations-tab" data-toggle="tab" href="#all-reservations-href" role="tab" aria-controls="all-reservations-href" aria-selected="false">All Reservations</a>
+  </li>
+</ul>
+<div class="tab-content mt-4" id="myTabContent">
+  <div class="tab-pane fade show active" id="pending-reservations-href" role="tabpanel" aria-labelledby="pending-reservations-tab">
+        <div class="table-responsive">
+            <table id="table-schedules" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Venue Name</th>
+                    <th>Time </th>
+                    <th>Status </th>
+                    <th>Purpose</th>
+                    <th>Schedule Date</th>
+                    <th>Date Updated</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Venue Name</th>
+                    <th>Time </th>
+                    <th>Status </th>
+                    <th>Purpose</th>
+                    <th>Schedule Date</th>
+                    <th>Date Updated</th>
+                    <th>Actions</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+  </div>
+  <div class="tab-pane fade" id="all-reservations-href" role="tabpanel" aria-labelledby="all-reservations-tab">
+      <div class="table-responsive">
+            <table id="table-schedules" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Venue Name</th>
+                    <th>Time </th>
+                    <th>Purpose</th>
+                    <th>Registrar Message</th>
+                    <th>Schedule Date</th>
+                    <th>Date Updated</th>
+                    <th>Status </th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Venue Name</th>
+                    <th>Time </th>
+                    <th>Purpose</th>
+                    <th>Registrar Message</th>
+                    <th>Schedule Date</th>
+                    <th>Date Updated</th>
+                    <th>Status </th>
+                    <th>Actions</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+  </div>
+</div>
+
+                
             </div>
         </div>
     </main>
@@ -150,8 +193,7 @@
     <script>
         var reservations;
         $(document).ready(function () {
-            $('#menu-reservation').addClass('is-expanded');
-            $('#reservation-list').addClass('active');
+            $('#menu-reservations').addClass('active');
             reservations = $('#table-schedules').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-pending",
@@ -175,13 +217,22 @@
 
                         }
                     },
-                    { data: 'statusID'},
-                   // { data: 'reservationStatus.statusName'},
+                    // { data: 'statusID'},
+                   { data: null,
+                        render: function(data){
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
+                        }
+                    },
                     { data: 'purpose'},
-                    { data: 'updatedMessage'},
                     { data: 'date'},
-                    { data: 'created_at'},
                     { data: 'updated_at'},
+                    { data: null,
+                        render: function(data){
+                            return "<button type='button' class='btn btn-primary btn-sm'>Accept</button>"+
+                                " <button type='button' class='btn btn-danger btn-sm'>Reject</button>";
+                        }
+                    }
                     // { data: null,
                     //     render:function(data){
                     //         return '<button type="button" class="btn btn-primary btn-approve-schedule btn-sm" data-id="'+data.scheduleID+'">Approve</button> '+

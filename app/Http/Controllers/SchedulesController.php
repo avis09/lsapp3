@@ -62,7 +62,7 @@ class SchedulesController extends Controller
     public function showReservationPageReg()
     {
         $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
-        return view('pages.registrar.schedules', compact('$schedules'));
+        return view('pages.registrar.schedules', compact('schedules'));
     }
     //Pending Reservations
 

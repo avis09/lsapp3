@@ -88,18 +88,9 @@
                 <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">FeedBacks</span></a>
             </li>
             <li><a class="app-menu__item" href="{{ url('registrar/faq') }}"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">FAQ</span></a></li>
-            <li><a class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-building"></i>Rooms</a></li>
-            <li><a class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
-            <li class="treeview">
-                <a id="menu-users" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i>
-                    <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a class="treeview-item" href="{{url('registrar/schedules/create') }}"><i class="icon fa fa-circle-o"></i> Reservation Request</a></li>
-                    <li><a class="treeview-item" href="{{ url('registrar/schedules/index') }}"><i class="icon fa fa-circle-o"></i> Reserved Rooms</a></li>
-                    <li><a class="treeview-item" href="{{ url('registrar/gallery/index') }}"><i class="icon fa fa-circle-o"></i> Room Gallery</a></li>
-                </ul>
-            </li>
+            <li><a id="menu-rooms" class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-building"></i>Rooms</a></li>
+            <li><a id="menu-feedbacks" class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
+            <li><a id="menu-reservations" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-comment"></i>Reservations</a></li>
         </ul>
 
     </aside>
