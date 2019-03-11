@@ -153,7 +153,12 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 //Feedbacks
     Route::get('feedbacks/index2', 'FeedbacksController@index2')->name('feedbacks.index2');
     //Venues
-    Route::get('venues/index2', 'VenuesController@index2')->name('venues.index2');
+    //A
+    Route::get('venues/index2', 'VenuesController@index2');
+    Route::get('/venues/get-venues', 'VenuesController@getVenues2');
+    Route::post('/venues/add-venue', 'VenuesController@store');
+
+    //
     Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
     Route::post('venues/create2', 'VenuesController@store2')->name('venues.store2');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
