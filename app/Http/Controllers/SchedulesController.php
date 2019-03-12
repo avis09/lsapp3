@@ -106,14 +106,34 @@ class SchedulesController extends Controller
     }
     //get Pending Reservations
 
-    public function getPendingSchedulesGasd(){
+    public function getPendingReservationsGasd(){
         $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
          //  ->where('venueTypeID', '=','2')
             ->where('statusID', '=', '1')
             ->get();
 
         return response()->json($schedules);
+
     }
+    public function getAllReservationsGasd(){
+        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+            //->where('f_venue.venueTypeID', '=','1')
+            ->where('statusID', '!=', '1')
+            ->where('statusID', '!=', '6')
+            ->get();
+
+        return response()->json($schedules);
+    }
+
+    public function getArchivedReservationsGasd(){
+        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus', 'user')
+//            ->where('userID', auth()->user()->userID)
+            ->where('statusID', '=', '6')
+            ->get();
+
+        print_r(json_encode($schedules));
+    }
+
 
     //GASD***********************************************************************************
 
@@ -175,14 +195,7 @@ class SchedulesController extends Controller
         $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
         return view('pages.gasd.archivedschedules', compact('schedules'));
     }
-    public function getArchivedReservationsGasd(){
-        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus', 'user')
-//            ->where('userID', auth()->user()->userID)
-            ->where('statusID', '=', '6')
-            ->get();
 
-        print_r(json_encode($schedules));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -351,11 +364,6 @@ class SchedulesController extends Controller
 
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9100da5104e487ccf3edc4d8e5052fe5e8e9fa2a
-
     public function sendEmailAndSMS($userID,$type){
         $user = User::where('userID', $userID)->first();
         if($type == 2){
@@ -403,9 +411,4 @@ class SchedulesController extends Controller
 
 
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 9100da5104e487ccf3edc4d8e5052fe5e8e9fa2a
 }

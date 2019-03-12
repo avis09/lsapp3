@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Add Reservation | Bros</title>
+    <title>Registrar Reservation | Bros</title>
 @endsection
 
 @section('css')
@@ -22,7 +22,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar-o"></i>Reservations </h1>
+                <h1><i class="fa fa-calendar-o"></i>Registrar Reservations </h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>

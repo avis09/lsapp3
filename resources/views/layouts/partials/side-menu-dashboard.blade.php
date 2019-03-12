@@ -73,8 +73,7 @@
                     <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('gasd/schedules/create2') }}"><i class="icon fa fa-circle"></i> Reservation Request</a></li>
-                    <li><a id="menu-gasdreservevenue" class="treeview-item" href="{{ url('gasd/schedules/index2') }}"><i class="icon fa fa-list"></i> Reserved Venue</a></li>
+                    <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('gasd/schedules/list') }}"><i class="icon fa fa-circle"></i> Reservation Request</a></li>
                     <li><a id="menu-gasdgallery" class="treeview-item" href="{{ url('gasd/gallery/index2') }}"><i class="icon fa fa-folder"></i> Venue Gallery</a></li>
                 </ul>
             </li>
