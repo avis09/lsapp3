@@ -28,6 +28,7 @@ class MailSched extends Mailable
      */
     public function build()
     {
+        // return $this->from('roelchristian.sevesa@benilde.edu.ph');
         return $this->from('roelchristian.sevesa@benilde.edu.ph')->subject('asdasdsa')
             ->view('emails.sendConfirmation');
     }

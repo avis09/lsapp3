@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Dashboard | Registrar Bros</title>
+    <title>Dashboard | GASD Bros</title>
 @endsection
 
 @section('css')
@@ -30,8 +30,8 @@
           <div class="col-md-6 col-lg-3">
             <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Room Count</h4>
-                <p><b></b></p>
+                <h4>Students</h4>
+                <p><b>5</b></p>
               </div>
             </div>
           </div>
@@ -82,11 +82,6 @@
                                         </div>
                             </div>
                         </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 9200f6cb40e0e5431a501ff3188e5969c7d2aee5
                         </div>
                 </div>
             </main>
@@ -94,20 +89,11 @@
     @endsection
 
     @section('scripts')
-     <script type="text/javascript">
-        var users;
+     <script type="text/javascript"> 
+
         $(document).ready(function() {
             $('#menu-dashboard').addClass('active');
         });
   </script>
 
     @endsection
-
-
-@section('scripts')
-    <script>
-        $(document).ready(function(){
-            $('#active-users').addClass('active');
-        });
-    </script>
-@endsection

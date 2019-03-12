@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Registrar Venues | ITD Bros</title>
+    <title>Courts | GASD Bros</title>
 @endsection
 
 @section('css')
@@ -22,12 +22,12 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-dashboard"></i> Registrar Venues</h1>
+                <h1><i class="fa fa-dashboard"></i> Courts</h1>
                 {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                <li class="breadcrumb-item"><a href="#">Venues</a></li>
+                <li class="breadcrumb-item"><a href="#">Courts</a></li>
             </ul>
         </div>
         <!--   <div class="row">
@@ -66,18 +66,17 @@
           </div> -->
         <div class="card">
             <div class="card-body">
-                <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Venue</button>
+                <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Court</button>
                 <div class="table-responsive">
                     <table id="table-venues" class="table table-striped">
                         <thead>
                         <tr>
-                            <td>Venue Name </td>
-                            <td>Building </td>
-                            <td>Floor </td>
-                            <td>Venue Type </td>
-                            <td>Added by </td>
-                            <td>Status</td>
-                            <td>Actions</td>
+                            <th>Venue Name </th>
+                            <th>Building </th>
+                            <th>Floor </th>
+                            <th>Added by </th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -85,7 +84,6 @@
                             <td>Venue Name </td>
                             <td>Building </td>
                             <td>Floor </td>
-                            <td>Venue Type </td>
                             <td>Added by </td>
                             <td>Status</td>
                             <td>Actions</td>
@@ -103,7 +101,7 @@
         var venues;
         var venue_ctr = 1;
         $(document).ready(function() {
-            $('#menu-venues').addClass('active');
+            $('#menu-gasdcourt').addClass('active');
             venues = $('#table-venues').DataTable({
                 ajax: {
                     url: "/gasd/venues/get-venues",
@@ -116,7 +114,6 @@
                     { data: 'venueName'},
                     { data: 'f_building_v.buildingName'},
                     { data: 'floor.venueFloorName'},
-                    { data: 'f_venue_type_v.venueTypeName'},
                     { data: null,
                         render:function(data){
                             return data.f_user_v.firstName+' '+data.f_user_v.lastName;
@@ -415,60 +412,3 @@
             {{--</div>--}}
         {{--</div>--}}
     {{--</div>--}}
-
-
-    <!--     <div class="modal fade" id="venue-image-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
-         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="modal-title modal-venue-image-title" id="smallmodalLabel">Add New Image</span>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Image <span class="required">*</span></label>
-                            <input type="file" name="venue_image" id="venue-image" class="form-control required-input">
-                        </div>
-                    </div>
-                    <div class="modal-footer text-right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary btn-confirm-venue-image">Confirm</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
-
-
-<!--
-<div>
-        <table width="90%" style="font-family: calibri; background-color: #ccc; border: 1px solid #555" align="center" cellpadding="0" cellspacing="0">
-
-                <tr style="background-color: #298430;">
-                    <td style="border-bottom: 1px solid #126418; background-color: #298430; color: #fff; padding: 10px 15px;">
-                        <h2 style="margin: 10px; display: inline-block;">BROS</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 30px 50px 40px 50px; background-color: #eee; font-family: calibri; line-height: 30px;">
-                        <p>Dear <strong>'.$name.'</strong></span> <br/></p>
-                        <p>Sorry to inform you that your request has been rejected.</p?
-                        <br/>
-                        <br/>
-                        Thank you.
-                        <br>
-                        <br/>
-                        Regards,
-                        <br/>
-                        <strong>ITD</strong>
-                        </p>
-                    </td>
-                </tr>
-        </table>
-        <div style="text-align: center; font-family: calibri; font-size: 12px; margin-top: 10px;">
-        </div>
-    </div>
-     -->

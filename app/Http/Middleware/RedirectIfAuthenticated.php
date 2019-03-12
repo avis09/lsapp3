@@ -25,7 +25,7 @@ class RedirectIfAuthenticated
             }elseif (auth()->user()->userRoleID == 2){
                 return redirect('gasd/venues/index2');
             }elseif (auth()->user()->userRoleID == 3) {
-                return redirect('registrar/venues/index');
+                return redirect('/registrar/dashboard');
             }elseif (auth()->user()->userRoleID == 4) {
                 return redirect('itd/users/index');
             }

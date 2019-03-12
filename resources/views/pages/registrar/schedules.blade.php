@@ -77,33 +77,31 @@
   <div class="tab-pane fade" id="all-reservations-href" role="tabpanel" aria-labelledby="all-reservations-tab">
       <div class="table-responsive">
             <table id="table-all" class="table table-striped w-100">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Venue Name</th>
-                    <th>Time </th>
-                    <th>Purpose</th>
-                    <th>Registrar Message</th>
-                    <th>Schedule Date</th>
-                    <th>Date Updated</th>
-                    <th>Status </th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th>Name</th>
-                    <th>Venue Name</th>
-                    <th>Time </th>
-                    <th>Purpose</th>
-                    <th>Registrar Message</th>
-                    <th>Schedule Date</th>
-                    <th>Date Updated</th>
-                    <th>Status </th>
-                    <th>Actions</th>
-                </tr>
-                </tfoot>
-            </table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Venue Name</th>
+                        <th>Time </th>
+                        <th>Status </th>
+                        <th>Purpose</th>
+                        <th>Schedule Date</th>
+                        <th>Date Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Venue Name</th>
+                        <th>Time </th>
+                        <th>Status </th>
+                        <th>Purpose</th>
+                        <th>Schedule Date</th>
+                        <th>Date Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                    </tfoot>
+                </table>
         </div>
   </div>
     <div class="tab-pane fade" id="archived-reservations-href" role="tabpanel" aria-labelledby="archived-reservations-tab">
@@ -144,7 +142,7 @@
 @endsection
 @section('scripts')
     <script>
-        var pending, all, archived;
+        var pending, all_schedules, archived;
         $(document).ready(function () {
             $('#menu-reservations').addClass('active');
             archived = $('#table-archived').DataTable({
@@ -173,15 +171,16 @@
                     // { data: 'statusID'},
                     { data: 'purpose'},
                     { data: 'updatedMessage'},
+                   
+                    
+                    { data: 'date'},
+                    { data: 'updated_at'},
                     { data: null,
                         render: function(data){
                             var status = data.reservation_status.statusName;
                             return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
                         }
-                    },
-                    
-                    { data: 'date'},
-                    { data: 'updated_at'},
+                    }
                 ]
             });
 
@@ -221,29 +220,77 @@
                     {data: 'purpose'},
                     {data: 'date'},
                     {data: 'updated_at'},
-                    {
-                        data: null,
-                        render: function (data) {
-                            return "<button type='button' class='btn btn-primary btn-sm'>Accept</button>" +
-                                " <button type='button' class='btn btn-danger btn-sm'>Reject</button>";
+                    { data: null,
+                        render:function(data){
+                            return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
+                                '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
+                    
                         }
                     }
-                    // { data: null,
-                    //     render:function(data){
-                    //         return '<button type="button" class="btn btn-primary btn-approve-schedule btn-sm" data-id="'+data.scheduleID+'">Approve</button> '+
-                    //             '<button type="button" class="btn btn-secondary btn-decline-schedule btn-sm" data-id="'+data.scheduleID+'">Decline</button>';
-                    //
-                    //     }
-                    // }
                     // { defaultContent: ""}
                 ]
             });
             
-            $(document).on('click', '.btn-approve-schedule', function (e) {
+            all_schedules = $('#table-all').DataTable({
+                ajax: {
+                    url: "/registrar/schedules/get-all-reservations",
+                    dataSrc: ''
+                },
+                responsive: true,
+                // "order": [[ 5, "desc" ]],
+                columns: [
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.user.firstName + ' ' + data.user.lastName;
+
+                        }
+                    },
+                    // { data: 'user.firstName'},
+                    {data: 'f_venue.venueName'},
+                    // { data: 'timeID'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime;
+
+                        }
+                    },
+                    // { data: 'statusID'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
+                        }
+                    },
+                    {data: 'purpose'},
+                    {data: 'date'},
+                    {data: 'updated_at'},
+                    { data: null,
+                        render:function(data){
+                            return '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';
+                    
+                        }
+                    }
+                    // { defaultContent: ""}
+                ]
+            });
+
+            $(document).on('click', '.btn-update-schedule', function (e) {
                 var id = $(this).attr('data-id');
                 var type = $(this).attr('data-type');
-                if (type == 4 || type == 6) {
-                    var status = (type == 4) ? 'cancel' : 'archive';
+                // if (type == 4 || type == 6) {
+                    var status;
+                    if(type == 2){
+                        status = 'approve';
+                    }
+                    else if(type == 3){
+                        status = 'reject';
+                    }
+                    else if(type == 6){
+                        status = 'archive';
+                    }
                     Swal.fire({
                         title: 'Confirmation',
                         text: "Are you sure you want to " + status + " this reservation?",
@@ -257,14 +304,16 @@
                         if (result.value) {
                             $.ajax({
                                 type: 'post',
-                                url: '/student/schedule/update-reservation-status',
+                                url: '/registrar/schedule/update-reservation-status',
                                 data: {
                                     _token: "{{csrf_token()}}",
                                     id: id,
                                     type: type
                                 },
                                 success: function (data) {
-                                    reservations.ajax.reload();
+                                    pending.ajax.reload();
+                                    all_schedules.ajax.reload();
+                                    archived.ajax.reload();
                                     Swal.fire(
                                         data.title,
                                         data.content_message,
@@ -274,7 +323,7 @@
                             });
                         }
                     })
-                }
+                // }
             });
         });
     </script>

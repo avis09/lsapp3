@@ -133,7 +133,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     //R
      Route::get('/venues/get-venues', 'VenuesController@getVenues');
      Route::post('/venues/add-venue', 'VenuesController@store');
-
+     Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
     //FAQ
     Route::get('/registrarfaq', function() {
         return view('pages.registrar.registrarfaq');
@@ -145,6 +145,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     //Schedules
     Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsReg');
+    Route::get('/schedules/get-all-reservations', 'SchedulesController@getAllReservationsReg');
     Route::get('/schedules/get-archived', 'SchedulesController@getArchivedReservationsReg');
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
@@ -155,7 +156,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 });
 //GASD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
-
+    Route::get('/dashboard', 'GasdController@showDashboard');
 //Feedbacks
     Route::get('feedbacks/index2', 'FeedbacksController@index2')->name('feedbacks.index2');
     //Venues
@@ -163,19 +164,21 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::get('venues/index2', 'VenuesController@index2');
     Route::get('/venues/get-venues', 'VenuesController@getVenues2');
     Route::post('/venues/add-venue', 'VenuesController@store');
-
+    
     //
     Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
     Route::post('venues/create2', 'VenuesController@store2')->name('venues.store2');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports2', 'VenuesController@indexReports2')->name('venues.indexReports2');
+    
     //FAQ
     Route::get('/gasdfaq', function() {
         return view('pages.gasd.gasdfaq');
     });
 
 //    //schedules
+    Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
     //Anz
     Route::get('/schedules/list', 'SchedulesController@showReservationPageGasd');
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesGasd');

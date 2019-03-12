@@ -26,3 +26,8 @@
     background-color: #1FAE1D;
     color: white;
 }
+
+.badge-archived {
+    background-color: #737373;
+    color: white;
+}
