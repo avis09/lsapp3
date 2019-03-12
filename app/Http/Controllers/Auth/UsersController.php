@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 Use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -305,11 +306,25 @@ class UsersController extends Controller
     
     public function showResetPasswordPage($slug){
         $user = User::where('IDnumber', $slug)->first();
-        if(count($user)>0){
-            return view('pages.reset-password', compact('user'));
+        if(!empty($user)){
+            return view('pages.reset-password', compact('user','slug'));
         }
         else{
 
         }
+    }
+
+    public function resetPassword(Request $request){
+        $new_password = $request->new_password;
+        $confirm_password = $request->confirm_password;
+            if($new_password == $confirm_password){
+                $user = User::where('IDnumber', $request->id)->update(['password'=> Hash::make($confirm_password), 'updated_at' => Carbon::now()]);
+                if($user){
+                     return response()->json(['success' => true, 'title' => 'Success' , 'type' => 'success', 'message' => 'Password Successfully Updated.']);
+                }
+            }
+            else{
+                return response()->json(['success' => false, 'title' => 'Error' , 'type' => 'error', 'message' => 'Password does not match.']);
+            }
     }
 }

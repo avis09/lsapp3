@@ -123,7 +123,7 @@
 
 
         <div class="modal fade" id="waiver-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <span class="modal-title modal-user-title" id="smallmodalLabel">Waiver Form</span>
@@ -133,11 +133,12 @@
                     </div>
                     <div class="modal-body">
                             <div class="alert alert-warning">Fill out the waiver form in order to make a court reservation.</div>
-                            <label class="control-label">Enter all the user's name <span class="required">*</span></label>
+                            <h6>Enter all the user's name <span class="required">*</span></h6>
                             <div class="waiver-container">
                                 @for($i=1;$i <= 5;$i++)
                                     <div class="form-group input-group waiver-content{{$i}}">
-                                        <input type="text" name="waiver" class="form-control waiver" id="waiver" data-ctr="{{$i}}">
+                                        <input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver-name" placeholder="Name" data-ctr="{{$i}}">
+                                        <input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="{{$i}}">
                                         <div class="input-group-prepend">
                                             <button type="button" class="btn btn-danger btn-delete-name" data-ctr="{{$i}}"><i class="fas fa-trash-alt"></i></button>
                                         </div>
@@ -162,7 +163,8 @@
     var reservations;
     var waiver_ctr = 5;
     var time_ctr = 1;
-    var waiver_data = [];
+    var waiver_name = [];
+    var waiver_id = [];
     var form, min_allowed_date, old_date;
     function getMinimumAllowedDate(id){
         var min = (id==2) ? 7 : 2;
@@ -194,6 +196,8 @@
     }
 
     $(document).ready(function () {
+
+        $('#waiver-modal').modal('show');
                 $('#menu-reservation').addClass('is-expanded');
                 $('#reservation-list').addClass('active');
                 reservations = $('#table-reservations').DataTable({
@@ -246,12 +250,14 @@
                 waiver_ctr++;
                 var html = '';
                 html += '<div class="form-group input-group waiver-content'+waiver_ctr+'">';
-                html += '<input type="text" name="waiver" class="form-control waiver" id="waiver" data-ctr="'+waiver_ctr+'">';
+                html += '<input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver-name" placeholder="Name" data-ctr="'+waiver_ctr+'">';
+                html += '<input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="'+waiver_ctr+'">';
                 html += '<div class="input-group-prepend">';
                 html +=   '<button type="button" class="btn btn-danger btn-delete-name" data-ctr="'+waiver_ctr+'"><i class="fas fa-trash-alt"></i></button>';
                 html +=   '</div></div>';
                 $('.waiver-container').append(html);
         });
+
 
         $(document).on('click', '.btn-delete-name', function(e){
                 var ctr = $(this).attr('data-ctr');
@@ -265,17 +271,32 @@
 
         $(document).on('click', '.btn-submit-waiver', function(e){
                 if(validate.standard('.waiver') == 0){
-                    $('.waiver').each(function(){
-                        waiver_data.push($(this).val());
+                    var json = [];
+                    var str = "";
+                    $('.waiver-name').each(function(){
+                         waiver_name.push($(this).val());
+                        // if($(this).attr('data-type') == 'id-number'){
+                        //    str +="id:"+$(this).val()+"}";
+                        //     json.push(str);
+                        // }
+                        // else{
+                        //     str ="{name:"+$(this).val()+",";
+                        // }
                     });
-                    waiver_data = JSON.stringify(waiver_data);
+
+                    $('.waiver-id-number').each(function(){
+                        waiver_id.push($(this).val());
+                    });
+
+                    waiver_name = JSON.stringify(waiver_name);
+                    waiver_id = JSON.stringify(waiver_id);
 
                     var time_arr = [];
                     $('.schedule-time').each(function(){
                         time_arr.push($(this).val());
                     });
                     time_arr = JSON.stringify(time_arr);
-                    var form = $('#form-add-reservation').serialize()+'&waiver='+waiver_data+'&times='+time_arr;
+                    var form = $('#form-add-reservation').serialize()+'&waiver_name='+waiver_name+'&waiver_id='+waiver_id+'&times='+time_arr;
                     $.ajax({
                             url: "/student/schedules/create-reservation",
                             type: "POST",
@@ -299,7 +320,8 @@
                                               var html = "";
                                               for(var i=1;i<=5;i++){
                                                     html += '<div class="form-group input-group waiver-content'+i+'">';
-                                                    html += '<input type="text" name="waiver" class="form-control waiver" id="waiver" data-ctr="{{$i}}">';
+                                                    html += '<input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver" data-ctr="'+i+'">';
+                                                    html += '<input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="'+i+'">';
                                                     html += '<div class="input-group-prepend">';
                                                     html += '<button type="button" class="btn btn-danger btn-delete-name" data-ctr="{{$i}}"><i class="fas fa-trash-alt"></i></button>';
                                                     html += '</div></div>';
@@ -451,7 +473,7 @@
             var time_arr = [];
             var id = $('#venue-name').val();
             var date = $('#schedule-date').val();
-            $('.btn-add-new-time').prop('disabled', true);
+            // $('.btn-add-new-time').prop('disabled', true);
             $('.schedule-time').each(function(){
                 time_arr.push($(this).val());;
             });
@@ -538,48 +560,4 @@
         });
     });
 </script>
-
-
 @endsection
-
-
-@section('scripts')
-    <script>
-        $(document).ready(function(){
-            $('#reservation-list').addClass('active');
-        });
-    </script>
-@endsection
-<!-- 
-<script>
-    $(document).ready(function () {
-        $(document).on('change', function () {
-            var venueID = $('#venue').val();
-            var date = $('#date').val();
-            // console.log(Floor_Id);
-            var table = $('.availSched');
-            var op = " ";
-
-            $.ajax({
-                type: 'get',
-                url: '{!! URL::to('showSchedules') !!}',
-                data: {'venueID': venueID, 'date': date},
-                success: function (data) {
-                    console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        //op += '<option selected for="time" value="" disabled>Select a time now</option>';
-                        op += '<tr> + <td>' + data[i].date + '</td> + <td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td> + <td>' + data[i].statusName + '</td> + <td>' + data[i].firstName + '</td> + <tr>';
-                    }
-                    if(data.length == 0){
-                        op += '<option selected for="time" value="" disabled selected>No reservations</option>';
-                    }
-                    $(table).html(" ");
-                    $(table).append(op);
-                },
-                error: function () {
-                    console.log('error');
-                }
-            })
-        })
-    });
-</script> -->

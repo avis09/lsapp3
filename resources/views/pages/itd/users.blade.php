@@ -302,7 +302,9 @@
                     }
                 })
             });
-
+  $(document).on('click', '.btn-close',  function(){
+          window.close();
+      });
 
             $(document).on('submit', '#form-add-user', function(e){
                     e.preventDefault();
@@ -375,9 +377,9 @@
             });
 
             $(document).on('click', '.btn-reset-password', function(e){
-                var IDnumber = $(this).attr('data-id');
-                var url = "/itd/reset-password/"+IDnumber;
-                window.open(url, '_blank');
+                var id = $(this).attr('data-id');
+                var url = "/itd/reset-password/"+id;
+                window.open(url, '_blank'); 
                     // $.ajax({
                     //         type: 'get',
                     //         url: '/itd/users/generate-password',
