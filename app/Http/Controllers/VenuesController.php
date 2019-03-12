@@ -51,8 +51,6 @@ class VenuesController extends Controller
                 //->with('f_statusV', $f_statusV);
     }
 
-
-
     public function getVenues(){
          // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
 
@@ -74,10 +72,25 @@ class VenuesController extends Controller
         $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID')->where('venueTypeID', 2)->paginate(10);
         $f_venueStatusV = array('venuestatus' => DB::table('venuestatus')->get());
         $f_userV = array('users' => DB::table('users')->get());
-        return view('pages.gasd.venueindex')
+        return view('pages.gasd.venues')
             ->with('venues', $venues)
             ->with('f_venueStatusVu', $f_venueStatusV)
             ->with('f_userV', $f_userV);
+    }
+    public function getVenues2(){
+        // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
+
+        $venues = Venue::with
+        ('f_buildingV','f_userV','f_venueTypeV','floor','f_venueStatusV')->where('venueTypeID', 2)
+            ->get();
+        print_r(json_encode($venues));
+        // $f_buildingV = array('building' => DB::table('building')->get());
+        // //$f_statusV = array('status' => DB::table('status')->get());
+        // $f_userV = array('users' => DB::table('users')->get());
+        // $venues = view('venues.venueindex')
+        //         ->with('venues', $venues)
+        //         ->with('f_buildingV', $f_buildingV)
+        //         ->with('f_userV', $f_userV);
     }
     // Registrar Reports on number Active Rooms
     public function indexReports()
