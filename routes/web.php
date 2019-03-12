@@ -88,6 +88,11 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
         Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
         Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
+    //get archived users
+    Route::get('/schedule/get-archived-schedules', 'SchedulesController@getArchivedUserReservations');
+    //get canceled users
+    Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');
+
         //gallery
         Route::get('/venue-rooms', 'VenuesController@showRoomVenues');
         Route::get('/venue-courts', 'VenuesController@showCourtVenues');

@@ -133,7 +133,24 @@ class SchedulesController extends Controller
           return response()->json(['title' => 'Error', 'content_message' => 'Something went wrong.', 'success' => false]);
         }
     }
+//Canceled Reservation List******************************************************************************
+    public function getCancelledReservations(){
+        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
+            ->where('userID', auth()->user()->userID)
+            ->where('statusID', '=', '4')
+            ->get();
 
+        print_r(json_encode($schedules));
+    }
+//Archived Reservation list******************************************************************************
+    public function getArchivedReservations(){
+        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
+            ->where('userID', auth()->user()->userID)
+            ->where('statusID', '=', '6')
+            ->get();
+
+        print_r(json_encode($schedules));
+    }
 
     /**
      * Store a newly created resource in storage.
