@@ -35,9 +35,9 @@
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <li><a class="dropdown-item" href="{{$profile}}"><i class="fas fa-user fa-lg"></i> Profile</a></li>
 
-                
+
             <li><a class="dropdown-item" href="{{$change_password}}"><i class="fas fa-cog fa-lg"></i> Settings</a></li>
-                <li><a class="dropdown-item"onclick="document.getElementById('form-logout').submit();""><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a></li>
+                <li><a class="dropdown-item"onclick="document.getElementById('form-logout').submit();"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a></li>
                 <form id="form-logout" action="{{route('logout')}}" method="POST" style="display: none;">
                         @csrf
                 </form>

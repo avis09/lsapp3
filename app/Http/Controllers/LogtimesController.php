@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\LogTime;
 use App\User;
+use App\Venue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,6 +24,14 @@ class LogtimesController extends Controller
         return view('pages.itd.accountlogs')
             ->with('logtime', $logtime)
             ->with('f_logs', $f_logs);
+    }
+
+    public function getLogTime(){
+        // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
+
+        $logtime = Venue::with('f_logs')->get();
+        // ->orderBy('inTime', 'DESC')
+        print_r(json_encode($logtime));
     }
 
     /**

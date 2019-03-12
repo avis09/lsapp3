@@ -326,5 +326,6 @@
                 // }
             });
         });
+
     </script>
 @endsection

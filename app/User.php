@@ -82,7 +82,7 @@ class User extends Authenticatable
     }
     public function f_logTime()
     {
-        return $this->hasMany('App\LogTime');
+        return $this->hasMany('App\LogTime', 'userID');
     }
 
     public function f_feedbacks()

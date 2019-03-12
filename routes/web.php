@@ -213,7 +213,9 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('users/show','Auth\UsersController@show')->name('users.show');
     Route::get('users/{id}/edit', 'Auth\UsersController@edit')->name('users.edit');
     Route::put('users/{id}/edit', 'Auth\UsersController@update')->name('users.update');
+    //logtimes
     Route::get('accountlogs/index', 'LogtimesController@index')->name('accountlogs.index');
+    Route::get('/accountlogs/get-logs', 'LogtimesController@getLogTime');
     Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
 
     Route::get('/reset-password/{slug}', 'Auth\UsersController@showResetPasswordPage');
