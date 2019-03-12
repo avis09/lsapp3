@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Schedule;
 use Illuminate\Http\Request;
 
 class RegistrarController extends Controller
 {
     public function showDashboard(){
-
-        return view('pages.registrar.dashboard');
-    }
+//
+//        $countRegSched = Schedule::
+//        return view('pages.registrar.dashboard')
+//            ->with('countRegSched', $countRegSched);
+//    }
 }

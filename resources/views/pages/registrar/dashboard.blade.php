@@ -30,8 +30,8 @@
           <div class="col-md-6 col-lg-3">
             <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Students</h4>
-                <p><b>5</b></p>
+                <h4>Room Count</h4>
+                <p><b></b></p>
               </div>
             </div>
           </div>
@@ -82,8 +82,8 @@
                                         </div>
                             </div>
                         </div>
-         
-                   
+
+
                         </div>
                 </div>
             </main>
@@ -91,7 +91,7 @@
     @endsection
 
     @section('scripts')
-     <script type="text/javascript"> 
+     <script type="text/javascript">
         var users;
         $(document).ready(function() {
             $('#menu-dashboard').addClass('active');
