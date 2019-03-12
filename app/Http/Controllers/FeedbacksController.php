@@ -18,6 +18,7 @@ class FeedbacksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //reg
     public function index()
     {
 
@@ -28,8 +29,8 @@ class FeedbacksController extends Controller
 //        ->get();
 //        $feedbacks = Feedback::all();
       $feedbacks = DB::table('feedbacks')
-          ->join('venue', 'venue.venueID', '=', 'feedbacks.venueID')
-          ->join('users', 'users.userID', '=', 'feedbacks.userID')
+          ->leftJoin('venue', 'venue.venueID', '=', 'feedbacks.venueID')
+          ->rightJoin('users', 'users.userID', '=', 'feedbacks.userID')
           ->select('feedbacks.feedbackID', 'feedbacks.comment', 'feedbacks.created_at', 'venue.venueName', 'users.firstName')
           ->orderBy('feedbacks.created_at', 'desc')
             ->where('venue.venueTypeID', '=', '1')
@@ -38,11 +39,20 @@ class FeedbacksController extends Controller
             ->with('feedbacks', $feedbacks);
 
     }
+    public function getFeedbacksReg(){
+
+        $feedbacks = Feedback::with('f_venue','f_user')
+            //->where('venueTypeID', '!=', '1')
+            ->get();
+        print_r(json_encode($feedbacks));
+
+    }
+    //gasd
     public function index2()
     {
         $feedbacks = DB::table('feedbacks')
-            ->join('venue', 'venue.venueID', '=', 'feedbacks.venueID')
-            ->join('users', 'users.userID', '=', 'feedbacks.userID')
+            ->leftJoin('venue', 'venue.venueID', '=', 'feedbacks.venueID')
+            ->rightJoin('users', 'users.userID', '=', 'feedbacks.userID')
             ->select('feedbacks.feedbackID', 'feedbacks.comment', 'feedbacks.created_at', 'venue.venueName', 'users.firstName')
             ->orderBy('feedbacks.created_at', 'desc')
             ->where('venue.venueTypeID', '=', '2')

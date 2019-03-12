@@ -115,6 +115,8 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('/dashboard', 'RegistrarController@showDashboard');
     //Feedbacks
     Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
+    Route::get('/feedbacks/get-feedbacks', 'FeedbacksController@getFeedbacksReg');
+
     //Venues
     Route::get('venues/index', 'VenuesController@index')->name('venues.index');
     Route::get('venues/create', 'VenuesController@create')->name('venues.create');
