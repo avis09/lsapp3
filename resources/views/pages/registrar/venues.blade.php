@@ -22,12 +22,12 @@
 <main class="app-content">
         <div class="app-title">
           <div>
-            <h1><i class="fa fa-dashboard"></i> Registrar Venues</h1>
+            <h1><i class="fa fa-dashboard"></i> Rooms</h1>
             {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
           </div>
           <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">Venues</a></li>
+            <li class="breadcrumb-item"><a href="#">Rooms</a></li>
           </ul>
         </div>
       <!--   <div class="row">
@@ -66,7 +66,7 @@
         </div> -->
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Venue</button>
+                        <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Room</button>
                     <div class="table-responsive">
                                 <table id="table-venues" class="table table-striped">
                                     <thead>

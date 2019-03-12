@@ -174,7 +174,7 @@
         var yyyy = today.getFullYear();
         if(dd<10){
                 dd='0'+dd
-            } 
+        } 
         if(mm<10){
             mm='0'+mm
         } 
@@ -258,7 +258,7 @@
                 $('.waiver-container').append(html);
         });
 
-
+        
         $(document).on('click', '.btn-delete-name', function(e){
                 var ctr = $(this).attr('data-ctr');
                 $('.waiver-content'+ctr).remove();
@@ -434,7 +434,6 @@
 
         $(document).on('change', '#venue-type', function () {
             var id = $(this).val();
-            
             $('#venue-name').html('<option selected>Loading . . .</option>');
             $('#schedule-date').prop('disabled', true);
             $('#schedule-date').attr('type', 'date');

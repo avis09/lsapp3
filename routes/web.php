@@ -112,6 +112,7 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
 
+    Route::get('/dashboard', 'RegistrarController@showDashboard');
     //Feedbacks
     Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
     //Venues
