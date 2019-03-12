@@ -160,28 +160,33 @@ class SchedulesController extends Controller
      */
     public function createReservation(Request $request)
     {
-        $this->validate($request, [
-            'purpose' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'purpose' => 'required',
+        // ]);
 
 
-        $times = json_decode($request->times);
-        foreach ($times as $key => $timeID) {
-           $schedule = Schedule::create([
-                "userID" => auth()->user()->userID,
-                "venueID" => $request->venue,
-                "timeID" => $timeID,
-                "statusID" => 1,
-                "purpose" => $request->purpose,
-                "date" => $request->date,
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now()
-            ]);
+        // $times = json_decode($request->times);
+        // foreach ($times as $key => $timeID) {
+        //    $schedule = Schedule::create([
+        //         "userID" => auth()->user()->userID,
+        //         "venueID" => $request->venue,
+        //         "timeID" => $timeID,
+        //         "statusID" => 1,
+        //         "purpose" => $request->purpose,
+        //         "date" => $request->date,
+        //         "created_at" => Carbon::now(),
+        //         "updated_at" => Carbon::now()
+        //     ]);
+        // }
+        $waiver_name = json_decode($request->waiver_name);
+        $waiver_id = json_decode($request->waiver_id);
+        if(!empty($request->waiver_name)){
+            for($i=0;$i<count($waiver_name);$i++){
+                echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
+            }
         }
 
-        if(!empty($request->waiver)){
-            
-        }
+        die();
 
         if (!empty($schedule->scheduleID)) {
               return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
@@ -263,10 +268,11 @@ class SchedulesController extends Controller
             ->pluck('timeID');
 
             $times = json_decode($request->times);
+            $timeIDs = json_decode($timeIDs);
+            
             foreach ($times as $key => $time) {
                 array_push($timeIDs, $time);
             }
-
             $data = Time::select('time.timeID', 'time.timeStartTime', 'time.timeEndTime')
             ->join('venue', 'venue.venueTypeID', 'time.venueTypeID')
             ->where('venue.venueID', $request->id)

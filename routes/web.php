@@ -202,7 +202,7 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     Route::get('activeusers/index', 'LogtimesController@index')->name('activeusers.index');
 
     Route::get('/reset-password/{slug}', 'Auth\UsersController@showResetPasswordPage');
-
+    Route::post('/reset-password', 'Auth\UsersController@resetPassword');
     //FAQ
     Route::get('/itdfaq', function() {
         return view('pages.itd.itdfaq');
