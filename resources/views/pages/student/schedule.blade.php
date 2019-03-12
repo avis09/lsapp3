@@ -135,7 +135,7 @@
                             <div class="alert alert-warning">Fill out the waiver form in order to make a court reservation.</div>
                             <h6>Enter all the user's name <span class="required">*</span></h6>
                             <div class="waiver-container">
-                                @for($i=1;$i <= 5;$i++)
+                                @for($i=1;$i <= 2;$i++)
                                     <div class="form-group input-group waiver-content{{$i}}">
                                         <input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver-name" placeholder="Name" data-ctr="{{$i}}">
                                         <input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="{{$i}}">
@@ -161,7 +161,7 @@
 @section('scripts')
 <script>
     var reservations;
-    var waiver_ctr = 5;
+    var waiver_ctr = 2;
     var time_ctr = 1;
     var waiver_name = [];
     var waiver_id = [];
@@ -192,12 +192,9 @@
             $('.schedule-time-container').html(html);
             time_ctr = 1;
         }
-
     }
 
     $(document).ready(function () {
-
-        $('#waiver-modal').modal('show');
                 $('#menu-reservation').addClass('is-expanded');
                 $('#reservation-list').addClass('active');
                 reservations = $('#table-reservations').DataTable({
@@ -318,7 +315,7 @@
                                             $('#venue-name').children('option:not(:first)').remove();
                                             resetTimeSchedule();
                                               var html = "";
-                                              for(var i=1;i<=5;i++){
+                                              for(var i=1;i<=2;i++){
                                                     html += '<div class="form-group input-group waiver-content'+i+'">';
                                                     html += '<input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver" data-ctr="'+i+'">';
                                                     html += '<input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="'+i+'">';

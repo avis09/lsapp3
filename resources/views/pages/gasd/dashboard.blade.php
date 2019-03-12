@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Dashboard | Registrar Bros</title>
+    <title>Dashboard | GASD Bros</title>
 @endsection
 
 @section('css')
@@ -90,19 +90,10 @@
 
     @section('scripts')
      <script type="text/javascript"> 
-        var users;
+
         $(document).ready(function() {
             $('#menu-dashboard').addClass('active');
         });
   </script>
 
     @endsection
-
-
-@section('scripts')
-    <script>
-        $(document).ready(function(){
-            $('#active-users').addClass('active');
-        });
-    </script>
-@endsection

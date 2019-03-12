@@ -50,7 +50,11 @@
         {{--<p class="app-sidebar__user-designation">Frontend Developer</p>--}}
         {{--</div>--}}
         {{--</div>--}}
+        
         <ul class="app-menu">
+            <li>
+                <a id="menu-dashboard" class="app-menu__item" href="/gasd/dashboard"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Dashboard</span></a>
+            </li>
             <li class="treeview">
                 <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
@@ -63,7 +67,7 @@
             </li>
             <li><a id="menu-gasdfaq" class="app-menu__item" href="{{ url('gasd/gasdfaq') }}"><i class="app-menu__icon fa fa-question"></i>FAQ</a></li>
             <li><a id="menu-gasdcourt" class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-trophy"></i>Court</a></li>
-            <li><a id="menu-gasdfeedback" class="treeview-item" href="{{url('registrar/feedbacks/index') }}"><i class="icon fa fa-comment"></i>Feedback</a></li>
+            <li><a id="menu-gasdfeedback" class="app-menu__item" href="{{url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-comment"></i>Feedback</a></li>
             <li class="treeview">
                 <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>

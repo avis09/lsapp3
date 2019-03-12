@@ -54,7 +54,7 @@ class LoginController extends Controller
                         return redirect('gasd/venues/index2');
                     }
                     elseif ($user->userRoleID == 3) {
-                        return redirect('registrar/venues/index');
+                        return redirect('/registrar/dashboard');
                     }
                     elseif ($user->userRoleID == 4) {
                         return redirect('itd/users/index');

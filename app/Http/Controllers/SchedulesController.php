@@ -7,14 +7,17 @@ use App\Time;
 use App\VenueSchedule;
 use Carbon\Carbon;
 use App\Venue;
+use App\User;
 use App\VenueType;
+use App\Waiver;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
 use App\Http\Controllers\Validator;
 use Illuminate\Support\Facades\Auth;
 //use Illuminate\Support\Facades\DB;
-
+use App\Mail\MailSched;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
@@ -76,6 +79,16 @@ class SchedulesController extends Controller
     }
     //get archived reservations
 
+    public function getAllReservationsReg(){
+        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+            //->where('f_venue.venueTypeID', '=','1')
+            ->where('statusID', '!=', '1')
+            ->where('statusID', '!=', '6')
+            ->get();
+
+        return response()->json($schedules);
+    }
+
     public function getArchivedReservationsReg(){
         $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
 //            ->where('userID', auth()->user()->userID)
@@ -122,9 +135,11 @@ class SchedulesController extends Controller
             switch ($request->type) {
                 case '2':
                     $content_message = 'Approved';
+                    $this->sendEmailAndSMS($request->id,$request->type);
                     break;
                 case '3':
                     $content_message = 'Rejected';
+                    $this->sendEmailAndSMS($request->id,$request->type);
                     break;
                 case '4':
                     $content_message = 'Cancelled';
@@ -181,31 +196,31 @@ class SchedulesController extends Controller
         //     'purpose' => 'required',
         // ]);
 
-
-        // $times = json_decode($request->times);
-        // foreach ($times as $key => $timeID) {
-        //    $schedule = Schedule::create([
-        //         "userID" => auth()->user()->userID,
-        //         "venueID" => $request->venue,
-        //         "timeID" => $timeID,
-        //         "statusID" => 1,
-        //         "purpose" => $request->purpose,
-        //         "date" => $request->date,
-        //         "created_at" => Carbon::now(),
-        //         "updated_at" => Carbon::now()
-        //     ]);
-        // }
-        $waiver_name = json_decode($request->waiver_name);
-        $waiver_id = json_decode($request->waiver_id);
-        if(!empty($request->waiver_name)){
-            for($i=0;$i<count($waiver_name);$i++){
-                echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
-            }
+        $times = json_decode($request->times);
+        foreach ($times as $key => $timeID) {
+           $schedule = Schedule::create([
+                "userID" => auth()->user()->userID,
+                "venueID" => $request->venue,
+                "timeID" => $timeID,
+                "statusID" => 1,
+                "purpose" => $request->purpose,
+                "date" => $request->date,
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now()
+            ]);
         }
 
-        die();
-
         if (!empty($schedule->scheduleID)) {
+            if(!empty($request->waiver_name)){
+                $waiver_name = json_decode($request->waiver_name);
+                $waiver_id = json_decode($request->waiver_id);
+                for($i=0;$i<count($waiver_name);$i++){
+                    $waiver = Waiver::create([
+                        "scheduleID" => $schedule->scheduleID, "studentName" => $waiver_name[$i], "studentIDnumber" =>$waiver_id[$i]
+                    ]);
+                    // echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
+                }
+            }
               return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
          }
          else{
@@ -333,6 +348,55 @@ class SchedulesController extends Controller
             ->where('venue.venueID', $request->id)->get();
         }
         return response()->json($schedules);
+
+    }
+
+
+    public function sendEmailAndSMS($userID,$type){
+        $user = User::where('userID', $userID)->first();
+        if($type == 2){
+            $message = 'Your reservation request was approved.';
+            $content = 'Approved!';
+        }
+        else if($type == 3){
+            $message = 'Your reservation request was rejected.';
+            $content = 'Rejected!';
+        }
+
+        // Mail::to($user->email)->send(new MailSched)->view('emails.sendConfirmation', compact('content'));
+
+
+
+	    // Account details
+        // API key  acc for
+        // User: anz.zel17@gmail.com Pass: Anzel123
+	    //$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
+        // API key  acc for
+        // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
+        $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8');
+
+
+        // Message details
+        $numbers = array($user->phoneNumber);
+        $sender = urlencode('ANZEL');
+        $message = rawurlencode($message);
+
+        $numbers = implode(',', $numbers);
+
+        // Prepare data for POST request
+        $data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
+
+        // Send the POST request with cURL
+        $ch = curl_init('https://api.txtlocal.com/send/');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Process your response here
+        return $response;
+
 
     }
 
