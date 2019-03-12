@@ -122,3 +122,12 @@
     </script>
     
 @endsection
+
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-venue-courts').addClass('active');
+        });
+    </script>
+@endsection

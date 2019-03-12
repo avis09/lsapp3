@@ -28,3 +28,11 @@
         </div>
     </main>>
         @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#active-users').addClass('active');
+        });
+    </script>
+@endsection

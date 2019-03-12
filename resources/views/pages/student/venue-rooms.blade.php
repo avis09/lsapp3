@@ -121,3 +121,12 @@
     </script>
     
 @endsection
+
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-venue-rooms').addClass('active');
+        });
+    </script>
+@endsection

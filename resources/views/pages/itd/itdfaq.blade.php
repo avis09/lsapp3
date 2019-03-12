@@ -28,3 +28,11 @@
         </div>
     </main>
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-reservation').addClass('active');
+        });
+    </script>
+@endsection

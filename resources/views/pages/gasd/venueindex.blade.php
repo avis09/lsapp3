@@ -69,3 +69,11 @@
         <p>No Venue found</p>
     @endif
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-gasdreservevenue').addClass('active');
+        });
+    </script>
+@endsection

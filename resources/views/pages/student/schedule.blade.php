@@ -202,9 +202,8 @@
                 dataSrc: ''
                 },
                 responsive:true,
-                    // "order": [[ 5, "desc" ]],
+                    "order": [[ 5, "desc" ]],
                 columns: [
-                // { data: 'userID'},
                 { data: 'f_venue.venueName'},
                 { data: 'f_venue.f_venue_type_v.venueTypeName'},
                 { data: null,
@@ -276,7 +275,7 @@
                         time_arr.push($(this).val());
                     });
                     time_arr = JSON.stringify(time_arr);
-                    var form = $('#form-add-reservation').serialize()+'&waiver_data='+waiver_data+'&times='+time_arr;
+                    var form = $('#form-add-reservation').serialize()+'&waiver='+waiver_data+'&times='+time_arr;
                     $.ajax({
                             url: "/student/schedules/create-reservation",
                             type: "POST",
@@ -543,6 +542,14 @@
 
 @endsection
 
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#reservation-list').addClass('active');
+        });
+    </script>
+@endsection
 <!-- 
 <script>
     $(document).ready(function () {

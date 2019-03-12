@@ -26,7 +26,8 @@
                 <li class="breadcrumb-item"><a href="#">Rooms</a></li>
             </ul>
         </div>
-
+<div class="card">
+    <div class="card-body">
     @if(count($feedbacks) > 0)
     <div class="container">
         <table class="table">
@@ -49,8 +50,17 @@
         </table>
 
     </div>
+</div>
+</div>
 
     @else
         <p>No Feedback found</p>
     @endif
+@endsection
+        @section('scripts')
+            <script>
+                $(document).ready(function(){
+                    $('#menu-feedbacks').addClass('active');
+                });
+            </script>
 @endsection

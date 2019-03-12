@@ -110,7 +110,7 @@
     <script src="{{asset('dashboard/js/main.js')}}"></script>
     <script src="{{asset('dashboard/js/custom.js')}}"></script>
     <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
+    <script src="{{asset('dashboard/js/plugins/pace.min.js')}}"></script>
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
     {{-- <script src="http://threejs.org/examples/js/libs/stats.min.js"></script> --}}
     <script src="{{asset('js/particles.js')}}"></script>

@@ -128,3 +128,12 @@ $(document).ready(function(){
 </script>
 
 @endsection
+
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#menu-feedbacks').addClass('active');
+        });
+    </script>
+@endsection

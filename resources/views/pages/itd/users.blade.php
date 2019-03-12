@@ -105,6 +105,7 @@
                         </button>
                     </div>
                     <form class="form-user">
+                        @csrf
                     <div class="modal-body">
                             <div class="form-group">
                                 <label>Account Type <span class="required">*</span></label>
@@ -339,10 +340,11 @@
                         success:function(data){
                             $('#user-modal').modal('show');
                             var response = JSON.parse(data);
+                            $('.btn-reset-password').attr('data-id', response.IDnumber);
                             $('#firstName').val(response.firstName);
                             $('#lastName').val(response.lastName);
-                            $('#areaCode').val(response.areaCode);
-                            $('#phoneNumber').val(response.phoneNumber);
+                            var phoneNumber = response.phoneNumber.replace("63", "");
+                            $('#phoneNumber').val(phoneNumber);
                             $('#email').val(response.email);
                             $('#userRole').val(response.userRoleID);
                             $('#department').val(response.departmentID);
@@ -356,7 +358,7 @@
             $(document).on('submit', '#form-edit-user', function(e){
                     e.preventDefault();
                     var id = $('.btn-confirm').attr('data-id');
-                    var form = $(this).serialize() + '&userID=' + id;
+                    var form = $('#form-edit-user').serialize() + '&userID=' + id;
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
                     $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
@@ -366,21 +368,24 @@
                         data: form,
                         success:function(data){
                             var response = JSON.parse(data);
-                            var action_type = 'edit';
+                            var action_type = 'update';
                             validateSaveUser(response,action_type);
                         }
                     });
             });
 
             $(document).on('click', '.btn-reset-password', function(e){
-                    $.ajax({
-                            type: 'get',
-                            url: '/itd/users/generate-password',
-                            success: function(data) {
-                                var response = JSON.parse(data);
-                                $('#password').val(response);
-                            }
-                    });
+                var IDnumber = $(this).attr('data-id');
+                var url = "/itd/reset-password/"+IDnumber;
+                window.open(url, '_blank');
+                    // $.ajax({
+                    //         type: 'get',
+                    //         url: '/itd/users/generate-password',
+                    //         success: function(data) {
+                    //             var response = JSON.parse(data);
+                    //             $('#password').val(response);
+                    //         }
+                    // });
             });
 
             $(document).on('click', '.btn-archive-user', function(e){
@@ -474,8 +479,41 @@
                     }
                 });
             }
+
+            function updateUser(){
+                var id = $('.btn-confirm').attr('data-id');
+                var form = $('#form-edit-user').serialize()+'&userID='+id;
+                $.ajax({
+                    url: "/itd/users/update-user",
+                    type: 'POST',
+                    data: form,
+                    success:function(data){
+                        if(data.success === true) {
+                            $('#user-modal').modal('hide');
+                            // $('.modal-backdrop').hide();
+                             Swal.fire(
+                                  'Success',
+                                  'Account Successfuly Updated!',
+                                  'success'
+                            );
+                            $('.email').removeClass('err_inputs');
+                            $('.mobile_number').removeClass('err_inputs');
+                            $('.validate_error_message').remove();
+                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
+                            users.ajax.reload();
+                        }
+                    }
+                });
+            }
   </script>
 
     @endsection
 
 
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#active-users').addClass('active');
+        });
+    </script>
+@endsection
