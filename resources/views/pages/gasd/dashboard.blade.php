@@ -30,32 +30,24 @@
           <div class="col-md-6 col-lg-3">
             <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Students</h4>
-                <p><b>5</b></p>
+                <h4>Schedules Count</h4>
+                <p><b>{{$countAllSchedules}}</b></p>
               </div>
             </div>
           </div>
           <div class="col-md-6 col-lg-3">
                 <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Active Users</h4>
-                <p><b>25</b></p>
+                <h4>Total number of Courts</h4>
+                <p><b>{{$countAllTotalRooms}}</b></p>
               </div>
             </div>
           </div>
           <div class="col-md-6 col-lg-3">
                 <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
-                <h4>Inactive Users</h4>
-                <p><b>10</b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Archived Users</h4>
-                <p><b>500</b></p>
+                <h4>active Court</h4>
+                <p><b>{{$countAllActiveRooms}}</b></p>
               </div>
             </div>
           </div>

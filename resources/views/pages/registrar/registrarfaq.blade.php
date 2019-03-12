@@ -86,8 +86,66 @@
                             </div>
                         </div>
                     </div>
+                    <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
 
+                        <div class="card">
+                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq1">
+                                <h5 class="faq-question mb-0">
+                                    Room Management
+                                </h5>
+                            </div>
+
+                            <div id="faq3" class="collapse" aria-labelledby="heading3">
+                                <div class="card-body">
+                                    •	<strong> Step 1: </strong> Select “Rooms” button <br>
+                                    •	<strong> Step 2: </strong> Select “Add Rooms” if the user is going to add a room <br>
+                                    •	<strong> Step 3: </strong> Select “Update/Edit Room” beside the rooms shown in the website application <br>
+                                    •	<strong> Step 4: </strong> Select “Archive” button to the specific room that the user wants to remove <br>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
+
+                        <div class="card">
+                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq1">
+                                <h5 class="faq-question mb-0">
+                                    View Pending and Approved Reservations
+                                </h5>
+                            </div>
+
+                            <div id="faq3" class="collapse" aria-labelledby="heading3">
+                                <div class="card-body">
+                                    •	<strong> Step 1: </strong> Select “Reservation Request” button <br>
+                                    •	<strong> Step 2: </strong> The user will see a list of applicants reserving a specific venue <br>
+                                    •	<strong> Step 3: </strong> The user can approve or decline pending reservation schedules <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
+
+                        <div class="card">
+                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq1">
+                                <h5 class="faq-question mb-0">
+                                    View Reservation Reports
+                                </h5>
+                            </div>
+
+                            <div id="faq3" class="collapse" aria-labelledby="heading3">
+                                <div class="card-body">
+                                    •	<strong> Step 1: </strong> Select “Dashboard” button <br>
+                                    •	<strong> Step 2: </strong> The user can select a specific room/venue <br>
+                                    •	<strong> Step 3: </strong> Select a date <br>
+                                    •	<strong> Step 4: </strong> The reserved rooms/venues will be shown in the dashboard <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 </div>
             </div>
     </main>

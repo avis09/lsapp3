@@ -92,13 +92,15 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
     //get canceled users
     Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');
 
-        //gallery
+        //venue gallery
         Route::get('/venue-rooms', 'VenuesController@showRoomVenues');
         Route::get('/venue-courts', 'VenuesController@showCourtVenues');
+
+        //change pw
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
-
+        //show schedule
         Route::post('/show-schedules', 'SchedulesController@showSchedules');
 
         //PROFILE UPDATE

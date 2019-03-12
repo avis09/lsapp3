@@ -102,11 +102,29 @@
             <li>
                 <a id="menu-venues" class="app-menu__item" href="{{ url('registrar/venues/index') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Rooms</span></a>
             </li>
+            <li class="treeview">
+                <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
+                    <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('registrar/schedules/create') }}"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
+                    <li><a id="menu-gasdreservevenue" class="treeview-item" href="{{ url('registrar/schedules/list') }}"><i class="icon fa fa-archive"></i> Reservations</a></li>
+                    <li><a id="menu-gasdcalendar" class="treeview-item" href="{{ url('registrar/schedules/registrarcalendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+                </ul>
+            </li>
             <li>
                 <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">Feedbacks</span></a>
             </li>
             <li><a id="menu-registrarfaqs" class="app-menu__item" href="{{ url('registrar/registrarfaq') }}"><i class="app-menu__icon fa fa-question"></i><span class="app-menu__label">FAQ</span></a></li>
-            <li><a id="menu-reservations" class="app-menu__item" href="{{url('registrar/schedules/list') }}"><i class="app-menu__icon fa fa-book"></i>Reservations</a></li>
+            <li class="treeview">
+                <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
+                    <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation Request</a></li>
+                    <li><a id="menu-gasdreservevenue" class="treeview-item" href="{{ url('registrar/gallery/index') }}"><i class="icon fa fa-archive"></i> Room Gallery</a></li>
+                </ul>
+            </li>
         </ul>
 
     </aside>
@@ -132,7 +150,6 @@
             </a>
             <ul class="treeview-menu">
                 <li><a id="audit-logs" class="treeview-item" href="{{ url('itd/accountlogs/index') }}"><i class="icon fa fa-key"></i> Audit Logs</a></li>
-                <li><a id="active-users" class="treeview-item" href="{{ url('itd/users/activeUsers') }}"><i class="icon fa fa-user"></i> Active Users</a></li>
                 <li><a id="archived-users" class="treeview-item" href="{{ url('itd/users/reports-archived-users') }}"><i class="icon fa fa-user-secret"></i> Archived Users</a></li>
             </ul>
         </li>
