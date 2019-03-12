@@ -17,8 +17,26 @@ class RegistrarController extends Controller
             ->where('venue.venueTypeID', '=', '1')
             ->count();
 
+        $countAllTotalRooms = DB::table('venue')
+            ->select('venueID')
+            ->where('venueTypeID', '=', '1')
+            ->count();
+
+
+        $countAllActiveRooms = DB::table('venue')
+            ->leftJoin('venuestatus', 'venuestatus.venueStatusID', '=', 'venue.venueStatusID')
+            ->rightJoin('venuetype','venuetype.venueTypeID','=', 'venue.venueTypeID')
+            ->select('venue.venueID')
+            ->where('venuestatus.venueStatusID', '=', '1')
+            ->where('venuetype.venueTypeID', '=', '1')
+            ->count();
+
+
         return view('pages.registrar.dashboard')
-            ->with('countAllSchedules', $countAllSchedules);
+            ->with('countAllSchedules', $countAllSchedules)
+            ->with('countAllTotalRooms', $countAllTotalRooms)
+            ->with('countAllActiveRooms', $countAllActiveRooms);
+
 
     }
 

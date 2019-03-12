@@ -351,8 +351,6 @@ class SchedulesController extends Controller
 
     }
 
-<<<<<<< HEAD
-=======
 
     public function sendEmailAndSMS($userID,$type){
         $user = User::where('userID', $userID)->first();
@@ -401,7 +399,4 @@ class SchedulesController extends Controller
 
 
     }
-
-
->>>>>>> 9200f6cb40e0e5431a501ff3188e5969c7d2aee5
 }
