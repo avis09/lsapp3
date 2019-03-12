@@ -143,9 +143,14 @@ class SchedulesController extends Controller
         print_r(json_encode($schedules));
     }
 //Archived Reservation list******************************************************************************
-    public function getArchivedReservations(){
-        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
-            ->where('userID', auth()->user()->userID)
+    public function showArchivedReservationsGasd()
+    {
+        $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
+        return view('pages.gasd.archivedschedules', compact('schedules'));
+    }
+    public function getArchivedReservationsGasd(){
+        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus', 'user')
+//            ->where('userID', auth()->user()->userID)
             ->where('statusID', '=', '6')
             ->get();
 

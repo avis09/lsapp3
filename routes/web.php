@@ -88,8 +88,7 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
         Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
         Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
-    //get archived users
-    Route::get('/schedule/get-archived-schedules', 'SchedulesController@getArchivedUserReservations');
+
     //get canceled users
     Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');
 
@@ -178,6 +177,10 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     //Anz
     Route::get('/schedules/list', 'SchedulesController@showReservationPageGasd');
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesGasd');
+
+    //get archived users
+    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');
+    Route::get('/schedules/get-archived-schedules', 'SchedulesController@getArchivedReservationsGasd');
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
 //    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
