@@ -39,6 +39,9 @@
   <li class="nav-item">
     <a class="nav-link" id="all-reservations-tab" data-toggle="tab" href="#all-reservations-href" role="tab" aria-controls="all-reservations-href" aria-selected="false">All Reservations</a>
   </li>
+    <li class="nav-item">
+        <a class="nav-link " id="archived-reservations-tab" data-toggle="tab" href="#archived-reservations-href" role="tab" aria-controls="archived-reservations-href" aria-selected="true">Pending Reservations</a>
+    </li>
 </ul>
 <div class="tab-content mt-4" id="myTabContent">
   <div class="tab-pane fade show active" id="pending-reservations-href" role="tabpanel" aria-labelledby="pending-reservations-tab">
@@ -103,11 +106,46 @@
             </table>
         </div>
   </div>
-</div>
 
-                
+                <div class="tab-pane fade" id="archived-reservations-href" role="tabpanel" aria-labelledby="archived-reservations-tab">
+                    <div class="table-responsive">
+                        <table id="table-schedules" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Venue Name</th>
+                                <th>Time </th>
+                                <th>Purpose</th>
+                                <th>Registrar Message</th>
+                                <th>Schedule Date</th>
+                                <th>Date Updated</th>
+                                <th>Status </th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Venue Name</th>
+                                <th>Time </th>
+                                <th>Purpose</th>
+                                <th>Registrar Message</th>
+                                <th>Schedule Date</th>
+                                <th>Date Updated</th>
+                                <th>Status </th>
+                                <th>Actions</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                {{--TabContent--}}
+                </div>
+                {{--card body--}}
             </div>
         </div>
+                {{--main--}}
     </main>
 
 
@@ -191,12 +229,13 @@
 
 @section('scripts')
     <script>
+        //GET ARCHIVED *************************************
         var reservations;
         $(document).ready(function () {
             $('#menu-reservations').addClass('active');
             reservations = $('#table-schedules').DataTable({
                 ajax: {
-                    url: "/registrar/schedules/get-pending",
+                    url: "/registrar/schedules/get-archived",
                     dataSrc: ''
                 },
                 responsive:true,
@@ -218,7 +257,7 @@
                         }
                     },
                     // { data: 'statusID'},
-                   { data: null,
+                    { data: null,
                         render: function(data){
                             var status = data.reservation_status.statusName;
                             return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
@@ -227,9 +266,66 @@
                     { data: 'purpose'},
                     { data: 'date'},
                     { data: 'updated_at'},
-                    { data: null,
-                        render: function(data){
-                            return "<button type='button' class='btn btn-primary btn-sm'>Accept</button>"+
+                    // { data: null,
+                    //     render: function(data){
+                    //         return "<button type='button' class='btn btn-primary btn-sm'>Accept</button>"+
+                    //             " <button type='button' class='btn btn-danger btn-sm'>Reject</button>";
+                    //     }
+                    // }
+                    // { data: null,
+                    //     render:function(data){
+                    //         return '<button type="button" class="btn btn-primary btn-approve-schedule btn-sm" data-id="'+data.scheduleID+'">Approve</button> '+
+                    //             '<button type="button" class="btn btn-secondary btn-decline-schedule btn-sm" data-id="'+data.scheduleID+'">Decline</button>';
+                    //
+                    //     }
+                    // }
+                    // { defaultContent: ""}
+                ]
+            });
+
+            // GET PENDING***********************
+        // var reservations;
+            $('#menu-reservations').addClass('active');
+            reservations = $('#table-schedules').DataTable({
+                ajax: {
+                    url: "/registrar/schedules/get-pending",
+                    dataSrc: ''
+                },
+                responsive: true,
+                // "order": [[ 5, "desc" ]],
+                columns: [
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.user.firstName + ' ' + data.user.lastName;
+
+                        }
+                    },
+                    // { data: 'user.firstName'},
+                    {data: 'f_venue.venueName'},
+                    // { data: 'timeID'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime;
+
+                        }
+                    },
+                    // { data: 'statusID'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
+                        }
+                    },
+                    {data: 'purpose'},
+                    {data: 'date'},
+                    {data: 'updated_at'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return "<button type='button' class='btn btn-primary btn-sm'>Accept</button>" +
                                 " <button type='button' class='btn btn-danger btn-sm'>Reject</button>";
                         }
                     }
@@ -250,31 +346,31 @@
 
             {{--$(document).on('submit', '#form-add-reservation', function () {--}}
 
-                {{--if(validate.standard('.required-input') == 0){--}}
-                    {{--var form = $(this).serialize();--}}
-                    {{--$.ajax({--}}
-                        {{--url: "/student/schedules/create-reservation",--}}
-                        {{--type: "POST",--}}
-                        {{--data: {--}}
-                            {{--_token: "{{csrf_token()}}",--}}
-                            {{--form: form--}}
-                        {{--},--}}
-                        {{--success: function(data){--}}
+            {{--if(validate.standard('.required-input') == 0){--}}
+            {{--var form = $(this).serialize();--}}
+            {{--$.ajax({--}}
+            {{--url: "/student/schedules/create-reservation",--}}
+            {{--type: "POST",--}}
+            {{--data: {--}}
+            {{--_token: "{{csrf_token()}}",--}}
+            {{--form: form--}}
+            {{--},--}}
+            {{--success: function(data){--}}
 
-                        {{--}--}}
-                    {{--});--}}
-                {{--}--}}
-                {{--return false;--}}
+            {{--}--}}
+            {{--});--}}
+            {{--}--}}
+            {{--return false;--}}
             {{--});--}}
 
-            $(document).on('click', '.btn-approve-schedule', function(e){
+            $(document).on('click', '.btn-approve-schedule', function (e) {
                 var id = $(this).attr('data-id');
                 var type = $(this).attr('data-type');
-                if(type == 4 || type == 6){
+                if (type == 4 || type == 6) {
                     var status = (type == 4) ? 'cancel' : 'archive';
                     Swal.fire({
                         title: 'Confirmation',
-                        text: "Are you sure you want to "+status+" this reservation?",
+                        text: "Are you sure you want to " + status + " this reservation?",
                         type: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -291,7 +387,7 @@
                                     id: id,
                                     type: type
                                 },
-                                success: function(data) {
+                                success: function (data) {
                                     reservations.ajax.reload();
                                     Swal.fire(
                                         data.title,
@@ -305,69 +401,71 @@
                 }
             });
 
+
             {{--$(document).on('change', '#venue-type', function () {--}}
-                {{--var id = $(this).val();--}}
-                {{--$.ajax({--}}
-                    {{--url: "/student/schedule/get-venuesofvenuetype",--}}
-                    {{--type: "POST",--}}
-                    {{--data:{--}}
-                        {{--_token: "{{csrf_token()}}",--}}
-                        {{--id:id--}}
-                    {{--},--}}
-                    {{--success:function(data){--}}
-                        {{--var html = '';--}}
-                        {{--html += '<option value="" selected disabled>Select Venue</option>';--}}
-                        {{--$.each(data, function(x,y){--}}
-                            {{--html += '<option value="'+y.venueID+'">'+y.venueName+'</option>';--}}
-                        {{--});--}}
-                        {{--$('#venue-name').html(html);--}}
-                    {{--}--}}
-                {{--});--}}
+            {{--var id = $(this).val();--}}
+            {{--$.ajax({--}}
+            {{--url: "/student/schedule/get-venuesofvenuetype",--}}
+            {{--type: "POST",--}}
+            {{--data:{--}}
+            {{--_token: "{{csrf_token()}}",--}}
+            {{--id:id--}}
+            {{--},--}}
+            {{--success:function(data){--}}
+            {{--var html = '';--}}
+            {{--html += '<option value="" selected disabled>Select Venue</option>';--}}
+            {{--$.each(data, function(x,y){--}}
+            {{--html += '<option value="'+y.venueID+'">'+y.venueName+'</option>';--}}
+            {{--});--}}
+            {{--$('#venue-name').html(html);--}}
+            {{--}--}}
+            {{--});--}}
             {{--});--}}
 
             {{--$(document).on('change', '#schedule-date', function () {--}}
-                {{--var venueID = $('#venue-name').val();--}}
-                {{--var date = $('#schedule-date').val();--}}
-                {{--// console.log(Floor_Id);--}}
-                {{--var div = $('.schedule-time');--}}
-                {{--var op = "";--}}
+            {{--var venueID = $('#venue-name').val();--}}
+            {{--var date = $('#schedule-date').val();--}}
+            {{--// console.log(Floor_Id);--}}
+            {{--var div = $('.schedule-time');--}}
+            {{--var op = "";--}}
 
-                {{--$.ajax({--}}
-                    {{--type: 'POST',--}}
-                    {{--url: '{!! URL::to('findVenueSched') !!}',--}}
-                    {{--data: {--}}
-                        {{--_token: "{{csrf_token()}}",--}}
-                        {{--venueID: venueID,--}}
-                        {{--date: date--}}
-                    {{--},--}}
-                    {{--success: function (data) {--}}
-                        {{--if(data.length == 0){--}}
-                            {{--op += '<option selected for="time" value="" disabled selected>No time Available</option>';--}}
-                        {{--}--}}
-                        {{--else{--}}
-                            {{--op += '<option value="" selected disabled>Select Time</option>';--}}
-                        {{--}--}}
-                        {{--for (var i = 0; i < data.length; i++) {--}}
-                            {{--//op += '<option selected for="time" value="" disabled>Select a time now</option>';--}}
-                            {{--op += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';--}}
-                        {{--}--}}
-                        {{--$(div).html(" ");--}}
-                        {{--$(div).append(op);--}}
-                    {{--},--}}
-                    {{--error: function () {--}}
-                        {{--console.log('error');--}}
-                    {{--}--}}
-                {{--})--}}
+            {{--$.ajax({--}}
+            {{--type: 'POST',--}}
+            {{--url: '{!! URL::to('findVenueSched') !!}',--}}
+            {{--data: {--}}
+            {{--_token: "{{csrf_token()}}",--}}
+            {{--venueID: venueID,--}}
+            {{--date: date--}}
+            {{--},--}}
+            {{--success: function (data) {--}}
+            {{--if(data.length == 0){--}}
+            {{--op += '<option selected for="time" value="" disabled selected>No time Available</option>';--}}
+            {{--}--}}
+            {{--else{--}}
+            {{--op += '<option value="" selected disabled>Select Time</option>';--}}
+            {{--}--}}
+            {{--for (var i = 0; i < data.length; i++) {--}}
+            {{--//op += '<option selected for="time" value="" disabled>Select a time now</option>';--}}
+            {{--op += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';--}}
+            {{--}--}}
+            {{--$(div).html(" ");--}}
+            {{--$(div).append(op);--}}
+            {{--},--}}
+            {{--error: function () {--}}
+            {{--console.log('error');--}}
+            {{--}--}}
+            {{--})--}}
             {{--});--}}
             {{--$(document).on('change', '.schedule-time', function () {--}}
-                {{--var venue_type = $('#venue-type').val();--}}
-                {{--if(venue_type == 2){--}}
-                    {{--var html = "";--}}
+            {{--var venue_type = $('#venue-type').val();--}}
+            {{--if(venue_type == 2){--}}
+            {{--var html = "";--}}
 
-                {{--}--}}
+            {{--}--}}
             {{--});--}}
 
-        });
+            // });
+
     </script>
 
 

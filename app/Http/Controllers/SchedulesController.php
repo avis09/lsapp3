@@ -66,7 +66,7 @@ class SchedulesController extends Controller
     }
     //Pending Reservations
 
-    public function getPendingSchedulesReg(){
+    public function getPendingReservationsReg(){
         $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
             //->where('f_venue.venueTypeID', '=','1')
             ->where('statusID', '=', '1')
@@ -74,13 +74,24 @@ class SchedulesController extends Controller
 
         return response()->json($schedules);
     }
+    //get archived reservations
+
+    public function getArchivedReservationsReg(){
+        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+//            ->where('userID', auth()->user()->userID)
+            ->where('statusID', '=', '6')
+            ->get();
+
+        print_r(json_encode($schedules));
+    }
+
     //GASD***********************************************************************************
     public function showReservationPageGasd()
     {
         $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
         return view('pages.gasd.schedules', compact('schedules'));
     }
-    //Pending Reservations
+    //get Pending Reservations
 
     public function getPendingSchedulesGasd(){
         $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
@@ -90,6 +101,7 @@ class SchedulesController extends Controller
 
         return response()->json($schedules);
     }
+
     //GASD***********************************************************************************
 
 

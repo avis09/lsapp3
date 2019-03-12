@@ -143,7 +143,8 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     });
     //Schedules
     Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
-    Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesReg');
+    Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsReg');
+    Route::get('/schedules/get-archived', 'SchedulesController@getArchivedReservationsReg');
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
@@ -179,8 +180,8 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesGasd');
 
     //get archived users
-    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');
-    Route::get('/schedules/get-archived-schedules', 'SchedulesController@getArchivedReservationsGasd');
+//    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');
+//    Route::get('/schedules/get-archived-schedules', 'SchedulesController@getArchivedReservationsGasd');
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
 //    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
