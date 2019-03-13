@@ -159,7 +159,7 @@ class SchedulesController extends Controller
 
 //User reservation list
     public function getUserReservations(){
-        $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
+        $schedules = Schedule::with('f_time.f_scheduleT','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
             ->where('userID', auth()->user()->userID)
             ->where('statusID', '!=', '6')
             ->get();

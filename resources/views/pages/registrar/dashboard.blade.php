@@ -80,7 +80,7 @@
               </tbody>
             </table>
           </div>
-          <div class="text-center"><a href="/registrar/feedbacks" type="button" class="btn btn-primary btn-sm">View More</a></div>
+          <div class="text-center"><a href="/registrar/feedbacks/index" type="button" class="btn btn-primary btn-sm">View More</a></div>
         </div>
       </div>
     </div>

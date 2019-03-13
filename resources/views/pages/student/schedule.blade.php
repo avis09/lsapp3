@@ -39,6 +39,7 @@
                                     <th>Type</th>
                                     <th>Building</th>
                                     <th>Scheduled Date</th>
+                                    <th>Time Reserved</th>
                                     <th>Date Created</th>
                                     <th>Date Updated</th>
                                     <th>Status </th>
@@ -47,14 +48,15 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Venue Name </th>
-                                    <th>Type</th>
-                                    <th>Building</th>
-                                    <th>Scheduled Date</th>
-                                    <th>Date Created</th>
-                                    <th>Date Updated</th>
-                                    <th>Status </th>
-                                    <th>Action </th>
+                                    <td>Venue Name </td>
+                                    <td>Type</td>
+                                    <td>Building</td>
+                                    <td>Scheduled Date</td>
+                                    <td>Time Reserved</td>
+                                    <td>Date Created</td>
+                                    <td>Date Updated</td>
+                                    <td>Status </td>
+                                    <td>Action </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -222,6 +224,12 @@
                 },
                 
                 { data: 'date'},
+                    { data: null,
+                        render:function(data){
+                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
+
+                        }
+                    },
                 { data: 'created_at'},
                 { data: 'updated_at'},
                 // { data: 'f_department.departmentName'},

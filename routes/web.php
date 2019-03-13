@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'auth'], function () {
     Route::post('/update-password', 'Auth\UsersController@updatePassword');
 });
 
-//Student-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
     //Feedbacks

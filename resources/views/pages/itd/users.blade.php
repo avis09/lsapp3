@@ -28,14 +28,6 @@
         </div>
         <div class="row">
           <div class="col-md-6 col-lg-3">
-            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Total Number Of Users</h4>
-                <p><b></b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
                 <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
                 <h4>Active Users</h4>
@@ -501,7 +493,7 @@
                             $('.email').removeClass('err_inputs');
                             $('.mobile_number').removeClass('err_inputs');
                             $('.validate_error_message').remove();
-                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
+                            $('.btn-confirm').removeClass('disabled').html('Update');
                             users.ajax.reload();
                         }
                     }

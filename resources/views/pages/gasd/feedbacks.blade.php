@@ -18,7 +18,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-certificate"></i> Courit Feedbacks</h1>
+                <h1><i class="fa fa-certificate"></i> Court Feedbacks</h1>
                 {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
             </div>
             <ul class="app-breadcrumb breadcrumb">
