@@ -39,14 +39,36 @@ class FeedbacksController extends Controller
             ->with('feedbacks', $feedbacks);
 
     }
-    public function getFeedbacksReg(){
 
-        $feedbacks = Feedback::with('f_venue','f_user')
-            //->where('venueTypeID', '!=', '1')
-            ->get();
+    public function showGasdFeedbacks(){
+        return view('pages.gasd.feedbacks');
+    }
+
+
+    public function getFeedbacksReg(){
+        $feedbacks = Feedback::whereHas('f_venue', function ($query){
+            $query->where('venueTypeID', 1);
+        })->with('f_venue','f_user')->get();
+
+        // $feedbacks = Feedback::with('f_venue','f_user')->whereHas('f_venue', function($query))
+        //     //->where('venueTypeID', '!=', '1')
+        //     ->get();
         print_r(json_encode($feedbacks));
 
     }
+
+    public function getFeedbacksGasd(){
+        $feedbacks = Feedback::whereHas('f_venue', function ($query){
+            $query->where('venueTypeID', 2);
+        })->with('f_venue','f_user')->get();
+
+        // $feedbacks = Feedback::with('f_venue','f_user')->whereHas('f_venue', function($query))
+        //     //->where('venueTypeID', '!=', '1')
+        //     ->get();
+        print_r(json_encode($feedbacks));
+
+    }
+
     //gasd
     public function index2()
     {

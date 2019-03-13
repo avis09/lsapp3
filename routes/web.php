@@ -176,6 +176,9 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports2', 'VenuesController@indexReports2')->name('venues.indexReports2');
     
+    
+    Route::get('/feedbacks', 'FeedbacksController@showGasdFeedbacks');
+    Route::get('/feedbacks/get-feedbacks', 'FeedbacksController@getFeedbacksGasd');
     //FAQ
     Route::get('/gasdfaq', function() {
         return view('pages.gasd.gasdfaq');

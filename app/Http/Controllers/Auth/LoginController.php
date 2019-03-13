@@ -72,19 +72,12 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $log = LogTime::where('userID', Auth::user()->userID)->first();
-        $log->outTime = Carbon::now()->setTimezone('Asia/Manila');
-        $log->save();
-
+        LogTime::where('userID', Auth::user()->userID)->update(['outTime' => Carbon::now()->setTimezone('Asia/Manila')]);
         Auth::logout();
         $request->session()->flush();
 //        $request->session()->regenerate();
         return redirect()->route('login');
     }
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
 
 }

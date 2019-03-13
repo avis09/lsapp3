@@ -50,24 +50,22 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Venue Name</th>
-                                    <th>Time </th>
-                                    <th>Status </th>
+                                    <th>Court</th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+                                    <th>Status </th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Venue Name</th>
-                                    <th>Time </th>
-                                    <th>Status </th>
+                                    <th>Court</th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+                                    <th>Status </th>
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>
@@ -80,24 +78,22 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Venue Name</th>
-                                    <th>Time </th>
-                                    <th>Status </th>
+                                    <th>Court</th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+                                    <th>Status </th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Venue Name</th>
-                                    <th>Time </th>
-                                    <th>Status </th>
+                                    <th>Court</th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+                                    <th>Status </th>
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>
@@ -110,8 +106,7 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Venue Name</th>
-                                    <th>Time </th>
+                                    <th>Court</th>
                                     <th>Purpose</th>
                                     <th>GASD Message</th>
                                     <th>Schedule Date</th>
@@ -122,8 +117,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Venue Name</th>
-                                    <th>Time </th>
+                                    <th>Court</th>
                                     <th>Purpose</th>
                                     <th>GASD Message</th>
                                     <th>Schedule Date</th>
@@ -144,45 +138,8 @@
     <script>
         var pending, all_schedules, archived;
         $(document).ready(function () {
-            $('#menu-reservations').addClass('active');
-            archived = $('#table-archived').DataTable({
-                ajax: {
-                    url: "/gasd/schedules/get-archived",
-                    dataSrc: ''
-                },
-                responsive:true,
-                // "order": [[ 5, "desc" ]],
-                columns: [
-                    { data: null,
-                        render:function(data){
-                            return data.user.firstName+' '+data.user.lastName;
-
-                        }
-                    },
-                    // { data: 'user.firstName'},
-                    { data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
-                    { data: null,
-                        render:function(data){
-                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
-
-                        }
-                    },
-                    // { data: 'statusID'},
-                    { data: 'purpose'},
-                    { data: 'updatedMessage'},
-
-
-                    { data: 'date'},
-                    { data: 'updated_at'},
-                    { data: null,
-                        render: function(data){
-                            var status = data.reservation_status.statusName;
-                            return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
-                        }
-                    }
-                ]
-            });
+            $('#menu-reservations').addClass('is-expanded');
+            $('#menu-reservation-request').addClass('active');
 
             pending = $('#table-pending').DataTable({
                 ajax: {
@@ -201,15 +158,15 @@
                     },
                     // { data: 'user.firstName'},
                     {data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
+                    {data: 'purpose'},
                     {
                         data: null,
                         render: function (data) {
-                            return data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime;
+                            return data.date+' ('+data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime+' )';
 
                         }
                     },
-                    // { data: 'statusID'},
+                    {data: 'updated_at'},
                     {
                         data: null,
                         render: function (data) {
@@ -217,13 +174,10 @@
                             return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
                         }
                     },
-                    {data: 'purpose'},
-                    {data: 'date'},
-                    {data: 'updated_at'},
                     { data: null,
                         render:function(data){
-                            return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
-                                '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
+                            return '<button type="button" class="btn btn-info btn-view-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">View</button> <button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
+                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
 
                         }
                     }
@@ -248,15 +202,15 @@
                     },
                     // { data: 'user.firstName'},
                     {data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
+                    {data: 'purpose'},
                     {
                         data: null,
                         render: function (data) {
-                            return data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime;
+                            return data.date+' ('+data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime+' )';
 
                         }
                     },
-                    // { data: 'statusID'},
+                    {data: 'updated_at'},
                     {
                         data: null,
                         render: function (data) {
@@ -264,9 +218,6 @@
                             return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
                         }
                     },
-                    {data: 'purpose'},
-                    {data: 'date'},
-                    {data: 'updated_at'},
                     { data: null,
                         render:function(data){
                             return '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';
@@ -276,6 +227,42 @@
                     // { defaultContent: ""}
                 ]
             });
+
+            archived = $('#table-archived').DataTable({
+                ajax: {
+                    url: "/gasd/schedules/get-archived",
+                    dataSrc: ''
+                },
+                responsive:true,
+                // "order": [[ 5, "desc" ]],
+                columns: [
+                    { data: null,
+                        render:function(data){
+                            return data.user.firstName+' '+data.user.lastName;
+
+                        }
+                    },
+                    // { data: 'user.firstName'},
+                    { data: 'f_venue.venueName'},
+                    { data: 'purpose'},
+                    { data: 'updatedMessage'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.date+' ('+data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime+' )';
+
+                        }
+                    },
+                    { data: 'updated_at'},
+                    { data: null,
+                        render: function(data){
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
+                        }
+                    }
+                ]
+            });
+
 
             $(document).on('click', '.btn-update-schedule', function (e) {
                 var id = $(this).attr('data-id');
