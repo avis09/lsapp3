@@ -44,6 +44,18 @@ class SchedulesController extends Controller
         return view('pages.student.calendar', compact('venueTypes'));
     }
 
+    public function showRegistrarCalendarPage()
+    {
+        $venueTypes = VenueType::all();
+        return view('pages.registrar.calendar', compact('venueTypes'));
+    }
+
+    public function showGasdCalendarPage()
+    {
+        $venueTypes = VenueType::all();
+        return view('pages.gasd.calendar', compact('venueTypes'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -58,6 +70,11 @@ class SchedulesController extends Controller
     public function getVenuesOfVenueType(Request $request){
         $venues = Venue::where('venueTypeID', $request->id)->get();
         return response()->json($venues);
+    }
+
+    public function getSpecificSchedule(Request $request){
+        $schedule = Schedule::with('f_time', 'f_venue', 'f_venue.f_venueTypeV')->where('scheduleID', $request->id)->first();
+        return response()->json($schedule);
     }
 
 
@@ -182,7 +199,7 @@ class SchedulesController extends Controller
           return response()->json(['title' => 'Error', 'content_message' => 'Something went wrong.', 'success' => false]);
         }
     }
-//Canceled Reservation List******************************************************************************
+
     public function getCancelledReservations(){
         $schedules = Schedule::with('f_time','f_venue.f_venueTypeV' ,'f_venue.f_buildingV', 'f_venue.floor', 'reservationStatus')
             ->where('userID', auth()->user()->userID)
@@ -191,26 +208,15 @@ class SchedulesController extends Controller
 
         print_r(json_encode($schedules));
     }
-//Archived Reservation list******************************************************************************
+
     public function showArchivedReservationsGasd()
     {
         $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
         return view('pages.gasd.archivedschedules', compact('schedules'));
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function createReservation(Request $request)
     {
-        // $this->validate($request, [
-        //     'purpose' => 'required',
-        // ]);
-
         $times = json_decode($request->times);
         foreach ($times as $key => $timeID) {
            $schedule = Schedule::create([
@@ -241,33 +247,9 @@ class SchedulesController extends Controller
          else{
               return response()->json(["success"=>false, "message" => "Something went wrong."]);
          }
-        //$venueSchedule = VenueSchedule::where('venueScheduleID', $schedule->venueScheduleID)->first();
-        //$venueSchedule->venueSchedStatus = "Occupied";
-        //$venueSchedule->save();
-//        if ($schedule->save()){
-//
-//        }
-        //        \Session::flash('success','Schedule made successfully');
-
-
-//        if($user->userRoleID == 1) {
-        //          dd(auth::user());
-        return Redirect::to('student/create')->with('success', 'Reservation made');
-//        }elseif ($user->userRoleID == 2){
-//            return Redirect::to('gasd/schedules/create')->with('success', 'Reservation made');
-//        }elseif ($user->userRoleID == 3) {
-//            return Redirect::to('registrar/schedules/create')->with('success', 'Reservation made');
-//        }
-
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $schedule = Schedule::find($id);
@@ -413,4 +395,6 @@ class SchedulesController extends Controller
 
 
     }
+
+
 }

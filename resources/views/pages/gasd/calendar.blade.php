@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Calendar | Bros </title>
+    <title>Calendar | GASD BROS </title>
 @endsection
 
 @section('css')
@@ -92,13 +92,13 @@
 <script>
         $(document).ready(function () {
             $('#menu-reservation').addClass('is-expanded');
-            $('#calendar').addClass('active');
+            $('#menu-calendar').addClass('active');
             $(document).on('change', '#venue-type', function () {
                 var id = $(this).val();
                 $('.btn-check-schedule').prop('disabled', true);
                 $('#scheduled-date').val('');
                 $.ajax({
-                    url: "/student/schedule/get-venuesofvenuetype",
+                    url: "/gasd/schedule/get-venuesofvenuetype",
                     type: "POST",
                     data:{
                         _token: "{{csrf_token()}}",
@@ -136,7 +136,7 @@
                     var html = "";
                     $.ajax({
                         type: 'POST',
-                        url: '/student/show-schedules',
+                        url: '/gasd/show-schedules',
                         data: {
                             _token: "{{csrf_token()}}",
                             id: venueID, 
@@ -161,15 +161,6 @@
                     })
               }
             })
-        });
-    </script>
-    
-@endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function(){
-            $('#calendar').addClass('active');
         });
     </script>
 @endsection

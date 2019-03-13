@@ -138,7 +138,7 @@
     <script>
         var pending, all_schedules, archived;
         $(document).ready(function () {
-            $('#menu-reservations').addClass('is-expanded');
+            $('#menu-reservation').addClass('is-expanded');
             $('#menu-reservation-request').addClass('active');
 
             pending = $('#table-pending').DataTable({

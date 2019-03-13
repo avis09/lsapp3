@@ -144,7 +144,8 @@
     <script>
         var pending, all_schedules, archived;
         $(document).ready(function () {
-            $('#menu-reservations').addClass('active');
+            $('#menu-reservation').addClass('is-expanded');
+            $('#menu-reservation-request').addClass('active');
             archived = $('#table-archived').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-archived",

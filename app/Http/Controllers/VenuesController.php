@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\User;
 use App\Venue;
+use App\Equipment;
 use App\VenueType;
 use Illuminate\Http\Request;
 use DB;
@@ -26,10 +27,8 @@ class VenuesController extends Controller
     //******************
 
     // Registrar List of Venues (ROOMS)
-    public function index()
+    public function showRoomPage()
     {
-        //$users = User::select('users.id', 'first_name', 'last_name', 'email', 'phone', 'birth_date','created_at')->orderBy('created_at', 'dsc')->leftjoin('patients','patients.patient_id','users.id')->where('role_id', 3)->paginate(10);
-        //index for ROOM
         $venueB = array('building' => DB::table('building')->get());
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
@@ -39,17 +38,31 @@ class VenuesController extends Controller
             ->with('venueF', $venueF)
             ->with('venueT', $venueT)
             ->with('venueST', $venueST);
-
-        // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
-        // $f_buildingV = array('building' => DB::table('building')->get());
-        // //$f_statusV = array('status' => DB::table('status')->get());
-        // $f_userV = array('users' => DB::table('users')->get());
-        // return view('venues.venueindex')
-        //         ->with('venues', $venues)
-        //         ->with('f_buildingV', $f_buildingV)
-        //         ->with('f_userV', $f_userV);
-                //->with('f_statusV', $f_statusV);
     }
+
+    public function showCourtPage()
+    {
+        $venueB = array('building' => DB::table('building')->get());
+        $venueF = array('venuefloor' => DB::table('venuefloor')->get());
+        $venueT = array('venuetype' => DB::table('venuetype')->get());
+        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+        return view('pages.gasd.venues')
+            ->with('venueB', $venueB)
+            ->with('venueF', $venueF)
+            ->with('venueT', $venueT)
+            ->with('venueST', $venueST);
+    }
+
+
+    public function getSpecificRoom(Request  $request){
+    $venues = Venue::with('f_buildingV','floor','f_venueStatusV','pictures', 'f_equipment')->where('venueID', $request->id)->first();
+         return response()->json($venues);
+   }
+
+   public function getSpecificCourt(Request  $request){
+    $venues = Venue::with('f_buildingV','floor','f_venueStatusV','pictures')->where('venueID', $request->id)->first();
+         return response()->json($venues);
+   }
 
     public function getRoomVenues(){
          $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV','floor','f_venueStatusV')->where('venueTypeID', 1)->where('venueStatusID', '!=', 3)->get();
@@ -68,20 +81,11 @@ class VenuesController extends Controller
             ->with('f_venueStatusVu', $f_venueStatusV)
             ->with('f_userV', $f_userV);
     }
+    
     public function getCourtVenues(){
-        // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
-
-        $venues = Venue::with
-        ('f_buildingV','f_userV','f_venueTypeV','floor','f_venueStatusV')->where('venueTypeID', 2)
+        $venues = Venue::with('f_buildingV','f_userV','f_venueTypeV','floor','f_venueStatusV')->where('venueTypeID', 2)->where('venueStatusID', '!=', 3)
             ->get();
         print_r(json_encode($venues));
-        // $f_buildingV = array('building' => DB::table('building')->get());
-        // //$f_statusV = array('status' => DB::table('status')->get());
-        // $f_userV = array('users' => DB::table('users')->get());
-        // $venues = view('venues.venueindex')
-        //         ->with('venues', $venues)
-        //         ->with('f_buildingV', $f_buildingV)
-        //         ->with('f_userV', $f_userV);
     }
     // Registrar Reports on number Active Rooms
     public function indexReports()
@@ -139,6 +143,16 @@ class VenuesController extends Controller
 
     }
 
+    public function showRoomGallery(){
+        $venues = Venue::with('pictures')->where('venueTypeID', 1)->where('venueStatusID', 1)->get();
+        return view('pages.registrar.room-gallery', compact('venues'));
+    }
+    
+    public function showCourtGallery(){
+        $venues = Venue::with('pictures')->where('venueTypeID', 2)->where('venueStatusID', 1)->get();
+        return view('pages.gasd.court-gallery', compact('venues'));
+    }
+
     public function showCourtVenues(){
         $venues = Venue::with('pictures')->where('venueTypeID', 2)->where('venueStatusID', 1)->get();
         return view('pages.student.venue-courts', compact('venues'));
@@ -183,12 +197,9 @@ class VenuesController extends Controller
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
-        //Add venue type room
         $venues->venueTypeID = '1';
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->userID = auth()->user()->userID;
-      //  $venue->place = auth()->user()->id;
-      //  $venue->cover_image = $fileNameToStore;
             $venueImages = $request->venueImages;
         if($venues->save()){
 
@@ -205,14 +216,31 @@ class VenuesController extends Controller
                         $venue_image->created_at = Carbon::now()->toDateTimeString();
                         $venue_image->save();
                     }
-                }
 
 
-            // }
+                    if(!empty($request->input('equipment_name'))){
+                        $equipmentName = array();
+                        $barCode = array();
+                        $equipmentStatusID = array();
+                        $equipmentName = $request->input('equipment_name');
+                        $barCode = $request->input('equipment_barcode');
+                        $equipmentStatusID = json_decode($request->input('equipmentStatus'));
+
+                        for($i=0;$i<count($equipmentName);$i++){
+                            $waiver = Equipment::create([
+                                "venueID" => $venues->venueID, 
+                                "equipmentStatusID" => $equipmentStatusID[$i],
+                                "equipmentName" =>$equipmentName[$i],
+                                "barCode" => $barCode[$i],
+                                "created_at" => Carbon::now(),
+                                "updated_at" => Carbon::now()
+                            ]);
+                         }
+                    }
+                }  
         }
 
-
-        return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]); 
+        return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]);
 
         // return redirect('registrar/venues/create')->with('success', 'Venue Added');
     }
@@ -221,12 +249,8 @@ class VenuesController extends Controller
     public function store2(Request $request)
     {
         $this->validate($request, [
-
             'venueName' => 'required',
-
         ]);
-
-
         // Create post
         $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
@@ -245,12 +269,6 @@ class VenuesController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $venue = Venue::find($id);

@@ -95,7 +95,7 @@
                         <div class="form-group">
                             <label> Purpose <span class="required">*</span></label>
                             <div class="">
-                                <input type="text" name="purpose" class="form-control required-input">
+                                <input type="text" name="purpose" id="purpose" class="form-control required-input">
                             </div>
                         </div>
                         <div class="form-group">
@@ -104,12 +104,16 @@
                         </div>
                         <label for="time">Time <span class="required">*</span></label>
                         <div class="schedule-time-container">
-                            <div class="schedule-time-content1 mb-2">
+                            <div class="input-group schedule-time-content1 mb-2">
                                 <select class="form-control schedule-time required-input" name="time[]" id="schedule-time" data-parsley-required="true">
                                     <option value="" selected disabled>Select Time</option>
                                 </select>
+                                <div class="input-group-prepend">
+                                 <button type="button" class="btn btn-danger btn-delete-schedule-time" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                                 </div>
                             </div>
                         </div>
+
                         <button type="button" class="btn btn-primary btn-add-new-time" disabled>Add</button>
                     </div>
                     <div class="modal-footer text-right">
@@ -185,15 +189,18 @@
          var schedule_time = $('.schedule-time').val();
         if(schedule_time != ""){
             var html = "";
-            html += '<div class="schedule-time-content1 mb-2">';
+            html += '<div class="input-group schedule-time-content1 mb-2">';
             html += '<select class="form-control schedule-time required-input" name="time[]" id="schedule-time" data-parsley-required="true">';
             html += '<option value="" selected disabled>Select Time</option>';
-            html += '</select></div>';
+            html += '</select>';
+            html += '<div class="input-group-prepend">';
+            html += '<button type="button" class="btn btn-danger btn-delete-schedule-time" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+            html += '</div></div>';
             $('.schedule-time-container').html(html);
             time_ctr = 1;
         }
     }
-
+    
     $(document).ready(function () {
                 $('#menu-reservation').addClass('is-expanded');
                 $('#reservation-list').addClass('active');
@@ -226,12 +233,14 @@
                 },
                 { data: null,
                     render:function(data){
+                        var html = '<button type="button" class="btn btn-info btn-view-reservation btn-sm" data-type="4" data-id="'+data.scheduleID+'">View</button>';
                         if(data.statusID == 1){
-                             return '<button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
+                             html += ' <button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
                         }
                         else{
-                             return '<button type="button" class="btn btn-secondary btn-update-reservation-status btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';   
+                            html += ' <button type="button" class="btn btn-secondary btn-update-reservation-status btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';   
                         }
+                        return html;
 
                     }
                 }
@@ -264,6 +273,7 @@
         $(document).on('click', '.btn-delete-schedule-time', function(e){
                 var ctr = $(this).attr('data-ctr');
                 $('.schedule-time-content'+ctr).remove();
+                $('.btn-add-new-time').prop('disabled', false);
         });
 
         $(document).on('click', '.btn-submit-waiver', function(e){
@@ -429,6 +439,25 @@
             }
         });
 
+       
+        $(document).on('click', '.btn-view-reservation', function () {
+            var id = $(this).attr('data-id');
+            $.ajax({
+                url: "/student/schedule/get-specific-schedule",
+                type: 'POST',
+                data: {
+                    _token: "{{csrf_token()}}",
+                    id: id
+                },
+                success:function(data){
+                    $('#reservation-modal').modal('show');
+                    $('#venue-type').val(data.f_venue.f_venue_type_v.venueTypeID);
+                    $('#purpose').val(data.purpose);
+                }
+
+            });
+
+        });
         $(document).on('change', '#venue-type', function () {
             var id = $(this).val();
             $('#venue-name').html('<option selected>Loading . . .</option>');

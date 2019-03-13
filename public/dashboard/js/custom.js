@@ -261,7 +261,6 @@ $('.numbers-only').on('keypress', function(evt) {
              medsModal({message: 'File is too big!', title: 'Error!', type: 'failed'});
              this.value = '';
            }
-  
     });
   
   // IE9 SUPPORTED VALIDATION

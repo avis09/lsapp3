@@ -30,71 +30,37 @@
             <li class="breadcrumb-item"><a href="#">Rooms</a></li>
           </ul>
         </div>
-      <!--   <div class="row">
-          <div class="col-md-6 col-lg-3">
-            <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Venues</h4>
-                <p><b>5</b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4></h4>
-                <p><b>25</b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Inactive Users</h4>
-                <p><b>10</b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Archived Users</h4>
-                <p><b>500</b></p>
-              </div>
-            </div>
-          </div>
-        </div> -->
-                <div class="card">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Room</button>
-                    <div class="table-responsive">
-                                <table id="table-venues" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Venue Name </th>
-                                            <th>Building </th>
-                                            <th>Floor </th>
-                                            <th>Added by </th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <td>Venue Name </td>
-                                            <td>Building </td>
-                                            <td>Floor </td>
-                                            <td>Added by </td>
-                                            <td>Status</td>
-                                            <td>Actions</td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+            <div class="card">
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary btn-add-venue mb-3">Add Room</button>
+                <div class="table-responsive">
+                            <table id="table-venues" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Venue Name </th>
+                                        <th>Building </th>
+                                        <th>Floor </th>
+                                        <th>Added by </th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td>Venue Name </td>
+                                        <td>Building </td>
+                                        <td>Floor </td>
+                                        <td>Added by </td>
+                                        <td>Status</td>
+                                        <td>Actions</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
-                </div>
-            </main>
-    
+                    </div>
+            </div>
+        </main>
+
         <div class="modal fade" id="venue-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -157,7 +123,7 @@
                                        <div class="input-group equipment-content1">
                                                     <input type="text" name="equipment_name[]" class="form-control required-input equipment_name" data-ctr="1" placeholder="Equipment Name">
                                                     <input type="text" name="equipment_barcode[]" class="form-control required-input equipment_barcode" data-ctr="1" placeholder="Bar Code">
-                                                    <select type="select" class="form-control required-input equipment-status">
+                                                    <select type="select" name="equipment_status[]" class="form-control required-input equipment-status">
                                                         <option value="" selected disabled>Select Status</option>
                                                         <option value="1">Available</option>
                                                         <option value="2">Unavailable</option>
@@ -222,6 +188,26 @@
 
     @section('scripts')
      <script type="text/javascript"> 
+
+
+        function addEquipment(){
+            equipment_ctr++;
+            var html = '';
+            html += '<div class="equipment-parent'+equipment_ctr+'">';
+            html += '<div class="input-group mt-2 equipment-content'+equipment_ctr+'">';
+            html += '<input type="text" name="equipment_name[]" class="form-control required-input equipment_name" data-ctr="'+equipment_ctr+'" placeholder="Equipment Name">';
+
+            html += '<input type="text" name="equipment_barcode[]" class="form-control required-input equipment_barcode" data-ctr="'+equipment_ctr+'" placeholder="Bar Code">';
+            html += '<select type="select" class="form-control required-input equipment-status">'+
+                            '<option value="" selected disabled>Select Status</option>'+
+                            '<option value="1">Available</option>'+
+                            '<option value="2">Unavailable</option>'+
+                        '</select>';
+            html += '<div class="input-group-prepend">';
+            html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+            html +=   '</div></div></div>';
+            $('.equipment-container').append(html);
+        }
         var venues;
         var venue_ctr = 1;
         var equipment_ctr = 1;
@@ -309,9 +295,6 @@
           
                $(document).on('click', '.btn-add-venue', function(e){
                  e.preventDefault();        
-                //  $('#venue-modal').remove('fade in');
-                //   $('#venue-modal').addClass('show');
-                //   $('#venue-modal').modal('show');
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
                 $('input[type="password"]').val("");
@@ -330,6 +313,11 @@
                     if(validate.standard('.required-input') == 0){
                         $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
                         var formData = new FormData(this);
+                        var equipmentStatus = [];
+                        $.each($(".equipment-status option:selected"), function(){            
+                            equipmentStatus.push($(this).val());
+                        });
+                        formData.append('equipmentStatus', JSON.stringify(equipmentStatus));
                          $.ajax({
                             url: "/registrar/venues/add-venue",
                             type: 'POST',
@@ -353,6 +341,8 @@
                                          html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
                                         html += '</div></div></div>';
                                         $('.venue-image-container').html(html);
+                                        equipment_ctr = 0;
+                                        addEquipment();
                                         $('select').prop('selectedIndex', 0);
                                         $('input[type="text"]').val('');
                                       }
@@ -372,25 +362,60 @@
                     var id = $(this).attr('data-id');
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
+                    $('.modal-venue-title').html('Edit Venue');
                      $.ajax({
-                        url: "/registrar/venues/get-specific-venues",
+                        url: "/registrar/venues/get-specific-room",
                         type: 'POST',
                         data: {
                             _token: "{{csrf_token()}}",
                             id: id
                         },
                         success:function(data){
-                            $('venue-image').modal('show');
+                            $('#venue-modal').modal('show');
+                            $('#buildingID').val(data.buildingID);
+                            $('#venueName').val(data.venueName);
+                            $('#venueFloorID').val(data.venueFloorID);
+                            $('#venueStatus').val(data.venueStatusID);
                             var html = '';
-                            $.each(data.venueImages, function(x,y){
-                                html += '<div class="venue-image-parent1">';
-                                html += '<div class="input-group venue-image-preview-container1">';
-                                html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                            var ctr = 1;
+                            equipment_ctr = 0;    
+                            $.each(data.f_equipment, function(x,y){
+                                equipment_ctr++;
+                                html += '<div class="equipment-parent'+equipment_ctr+'">';
+                                html += '<div class="input-group mt-2 equipment-content'+equipment_ctr+'">';
+                                html += '<input type="text" name="equipment_name[]" value="'+y.equipmentName+'" class="form-control required-input equipment_name" data-ctr="'+equipment_ctr+'" placeholder="Equipment Name">';
+
+                                html += '<input type="text" name="equipment_barcode[]" value="'+y.barCode+'" class="form-control required-input equipment_barcode" data-ctr="'+equipment_ctr+'" placeholder="Bar Code">';
+                                html += '<select type="select" class="form-control required-input equipment-status">';
+                                html += '<option value="" selected disabled>Select Status</option>';
+                                if(y.equipmentStatusID == 1){
+                                    html += '<option value="1" selected>Available</option>';
+                                    html += '<option value="2">Unavailable</option>';
+                                }
+                                else{
+                                    html += '<option value="1">Available</option>';
+                                    html += '<option value="2" selected>Unavailable</option>';
+                                }
+                                    html += '</select>';
                                 html += '<div class="input-group-prepend">';
-                                 html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
-                                html += '</div></div></div>';
-                                $('.venue-image-container').html(html);
+                                html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                                html +=   '</div></div></div>';
                             });
+                            $('.equipment-container').html(html);
+                            var html = '';
+                            $.each(data.pictures, function(x,y){
+                                html += '<div class="venue-image-parent'+ctr+'">';
+                                html += '<div class="input-group venue-image-preview-container'+ctr+'">';
+                                html +=   '<input type="file" name="venue_image[]" value="'+y.pictureName+'" class="form-control required-input file-venue-image" data-ctr="'+ctr+'">';
+                                html += '<div class="input-group-prepend">';
+                                html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="'+ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                                html += '</div></div>';
+                                html += '<img class="venue-image my-2" src="/storage/venue images/rooms/'+y.pictureName+'">';
+                                html += '</div>';
+                                ctr++;
+                            });
+                            $('.venue-image-container').html(html);
+                        
                         }
                     });
             });
@@ -417,7 +442,7 @@
                 var id = $(this).attr('data-id');
                 Swal.fire({
                     title: 'Confirmation',
-                    text: "Are you sure you want to archive this reservation?",
+                    text: "Are you sure you want to archive this room?",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -450,22 +475,7 @@
 
 
             $(document).on('click', '.btn-add-equipment', function(e){
-                equipment_ctr++;
-                var html = '';
-                html += '<div class="equipment-parent'+equipment_ctr+'">';
-                html += '<div class="input-group mt-2 equipment-content'+equipment_ctr+'">';
-                html += '<input type="text" name="equipment_name[]" class="form-control required-input equipment_name" data-ctr="'+equipment_ctr+'" placeholder="Equipment Name">';
-
-                html += '<input type="text" name="equipment_barcode[]" class="form-control required-input equipment_barcode" data-ctr="'+equipment_ctr+'" placeholder="Bar Code">';
-                html += '<select type="select" class="form-control required-input equipment-status">'+
-                              '<option value="" selected disabled>Select Status</option>'+
-                              '<option value="1">Available</option>'+
-                              '<option value="2">Unavailable</option>'+
-                          '</select>';
-                html += '<div class="input-group-prepend">';
-                html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
-                html +=   '</div></div></div>';
-                $('.equipment-container').append(html);
+                addEquipment();
             });
             
             $(document).on('click', '.btn-delete-equipment', function(e){

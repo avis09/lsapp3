@@ -104,8 +104,8 @@
                   <td>{{$reservation->user->firstName.' '.$reservation->user->lastName}}</td>
                   <td>{{$reservation->f_venue->venueName}}</td>
                   <td>{{$reservation->purpose}}</td>
-                  <td>{{$reservation->f_time->timeStartTime.' - '.$reservation->f_time->timeEndTime}}</td>
-                  <td>$reservation->date.' ('.$reservation->f_time->timeStartTime.' - '.$reservation->f_time->timeEndTime.')'</td>
+                  <td>{{$reservation->date.' ('.$reservation->f_time->timeStartTime.' - '.$reservation->f_time->timeEndTime.')'}}</td>
+                  <td><span class="badge badge-status badge-{{strtolower($reservation->reservationStatus->statusName)}}">{{$reservation->reservationStatus->statusName}}</span></td>
                 </tr>
                 @endforeach
               </tbody>
