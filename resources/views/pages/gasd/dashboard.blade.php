@@ -53,7 +53,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <div class="card">
         <div class="card-body">
           <h4>Feedbacks</h4>
@@ -83,7 +83,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <div class="card">
         <div class="card-body">
           <h4>Reservation Requests</h4>
@@ -94,7 +94,7 @@
                   <th>Name</th>
                   <th>Court</th>
                   <th>Purpose</th>
-                  <th>Time</th>
+                  <th>Schedule</th>
                   <th>Status</th>
                 </tr>
               </thead>

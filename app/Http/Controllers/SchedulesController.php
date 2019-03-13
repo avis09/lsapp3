@@ -151,9 +151,9 @@ class SchedulesController extends Controller
     }
 
     public function updateReservationStatus(Request $request){
-        $user = Schedule::find($request->id);
-        $user->statusID = $request->type;
-        if($user->save()){
+        $schedule = Schedule::find($request->id);
+        $schedule->statusID = $request->type;
+        if($schedule->save()){
             switch ($request->type) {
                 case '2':
                     $content_message = 'Approved';

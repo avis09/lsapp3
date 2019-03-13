@@ -71,13 +71,12 @@
                                 <table id="table-venues" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <td>Venue Name </td>
-                                            <td>Building </td>
-                                            <td>Floor </td>
-                                            <td>Venue Type </td>
-                                            <td>Added by </td>
-                                            <td>Status</td>
-                                            <td>Actions</td>
+                                            <th>Venue Name </th>
+                                            <th>Building </th>
+                                            <th>Floor </th>
+                                            <th>Added by </th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -85,7 +84,6 @@
                                             <td>Venue Name </td>
                                             <td>Building </td>
                                             <td>Floor </td>
-                                            <td>Venue Type </td>
                                             <td>Added by </td>
                                             <td>Status</td>
                                             <td>Actions</td>
@@ -98,7 +96,7 @@
             </main>
     
         <div class="modal fade" id="venue-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <span class="modal-title modal-venue-title" id="smallmodalLabel">Add New Venue</span>
@@ -150,18 +148,29 @@
                                 </div>
                                 <div class="mt-2">
                                     <button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>
+                                </div>                         
+                            </div>
+                            <div class="form-group">
+                                <label>Equipments <span class="required">*</span></label>
+                                <div class="equipment-container">
+                                   <div class="equipment-parent1">
+                                       <div class="input-group equipment-content1">
+                                                    <input type="text" name="equipment_name[]" class="form-control required-input equipment_name" data-ctr="1" placeholder="Equipment Name">
+                                                    <input type="text" name="equipment_barcode[]" class="form-control required-input equipment_barcode" data-ctr="1" placeholder="Bar Code">
+                                                    <select type="select" class="form-control required-input equipment-status">
+                                                        <option value="" selected disabled>Select Status</option>
+                                                        <option value="1">Available</option>
+                                                        <option value="2">Unavailable</option>
+                                                    </select>
+                                                    <div class="input-group-prepend">
+                                                        <button type="button" class="btn btn-danger btn-delete-equipment" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                                                    </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- <table id="table-venue-images" class="table table-bordered table-sm">
-                                    <thead>
-                                        <tr>
-                                            <td>Image </td>
-                                            <td>Actions</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="venue-images">
-                                        
-                                    </tbody>
-                                </table> -->
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-primary btn-add-equipment btn-sm">Add</button>
+                                </div>                      
                             </div>
                             <div class="form-group">
                                 <label for="venues">Venue Status <span class="required">*</span></label>
@@ -215,6 +224,7 @@
      <script type="text/javascript"> 
         var venues;
         var venue_ctr = 1;
+        var equipment_ctr = 1;
         $(document).ready(function() {
             $('#menu-venues').addClass('active');
           venues = $('#table-venues').DataTable({
@@ -229,7 +239,7 @@
             { data: 'venueName'},
             { data: 'f_building_v.buildingName'},
             { data: 'floor.venueFloorName'},
-            { data: 'f_venue_type_v.venueTypeName'},
+            // { data: 'f_venue_type_v.venueTypeName'},
             { data: null,
                 render:function(data){
                     return data.f_user_v.firstName+' '+data.f_user_v.lastName;
@@ -402,6 +412,67 @@
                 $('.venue-image-parent'+ctr).remove();
             });
 
+
+            $(document).on('click', '.btn-archive-venue', function (e) {
+                var id = $(this).attr('data-id');
+                Swal.fire({
+                    title: 'Confirmation',
+                    text: "Are you sure you want to archive this reservation?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var type = 3;
+                        $.ajax({
+                            type: 'post',
+                            url: '/registrar/venue/update-status',
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                id: id,
+                                type: type
+                            },
+                            success: function (data) {
+                                venues.ajax.reload();
+                                Swal.fire(
+                                    data.title,
+                                    data.content_message,
+                                    data.type
+                                );
+                            }
+                        });
+                    }
+                })
+            });
+
+
+            $(document).on('click', '.btn-add-equipment', function(e){
+                equipment_ctr++;
+                var html = '';
+                html += '<div class="equipment-parent'+equipment_ctr+'">';
+                html += '<div class="input-group mt-2 equipment-content'+equipment_ctr+'">';
+                html += '<input type="text" name="equipment_name[]" class="form-control required-input equipment_name" data-ctr="'+equipment_ctr+'" placeholder="Equipment Name">';
+
+                html += '<input type="text" name="equipment_barcode[]" class="form-control required-input equipment_barcode" data-ctr="'+equipment_ctr+'" placeholder="Bar Code">';
+                html += '<select type="select" class="form-control required-input equipment-status">'+
+                              '<option value="" selected disabled>Select Status</option>'+
+                              '<option value="1">Available</option>'+
+                              '<option value="2">Unavailable</option>'+
+                          '</select>';
+                html += '<div class="input-group-prepend">';
+                html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                html +=   '</div></div></div>';
+                $('.equipment-container').append(html);
+            });
+            
+            $(document).on('click', '.btn-delete-equipment', function(e){
+                var ctr = $(this).attr('data-ctr');
+                $('.equipment-parent'+ctr).remove();
+            });
+
             
             $(document).on('change', '.file-venue-image', function(){
                 var test = this;
@@ -440,43 +511,4 @@
             });
         });
   </script>
-
     @endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function(){
-            $('#menu-venues').addClass('active');
-        });
-    </script>
-@endsection
-
-<!-- 
-<div>
-        <table width="90%" style="font-family: calibri; background-color: #ccc; border: 1px solid #555" align="center" cellpadding="0" cellspacing="0">
-            
-                <tr style="background-color: #298430;">
-                    <td style="border-bottom: 1px solid #126418; background-color: #298430; color: #fff; padding: 10px 15px;">
-                        <h2 style="margin: 10px; display: inline-block;">BROS</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 30px 50px 40px 50px; background-color: #eee; font-family: calibri; line-height: 30px;">
-                        <p>Dear <strong>'.$name.'</strong></span> <br/></p>
-                        <p>Sorry to inform you that your request has been rejected.</p?
-                        <br/>
-                        <br/>
-                        Thank you.
-                        <br>
-                        <br/>
-                        Regards,
-                        <br/>
-                        <strong>ITD</strong>
-                        </p>
-                    </td>
-                </tr>       
-        </table>
-        <div style="text-align: center; font-family: calibri; font-size: 12px; margin-top: 10px;">
-        </div>
-    </div>
-     -->

@@ -135,8 +135,9 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('picture/index', 'PictureController@index')->name('Picture.index');
 
     //R
-     Route::get('/venues/get-venues', 'VenuesController@getVenues');
+     Route::get('/venues/get-venues', 'VenuesController@getRoomVenues');
      Route::post('/venues/add-venue', 'VenuesController@store');
+     Route::post('/venue/update-status', 'VenuesController@updateVenueStatus');
      Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
     //FAQ
     Route::get('/registrarfaq', function() {
@@ -166,7 +167,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     //Venues
     //A
     Route::get('venues/index2', 'VenuesController@index2');
-    Route::get('/venues/get-venues', 'VenuesController@getVenues2');
+    Route::get('/venues/get-venues', 'VenuesController@getCourtVenues');
     Route::post('/venues/add-venue', 'VenuesController@store');
     
     //
