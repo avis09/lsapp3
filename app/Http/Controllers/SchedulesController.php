@@ -87,18 +87,19 @@ class SchedulesController extends Controller
     //Pending Reservations
 
     public function getPendingReservationsReg(){
-        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
-            //->where('f_venue.venueTypeID', '=','1')
-            ->where('statusID', '=', '1')
-            ->get();
+        $schedules = Schedule::whereHas('f_venue', function ($query){
+            $query->where('venueTypeID', 1);
+        })->with('user', 'f_time', 'f_venue', 'reservationStatus')
+        ->where('statusID', '=', '1')->get();
 
         return response()->json($schedules);
     }
     //get archived reservations
 
     public function getAllReservationsReg(){
-        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
-            //->where('f_venue.venueTypeID', '=','1')
+         $schedules = Schedule::whereHas('f_venue', function ($query){
+            $query->where('venueTypeID', 1);
+        })->with('user', 'f_time', 'f_venue', 'reservationStatus')
             ->where('statusID', '!=', '1')
             ->where('statusID', '!=', '6')
             ->get();
@@ -107,12 +108,13 @@ class SchedulesController extends Controller
     }
 
     public function getArchivedReservationsReg(){
-        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
-//            ->where('userID', auth()->user()->userID)
-            ->where('statusID', '=', '6')
-            ->get();
+        $schedules = Schedule::whereHas('f_venue', function ($query){
+            $query->where('venueTypeID', 1);
+        })->with('user', 'f_time', 'f_venue', 'reservationStatus')
+        ->where('statusID', '=', '6')
+        ->get();
 
-        print_r(json_encode($schedules));
+         return response()->json($schedules);
     }
 
     //GASD***********************************************************************************
@@ -126,7 +128,7 @@ class SchedulesController extends Controller
     public function getPendingReservationsGasd(){
         $schedules = Schedule::whereHas('f_venue', function ($query){
             $query->where('venueTypeID', 2);
-        })->with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+        })->with('user', 'f_time', 'f_venue', 'reservationStatus')
         ->where('statusID', '=', '1')->get();
 
         return response()->json($schedules);
@@ -135,7 +137,7 @@ class SchedulesController extends Controller
     public function getAllReservationsGasd(){
          $schedules = Schedule::whereHas('f_venue', function ($query){
             $query->where('venueTypeID', 2);
-        })->with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+        })->with('user', 'f_time', 'f_venue', 'reservationStatus')
             ->where('statusID', '!=', '1')
             ->where('statusID', '!=', '6')
             ->get();
@@ -146,7 +148,7 @@ class SchedulesController extends Controller
     public function getArchivedReservationsGasd(){
         $schedules = Schedule::whereHas('f_venue', function ($query){
             $query->where('venueTypeID', 2);
-        })->with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+        })->with('user', 'f_time', 'f_venue', 'reservationStatus')
         ->where('statusID', '=', '6')
         ->get();
 

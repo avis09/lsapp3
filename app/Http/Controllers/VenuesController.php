@@ -32,7 +32,7 @@ class VenuesController extends Controller
         $venueB = array('building' => DB::table('building')->get());
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
-        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+        $venueST = array('venueStatus' => DB::table('venueStatus')->where('venueStatusID', '!=', '3')->get());
         return view('pages.registrar.venues')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
@@ -45,7 +45,7 @@ class VenuesController extends Controller
         $venueB = array('building' => DB::table('building')->get());
         $venueF = array('venuefloor' => DB::table('venuefloor')->get());
         $venueT = array('venuetype' => DB::table('venuetype')->get());
-        $venueST = array('venueStatus' => DB::table('venueStatus')->get());
+        $venueST = array('venueStatus' => DB::table('venueStatus')->where('venueStatusID', '!=', '3')->get());
         return view('pages.gasd.venues')
             ->with('venueB', $venueB)
             ->with('venueF', $venueF)
@@ -197,7 +197,12 @@ class VenuesController extends Controller
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
-        $venues->venueTypeID = '1';
+        if(auth()->user()->userRoleID == 2){
+             $venues->venueTypeID = 2;   
+        }
+        else if(auth()->user()->userRoleID == 3){
+             $venues->venueTypeID = 1;
+        }
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->userID = auth()->user()->userID;
             $venueImages = $request->venueImages;

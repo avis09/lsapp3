@@ -232,8 +232,12 @@
 
                 }
             },
-            // { data: 'f_department.departmentName'},
-            { data: 'f_venue_status_v.venueStatusType'},
+            { data: null,
+                render:function(data){
+                    return '<span class="badge badge-status badge-'+data.f_venue_status_v.venueStatusType.toLowerCase()+'">'+data.f_venue_status_v.venueStatusType+'</span>';
+
+                }
+            },
             
             // { data: 'actions'},
             { data: null,
