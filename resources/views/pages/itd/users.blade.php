@@ -31,7 +31,7 @@
                 <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
                 <h4>Active Users</h4>
-                <p><b>{{$countAllActiveUsers}}</b></p>
+                <p><b></b></p>
               </div>
             </div>
           </div>
@@ -111,18 +111,14 @@
                                 </select>
                             </div>
                             <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                            <label>First Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control required-input" name="firstName" id="firstName">
-                                    </div>
-                                    <div class="col-md-6">
-                                            <label>Last Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control required-input" name="lastName" id="lastName">
-                                    </div>
-                                </div>                               
-                            </div>
+                        <div class="form-group">
+                            <label>First Name <span class="required">*</span></label>
+                            <input type="text" class="alphaonly required-input" name="firstName" id="firstName">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name <span class="required">*</span></label>
+                            <input type="text" class="alphaonly required-input" name="lastName" id="lastName">
+                        </div>
 
                             <div class="form-group">
                                     <label class="control-label" for="contact">Phone Number<span class="required">*</span></label>
@@ -156,7 +152,7 @@
 
                             <div class="form-group">
                                     <label>ID Number <span class="required">*</span></label>
-                                    <input type="text" class="form-control numbers-only required-input" name="IDnumber" id="IDnumber" maxlength="8">
+                                    <input type="text" class="form-control numbers-only required-input" name="IDnumber" id="IDnumber" maxlength="8" minlength="8">
                             </div>
                             <div class="form-group">
                                     <label>Password <span class="required">*</span></label>

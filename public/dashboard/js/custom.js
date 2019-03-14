@@ -165,6 +165,8 @@ $('.numbers-only').on('keypress', function(evt) {
                     $("<span class='validate_error_message'>This field only required only Letters.<br></span>").insertAfter(this);
               }
           });
+
+
   
           //test mobile number
           $(".mobile_number").each(function(){
@@ -488,5 +490,4 @@ $('.numbers-only').on('keypress', function(evt) {
   //         return false;
   //     }
   // });
-  
   

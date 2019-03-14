@@ -153,11 +153,12 @@ class UsersController extends Controller
     {
         $this->validate($request, [
            //  'userRoleID' => 'required',
-            'firstName' => 'required',
+            'firstName'  => 'required',
             'lastName' => 'required',
             'password' => 'required',
             'phoneNumber' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+//            'IDnumber' => 'required'|max(8)|min(8)
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
         // Create post
@@ -255,7 +256,8 @@ class UsersController extends Controller
              'firstName' => 'required',
              'lastName' => 'required',
              'phoneNumber' => 'required',
-             'email' => 'required'
+             'email' => 'required',
+//             'IDnumber' => 'required'|max(8)|min(8)
             //    'cover_image' => 'image|nullable|max:1999'
         ]);
         //update
