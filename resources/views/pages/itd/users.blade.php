@@ -489,7 +489,7 @@
                             $('.email').removeClass('err_inputs');
                             $('.mobile_number').removeClass('err_inputs');
                             $('.validate_error_message').remove();
-                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
+                            $('.btn-confirm').removeClass('disabled').html('Update');
                             users.ajax.reload();
                         }
                     }

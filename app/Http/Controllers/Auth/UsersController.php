@@ -56,7 +56,7 @@ class UsersController extends Controller
         'f_userstatus',
         'f_department')->where('userID', $request->id)->first();
         
-         return json_encode($user);
+         print_r(json_encode($user));
     }
 
     /**

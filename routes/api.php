@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 // list the venues
 
 Route::get('venues', 'VenueApiController@index');
@@ -56,15 +57,24 @@ Route::delete('venuetype/{id}', 'VenueTypeApiController@destroy');
 
 
 
-//list user
-Route::get('users', 'LoginApiController@index');
+//list building
+Route::get('buildings', 'BuildingApiController@index');
 
-//list single user
-Route::get('user/{id}', 'LoginApiController@show');
+//list single building
+Route::get('building/{id}', 'BuildingApiController@show');
 
-Route::post('user', 'LoginApiController@store');
-//login
-Route::post('login', 'LoginApiController@login');
+//Create new building
+Route::post('building', 'BuildingApiController@store');
+
+//update buidling
+
+Route::put('building', 'BuildingApiController@store');
+
+// delete
+Route::delete('building/{id}', 'BuildingApiController@destroy');
+
+
+
 
 
 //list feedback
@@ -74,3 +84,67 @@ Route::get('feedbacks', 'FeedbackApiController@index');
 Route::get('feedback/{id}', 'FeedbackApiController@show');
 //Create new feedback
 Route::post('feedback', 'FeedbackApiController@store');
+
+
+
+
+//list user
+Route::get('users', 'LoginApiController@index');
+
+//list single user
+Route::get('user/{id}', 'LoginApiController@show');
+
+Route::post('user', 'LoginApiController@store');
+
+//LOGIN
+Route::post('login', 'LoginApiController@login');
+
+
+//reservation
+Route::get('schedules/{venueID}/{date}', 'SchedulesApiController@showAvailSched');
+
+Route::get('schedules_reserved/{venueID}/{date}', 'SchedulesApiController@showReservedSched');
+
+Route::post('schedules', 'SchedulesApiController@store');
+
+
+Route::get('schedules_myreserved/{userID}', 'SchedulesApiController@showMyReservedSched');
+
+
+
+
+
+
+
+
+
+
+// list the profile
+
+Route::get('profiles', 'ViewprofileApiController@index');
+
+//list single profile
+Route::get('profile/{id}', 'ViewprofileApiController@show');
+
+//Create new profile
+Route::post('profile', 'ViewprofileApiController@store');
+
+//update profile
+
+Route::put('profile/{id}', 'ViewprofileApiController@store');
+
+
+Route::post('profile/{id}', 'ViewprofileApiController@store');
+
+
+
+//waiver
+
+
+Route::get('waivers', 'WaiverApiController@index');
+
+
+Route::post('waiver', 'WaiverApiController@store');
+
+
+Route::get('venuegallery/{id}', 'VenueGalleryApiController@show');

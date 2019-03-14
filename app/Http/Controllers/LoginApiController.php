@@ -108,7 +108,7 @@ class LoginApiController extends Controller
 
     public function login(Request $request)
     {
-        $attempt = Auth::attempt(['IDnumber' => $request->input('IDnumber'), 'password' => $request->input('password')], false);
+       $attempt = Auth::attempt(['IDnumber' => $request->input('IDnumber'), 'password' => $request->input('password')], false);
         if ($attempt) {
 //            Auth::user();
 //            email::where('IDnumber', $request->IDnumber)->first();
@@ -118,8 +118,11 @@ class LoginApiController extends Controller
             //return redirect()->route('schedules.create');
 
         }
+
+
         else {
             return response()->json(['message' => 'failed']);
         }
     }
+
 }

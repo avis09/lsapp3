@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Registrar Venues | ITD Bros</title>
+    <title>Feedbacks | GASD Bros</title>
 @endsection
 
 @section('css')
@@ -18,12 +18,12 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-certificate"></i> Room Feedbacks</h1>
+                <h1><i class="fa fa-certificate"></i> Court Feedbacks</h1>
                 {{-- <p>A free and open source Bootstrap 4 admin template</p> --}}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                <li class="breadcrumb-item"><a href="#">Rooms</a></li>
+                <li class="breadcrumb-item"><a href="#">Feedbacks</a></li>
             </ul>
         </div>
         <div class="card">
@@ -60,7 +60,7 @@
                     $('#menu-feedbacks').addClass('active');
                     feedbacks = $('#table-feedbacks').DataTable({
                         ajax: {
-                            url: "/registrar/feedbacks/get-feedbacks",
+                            url: "/gasd/feedbacks/get-feedbacks",
                             dataSrc: ''
                         },
                         responsive:true,

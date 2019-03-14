@@ -1,7 +1,11 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
+<<<<<<< HEAD
     <title>Reservation | Bros</title>
+=======
+    <title>GASD Reservation | Bros</title>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
 @endsection
 
 @section('css')
@@ -22,7 +26,11 @@
     <main class="app-content">
         <div class="app-title">
             <div>
+<<<<<<< HEAD
                 <h1><i class="fa fa-calendar-o"></i>Reservations </h1>
+=======
+                <h1><i class="fa fa-calendar-o"></i> GASD Reservations </h1>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -50,24 +58,40 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+<<<<<<< HEAD
                                     <th>Venue Name</th>
                                     <th>Time </th>
                                     <th>Status </th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+=======
+                                    <th>Court</th>
+                                    <th>Purpose</th>
+                                    <th>Schedule Date</th>
+                                    <th>Date Updated</th>
+                                    <th>Status </th>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>Name</th>
+<<<<<<< HEAD
                                     <th>Venue Name</th>
                                     <th>Time </th>
                                     <th>Status </th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+=======
+                                    <th>Court</th>
+                                    <th>Purpose</th>
+                                    <th>Schedule Date</th>
+                                    <th>Date Updated</th>
+                                    <th>Status </th>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>
@@ -80,24 +104,40 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+<<<<<<< HEAD
                                     <th>Venue Name</th>
                                     <th>Time </th>
                                     <th>Status </th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+=======
+                                    <th>Court</th>
+                                    <th>Purpose</th>
+                                    <th>Schedule Date</th>
+                                    <th>Date Updated</th>
+                                    <th>Status </th>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>Name</th>
+<<<<<<< HEAD
                                     <th>Venue Name</th>
                                     <th>Time </th>
                                     <th>Status </th>
                                     <th>Purpose</th>
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
+=======
+                                    <th>Court</th>
+                                    <th>Purpose</th>
+                                    <th>Schedule Date</th>
+                                    <th>Date Updated</th>
+                                    <th>Status </th>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>
@@ -110,10 +150,16 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+<<<<<<< HEAD
                                     <th>Venue Name</th>
                                     <th>Time </th>
                                     <th>Purpose</th>
                                     <th>Registrar Message</th>
+=======
+                                    <th>Court</th>
+                                    <th>Purpose</th>
+                                    <th>GASD Message</th>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
                                     <th>Status </th>
@@ -122,10 +168,16 @@
                                 <tfoot>
                                 <tr>
                                     <th>Name</th>
+<<<<<<< HEAD
                                     <th>Venue Name</th>
                                     <th>Time </th>
                                     <th>Purpose</th>
                                     <th>Registrar Message</th>
+=======
+                                    <th>Court</th>
+                                    <th>Purpose</th>
+                                    <th>GASD Message</th>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                                     <th>Schedule Date</th>
                                     <th>Date Updated</th>
                                     <th>Status </th>
@@ -144,10 +196,106 @@
     <script>
         var pending, all_schedules, archived;
         $(document).ready(function () {
+<<<<<<< HEAD
             $('#menu-reservations').addClass('active');
             archived = $('#table-archived').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-archived",
+=======
+            $('#menu-reservation').addClass('is-expanded');
+            $('#menu-reservation-request').addClass('active');
+
+            pending = $('#table-pending').DataTable({
+                ajax: {
+                    url: "/gasd/schedules/get-pending",
+                    dataSrc: ''
+                },
+                responsive: true,
+                // "order": [[ 5, "desc" ]],
+                columns: [
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.user.firstName + ' ' + data.user.lastName;
+
+                        }
+                    },
+                    // { data: 'user.firstName'},
+                    {data: 'f_venue.venueName'},
+                    {data: 'purpose'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.date+' ('+data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime+' )';
+
+                        }
+                    },
+                    {data: 'updated_at'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
+                        }
+                    },
+                    { data: null,
+                        render:function(data){
+                            return '<button type="button" class="btn btn-info btn-view-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">View</button> <button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
+                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
+
+                        }
+                    }
+                    // { defaultContent: ""}
+                ]
+            });
+
+            all_schedules = $('#table-all').DataTable({
+                ajax: {
+                    url: "/gasd/schedules/get-all-reservations",
+                    dataSrc: ''
+                },
+                responsive: true,
+                // "order": [[ 5, "desc" ]],
+                columns: [
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.user.firstName + ' ' + data.user.lastName;
+
+                        }
+                    },
+                    // { data: 'user.firstName'},
+                    {data: 'f_venue.venueName'},
+                    {data: 'purpose'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.date+' ('+data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime+' )';
+
+                        }
+                    },
+                    {data: 'updated_at'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
+                        }
+                    },
+                    { data: null,
+                        render:function(data){
+                            return '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';
+
+                        }
+                    }
+                    // { defaultContent: ""}
+                ]
+            });
+
+            archived = $('#table-archived').DataTable({
+                ajax: {
+                    url: "/gasd/schedules/get-archived",
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                     dataSrc: ''
                 },
                 responsive:true,
@@ -161,19 +309,24 @@
                     },
                     // { data: 'user.firstName'},
                     { data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
-                    { data: null,
-                        render:function(data){
-                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
+                    { data: 'purpose'},
+                    { data: 'updatedMessage'},
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.date+' ('+data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime+' )';
 
                         }
                     },
+<<<<<<< HEAD
                     // { data: 'statusID'},
                     { data: 'purpose'},
                     { data: 'updatedMessage'},
 
 
                     { data: 'date'},
+=======
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                     { data: 'updated_at'},
                     { data: null,
                         render: function(data){
@@ -184,6 +337,7 @@
                 ]
             });
 
+<<<<<<< HEAD
             pending = $('#table-pending').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-pending",
@@ -328,3 +482,58 @@
         });
     </script>
 @endsection
+=======
+
+            $(document).on('click', '.btn-update-schedule', function (e) {
+                var id = $(this).attr('data-id');
+                var type = $(this).attr('data-type');
+                // if (type == 4 || type == 6) {
+                var status;
+                if(type == 2){
+                    status = 'approve';
+                }
+                else if(type == 3){
+                    status = 'reject';
+                }
+                else if(type == 6){
+                    status = 'archive';
+                }
+                Swal.fire({
+                    title: 'Confirmation',
+                    text: "Are you sure you want to " + status + " this reservation?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: 'post',
+                            url: '/gasd/schedule/update-reservation-status',
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                id: id,
+                                type: type
+                            },
+                            success: function (data) {
+                                pending.ajax.reload();
+                                all_schedules.ajax.reload();
+                                archived.ajax.reload();
+                                Swal.fire(
+                                    data.title,
+                                    data.content_message,
+                                    data.type
+                                );
+                            }
+                        });
+                    }
+                })
+                // }
+            });
+        });
+
+    </script>
+@endsection
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8

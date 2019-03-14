@@ -18,6 +18,7 @@
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('dashboard/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('dashboard/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('dashboard/css/badge.css')}}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/datatables.min.css"
     />
     <!-- Font-icon css-->

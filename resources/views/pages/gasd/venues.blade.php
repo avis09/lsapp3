@@ -94,6 +94,85 @@
             </div>
         </div>
     </main>
+
+
+     <div class="modal fade" id="venue-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title modal-venue-title" id="smallmodalLabel">Add New Venue</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form class="form-venue" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Building <span class="required">*</span></label>
+                            <select class="form-control required-input" name="buildingID" id="buildingID" data-parsley-required="true">
+                                <option value="" selected disabled>Select Building</option>
+                                @foreach ($venueB['building'] as $venueBs)
+                                    {
+                                    <option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>
+                                    }
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
+                        <div class="form-group">
+                            <label>Venue Name <span class="required">*</span></label>
+                            <input type="text" class="form-control required-input" name="venueName" id="venueName">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Venue Floor<span class="required">*</span></label>
+                            <select class="form-control required-input" name="venueFloorID" id="venueFloorID" data-parsley-required="true">
+                                <option value="" selected disabled>Select Venue Floor</option>
+                                @foreach ($venueF['venuefloor'] as $venueFs)
+                                    {
+                                    <option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>
+                                    }
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Venue Images <span class="required">*</span></label>
+                            <div class="venue-image-container">
+                                <div class="venue-image-parent1">
+                                    <div class="input-group venue-image-preview-container1">
+                                        <input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="venues">Venue Status <span class="required">*</span></label>
+                            <select class="form-control required-input" name="venueStatus" id="venueStatus" data-parsley-required="true">
+                                <option value="" selected disabled>Select Status</option>
+                                @foreach ($venueST['venueStatus'] as $venueSTs)
+                                    {
+                                    <option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>
+                                    }
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-confirm">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('scripts')
@@ -121,8 +200,12 @@
                         }
                     },
                     // { data: 'f_department.departmentName'},
-                    { data: 'f_venue_status_v.venueStatusType'},
+                    { data: null,
+                        render:function(data){
+                            return '<span class="badge badge-status badge-'+data.f_venue_status_v.venueStatusType.toLowerCase()+'">'+data.f_venue_status_v.venueStatusType+'</span>';
 
+                        }
+                    },
                     // { data: 'actions'},
                     { data: null,
                         render:function(data){
@@ -183,9 +266,6 @@
 
             $(document).on('click', '.btn-add-venue', function(e){
                 e.preventDefault();
-                //  $('#venue-modal').remove('fade in');
-                //   $('#venue-modal').addClass('show');
-                //   $('#venue-modal').modal('show');
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
                 $('input[type="password"]').val("");
@@ -205,7 +285,7 @@
                     $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
                     var formData = new FormData(this);
                     $.ajax({
-                        url: "/registrar/venues/add-venue",
+                        url: "/gasd/venues/add-venue",
                         type: 'POST',
                         data: formData,
                         async: false,
@@ -243,30 +323,40 @@
             });
 
             $(document).on('click', '.btn-edit-venue', function(){
-                var id = $(this).attr('data-id');
-                $('.validate_error_message').remove();
-                $('.required-input').removeClass('err_inputs');
-                $.ajax({
-                    url: "/registrar/venues/get-specific-venues",
-                    type: 'POST',
-                    data: {
-                        _token: "{{csrf_token()}}",
-                        id: id
-                    },
-                    success:function(data){
-                        $('venue-image').modal('show');
-                        var html = '';
-                        $.each(data.venueImages, function(x,y){
-                            html += '<div class="venue-image-parent1">';
-                            html += '<div class="input-group venue-image-preview-container1">';
-                            html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
-                            html += '<div class="input-group-prepend">';
-                            html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
-                            html += '</div></div></div>';
+                    var id = $(this).attr('data-id');
+                    $('.validate_error_message').remove();
+                    $('.required-input').removeClass('err_inputs');
+                    $('.modal-venue-title').html('Edit Venue');
+                     $.ajax({
+                        url: "/gasd/venues/get-specific-court",
+                        type: 'POST',
+                        data: {
+                            _token: "{{csrf_token()}}",
+                            id: id
+                        },
+                        success:function(data){
+                            $('#venue-modal').modal('show');
+                            $('#buildingID').val(data.buildingID);
+                            $('#venueName').val(data.venueName);
+                            $('#venueFloorID').val(data.venueFloorID);
+                            $('#venueStatus').val(data.venueStatusID);
+                            var html = '';
+                            var ctr = 1;
+                            $.each(data.pictures, function(x,y){
+                                html += '<div class="venue-image-parent'+ctr+'">';
+                                html += '<div class="input-group venue-image-preview-container'+ctr+'">';
+                                html +=   '<input type="file" name="venue_image[]" value="'+y.pictureName+'" class="form-control required-input file-venue-image" data-ctr="'+ctr+'">';
+                                html += '<div class="input-group-prepend">';
+                                html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="'+ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                                html += '</div></div>';
+                                html += '<img class="venue-image my-2" src="/storage/venue images/rooms/'+y.pictureName+'">';
+                                html += '</div>';
+                                ctr++;
+                            });
                             $('.venue-image-container').html(html);
-                        });
-                    }
-                });
+                        
+                        }
+                    });
             });
 
             $(document).on('click', '.btn-add-image', function(e){
@@ -286,6 +376,40 @@
                 $('.venue-image-parent'+ctr).remove();
             });
 
+            $(document).on('click', '.btn-archive-venue', function (e) {
+                var id = $(this).attr('data-id');
+                Swal.fire({
+                    title: 'Confirmation',
+                    text: "Are you sure you want to archive this court?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var type = 3;
+                        $.ajax({
+                            type: 'post',
+                            url: '/gasd/venue/update-status',
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                id: id,
+                                type: type
+                            },
+                            success: function (data) {
+                                venues.ajax.reload();
+                                Swal.fire(
+                                    data.title,
+                                    data.content_message,
+                                    data.type
+                                );
+                            }
+                        });
+                    }
+                })
+            });
 
             $(document).on('change', '.file-venue-image', function(){
                 var test = this;
@@ -326,89 +450,4 @@
     </script>
 
 @endsection
-    {{--<div class="modal fade" id="venue-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">--}}
-        {{--<div class="modal-dialog" role="document">--}}
-            {{--<div class="modal-content">--}}
-                {{--<div class="modal-header">--}}
-                    {{--<span class="modal-title modal-venue-title" id="smallmodalLabel">Add New Venue</span>--}}
-                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                        {{--<span aria-hidden="true">×</span>--}}
-                    {{--</button>--}}
-                {{--</div>--}}
-                {{--<form class="form-venue" enctype="multipart/form-data">--}}
-                    {{--<div class="modal-body">--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label>Building <span class="required">*</span></label>--}}
-                            {{--<select class="form-control required-input" name="buildingID" id="buildingID" data-parsley-required="true">--}}
-                                {{--<option value="" selected disabled>Select Building</option>--}}
-                                {{--@foreach ($venueB['building'] as $venueBs)--}}
-                                    {{--{--}}
-                                    {{--<option value="{{ $venueBs->buildingID }}">{{ $venueBs->buildingName  }}</option>--}}
-                                    {{--}--}}
-                                {{--@endforeach--}}
-                            {{--</select>--}}
-                        {{--</div>--}}
-                        {{--<input type="hidden" name="_token" id="token" value="{{csrf_token()}}">--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label>Venue Name <span class="required">*</span></label>--}}
-                            {{--<input type="text" class="form-control required-input" name="venueName" id="venueName">--}}
-                        {{--</div>--}}
-
-                        {{--<div class="form-group">--}}
-                            {{--<label>Venue Floor<span class="required">*</span></label>--}}
-                            {{--<select class="form-control required-input" name="venueFloorID" id="venueFloorID" data-parsley-required="true">--}}
-                                {{--<option value="" selected disabled>Select Venue Floor</option>--}}
-                                {{--@foreach ($venueF['venuefloor'] as $venueFs)--}}
-                                    {{--{--}}
-                                    {{--<option value="{{ $venueFs->venueFloorID }}">{{ $venueFs->venueFloorName }}</option>--}}
-                                    {{--}--}}
-                                {{--@endforeach--}}
-                            {{--</select>--}}
-                        {{--</div>--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label>Venue Images <span class="required">*</span></label>--}}
-                            {{--<div class="venue-image-container">--}}
-                                {{--<div class="venue-image-parent1">--}}
-                                    {{--<div class="input-group venue-image-preview-container1">--}}
-                                        {{--<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">--}}
-                                        {{--<div class="input-group-prepend">--}}
-                                            {{--<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="mt-2">--}}
-                                {{--<button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>--}}
-                            {{--</div>--}}
-                            {{--<!-- <table id="table-venue-images" class="table table-bordered table-sm">--}}
-                                {{--<thead>--}}
-                                    {{--<tr>--}}
-                                        {{--<td>Image </td>--}}
-                                        {{--<td>Actions</td>--}}
-                                    {{--</tr>--}}
-                                {{--</thead>--}}
-                                {{--<tbody class="venue-images">--}}
-
-                                {{--</tbody>--}}
-                            {{--</table> -->--}}
-                        {{--</div>--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label for="venues">Venue Status <span class="required">*</span></label>--}}
-                            {{--<select class="form-control required-input" name="venueStatus" id="venueStatus" data-parsley-required="true">--}}
-                                {{--<option value="" selected disabled>Select Status</option>--}}
-                                {{--@foreach ($venueST['venueStatus'] as $venueSTs)--}}
-                                    {{--{--}}
-                                    {{--<option value="{{ $venueSTs->venueStatusID }}">{{ $venueSTs->venueStatusType }}</option>--}}
-                                    {{--}--}}
-                                {{--@endforeach--}}
-                            {{--</select>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="modal-footer text-right">--}}
-                        {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>--}}
-                        {{--<button type="submit" class="btn btn-primary btn-confirm">Confirm</button>--}}
-                    {{--</div>--}}
-                {{--</form>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
+   

@@ -1,5 +1,5 @@
 .badge-status {
-    width: 5.8em;
+    width: 6.8em;
 }
 
 .badge-pending{
@@ -29,5 +29,17 @@
 
 .badge-archived {
     background-color: #737373;
+    color: white;
+}
+
+
+.badge-inactive{
+    background-color: #fb8c00;
+    color: white;
+}
+
+
+.badge-active {
+    background-color: #1FAE1D;
     color: white;
 }

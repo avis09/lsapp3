@@ -55,20 +55,32 @@
             <li>
                 <a id="menu-dashboard" class="app-menu__item" href="/gasd/dashboard"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Dashboard</span></a>
             </li>
-            <li class="treeview">
+            <li id="menu-reservation" class="treeview">
                 <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
+<<<<<<< HEAD
                     <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('gasd/schedules/create2') }}"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
                     <li><a id="menu-gasdreservevenue" class="treeview-item" href="{{ url('gasd/schedules/index2') }}"><i class="icon fa fa-archive"></i> Reservation Request</a></li>
                     <li><a id="menu-gasdcalendar" class="treeview-item" href="{{ url('gasd/schedules/index2') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+=======
+                    <li><a id="menu-reservation-request" class="treeview-item" href="{{url('gasd/schedules/list') }}"><i class="icon fa fa-circle"></i> Reservation Request</a></li>
+                    <li><a id="menu-reserve-venue" class="treeview-item" href="/gasd/schedules/create2"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
+                    <li><a id="menu-calendar" class="treeview-item" href="/gasd/calendar"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                 </ul>
             </li>
+            <li><a id="menu-gasdcourt" class="app-menu__item" href="/gasd/courts"><i class="app-menu__icon fa fa-trophy"></i>Courts</a></li>
+            <li><a id="menu-court-gallery" class="app-menu__item" href="/gasd/court-gallery"><i class="app-menu__icon fa fa-question"></i>Court Gallery</a></li>
+            <li><a id="menu-feedbacks" class="app-menu__item" href="{{url('gasd/feedbacks') }}"><i class="app-menu__icon fa fa-comment"></i>Feedbacks</a></li>
             <li><a id="menu-gasdfaq" class="app-menu__item" href="{{ url('gasd/gasdfaq') }}"><i class="app-menu__icon fa fa-question"></i>FAQ</a></li>
+<<<<<<< HEAD
             <li><a id="menu-gasdcourt" class="app-menu__item" href="{{url('gasd/venues/index2') }}"><i class="app-menu__icon fa fa-trophy"></i>Court</a></li>
             <li><a id="menu-gasdfeedback" class="app-menu__item" href="{{url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-comment"></i>Feedback</a></li>
             <li><a id="menu-gasdgallery" class="treeview-item" href="{{ url('gasd/gallery/index2') }}"><i class="icon fa fa-folder"></i> Venue Gallery</a></li>
+=======
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
         </ul>
 
     </aside>
@@ -90,25 +102,36 @@
             <li>
                 <a id="menu-dashboard" class="app-menu__item" href="/registrar/dashboard"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Dashboard</span></a>
             </li>
-            <li>
-                <a id="menu-venues" class="app-menu__item" href="{{ url('registrar/venues/index') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Rooms</span></a>
-            </li>
-            <li class="treeview">
-                <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
+            <li id="menu-reservation" class="treeview">
+                <a id="menu-reservation" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
+<<<<<<< HEAD
                     <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('registrar/schedules/regsched') }}"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
                     <li><a id="menu-gasdreservevenue" class="treeview-item" href="{{ url('registrar/schedules/list') }}"><i class="icon fa fa-archive"></i> Reservation Request</a></li>
                     <li><a id="menu-gasdcalendar" class="treeview-item" href="{{ url('registrar/schedules/registrarcalendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+=======
+                    <li><a id="menu-reservation-request" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation Request</a></li>
+                    <li><a id="menu-reserve-venue" class="treeview-item" href="{{url('registrar/schedules/create') }}"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
+                    <li><a id="menu-calendar" class="treeview-item" href="{{ url('registrar/calendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
                 </ul>
             </li>
+            <li>
+                <a id="menu-venues" class="app-menu__item" href="/registrar/venues"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Rooms</span></a>
+            </li>
+            <li><a id="menu-room-gallery" class="app-menu__item" href="/registrar/room-gallery"><i class="app-menu__icon fa fa-archive"></i><span class="app-menu__label">Room Gallery</span></a></li>
             <li>
                 <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">Feedbacks</span></a>
             </li>
             <li><a id="menu-registrarfaqs" class="app-menu__item" href="{{ url('registrar/registrarfaq') }}"><i class="app-menu__icon fa fa-question"></i><span class="app-menu__label">FAQ</span></a></li>
+<<<<<<< HEAD
             <li><a id="menu-gasdreservevenue" class="app-menu__item" href="{{ url('registrar/gallery/index') }}"><i class="icon fa fa-archive"></i> Room Gallery</a></li>
                 </ul>
+=======
+        </ul>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
 
     </aside>
 

@@ -1,7 +1,11 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
+<<<<<<< HEAD
     <title>Reservation | Bros</title>
+=======
+    <title>Registrar Reservation | Bros</title>
+>>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
 @endsection
 
 @section('css')
@@ -22,7 +26,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar-o"></i>Reservations </h1>
+                <h1><i class="fa fa-calendar-o"></i>Registrar Reservations </h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -144,7 +148,8 @@
     <script>
         var pending, all_schedules, archived;
         $(document).ready(function () {
-            $('#menu-reservations').addClass('active');
+            $('#menu-reservation').addClass('is-expanded');
+            $('#menu-reservation-request').addClass('active');
             archived = $('#table-archived').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-archived",
