@@ -184,6 +184,11 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     //Anz
     Route::get('/schedules/list', 'SchedulesController@showReservationPageGasd');
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesGasd');
+//    //
+//    Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
+//    Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsReg');
+    Route::get('/schedules/get-all-reservations', 'SchedulesController@getAllReservationsGasd');
+    Route::get('/schedules/get-archived', 'SchedulesController@getArchivedReservationsGasd');
 
     //get archived users
 //    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');

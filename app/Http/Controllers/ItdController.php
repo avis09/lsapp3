@@ -13,22 +13,29 @@ class ItdController extends Controller
 
 //total number of schedules count
 
-        $countUsers = DB::table('users')
-            ->select('userID')
+
+        $countAllActiveUsers = DB::table('users')
+            ->join('userstatus', 'userstatus.userStatusID', '=', 'users.userStatusID')
+            ->select('users.userID')
+            ->where('userstatus.userStatusID', '=', '1')
             ->count();
 
-        $countAllSchedules = DB::table('schedules')
-            ->join('venue', 'venue.venueID', '=', 'schedules.venueID')
-            ->select('schedules.scheduleID')
-            ->where('venue.venueTypeID', '=', '2')
-            ->count();
-
+//        $countAllInActiveUsers = DB::table('users')
+//            ->join('venue', 'venue.venueID', '=', 'schedules.venueID')
+//            ->select('schedules.scheduleID')
+//            ->where('venue.venueTypeID', '=', '2')
+//            ->count();
+//
+//        $countAllArchivedUsers = DB::table('users')
+//            ->join('venue', 'venue.venueID', '=', 'schedules.venueID')
+//            ->select('schedules.scheduleID')
+//            ->where('venue.venueTypeID', '=', '2')
+//            ->count();
 
         return view('pages.itd.users')
-            ->with('countUsers', $countUsers)
-        ->with('countAllSchedules', $countAllSchedules);
-//            ->with('countAllTotalRooms', $countAllTotalRooms)
-//            ->with('countAllActiveRooms', $countAllActiveRooms);
+        ->with('countAllActiveUsers', $countAllActiveUsers);
+//      ->with('countAllInActiveUsers', $countAllInActiveUsers)
+//       ->with('countAllArchivedUsers', $countAllArchivedUsers);
 
 
     }

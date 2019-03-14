@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Add Reservation | Bros</title>
+    <title>Reservation | Bros</title>
 @endsection
 
 @section('css')

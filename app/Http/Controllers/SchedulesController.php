@@ -115,6 +115,25 @@ class SchedulesController extends Controller
         return response()->json($schedules);
     }
 
+//    public function getAllReservationsGasd() {
+//        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+//            //->where('f_venue.venueTypeID', '=','1')
+//            ->where('statusID', '!=', '1')
+//            ->where('statusID', '!=', '6')
+//            ->get();
+//
+//        return response()->json($schedules);
+//    }
+//
+//    public function getArchivedReservationsGasd(){
+//        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
+////            ->where('userID', auth()->user()->userID)
+//            ->where('statusID', '=', '6')
+//            ->get();
+//
+//        print_r(json_encode($schedules));
+//    }
+
     //GASD***********************************************************************************
 
 
