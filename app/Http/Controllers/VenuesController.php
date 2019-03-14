@@ -250,27 +250,65 @@ class VenuesController extends Controller
         // return redirect('registrar/venues/create')->with('success', 'Venue Added');
     }
 
-    // GASD Store
-    public function store2(Request $request)
-    {
+    public function updateRoomVenue(Request $request){
         $this->validate($request, [
             'venueName' => 'required',
+        //    'cover_image' => 'image|nullable|max:1999'
         ]);
-        // Create post
+
         $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
-        //Add venue type court
-        $venues->venueTypeID = '2';
+        if(auth()->user()->userRoleID == 2){
+             $venues->venueTypeID = 2;   
+        }
+        else if(auth()->user()->userRoleID == 3){
+             $venues->venueTypeID = 1;
+        }
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->userID = auth()->user()->userID;
-        //  $venue->place = auth()->user()->id;
-        //  $venue->cover_image = $fileNameToStore;
-        $venues->save();
-        return redirect('gasd/venues/create2')->with('success', 'Venue Added');
+            $venueImages = $request->venueImages;
+        if($venues->save()){
+
+                if($request->hasfile('venue_image'))
+                {
+                    foreach($request->file('venue_image') as $venueImage)
+                    {
+                        $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
+                        // Store file or image to storage
+                        Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
+                        $venue_image = new Picture;
+                        $venue_image->venueID = $venues->venueID;
+                        $venue_image->pictureName = $venueImageName;
+                        $venue_image->created_at = Carbon::now()->toDateTimeString();
+                        $venue_image->save();
+                    }
 
 
+                    if(!empty($request->input('equipment_name'))){
+                        $equipmentName = array();
+                        $barCode = array();
+                        $equipmentStatusID = array();
+                        $equipmentName = $request->input('equipment_name');
+                        $barCode = $request->input('equipment_barcode');
+                        $equipmentStatusID = json_decode($request->input('equipmentStatus'));
+
+                        for($i=0;$i<count($equipmentName);$i++){
+                            $waiver = Equipment::updateOrCreate([
+                                "venueID" => $venues->venueID, 
+                                "equipmentStatusID" => $equipmentStatusID[$i],
+                                "equipmentName" =>$equipmentName[$i],
+                                "barCode" => $barCode[$i],
+                                "created_at" => Carbon::now(),
+                                "updated_at" => Carbon::now()
+                            ]);
+                         }
+                    }
+                }  
+        }
+
+        return response()->json(['message' => 'Venue Successfully Updated!', 'success' => true]);
 
     }
 

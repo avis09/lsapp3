@@ -139,6 +139,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::get('/venues/get-venues', 'VenuesController@getRoomVenues');
     Route::post('/venues/get-specific-room', 'VenuesController@getSpecificRoom');
      Route::post('/venues/add-venue', 'VenuesController@store');
+     Route::post('/venues/update-venue', 'VenuesController@updateRoomVenue');
      Route::post('/venue/update-status', 'VenuesController@updateVenueStatus');
      Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
      Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
