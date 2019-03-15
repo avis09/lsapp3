@@ -69,6 +69,13 @@ class VenuesController extends Controller
           print_r(json_encode($venues));
     }
 
+
+    public function getRoomEquipments(Request $request){
+        $equipments = Equipment::where('venueID', $request->id)->with('f_equipmentStatus')->get();
+        return response()->json($equipments);
+    }
+
+
     // GASD List of Venues (Venues)
     public function index2()
     {

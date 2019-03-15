@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Registrar Reservation | Bros</title>
+    <title>Reservation | Registrar Bros</title>
 @endsection
 
 @section('css')
@@ -14,6 +14,10 @@
         .waiver-content{
             display: none;
         }
+        #textarea-reason{
+            height: 100px;
+            resize: none;
+        }
     </style>
 @endsection
 
@@ -22,7 +26,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar-o"></i>Registrar Reservations </h1>
+                <h1><i class="fa fa-calendar-o"></i>Reservations </h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -50,24 +54,24 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Venue Name</th>
-                    <th>Time </th>
-                    <th>Status </th>
+                    <th>Room</th>
                     <th>Purpose</th>
                     <th>Schedule Date</th>
-                    <th>Date Updated</th>
+                    <th>Time </th>
+                    <th>Status </th>
+                    <th>Date Created</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tfoot>
                 <tr>
                     <th>Name</th>
-                    <th>Venue Name</th>
-                    <th>Time </th>
-                    <th>Status </th>
+                    <th>Room</th>
                     <th>Purpose</th>
                     <th>Schedule Date</th>
-                    <th>Date Updated</th>
+                    <th>Time </th>
+                    <th>Status </th>
+                    <th>Date Created</th>
                     <th>Actions</th>
                 </tr>
                 </tfoot>
@@ -80,11 +84,12 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Venue Name</th>
+                        <th>Room</th>
+                        <th>Purpose</th>
+                        <th>Reason</th>
+                        <th>Schedule Date</th>
                         <th>Time </th>
                         <th>Status </th>
-                        <th>Purpose</th>
-                        <th>Schedule Date</th>
                         <th>Date Updated</th>
                         <th>Actions</th>
                     </tr>
@@ -92,11 +97,12 @@
                     <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Venue Name</th>
+                        <th>Room</th>
+                        <th>Purpose</th>
+                        <th>Reason</th>
+                        <th>Schedule Date</th>
                         <th>Time </th>
                         <th>Status </th>
-                        <th>Purpose</th>
-                        <th>Schedule Date</th>
                         <th>Date Updated</th>
                         <th>Actions</th>
                     </tr>
@@ -110,11 +116,11 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Venue Name</th>
-                    <th>Time </th>
+                    <th>Room</th>
                     <th>Purpose</th>
-                    <th>Registrar Message</th>
+                    <th>Reason</th>
                     <th>Schedule Date</th>
+                    <th>Time </th>
                     <th>Date Updated</th>
                     <th>Status </th>
                 </tr>
@@ -122,11 +128,11 @@
                 <tfoot>
                 <tr>
                     <th>Name</th>
-                    <th>Venue Name</th>
-                    <th>Time </th>
+                    <th>Room</th>
                     <th>Purpose</th>
-                    <th>Registrar Message</th>
+                    <th>Reason</th>
                     <th>Schedule Date</th>
+                    <th>Time </th>
                     <th>Date Updated</th>
                     <th>Status </th>
                 </tr>
@@ -139,6 +145,30 @@
 </div>
 </div>
     </main>
+
+
+        <div class="modal fade" id="reason-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title modal-venue-title" id="smallmodalLabel">Reason for Cancellation</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                       <div class="form-group">
+                            <label>Reason <span class="required">*</span></label> 
+                            <textarea class="form-control required-input" name="updatedMessage" id="textarea-reason"></textarea>
+                       </div>
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="button" class="btn btn-secondary btn-cancel-reason" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-confirm-reason">Confirm</button>
+                    </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
@@ -146,52 +176,13 @@
         $(document).ready(function () {
             $('#menu-reservation').addClass('is-expanded');
             $('#menu-reservation-request').addClass('active');
-            archived = $('#table-archived').DataTable({
-                ajax: {
-                    url: "/registrar/schedules/get-archived",
-                    dataSrc: ''
-                },
-                responsive:true,
-                // "order": [[ 5, "desc" ]],
-                columns: [
-                    { data: null,
-                        render:function(data){
-                            return data.user.firstName+' '+data.user.lastName;
-
-                        }
-                    },
-                    // { data: 'user.firstName'},
-                    { data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
-                    { data: null,
-                        render:function(data){
-                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
-
-                        }
-                    },
-                    // { data: 'statusID'},
-                    { data: 'purpose'},
-                    { data: 'updatedMessage'},
-                   
-                    
-                    { data: 'date'},
-                    { data: 'updated_at'},
-                    { data: null,
-                        render: function(data){
-                            var status = data.reservation_status.statusName;
-                            return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
-                        }
-                    }
-                ]
-            });
-
             pending = $('#table-pending').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-pending",
                     dataSrc: ''
                 },
                 responsive: true,
-                // "order": [[ 5, "desc" ]],
+                "order": [[ 3, "desc" ]],
                 columns: [
                     {
                         data: null,
@@ -200,9 +191,9 @@
 
                         }
                     },
-                    // { data: 'user.firstName'},
                     {data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
+                    {data: 'purpose'},
+                    {data: 'date'},
                     {
                         data: null,
                         render: function (data) {
@@ -210,7 +201,6 @@
 
                         }
                     },
-                    // { data: 'statusID'},
                     {
                         data: null,
                         render: function (data) {
@@ -218,17 +208,14 @@
                             return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
                         }
                     },
-                    {data: 'purpose'},
-                    {data: 'date'},
-                    {data: 'updated_at'},
+                    {data: 'created_at'},
                     { data: null,
                         render:function(data){
                             return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
-                                '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
+                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
                     
                         }
                     }
-                    // { defaultContent: ""}
                 ]
             });
             
@@ -238,7 +225,7 @@
                     dataSrc: ''
                 },
                 responsive: true,
-                // "order": [[ 5, "desc" ]],
+                "order": [[ 4, "desc" ]],
                 columns: [
                     {
                         data: null,
@@ -247,9 +234,10 @@
 
                         }
                     },
-                    // { data: 'user.firstName'},
                     {data: 'f_venue.venueName'},
-                    // { data: 'timeID'},
+                    {data: 'purpose'},
+                    { data: 'updatedMessage'},
+                    {data: 'date'},
                     {
                         data: null,
                         render: function (data) {
@@ -257,7 +245,6 @@
 
                         }
                     },
-                    // { data: 'statusID'},
                     {
                         data: null,
                         render: function (data) {
@@ -265,16 +252,53 @@
                             return "<span class='badge badge-status badge-" + status.toLowerCase() + "'>" + status + "</span>";
                         }
                     },
-                    {data: 'purpose'},
-                    {data: 'date'},
                     {data: 'updated_at'},
                     { data: null,
                         render:function(data){
-                            return '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';
+                            if(data.reservation_status.statusID == 2){
+                                return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="5" data-id="'+data.scheduleID+'">Done</button> <button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
+                            }
+                            else if(data.reservation_status.statusID == 3 || data.reservation_status.statusID == 4 || data.reservation_status.statusID == 5){
+                                return '<button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';
+                            }
                     
                         }
                     }
                     // { defaultContent: ""}
+                ]
+            });
+
+            archived = $('#table-archived').DataTable({
+                ajax: {
+                    url: "/registrar/schedules/get-archived",
+                    dataSrc: ''
+                },
+                responsive:true,
+                "order": [[ 6, "desc" ]],
+                columns: [
+                    { data: null,
+                        render:function(data){
+                            return data.user.firstName+' '+data.user.lastName;
+
+                        }
+                    },
+                    { data: 'f_venue.venueName'},
+                    { data: 'purpose'},
+                    { data: 'updatedMessage'},
+                    { data: 'date'},
+                    { data: null,
+                        render:function(data){
+                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
+
+                        }
+                    },
+                    { data: 'updated_at'},
+                    { data: null,
+                        render: function(data){
+                            var status = data.reservation_status.statusName;
+                            return "<span class='badge badge-status badge-"+status.toLowerCase()+"'>"+status+"</span>";
+                        }
+                    }
                 ]
             });
 
@@ -288,6 +312,12 @@
                     }
                     else if(type == 3){
                         status = 'reject';
+                    }
+                    else if(type == 5){
+                        status = 'update';
+                    }
+                    else if(type == 4){
+                        status = 'cancel';
                     }
                     else if(type == 6){
                         status = 'archive';
@@ -303,25 +333,60 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            $.ajax({
-                                type: 'post',
-                                url: '/registrar/schedule/update-reservation-status',
-                                data: {
-                                    _token: "{{csrf_token()}}",
-                                    id: id,
-                                    type: type
-                                },
-                                success: function (data) {
-                                    pending.ajax.reload();
-                                    all_schedules.ajax.reload();
-                                    archived.ajax.reload();
-                                    Swal.fire(
-                                        data.title,
-                                        data.content_message,
-                                        data.type
-                                    );
-                                }
-                            });
+                            if(type == 4){
+                                $('#reason-modal').modal('show');
+                                $('#textarea-reason').removeClass('err_inputs');
+                                $('.validate_error_message').remove();
+                                $(document).on('click', '.btn-confirm-reason', function(){
+                                    if(validate.standard('#textarea-reason') == 0){
+                                        var reason = $('#textarea-reason').val();
+                                        $.ajax({
+                                            type: 'post',
+                                            url: '/registrar/schedule/update-reservation-status',
+                                            data: {
+                                                _token: "{{csrf_token()}}",
+                                                id: id,
+                                                type: type,
+                                                reason: reason
+                                            },
+                                            success: function (data) {
+                                                if(type == 2 || type == 3){
+                                                    pending.ajax.reload();
+                                                }
+                                                all_schedules.ajax.reload();
+                                                archived.ajax.reload();
+                                                Swal.fire(
+                                                    data.title,
+                                                    data.content_message,
+                                                    data.type
+                                                );
+                                                $('#reason-modal').modal('hide');
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            else{
+                                $.ajax({
+                                    type: 'post',
+                                    url: '/registrar/schedule/update-reservation-status',
+                                    data: {
+                                        _token: "{{csrf_token()}}",
+                                        id: id,
+                                        type: type
+                                    },
+                                    success: function (data) {
+                                        pending.ajax.reload();
+                                        all_schedules.ajax.reload();
+                                        archived.ajax.reload();
+                                        Swal.fire(
+                                            data.title,
+                                            data.content_message,
+                                            data.type
+                                        );
+                                    }
+                                });
+                            }
                         }
                     })
                 // }

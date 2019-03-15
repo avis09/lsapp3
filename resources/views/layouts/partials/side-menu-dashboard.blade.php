@@ -5,7 +5,7 @@
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
         <div class="app-sidebar__user">
-            <i class="fas fa-user-circle mr-3 ml-1 fa-3x"></i>
+            <i class="fas fa-user-circle mr-3 ml-1" style="font-size: 35px;"></i>
             <!-- <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"> -->
         <div>
         <p class="app-sidebar__user-name">{{ auth()->user()->firstName.' '.auth()->user()->lastName }}</p>
@@ -44,12 +44,14 @@
 @elseif (Auth::check() && Auth::user()->userRoleID == 2)
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        {{--<div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">--}}
-        {{--<div>--}}
-        {{--<p class="app-sidebar__user-name">John Doe</p>--}}
-        {{--<p class="app-sidebar__user-designation">Frontend Developer</p>--}}
-        {{--</div>--}}
-        {{--</div>--}}
+        <div class="app-sidebar__user">
+            <i class="fas fa-user-circle mr-3 ml-1" style="font-size: 35px;"></i>
+            <!-- <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"> -->
+        <div>
+        <p class="app-sidebar__user-name">{{ auth()->user()->firstName.' '.auth()->user()->lastName }}</p>
+        <p class="app-sidebar__user-designation">GASD</p>
+        </div>
+        </div>
         
         <ul class="app-menu">
             <li>
@@ -80,12 +82,14 @@
 @elseif (Auth::check() && Auth::user()->userRoleID == 3)
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        {{--<div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">--}}
-        {{--<div>--}}
-        {{--<p class="app-sidebar__user-name">John Doe</p>--}}
-        {{--<p class="app-sidebar__user-designation">Frontend Developer</p>--}}
-        {{--</div>--}}
-        {{--</div>--}}
+        <div class="app-sidebar__user">
+            <i class="fas fa-user-circle mr-3 ml-1" style="font-size: 35px;"></i>
+            <!-- <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"> -->
+        <div>
+        <p class="app-sidebar__user-name">{{ auth()->user()->firstName.' '.auth()->user()->lastName }}</p>
+        <p class="app-sidebar__user-designation">Registrar</p>
+        </div>
+        </div>
         <ul class="app-menu">
             <li>
                 <a id="menu-dashboard" class="app-menu__item" href="/registrar/dashboard"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Dashboard</span></a>
@@ -116,12 +120,14 @@
 @elseif (Auth::check() && Auth::user()->userRoleID == 4)
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
-     {{--<div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">--}}
-    {{--<div>--}}
-        {{--<p class="app-sidebar__user-name">John Doe</p>--}}
-        {{--<p class="app-sidebar__user-designation">Frontend Developer</p>--}}
-    {{--</div>--}}
-    {{--</div>--}}
+     <div class="app-sidebar__user">
+            <i class="fas fa-user-circle mr-3 ml-1" style="font-size: 35px;"></i>
+            <!-- <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"> -->
+        <div>
+        <p class="app-sidebar__user-name">{{ auth()->user()->firstName.' '.auth()->user()->lastName }}</p>
+        <p class="app-sidebar__user-designation">ITD</p>
+        </div>
+    </div>
     <ul class="app-menu">
         <li>
             <a id="menu-users" class="app-menu__item" href="{{ url('itd/users/index') }}"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Users</span>

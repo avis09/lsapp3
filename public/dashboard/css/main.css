@@ -13904,7 +13904,8 @@ be a descendant of the grid when it is being dragged.
   -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
-  width: 25px;
+  /*width: 25px;*/
+  width: 35px;
 }
 
 .app-menu__label {

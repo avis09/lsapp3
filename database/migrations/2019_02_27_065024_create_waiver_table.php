@@ -18,7 +18,7 @@ class CreateWaiverTable extends Migration
             $table->unsignedInteger('scheduleID');
             $table->foreign('scheduleID')->references('scheduleID')->on('schedules');
             $table->string('studentName','100')->nullable();
-            $table->string('studentIDnumber','20')->unique();
+            $table->string('studentIDnumber','20')->nullable();
 
         });
     }

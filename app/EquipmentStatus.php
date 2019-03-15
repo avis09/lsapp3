@@ -18,6 +18,6 @@ class EquipmentStatus extends Model
 
     public function f_equipment()
     {
-        return $this->hasMany('App\Equipment');
+        return $this->hasMany('App\Equipment', 'equipmentStatusID');
     }
 }

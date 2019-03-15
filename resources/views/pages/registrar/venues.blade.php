@@ -102,6 +102,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Venue Images <span class="required">*</span></label>
+                                <p><b>Recommended Dimension: 320 x 280 pixels.</b></p>
                                 <div class="venue-image-container">
                                    <div class="venue-image-parent1">
                                        <div class="input-group venue-image-preview-container1">
@@ -206,7 +207,7 @@
             html += '<div class="input-group-prepend">';
             html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
             html +=   '</div></div></div>';
-            $('.equipment-container').append(html);
+            $('.equipment-container').html(html);
         }
         var venues;
         var venue_ctr = 1;
@@ -314,8 +315,8 @@
                     e.preventDefault();
                         $('.validate_error_message').remove();
                         $('.required-input').removeClass('err_inputs');
-                    if(validate.standard('.required-input') == 0){
                         $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                    if(validate.standard('.required-input') == 0){
                         var formData = new FormData(this);
                         var equipmentStatus = [];
                         $.each($(".equipment-status option:selected"), function(){            
@@ -353,12 +354,12 @@
                                     });
                                   venues.ajax.reload();
                                 }
-                                $('.btn-confirm').removeClass('disabled').html('Confirm');
                             },
                             cache: false,
                             contentType: false,
                             processData: false,
                         });
+                                $('.btn-confirm').removeClass('disabled').html('Confirm');
                      }
             });
 
