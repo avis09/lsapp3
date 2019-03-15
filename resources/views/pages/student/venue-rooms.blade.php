@@ -156,7 +156,7 @@
                 $(document).on('click', '.btn-view-equipments', function(){
                     var id = $(this).attr('data-id');
                      $.ajax({
-                        url: "/student/venues/get-room-equipments",
+                        url: "{{url("/student/venues/get-room-equipments")}}",
                         type: 'POST',
                         data: {
                             _token: "{{csrf_token()}}",

@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -84,7 +84,7 @@
             </div>
 
     </main>
-    
+
 
 @endsection
 
@@ -98,7 +98,7 @@
                 $('.btn-check-schedule').prop('disabled', true);
                 $('#scheduled-date').val('');
                 $.ajax({
-                    url: "/student/schedule/get-venuesofvenuetype",
+                    url: "{{url("/student/schedule/get-venuesofvenuetype")}}",
                     type: "POST",
                     data:{
                         _token: "{{csrf_token()}}",
@@ -136,10 +136,10 @@
                     var html = "";
                     $.ajax({
                         type: 'POST',
-                        url: '/student/show-schedules',
+                        url: "{{url("/student/show-schedules")}}",
                         data: {
                             _token: "{{csrf_token()}}",
-                            id: venueID, 
+                            id: venueID,
                             date: date
                             },
                         success: function (data) {
@@ -163,7 +163,7 @@
             })
         });
     </script>
-    
+
 @endsection
 
 @section('scripts')
