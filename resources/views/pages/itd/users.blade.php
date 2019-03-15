@@ -31,7 +31,7 @@
                 <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
                 <h4>Active Users</h4>
-                <p><b>25</b></p>
+                <p><b id="activeUsers">{{$activeUsers}}</b></p>
               </div>
             </div>
           </div>
@@ -39,7 +39,7 @@
                 <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
                 <h4>Inactive Users</h4>
-                <p><b>10</b></p>
+                <p><b id="inactiveUsers">{{$inActiveUsers}}</b></p>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@
                 <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
               <div class="info">
                 <h4>Archived Users</h4>
-                <p><b>500</b></p>
+                <p><b id="archivedUsers">{{$archivedUsers}}</b></p>
               </div>
             </div>
           </div>
@@ -332,6 +332,13 @@
                             id: id
                         },
                         success:function(data){
+                            if(response.userStatusID == 1){
+                                var activeUsers = parseInt($('#activeUsers').html(), 10)+1;
+                                $('#activeUsers').html(activeUsers);
+                            } else if(response.userStatusID == 2) {
+                                var inactiveUsers = parseInt($('#inactiveUsers').html(), 10)+1;
+                                $('#inactiveUsers').html(inactiveUsers);
+                            }
                             $('#user-modal').modal('show');
                             var response = JSON.parse(data);
                             $('.btn-reset-password').attr('data-id', response.IDnumber);
@@ -403,6 +410,8 @@
                                      id: id
                                     },
                             success: function(data) {
+                                var archivedUsers = parseInt($('#archivedUsers').html(), 10)+1;
+                                $('#archivedUsers').html(archivedUsers);
                                 users.ajax.reload();
                                 Swal.fire(
                                   'Archived!',
@@ -453,8 +462,15 @@
                     data: form,
                     success:function(data){
                         if(data.success === true) {
+                            if(data.userStatusID == 1){
+                                    var activeUsers = parseInt($('#activeUsers').html(), 10)+1;
+                                    $('#activeUsers').html(activeUsers);
+                            } else if(data.userStatusID == 2) {
+                                var inactiveUsers = parseInt($('#inactiveUsers').html(), 10)+1;
+                                $('#inactiveUsers').html(inactiveUsers);
+                            }
+
                             $('#user-modal').modal('hide');
-                            // $('.modal-backdrop').hide();
                              Swal.fire(
                                   'Success',
                                   'Account Successfuly Added!',
@@ -467,7 +483,7 @@
                             $('.email').removeClass('err_inputs');
                             $('.mobile_number').removeClass('err_inputs');
                             $('.validate_error_message').remove();
-                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
+                            $('.btn-confirm').removeClass('disabled').html('Confirm');
                             users.ajax.reload();
                         }
                     }
