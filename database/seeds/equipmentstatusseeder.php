@@ -16,7 +16,7 @@ class equipmentstatusseeder extends Seeder
             'equipmentStatusName' => "Available"
         ]);
         DB::table('equipmentstatus')->insert([
-            'equipmentStatusName' => "unavailable"
+            'equipmentStatusName' => "Unavailable"
         ]);
     }
 }

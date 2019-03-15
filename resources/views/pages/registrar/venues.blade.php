@@ -102,6 +102,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Venue Images <span class="required">*</span></label>
+                                <p><b>Recommended Dimension: 320 x 280 pixels.</b></p>
                                 <div class="venue-image-container">
                                    <div class="venue-image-parent1">
                                        <div class="input-group venue-image-preview-container1">
@@ -206,7 +207,7 @@
             html += '<div class="input-group-prepend">';
             html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
             html +=   '</div></div></div>';
-            $('.equipment-container').append(html);
+            $('.equipment-container').html(html);
         }
         var venues;
         var venue_ctr = 1;
@@ -314,8 +315,8 @@
                     e.preventDefault();
                         $('.validate_error_message').remove();
                         $('.required-input').removeClass('err_inputs');
-                    if(validate.standard('.required-input') == 0){
                         $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                    if(validate.standard('.required-input') == 0){
                         var formData = new FormData(this);
                         var equipmentStatus = [];
                         $.each($(".equipment-status option:selected"), function(){            
@@ -324,6 +325,61 @@
                         formData.append('equipmentStatus', JSON.stringify(equipmentStatus));
                          $.ajax({
                             url: "/registrar/venues/add-venue",
+                            type: 'POST',
+                            data: formData,
+                            async: false,
+                            success:function(data){
+                                if(data.success === true){
+                                    Swal.fire({
+                                    type: 'success',
+                                    title: 'Success',
+                                    text: data.message,
+                                  })
+                                  .then((result) => {
+                                      if (result.value) {
+                                        $('#venue-modal').modal('hide');
+                                        var html = '';
+                                        html += '<div class="venue-image-parent1">';
+                                        html += '<div class="input-group venue-image-preview-container1">';
+                                        html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                                        html += '<div class="input-group-prepend">';
+                                         html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+                                        html += '</div></div></div>';
+                                        $('.venue-image-container').html(html);
+                                        equipment_ctr = 0;
+                                        addEquipment();
+                                        $('select').prop('selectedIndex', 0);
+                                        $('input[type="text"]').val('');
+                                      }
+                                    });
+                                  venues.ajax.reload();
+                                }
+                            },
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                        });
+                                $('.btn-confirm').removeClass('disabled').html('Confirm');
+                     }
+            });
+
+
+            $(document).on('submit', '#form-edit-venue', function(e){
+                    e.preventDefault();
+                        $('.validate_error_message').remove();
+                        $('.required-input').removeClass('err_inputs');
+                    if(validate.standard('.required-input') == 0){
+                        $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
+                        var formData = new FormData(this);
+                        var equipmentStatus = [];
+                        $.each($(".equipment-status option:selected"), function(){            
+                            equipmentStatus.push($(this).val());
+                        });
+                        formData.append('equipmentStatus', JSON.stringify(equipmentStatus));
+                        var venueID = $('.btn-confirm').attr('data-id');
+                        formData.append('venueID', venueID);
+                         $.ajax({
+                            url: "/registrar/venues/update-venue",
                             type: 'POST',
                             data: formData,
                             async: false,
@@ -364,6 +420,8 @@
 
             $(document).on('click', '.btn-edit-venue', function(){
                     var id = $(this).attr('data-id');
+                    $('.btn-confirm').attr('data-id', id);
+                    $('.form-venue').attr('id', 'form-edit-venue');
                     $('.validate_error_message').remove();
                     $('.required-input').removeClass('err_inputs');
                     $('.modal-venue-title').html('Edit Venue');

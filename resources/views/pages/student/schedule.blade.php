@@ -144,7 +144,7 @@
                                 @for($i=1;$i <= 2;$i++)
                                     <div class="form-group input-group waiver-content{{$i}}">
                                         <input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver-name" placeholder="Name" data-ctr="{{$i}}">
-                                        <input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="{{$i}}">
+                                        <input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number numbers-only" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="{{$i}}" maxlength="8">
                                         <div class="input-group-prepend">
                                             <button type="button" class="btn btn-danger btn-delete-name" data-ctr="{{$i}}"><i class="fas fa-trash-alt"></i></button>
                                         </div>
@@ -160,6 +160,37 @@
                 </div>
             </div>
             </div>
+
+
+        <div class="modal fade" id="view-waiver-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="modal-title modal-user-title" id="smallmodalLabel">Waiver Form</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table id="table-waiver" class="table table-striped hidden">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>ID Number</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="tbody-waiver">
+                                        
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-right">
+                    </div>
+                </div>
+            </div>
+        </div>
 
 @endsection
 
@@ -241,7 +272,7 @@
                 },
                 { data: null,
                     render:function(data){
-                        var html = '<button type="button" class="btn btn-info btn-view-reservation btn-sm" data-type="4" data-id="'+data.scheduleID+'">View</button>';
+                        var html = '<button type="button" class="btn btn-info btn-view-waiver btn-sm" data-type="4" data-id="'+data.scheduleID+'">View Waiver</button>';
                         if(data.statusID == 1){
                              html += ' <button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
                         }
@@ -537,6 +568,30 @@
             });  
         });
 
+        $(document).on('click', '.btn-view-waiver', function(){
+            var id = $(this).attr('data-id');
+            $('#view-waiver-modal').modal('show');
+            $.ajax({
+                type: 'post',
+                url: '/student/schedule/get-waiver',
+                data: {
+                    _token: "{{csrf_token()}}",
+                    id: id
+                },
+                success: function (data) {
+                    console.log(data);
+                    var html = '';
+                    $.each(data, function(x,y){
+                        html += '<tr>';
+                        html += '<td>'+y.studentName+'</td>';
+                        html += '<td>'+y.studentIDnumber+'</td>';
+                        html += '</tr>';
+                    });
+                    $('.tbody-waiver').html(html);
+                    $('#table-waiver').show();
+                }
+            });
+        });
 
 
         $(document).on('change', '#venue-name', function(){

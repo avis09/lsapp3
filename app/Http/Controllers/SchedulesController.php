@@ -172,21 +172,25 @@ class SchedulesController extends Controller
     public function updateReservationStatus(Request $request){
         $schedule = Schedule::find($request->id);
         $schedule->statusID = $request->type;
+        if(!empty($request->reason)){
+        $schedule->updatedMessage = $request->reason;
+        }
+        $schedule->updated_at = Carbon::now();
         if($schedule->save()){
             switch ($request->type) {
                 case '2':
                     $content_message = 'Approved';
-                    $this->sendEmailAndSMS($request->id,$request->type);
+                    // $this->sendEmailAndSMS($request->id,$request->type);
                     break;
                 case '3':
                     $content_message = 'Rejected';
-                    $this->sendEmailAndSMS($request->id,$request->type);
+                    // $this->sendEmailAndSMS($request->id,$request->type);
                     break;
                 case '4':
                     $content_message = 'Cancelled';
                     break;
                 case '5':
-                    $content_message = 'Done';
+                    $content_message = 'Updated';
                     break;
                 case '6':
                     $content_message = 'Archived';
@@ -211,6 +215,12 @@ class SchedulesController extends Controller
         print_r(json_encode($schedules));
     }
 
+    public function getWaiver(Request $request)
+    {
+        $waiver = Waiver::where('scheduleID', $request->id)->get();
+        return response()->json($waiver);
+    }
+
     public function showArchivedReservationsGasd()
     {
         $schedules = Schedule::with('user','f_time', 'f_venue', 'reservationStatus', 'venueType');
@@ -220,6 +230,7 @@ class SchedulesController extends Controller
     public function createReservation(Request $request)
     {
         $times = json_decode($request->times);
+        $scheduleIDs = array();
         foreach ($times as $key => $timeID) {
            $schedule = Schedule::create([
                 "userID" => auth()->user()->userID,
@@ -231,17 +242,21 @@ class SchedulesController extends Controller
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now()
             ]);
+
+           array_push($scheduleIDs, $schedule->scheduleID);
         }
 
         if (!empty($schedule->scheduleID)) {
             if(!empty($request->waiver_name)){
                 $waiver_name = json_decode($request->waiver_name);
                 $waiver_id = json_decode($request->waiver_id);
-                for($i=0;$i<count($waiver_name);$i++){
-                    $waiver = Waiver::create([
-                        "scheduleID" => $schedule->scheduleID, "studentName" => $waiver_name[$i], "studentIDnumber" =>$waiver_id[$i]
-                    ]);
-                    // echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
+                foreach ($scheduleIDs as $key => $scheduleID) {
+                    for($i=0;$i<count($waiver_name);$i++){
+                        $waiver = Waiver::create([
+                            "scheduleID" => $scheduleID, "studentName" => $waiver_name[$i], "studentIDnumber" =>$waiver_id[$i]
+                        ]);
+                        // echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
+                    }
                 }
             }
               return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
@@ -361,10 +376,6 @@ class SchedulesController extends Controller
             $content = 'Rejected!';
         }
 
-        // Mail::to($user->email)->send(new MailSched)->view('emails.sendConfirmation', compact('content'));
-
-
-
 	    // Account details
         // API key  acc for
         // User: anz.zel17@gmail.com Pass: Anzel123
@@ -376,7 +387,7 @@ class SchedulesController extends Controller
 
         // Message details
         $numbers = array($user->phoneNumber);
-        $sender = urlencode('ANZEL');
+        $sender = urlencode('CSB BROS');
         $message = rawurlencode($message);
 
         $numbers = implode(',', $numbers);
@@ -395,6 +406,7 @@ class SchedulesController extends Controller
         // Process your response here
         return $response;
 
+         // Mail::to($user->email)->send(new MailSched)->view('emails.sendConfirmation');
 
     }
 
