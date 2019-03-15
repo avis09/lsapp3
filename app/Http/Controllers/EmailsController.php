@@ -96,6 +96,6 @@ class EmailsController extends Controller
 
     public function sendmail()
     {
-            Mail::to("reinnmacario@gmail.com")->send(new MailSched);
+            Mail::to("roelchristian.sevesa@benilde.edu.ph")->send(new MailSched);
     }
 }

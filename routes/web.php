@@ -85,7 +85,7 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::post('/schedules/create-reservation', 'SchedulesController@createReservation')->name('schedules.store');
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
-        Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
+        Route::post('/schedules/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
         Route::post('/show-schedules', 'SchedulesController@showSchedules');
         Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
         Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');

@@ -98,7 +98,7 @@
                 $('.btn-check-schedule').prop('disabled', true);
                 $('#scheduled-date').val('');
                 $.ajax({
-                    url: "/gasd/schedule/get-venuesofvenuetype",
+                    url: "{{url("/gasd/schedule/get-venuesofvenuetype")}}",
                     type: "POST",
                     data:{
                         _token: "{{csrf_token()}}",

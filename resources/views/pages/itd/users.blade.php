@@ -26,32 +26,6 @@
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
           </ul>
         </div>
-        <div class="row">
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Active Users</h4>
-                <p><b>25</b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Inactive Users</h4>
-                <p><b>10</b></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-                <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-              <div class="info">
-                <h4>Archived Users</h4>
-                <p><b>500</b></p>
-              </div>
-            </div>
-          </div>
-        </div>
                 <div class="card">
                     <div class="card-body">
                         <button type="button" class="btn btn-primary btn-add-user mb-3">Add Account</button>
@@ -81,6 +55,32 @@
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
+                                    <div class="row">
+                                        <div class="col-md-10 col-lg-4">
+                                            <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                                                <div class="info">
+                                                    <h4>Active Users</h4>
+                                                    <p><b>25</b></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10 col-lg-4">
+                                            <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                                                <div class="info">
+                                                    <h4>Inactive Users</h4>
+                                                    <p><b>10</b></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10 col-lg-4">
+                                            <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+                                                <div class="info">
+                                                    <h4>Archived Users</h4>
+                                                    <p><b>500</b></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </table>
                             </div>
                         </div>
@@ -110,6 +110,13 @@
                                     @endforeach
                                 </select>
                             </div>
+                        <div class="form-group">
+                            <label>Account Type <span class="required">*</span></label>
+                            <select class="form-control required-input" name="userrole" id="userRole" data-parsley-required="true">
+                                <option value="">Select Role Type</option>
+                                zxc
+                            </select>
+                        </div>
                             <input type="hidden" name="_token" id="token" value="{{csrf_token()}}">
                             <div class="form-group">
                                 <div class="row">
