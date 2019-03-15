@@ -112,7 +112,7 @@
                             </div>
                         <div class="form-group">
                             <label>Account Type <span class="required">*</span></label>
-                            <select class="form-control required-input" name="userrole" id="userRole" data-parsley-required="true">
+                                <select class="form-control required-input" name="userrole" id="userRole" data-parsley-required="true">
                                 <option value="">Select Role Type</option>
                                 zxc
                             </select>

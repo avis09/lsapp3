@@ -216,7 +216,7 @@
             $('#menu-venues').addClass('active');
           venues = $('#table-venues').DataTable({
             ajax: {
-            url: "/registrar/venues/get-venues",
+            url: "{{url("/registrar/venues/get-venues")}}",
             dataSrc: ''
             },
             responsive:true,
@@ -324,7 +324,7 @@
                         });
                         formData.append('equipmentStatus', JSON.stringify(equipmentStatus));
                          $.ajax({
-                            url: "/registrar/venues/add-venue",
+                            url: "{{url("/registrar/venues/add-venue")}}",
                             type: 'POST',
                             data: formData,
                             async: false,
@@ -379,7 +379,7 @@
                         var venueID = $('.btn-confirm').attr('data-id');
                         formData.append('venueID', venueID);
                          $.ajax({
-                            url: "/registrar/venues/update-venue",
+                            url: "{{url("/registrar/venues/update-venue")}}",
                             type: 'POST',
                             data: formData,
                             async: false,
@@ -426,7 +426,7 @@
                     $('.required-input').removeClass('err_inputs');
                     $('.modal-venue-title').html('Edit Venue');
                      $.ajax({
-                        url: "/registrar/venues/get-specific-room",
+                        url: "{{url("/registrar/venues/get-specific-room")}}",
                         type: 'POST',
                         data: {
                             _token: "{{csrf_token()}}",
@@ -516,7 +516,7 @@
                         var type = 3;
                         $.ajax({
                             type: 'post',
-                            url: '/registrar/venue/update-status',
+                            url: "{{url('/registrar/venue/update-status')}}",
                             data: {
                                 _token: "{{csrf_token()}}",
                                 id: id,
