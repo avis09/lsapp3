@@ -198,14 +198,12 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
     //Anz
     Route::get('/schedules/list', 'SchedulesController@showReservationPageGasd');
-<<<<<<< HEAD
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingSchedulesGasd');
 //    //
 //    Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
 //    Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsReg');
     Route::get('/schedules/get-all-reservations', 'SchedulesController@getAllReservationsGasd');
     Route::get('/schedules/get-archived', 'SchedulesController@getArchivedReservationsGasd');
-=======
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsGasd');
     Route::get('/schedules/get-all-reservations', 'SchedulesController@getAllReservationsGasd');
     Route::get('/schedules/get-archived', 'SchedulesController@getArchivedReservationsGasd');
@@ -213,7 +211,6 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 
     Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
     Route::post('/show-schedules', 'SchedulesController@showSchedules');
->>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
 
     //get archived users
 //    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');

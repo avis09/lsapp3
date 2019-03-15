@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/icons/benilde.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/icons/benilde.icon') }}">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('dashboard/css/main.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/particles.css')}}">
@@ -57,7 +57,7 @@
           @endif
         <div class="form-group">
             <label class="control-label">ID Number</label>
-            <input id="IDnumber" type="text" class="form-control login-input {{ $errors->has('IDnumber') ? ' is-invalid' : '' }}" name="IDnumber" value="{{ old('IDnumber') }}" autofocus>
+            <input id="IDnumber" type="text" class="form-control numbers-only login-input {{ $errors->has('IDnumber') ? ' is-invalid' : '' }}" name="IDnumber" value="{{ old('IDnumber') }}" autofocus>
 
                 @if ($errors->has('IDnumber'))
                     <span class="invalid-feedback" role="alert">

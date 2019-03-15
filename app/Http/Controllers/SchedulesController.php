@@ -145,7 +145,6 @@ class SchedulesController extends Controller
         return response()->json($schedules);
     }
 
-<<<<<<< HEAD
 //    public function getAllReservationsGasd() {
 //        $schedules = Schedule::with('user', 'f_time', 'f_venue', 'reservationStatus', 'venueType')
 //            //->where('f_venue.venueTypeID', '=','1')
@@ -164,7 +163,6 @@ class SchedulesController extends Controller
 //
 //        print_r(json_encode($schedules));
 //    }
-=======
     public function getArchivedReservationsGasd(){
         $schedules = Schedule::whereHas('f_venue', function ($query){
             $query->where('venueTypeID', 2);
@@ -175,7 +173,6 @@ class SchedulesController extends Controller
          return response()->json($schedules);
     }
 
->>>>>>> 11c935b9df1699608d2c6cc94c83ff995385ebb8
 
     //GASD***********************************************************************************
 

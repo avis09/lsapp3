@@ -43,11 +43,11 @@
 
                                   <div id="faq1" class="collapse" aria-labelledby="heading1">
                                     <div class="card-body">
-                                        •	<strong>Step 1: </strong> Select “Calendar” button under the dropdown-item of “Reservation” tab found in the navbar. <br>
-                                        •	<strong>Step 2: </strong> View the calendar by clicking the date button textbox <br>
-                                        •	<strong>Step 3: </strong> Select a given date <br>
-                                        •	<strong>Step 4: </strong> If there is a reservation in the chosen date, the application will display the time and date that is reserved <br>
-                                        •	<strong>Step 5: </strong> View the reserved room and time of the given date. <br>
+                                        •	<strong> Step 1: </strong> Select “Reservation” tab <br>
+                                        •	<strong> Step 2: </strong> Click “Calendar” button found in the dropdown <br>
+                                        •	<strong> Step 3: </strong> After redirection, fill-in the required fields (Venue Type, Venue, and Date) <br>
+                                        •	<strong> Step 4: </strong> If there is a reservation in the chosen date, the application will display the time and date that is reserved <br>
+                                        •	<strong> Step 5: </strong> The user can also view all time slots available for the chosen date. <br>
                                     </div>
                                   </div>
                                 </div>
@@ -64,8 +64,8 @@
                                   <div id="faq2" class="collapse" aria-labelledby="heading2">
                                     <div class="card-body">
                                         •	<strong>Step 1: </strong> Select “Venues Gallery” button found in the navbar <br>
-                                        •	<strong>Step 2: </strong> Choose a specific venue,  and the details and equipment of it will be shown to you. <br>
-                                        •	<strong>Step 3: </strong> See the time slots available for the venue <br>
+                                        •	<strong>Step 2: </strong> A dropdown will appear that consists of Rooms or Courts <br>
+                                        •	<strong>Step 3: </strong> After selecting a room/venue, the application will redirect the user to the gallery and details of the room/venue <br>
                                     </div>
                                   </div>
                                 </div>
@@ -81,12 +81,13 @@
 
                             <div id="faq3" class="collapse" aria-labelledby="heading3">
                                 <div class="card-body">
-                                    •	Step 1: Select “Reservation” button <br>
-                                    •	Step 2: A dropdown will appear, and user must select “Reserve Venue” button <br>
-                                    •	Step 3: If a user reserves a room, he/she only needs to reserve an available time in able to schedule.
-                                    •	Step 4: If a user reserves a court, a “terms & conditions” or “waiver” must be accepted by the user in able to proceed to reservation.
-                                    •	Step 5: Select “Reserve” button
-                                    •	Step 6: Wait for the administrator’s approval regarding the reservation
+                                    •	<strong> Step 1: </strong> Select “Reservation” button <br>
+                                    •	<strong> Step 2: </strong> A dropdown will appear, and user must select “Reserve List” button <br>
+                                    •	<strong> Step 3: </strong> Click “Add Reservation” and fill-in the necessary required fields (Venue Type, Venue, Purpose, Schedule Date, and Time) <br>
+                                    •	<strong> Step 4: </strong> If a user reserves a room, he/she only needs to reserve an available time in able to schedule. <br>
+                                    •	<strong> Step 5: </strong> If a user reserves a court, the user must answer a waiver form (asking for the names and ID numbers of the people involved) in able to proceed to reservation. <br>
+                                    •	<strong> Step 6: </strong> Select “Confirm” button <br>
+                                    •	<strong> Step 7: </strong> Wait for the administrator’s approval regarding the reservation <br>
                                 </div>
                             </div>
                         </div>
@@ -103,10 +104,10 @@
                             <div id="faq4" class="collapse" aria-labelledby="heading4">
                                 <div class="card-body">
                                     •	<strong>Step 1: </strong> Select “Reservation” button <br>
-                                    •	<strong>Step 2: </strong> Select “Reservations” button after the dropdown appears <br>
+                                    •	<strong>Step 2: </strong> Select “Reservation List” button after the dropdown appears <br>
                                     •	<strong>Step 3: </strong> See your reservation/s <br>
-                                    •	<strong>Step 4: </strong> Click a “cancel” button regarding their reservation <br>
-                                    •	<strong>Step 5: </strong> The reservation will be cancelled <br>
+                                    •	<strong>Step 4: </strong> Under the “Action” column, the user can click the “cancel” button regarding their reservation <br>
+                                    •	<strong>Step 5: </strong> Click "Yes", and the reservation will be cancelled <br>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +124,7 @@
                             <div id="faq5" class="collapse" aria-labelledby="heading5">
                                 <div class="card-body">
                                     •	<strong>Step 1: </strong> Select “Send Feedback” under the Feedbacks button <br>
-                                    •	<strong>Step 2: </strong> Fill-up the comment section <br>
+                                    •	<strong>Step 2: </strong> Fill-up the required fields (Venue Type, Venue, and Comment) <br>
                                     •	<strong>Step 3: </strong> Click “Submit” button <br>
                                 </div>
                             </div>

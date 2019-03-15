@@ -61,9 +61,9 @@
                             <div id="faq2" class="collapse" aria-labelledby="heading2">
                                 <div class="card-body">
                                     •	<strong>Step 1: </strong> Select “Dashboard” button <br>
-                                    •	<strong>Step 2: </strong> Select a specific room/venue <br>
-                                    •	<strong>Step 3: </strong> Select a date <br>
-                                    •	<strong>Step 4: </strong> The reserved rooms/venues will be shown in the dashboard <br>
+                                    •	<strong>Step 2: </strong> The user can view a specific room/venue found in the “Reservation Requests” section <br>
+                                    •	<strong>Step 3: </strong> Select “View More” <br>
+                                    •	<strong>Step 4: </strong> The user will be redirected to the main page of reservation requests <br>
                                 </div>
                             </div>
                         </div>
@@ -82,6 +82,43 @@
                                     •	<strong>Step 1: </strong> Select a venue that’s been already reserved <br>
                                     •	<strong>Step 2: </strong> Click “Cancel” button beside the reserved venue found in the Reservation Requests <br>
                                     •	<strong>Step 3: </strong> Successfully cancel a reserved venue <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
+
+                            <div class="card">
+                                <div class="card-header  card-header-accordion card-faq" id="heading4"  data-toggle="collapse" data-target="#faq4" aria-expanded="true" aria-controls="faq1">
+                                    <h5 class="faq-question mb-0">
+                                        Venue/Room Management
+                                    </h5>
+                                </div>
+
+                                <div id="faq4" class="collapse" aria-labelledby="heading4">
+                                    <div class="card-body">
+                                        •	<strong>Step 1: </strong> Select "Courts" button<br>
+                                        •	<strong>Step 2: </strong> “Add Court” if the user is going to add a venue <br>
+                                        •	<strong>Step 3: </strong> Select “Update/Edit Court” found in the “Actions” column <br>
+                                        •	<strong>Step 4: </strong> Select “Archive” button to the specific venue that the user wants to remove <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
+
+                            <div class="card">
+                                <div class="card-header  card-header-accordion card-faq" id="heading5"  data-toggle="collapse" data-target="#faq5" aria-expanded="true" aria-controls="faq1">
+                                    <h5 class="faq-question mb-0">
+                                        Upload Gallery Item
+                                    </h5>
+                                </div>
+
+                                <div id="faq5" class="collapse" aria-labelledby="heading5">
+                                    <div class="card-body">
+                                        •	<strong>Step 1: </strong> Select “Add Court” button under the “Court” tab <br>
+                                        •	<strong>Step 2: </strong> Fill-in the required fields (Building, Venue Name, Venue Floor, and Venue Status) <br>
+                                        •	<strong>Step 3: </strong> Choose File for the Venue Images <br>
+                                    </div>
                                 </div>
                             </div>
                         </div>

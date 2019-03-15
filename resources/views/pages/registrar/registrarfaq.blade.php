@@ -60,9 +60,9 @@
 
                             <div id="faq2" class="collapse" aria-labelledby="heading2">
                                 <div class="card-body">
-                                    •	<strong>Step 1: </strong> Select a venue that’s been already reserved <br>
-                                    •	<strong>Step 2: </strong> Click “Cancel” button beside the reserved venue found in the Reservation Requests <br>
-                                    •	<strong>Step 3: </strong> Successfully cancel a reserved venue <br>
+                                    •	<strong>Step 1: </strong> The user will select a room that’s been already reserved <br>
+                                    •	<strong>Step 2: </strong> Click “Cancel” button beside the reserved room found in the Reservation Requests <br>
+                                    •	<strong>Step 3: </strong> The user can cancel a reserved room <br>
                                 </div>
                             </div>
                         </div>
@@ -78,10 +78,12 @@
 
                             <div id="faq3" class="collapse" aria-labelledby="heading3">
                                 <div class="card-body">
-                                    •	<strong>Step 1: </strong> Select “Venue Gallery” button <br>
-                                    •	<strong>Step 2: </strong> Select “Add Image” under a specified venue <br>
-                                    •	<strong>Step 3: </strong> Select “Upload” button <br>
-                                    •	<strong>Step 4: </strong> The user is able to upload an image for the Venue Gallery <br>
+                                    •	<strong>Step 1: </strong> Select “Add Rooms” button found in the “Rooms” tab <br>
+                                    •	<strong>Step 2: </strong> Select “Choose File” to upload an image regarding the venue/room <br>
+                                    •	<strong>Step 3: </strong> User has the option to add another file <br>
+                                    •	<strong>Step 4: </strong> Add an equipment and its barcode <br>
+                                    •	<strong>Step 5: </strong> Set the status of the equipment (Available/Unavailable) <br>
+                                    •	<strong>Step 6: </strong> The user is able to upload an image and add an equipment for the Room Gallery <br>
                                 </div>
                             </div>
                         </div>
@@ -137,9 +139,9 @@
                             <div id="faq3" class="collapse" aria-labelledby="heading3">
                                 <div class="card-body">
                                     •	<strong> Step 1: </strong> Select “Dashboard” button <br>
-                                    •	<strong> Step 2: </strong> The user can select a specific room/venue <br>
-                                    •	<strong> Step 3: </strong> Select a date <br>
-                                    •	<strong> Step 4: </strong> The reserved rooms/venues will be shown in the dashboard <br>
+                                    •	<strong> Step 2: </strong> The user can view a specific room/venue found in the “Reservation Requests” section <br>
+                                    •	<strong> Step 3: </strong> Select "View More" <br>
+                                    •	<strong> Step 4: </strong> The user will be redirected to the main page of reservation requests <br>
                                 </div>
                             </div>
                         </div>
