@@ -212,7 +212,7 @@
 
             pending = $('#table-pending').DataTable({
                 ajax: {
-                    url: "/gasd/schedules/get-pending",
+                    url: "{{url("/gasd/schedules/get-pending")}}",
                     dataSrc: ''
                 },
                 responsive: true,
@@ -261,7 +261,7 @@
             
             archived = $('#table-archived').DataTable({
                 ajax: {
-                    url: "/gasd/schedules/get-archived",
+                    url: "{{url("/gasd/schedules/get-archived")}}",
                     dataSrc: ''
                 },
                 responsive:true,
@@ -295,7 +295,7 @@
 
             all_schedules = $('#table-all').DataTable({
                 ajax: {
-                    url: "/gasd/schedules/get-all-reservations",
+                    url: "{{url("/gasd/schedules/get-all-reservations")}}",
                     dataSrc: ''
                 },
                 responsive: true,
@@ -348,7 +348,7 @@
                 $('#waiver-modal').modal('show');
                 $.ajax({
                     type: 'post',
-                    url: '/gasd/schedule/get-waiver',
+                    url: "{{url("/gasd/schedule/get-waiver")}}",
                     data: {
                         _token: "{{csrf_token()}}",
                         id: id
@@ -408,7 +408,7 @@
                                         var reason = $('#textarea-reason').val();
                                         $.ajax({
                                             type: 'post',
-                                            url: '/gasd/schedule/update-reservation-status',
+                                            url: "{{url("/gasd/schedule/update-reservation-status")}}",
                                             data: {
                                                 _token: "{{csrf_token()}}",
                                                 id: id,
@@ -435,7 +435,7 @@
                             else{
                                 $.ajax({
                                     type: 'post',
-                                    url: '/gasd/schedule/update-reservation-status',
+                                    url: "{{url("/gasd/schedule/update-reservation-status")}}",
                                     data: {
                                         _token: "{{csrf_token()}}",
                                         id: id,
