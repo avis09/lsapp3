@@ -16,9 +16,9 @@ class MailSched extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($mail_content)
     {
-        //
+        $this->mail_content = $mail_content;
     }
 
     /**
@@ -29,7 +29,8 @@ class MailSched extends Mailable
     public function build()
     {
         // return $this->from('roelchristian.sevesa@benilde.edu.ph');
-        return $this->from('roelchristian.sevesa@benilde.edu.ph')->subject('asdasdsa')
-            ->view('emails.sendConfirmation');
+        $mail_content = $this->mail_content;
+        return $this->from('roelchristian.sevesa@benilde.edu.ph')->subject($mail_content['title'])
+            ->view('emails.sendConfirmation', compact('mail_content'));
     }
 }

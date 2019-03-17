@@ -180,7 +180,8 @@ class UsersController extends Controller
         $user->save();
 
         // return redirect('/users/create')->with('success', 'User Profile Added');
-        return response()->json(['message' => 'Account Successfully Added.', 'success' => true]);
+        return response()->json(['message' => 'Account Successfully Added.', 'success' => true, 
+            'userStatusID' => $request->input('userStatus')]);
     }
 
     /**

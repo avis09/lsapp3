@@ -26,6 +26,32 @@
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
           </ul>
         </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-3">
+                <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+              <div class="info">
+                <h4>Active Users</h4>
+                <p><b id="activeUsers">{{$activeUsers}}</b></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+                <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+              <div class="info">
+                <h4>Inactive Users</h4>
+                <p><b id="inactiveUsers">{{$inActiveUsers}}</b></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+                <div class="widget-small danger coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+              <div class="info">
+                <h4>Archived Users</h4>
+                <p><b id="archivedUsers">{{$archivedUsers}}</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
                 <div class="card">
                     <div class="card-body">
                         <button type="button" class="btn btn-primary btn-add-user mb-3">Add Account</button>
@@ -339,6 +365,13 @@
                             id: id
                         },
                         success:function(data){
+                            if(response.userStatusID == 1){
+                                var activeUsers = parseInt($('#activeUsers').html(), 10)+1;
+                                $('#activeUsers').html(activeUsers);
+                            } else if(response.userStatusID == 2) {
+                                var inactiveUsers = parseInt($('#inactiveUsers').html(), 10)+1;
+                                $('#inactiveUsers').html(inactiveUsers);
+                            }
                             $('#user-modal').modal('show');
                             var response = JSON.parse(data);
                             $('.btn-reset-password').attr('data-id', response.IDnumber);
@@ -410,6 +443,8 @@
                                      id: id
                                     },
                             success: function(data) {
+                                var archivedUsers = parseInt($('#archivedUsers').html(), 10)+1;
+                                $('#archivedUsers').html(archivedUsers);
                                 users.ajax.reload();
                                 Swal.fire(
                                   'Archived!',
@@ -460,8 +495,15 @@
                     data: form,
                     success:function(data){
                         if(data.success === true) {
+                            if(data.userStatusID == 1){
+                                    var activeUsers = parseInt($('#activeUsers').html(), 10)+1;
+                                    $('#activeUsers').html(activeUsers);
+                            } else if(data.userStatusID == 2) {
+                                var inactiveUsers = parseInt($('#inactiveUsers').html(), 10)+1;
+                                $('#inactiveUsers').html(inactiveUsers);
+                            }
+
                             $('#user-modal').modal('hide');
-                            // $('.modal-backdrop').hide();
                              Swal.fire(
                                   'Success',
                                   'Account Successfuly Added!',
@@ -474,7 +516,7 @@
                             $('.email').removeClass('err_inputs');
                             $('.mobile_number').removeClass('err_inputs');
                             $('.validate_error_message').remove();
-                            $('.btn-confirm').removeClass('disabled').html('Sign Up');
+                            $('.btn-confirm').removeClass('disabled').html('Confirm');
                             users.ajax.reload();
                         }
                     }

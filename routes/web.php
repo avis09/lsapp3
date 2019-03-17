@@ -226,7 +226,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
 //ITD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
 //Users
-    Route::get('users/index', 'Auth\UsersController@index')->name('users.index');
+    Route::get('users/index', 'ItdController@showDashboard')->name('users.index');
     Route::get('users/create', 'Auth\UsersController@create')->name('users.create');
     Route::post('/users/create', 'Auth\UsersController@store')->name('users.store');
     Route::get('users/show','Auth\UsersController@show')->name('users.show');

@@ -10,6 +10,7 @@ use App\Venue;
 use App\User;
 use App\VenueType;
 use App\Waiver;
+use App\UserRole;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
@@ -180,11 +181,11 @@ class SchedulesController extends Controller
             switch ($request->type) {
                 case '2':
                     $content_message = 'Approved';
-                    // $this->sendEmailAndSMS($request->id,$request->type);
+                    $this->sendEmailAndSMS($request->id,$request->type);
                     break;
                 case '3':
                     $content_message = 'Rejected';
-                    // $this->sendEmailAndSMS($request->id,$request->type);
+                    $this->sendEmailAndSMS($request->id,$request->type);
                     break;
                 case '4':
                     $content_message = 'Cancelled';
@@ -367,19 +368,30 @@ class SchedulesController extends Controller
 
     public function sendEmailAndSMS($userID,$type){
         $user = User::where('userID', $userID)->first();
+        $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
         if($type == 2){
             $message = 'Your reservation request was approved.';
-            $content = 'Approved!';
+            $title = 'Reservation Request';
+            $body = 'Your reservation request was approved.';
         }
         else if($type == 3){
             $message = 'Your reservation request was rejected.';
-            $content = 'Rejected!';
-        }
+            $title = 'Reservation Request';
+            $body = 'Sorry, your reservation request was rejected.';
 
-	    // Account details
+        }
+        $mail_content = array(
+                        'title' => $title, 
+                        'body' => $body, 
+                        'receiver_name' => $user->firstName.' '.$user->lastName,
+                        'user_role' => $user_role->roleType,
+                        'sender_name' => auth()->user()->firstName.' '.auth()->user()->lastName
+                        );
+
+        // Account details
         // API key  acc for
         // User: anz.zel17@gmail.com Pass: Anzel123
-	    //$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
+        //$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
         // API key  acc for
         // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
         $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8');
@@ -404,9 +416,9 @@ class SchedulesController extends Controller
         curl_close($ch);
 
         // Process your response here
-        return $response;
+         Mail::to($user->email)->send(new MailSched($mail_content));
 
-         // Mail::to($user->email)->send(new MailSched)->view('emails.sendConfirmation');
+        return $response;
 
     }
 
