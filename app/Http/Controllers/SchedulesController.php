@@ -30,6 +30,18 @@ class SchedulesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function showRegSched()
+    {
+        $scheduleVenueType = VenueType::all();
+        return view('pages.registrar.regsched', compact('scheduleVenueType'));
+    }
+    public function showGasdSched()
+    {
+        $scheduleVenueType = VenueType::all();
+        return view('pages.registrar.regsched', compact('scheduleVenueType'));
+    }
+
     public function index()
     {
         $schedule =

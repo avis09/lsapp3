@@ -71,63 +71,69 @@ Route::group(['middleware' => 'auth', 'prefix' => 'auth'], function () {
     Route::post('/update-password', 'Auth\UsersController@updatePassword');
 });
 
-//-----------------------------------------------------------------------------------------------------------
+//student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
-    //Feedbacks
+        //Feedbacks --------
 //         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
         Route::get('/feedback', 'FeedbacksController@showFeedbackPage')->name('feedbacks.page');
         Route::post('/feedbacks/send-feedback', 'FeedbacksController@store')->name('feedbacks.store');
 
-        //schedules
-        Route::get('schedules/calendar', 'SchedulesController@showCalendarPage')->name('schedules.index');
+        //schedules------
+        //add a reservation, reservation list, (view, cancel, archive)
         Route::get('schedules/list', 'SchedulesController@showReservationPage');
+        //add
+        Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
         Route::post('/schedules/create-reservation', 'SchedulesController@createReservation')->name('schedules.store');
+        //edit
         Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
         Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
+        Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
+        //calendar
+        Route::get('schedules/calendar', 'SchedulesController@showCalendarPage')->name('schedules.index');
         Route::post('/schedules/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
         Route::post('/show-schedules', 'SchedulesController@showSchedules');
-        Route::get('/schedule/get-user-reservations', 'SchedulesController@getUserReservations');
-        Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
         Route::post('/schedule/get-specific-schedule', 'SchedulesController@getSpecificSchedule');
         Route::post('/schedule/get-waiver', 'SchedulesController@getWaiver');
-    //get canceled users
-    Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');
+        //get canceled users
+        Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');
 
-        //venue gallery
+        //venue gallery -------
         Route::get('/venue-rooms', 'VenuesController@showRoomVenues');
         Route::get('/venue-courts', 'VenuesController@showCourtVenues');
         Route::post('/venues/get-room-equipments', 'VenuesController@getRoomEquipments');
 
-        //change pw
+        //change pw ------
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
 
-        //PROFILE UPDATE
+        //PROFILE UPDATE --------
         Route::get('/profile', 'Auth\UsersController@showProfile');
         Route::post('/update-profile', 'Auth\UsersController@updateProfile');
-    //FAQ
-    Route::get('/faq', function() {
-        return view('pages.student.faq');
-    });
+        //FAQ
+        Route::get('/faq', function() {
+         return view('pages.student.faq');
+        });
 });
 ////Registrar-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
 
+
+
+    //Dashboard ------
     Route::get('/dashboard', 'RegistrarController@showDashboard');
-    //Feedbacks
+    //Feedbacks ------
     Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
     Route::get('/feedbacks/get-feedbacks', 'FeedbacksController@getFeedbacksReg');
 
-    //Venues
+    //Venues - Rooms ------
     Route::get('/venues', 'VenuesController@showRoomPage')->name('venues.index');
     Route::get('venues/create', 'VenuesController@create')->name('venues.create');
     Route::post('venues/create', 'VenuesController@store')->name('venues.store');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');
     Route::post('venues/update', 'VenuesController@update')->name('venues.update');
     Route::get('venues/reports', 'VenuesController@indexReports')->name('venues.indexReports');
-
     // venues gallery
     Route::get('gallery/index', 'GalleryController@index')->name('Gallery.index');
     //add pictures
@@ -135,7 +141,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('picture/create', 'PictureController@store')->name('Picture.store');
     Route::get('picture/index', 'PictureController@index')->name('Picture.index');
 
-    //R
+    //R (Venues AJAX)
     Route::get('/calendar', 'SchedulesController@showRegistrarCalendarPage');
     Route::get('/venues/get-venues', 'VenuesController@getRoomVenues');
     Route::post('/venues/get-specific-room', 'VenuesController@getSpecificRoom');
@@ -146,22 +152,35 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
     Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
     Route::post('/show-schedules', 'SchedulesController@showSchedules');
-
     Route::get('/room-gallery', 'VenuesController@showRoomGallery');
 
-    //FAQ
+    //FAQ -------
     Route::get('/registrarfaq', function() {
         return view('pages.registrar.registrarfaq');
     });
+    //Profile-----
     Route::get('/profile', 'Auth\UsersController@showProfile');
+    //Cghange pass-----
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });
-    //Schedules
+
+    //Schedules - (accept or decline list)
     Route::get('/schedules/list', 'SchedulesController@showReservationPageReg');
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsReg');
     Route::get('/schedules/get-all-reservations', 'SchedulesController@getAllReservationsReg');
     Route::get('/schedules/get-archived', 'SchedulesController@getArchivedReservationsReg');
+
+    //clutch reserve
+    Route::get('/schedules/regsched', 'SchedulesController@showRegSched');
+
+    //The missing part for add schedule in BROS (reg and gasd)----
+    Route::get('/schedules/get-user-reservations', 'SchedulesController@getUserReservations');
+
+
+    Route::post('/schedules/create-reservation', 'SchedulesController@createReservation');
+    Route::get('/schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
+    Route::post('/schedules/update', 'SchedulesController@update')->name('schedules.update');
 //    //schedules
 //    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
 //    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
@@ -209,19 +228,21 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
     Route::post('/show-schedules', 'SchedulesController@showSchedules');
 
-    //get archived users
-//    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');
-//    Route::get('/schedules/get-archived-schedules', 'SchedulesController@getArchivedReservationsGasd');
-//    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
-//    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
-//    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
-//    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
-//    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
 
+    //add a schedules gasd
+    Route::get('/schedules/gasdsched', 'SchedulesController@showGasdSched');
+    Route::get('/schedules/calendar', 'SchedulesController@showCalendarPage')->name('schedules.index');
+    Route::post('/schedules/create-reservation', 'SchedulesController@createReservation')->name('schedules.store');
+    Route::get('/schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
+    Route::post('/schedules/update', 'SchedulesController@update')->name('schedules.update');
+
+    // profile ------
     Route::get('/profile', 'Auth\UsersController@showProfile');
+    //change pw ------
     Route::get('/change-password', function(){
         return view('pages.change-password');
     });
+
 });
 //ITD-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
@@ -316,3 +337,11 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
 
 // CRUD Users
 //Route::resource('/users', 'Auth\UsersController');
+//get archived users
+//    Route::get('/schedules/archived', 'SchedulesController@showArchivedReservationsGasd');
+//    Route::get('/schedules/get-archived-schedules', 'SchedulesController@getArchivedReservationsGasd');
+//    Route::get('schedules/index', 'SchedulesController@index')->name('schedules.index');
+//    Route::get('schedules/create', 'SchedulesController@create')->name('schedules.create');
+//    Route::post('schedules/create', 'SchedulesController@store')->name('schedules.store');
+//    Route::get('schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
+//    Route::post('schedules/update', 'SchedulesController@update')->name('schedules.update');
