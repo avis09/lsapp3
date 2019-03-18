@@ -208,7 +208,7 @@
             $('#reservation-list').addClass('active');
             reservations = $('#table-reservations').DataTable({
                 ajax: {
-                    url: "/gasd/schedules/get-user-reservations",
+                    url: '/gasd/schedules/get-user-reservations',
                     dataSrc: ''
                 },
                 responsive:true,

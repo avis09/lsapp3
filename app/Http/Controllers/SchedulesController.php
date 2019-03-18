@@ -39,7 +39,7 @@ class SchedulesController extends Controller
     public function showGasdSched()
     {
         $scheduleVenueType = VenueType::all();
-        return view('pages.registrar.regsched', compact('scheduleVenueType'));
+        return view('pages.gasd.gasdsched', compact('scheduleVenueType'));
     }
 
     public function index()
