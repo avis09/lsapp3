@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Feedback;
+use App\Practice2;
 use App\User;
 use App\Venue;
 use App\VenueType;
@@ -168,4 +169,40 @@ class FeedbacksController extends Controller
     {
         //
     }
+
+    public function get()
+    {
+        return view('practice');
+    }
+
+    public function add(Request $request)
+    {
+        $practice = new Practice2();
+        $practice->venue = $request->input('venue');
+        $practice->name = $request->input('name');
+        $practice->time = $request->input('time');
+        if($practice->save()){
+            return response()->json(['message' => 'Comment has been sent!', 'success' => true]);
+        }
+
+        // return Redirect::to('student/schedules/create')->with('success', 'Feedback sent');
+    }
+
+    public function look()
+    {
+        $practice = Practice2::all();
+
+        return view('showpractice', compact('practice'));
+        // return view ('pages.student.sendfeedbacks')
+        //     //->with('venues', $venues);
+        //     ->with('users', $users)
+        //     ->with('f_venue', $f_venue);
+    }
+    public function getlook()
+    {
+        $practice = Practice2::all();
+
+        print_r(json_encode($practice));
+    }
+
 }

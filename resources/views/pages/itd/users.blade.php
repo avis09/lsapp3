@@ -408,6 +408,7 @@
                     });
             });
 
+
             $(document).on('click', '.btn-reset-password', function(e){
                 var id = $(this).attr('data-id');
                 var url = "/itd/reset-password/"+id;

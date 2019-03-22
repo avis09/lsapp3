@@ -27,6 +27,7 @@ Route::get('/users/{id}', function($id){
 //Route::group(['middleware' => 'web'], function() {
 
 
+
 // Thesis Home -----------------------------------------------------------------------------------------------------
 
 use Illuminate\Support\Facades\Input;
@@ -74,10 +75,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'auth'], function () {
 //student-----------------------------------------------------------------------------------------------------------
 Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
+
+
+    Route::get('/practice', 'FeedbacksController@get');
+    Route::post('/add', 'FeedbacksController@add');
+    Route::get('/look', 'FeedbacksController@look');
+    Route::post('/get-look', 'FeedbacksController@getlook');
+
         //Feedbacks --------
 //         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
         Route::get('/feedback', 'FeedbacksController@showFeedbackPage')->name('feedbacks.page');
         Route::post('/feedbacks/send-feedback', 'FeedbacksController@store')->name('feedbacks.store');
+
 
         //schedules------
         //add a reservation, reservation list, (view, cancel, archive)
@@ -176,6 +185,12 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 
     //The missing part for add schedule in BROS (reg and gasd)----
     Route::get('/schedules/get-user-reservations', 'SchedulesController@getUserReservations');
+    Route::post('/schedules/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
+    Route::post('/show-schedules', 'SchedulesController@showSchedules');
+    Route::post('/schedule/get-specific-schedule', 'SchedulesController@getSpecificSchedule');
+    Route::post('/schedule/get-waiver', 'SchedulesController@getWaiver');
+    //get canceled users
+    Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');    
 
 
     Route::post('/schedules/create-reservation', 'SchedulesController@createReservation');
@@ -227,6 +242,15 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('/schedule/get-waiver', 'SchedulesController@getWaiver');
     Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
     Route::post('/show-schedules', 'SchedulesController@showSchedules');
+
+    //add a reservaition GASD
+    Route::get('/schedules/get-user-reservations', 'SchedulesController@getUserReservations');
+    Route::post('/schedules/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
+    Route::post('/show-schedules', 'SchedulesController@showSchedules');
+    Route::post('/schedule/get-specific-schedule', 'SchedulesController@getSpecificSchedule');
+    Route::post('/schedule/get-waiver', 'SchedulesController@getWaiver');
+    //get canceled users
+    Route::get('/schedule/get-cancelled-schedules', 'SchedulesController@getCancelledUserReservations');
 
 
     //add a schedules gasd
