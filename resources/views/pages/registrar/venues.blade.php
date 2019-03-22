@@ -190,7 +190,7 @@
     @section('scripts')
      <script type="text/javascript"> 
 
-
+        $(document).on()
         function addEquipment(){
             equipment_ctr++;
             var html = '';
@@ -418,6 +418,14 @@
                      }
             });
 
+            // $(document).on('click', '.edit-venue-image', function(){
+            //     venue_image_chk++;
+            // });
+
+            //  $(document).on('click', '.delete-venue-image', function(){
+            //     venue_image_chk--;
+            // });
+
             $(document).on('click', '.btn-edit-venue', function(){
                     var id = $(this).attr('data-id');
                     $('.btn-confirm').attr('data-id', id);
@@ -468,9 +476,9 @@
                             $.each(data.pictures, function(x,y){
                                 html += '<div class="venue-image-parent'+ctr+'">';
                                 html += '<div class="input-group venue-image-preview-container'+ctr+'">';
-                                html +=   '<input type="file" name="venue_image[]" value="'+y.pictureName+'" class="form-control required-input file-venue-image" data-ctr="'+ctr+'">';
+                                html +=   '<input type="file" name="venue_image[]" value="'+y.pictureName+'" class="form-control required-input file-venue-image edit-venue-image" data-ctr="'+ctr+'">';
                                 html += '<div class="input-group-prepend">';
-                                html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="'+ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                                html += '<button type="button" class="btn btn-danger btn-delete-venue-image delete-venue-image" data-ctr="'+ctr+'"><i class="fas fa-trash-alt"></i></button>';
                                 html += '</div></div>';
                                 html += '<img class="venue-image my-2" src="/storage/venue images/rooms/'+y.pictureName+'">';
                                 html += '</div>';

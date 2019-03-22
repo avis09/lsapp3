@@ -263,23 +263,21 @@ class VenuesController extends Controller
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
-        $venues = new Venue;
+        $venues = Venue::find($reqeuest->venueID);
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
-        if(auth()->user()->userRoleID == 2){
-             $venues->venueTypeID = 2;   
-        }
-        else if(auth()->user()->userRoleID == 3){
-             $venues->venueTypeID = 1;
-        }
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->userID = auth()->user()->userID;
             $venueImages = $request->venueImages;
         if($venues->save()){
-
                 if($request->hasfile('venue_image'))
                 {
+                    $picture = Picture::select('pictureName')->where('venueID', $request->venueID)->get();
+                    // $arraysAreEqual = ($a == $b); 
+                    // TRUE if $a and $b have the same key/value pairs.
+                    // $arraysAreEqual = ($a === $b);
+                     // TRUE if $a and $b have the same key/value pairs in the same order and of the same types.
                     foreach($request->file('venue_image') as $venueImage)
                     {
                         $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
@@ -291,7 +289,6 @@ class VenuesController extends Controller
                         $venue_image->created_at = Carbon::now()->toDateTimeString();
                         $venue_image->save();
                     }
-
 
                     if(!empty($request->input('equipment_name'))){
                         $equipmentName = array();
