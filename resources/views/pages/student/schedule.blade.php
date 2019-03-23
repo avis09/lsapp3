@@ -509,7 +509,7 @@
             $('#schedule-date').attr('min', min_allowed_date);
 
             $.ajax({
-                url: "/student/schedule/get-venuesofvenuetype",
+                url: "/student/schedules/get-venuesofvenuetype",
                 type: "POST",
                 data:{
                     _token: "{{csrf_token()}}",

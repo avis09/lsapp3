@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
+
 class FeedbacksController extends Controller
 {
     /**
@@ -170,39 +171,76 @@ class FeedbacksController extends Controller
         //
     }
 
-    public function get()
-    {
-        return view('practice');
-    }
+//    public function get()
+//    {
+//        return view('practice');
+//    }
+//
+//    public function add(Request $request)
+//    {
+//        $practice = new Practice2();
+//        $practice->venue = $request->input('venue');
+//        $practice->name = $request->input('name');
+//        $practice->time = $request->input('time');
+//        if($practice->save()){
+//            return response()->json(['message' => 'Comment has been sent!', 'success' => true]);
+//        }
+//
+//        // return Redirect::to('student/schedules/create')->with('success', 'Feedback sent');
+//    }
+//
+//    public function look()
+//    {
+//        $practice = Practice2::all();
+//
+//        return view('showpractice', compact('practice'));
+//        // return view ('pages.student.sendfeedbacks')
+//        //     //->with('venues', $venues);
+//        //     ->with('users', $users)
+//        //     ->with('f_venue', $f_venue);
+//    }
+//    public function getlook()
+//    {
+//        $practice = Practice2::all();
+//
+//        print_r(json_encode($practice));
+//    }
 
-    public function add(Request $request)
+    public function data()
+{
+    $practice2 = DB::table('practice2')->get();
+    return view ('posts.datatable')
+        ->with('practice2', $practice2);
+}
+    public function getData()
     {
-        $practice = new Practice2();
-        $practice->venue = $request->input('venue');
-        $practice->name = $request->input('name');
-        $practice->time = $request->input('time');
-        if($practice->save()){
+
+        $practice2 = DB::table('practice2')->get();
+       return response()->json($practice2);
+
+    }
+    public function dataStore(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'venue' => 'required',
+            'timeStart' => 'required',
+            'timeEnd' => 'required',
+            'comment' => 'required'
+        ]);
+
+        $feedbacks = new Feedback();
+        $feedbacks->name = $request->input('name');
+        $feedbacks->venue = $request->input('venue');
+        $feedbacks->timeStart = $request->input('timeStart');
+        $feedbacks->timeEnd = $request->input('timeEnd');
+        $feedbacks->comment = $request->input('comment');
+
+        if($feedbacks->save()){
             return response()->json(['message' => 'Comment has been sent!', 'success' => true]);
         }
 
         // return Redirect::to('student/schedules/create')->with('success', 'Feedback sent');
-    }
-
-    public function look()
-    {
-        $practice = Practice2::all();
-
-        return view('showpractice', compact('practice'));
-        // return view ('pages.student.sendfeedbacks')
-        //     //->with('venues', $venues);
-        //     ->with('users', $users)
-        //     ->with('f_venue', $f_venue);
-    }
-    public function getlook()
-    {
-        $practice = Practice2::all();
-
-        print_r(json_encode($practice));
     }
 
 }

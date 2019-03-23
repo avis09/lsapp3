@@ -146,4 +146,42 @@ class PostsController extends Controller
         $post->delete();
         return redirect('/posts')->with('success', 'Post Removed');
     }
+    //    Simple CRUD practice
+//    public function show() {
+//        $sched = Practice::all();
+//        return view('show')->with('sched', $sched);
+//    }
+//    public function create() {
+//        $sched = Practice::all();
+//        return view('add')->with('sched', $sched);
+//    }
+//    public function store(Request $request)
+//    {
+//
+//        $passport= new Practice();
+//        $passport->name=$request->get('name');
+//        $passport->venue=$request->get('venue');
+//        $passport->timeStart=$request->get('timeS');
+//        $passport->timeEnd=$request->get('timeE');
+//        $passport->comment=$request->get('comment');
+//        $passport->save();
+//
+//        return redirect('show')->with('success', 'Information has been added');
+//    }
+//    public function edit($id) {
+//        $sched = Practice::where('practiceID', $id)->first();
+//        return view('edit')->with('sched', $sched);
+//    }
+//    public function update(Request $request)
+//    {
+//        $passport =  Practice::where('practiceID',  $request->get('practiceID'))->first();
+//        $passport->name=$request->get('name');
+//        $passport->venue=$request->get('venue');
+//        $passport->timeStart=$request->get('timeS');
+//        $passport->timeEnd=$request->get('timeE');
+//        $passport->comment=$request->get('comment');
+//        $passport->save();
+//        return redirect('show');
+//    }
+//}
 }

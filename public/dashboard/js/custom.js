@@ -128,7 +128,7 @@ $('.numbers-only').on('keypress', function(evt) {
               if(type != "ckeditor"){
   
                   if($(this).val() != null){
-  
+
                       var input = $(this).val().trim();
                         if (input.length == 0) {
   

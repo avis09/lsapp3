@@ -41,7 +41,7 @@ class LoginController extends Controller
             $log->inTime = Carbon::now()->setTimezone('Asia/Manila');
             $log->save();
 
-            if(auth()->user()->status == 2 || auth()->user()->status == 3) {
+            if(auth()->user()->userStatusID == 2 || auth()->user()->userStatusID == 3) {
                         auth()->logout();
                         return back()->withErrors(['errorMessage' => 'Your account has been deactivated.']);
              }

@@ -349,6 +349,7 @@
                     });
             });
 
+
             $(document).on('click', '.btn-edit-user', function(){
                     var id = $(this).attr('data-id');
                     $('.btn-confirm').attr('data-id',id);

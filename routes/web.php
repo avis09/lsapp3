@@ -28,6 +28,7 @@ Route::get('/users/{id}', function($id){
 
 
 
+
 // Thesis Home -----------------------------------------------------------------------------------------------------
 
 use Illuminate\Support\Facades\Input;
@@ -81,6 +82,11 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
     Route::post('/add', 'FeedbacksController@add');
     Route::get('/look', 'FeedbacksController@look');
     Route::post('/get-look', 'FeedbacksController@getlook');
+
+    Route::get('/datatable', 'FeedbacksController@data');
+    Route::get('/get-data', 'FeedbacksController@getData');
+    Route::get('/store-data', 'FeedbacksController@dataStore');
+
 
         //Feedbacks --------
 //         Route::get('feedbacks/index', 'FeedbacksController@index')->name('feedbacks.index');
