@@ -204,7 +204,7 @@
     var waiver_id = [];
     var form, min_allowed_date, old_date;
     function getMinimumAllowedDate(id){
-        var min = (id==2) ? 7 : 2;
+        var min = (id==2) ? 7 : 2; // kung yung venuetype id is 2(court), 7 ung value ng m in, if hindi court, 2 yung value ng min
         var today = new Date();
         var dd = today.getDate()+min;
         var mm = today.getMonth()+1; //January is 0!
