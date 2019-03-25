@@ -1,10 +1,5 @@
-
-<h1>Test Try</h1>
-
-<!-- <div>
-=======
 <div>
->>>>>>> d7895fdd1b50cee7ade5a0981ef5adfb0ebaaf96
+<div>
     <table width="90%" style="font-family: calibri; background-color: #ccc; border: 1px solid #555" align="center" cellpadding="0" cellspacing="0">
         
             <tr style="background-color: #298430;">

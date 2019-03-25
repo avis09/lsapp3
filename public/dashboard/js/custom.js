@@ -31,55 +31,11 @@ $('.numbers-only').on('keypress', function(evt) {
           alert(err.Description);
       }
   }
-  
-  function allowedDate(max=null,min=null){
-      var dtToday = new Date();
-  
-      var month = dtToday.getMonth() + 1;
-      var day = dtToday.getDate();
-      var year = dtToday.getFullYear();
-  
-      if(month < 10)
-          month = '0' + month.toString();
-      if(day < 10)
-          day = '0' + day.toString();
-  
-      var restrictDate = year + '-' + month + '-' + day;
-  
-      $('#'+max).attr('max', restrictDate);
-      $('#'+min).attr('min', restrictDate);
-  }
-  
-  //return if json
-  function isJson(str) {
-      try {
-          return JSON.parse($.trim(str));
-      } catch (e) {
-          return $.trim(str)
-      }
-  }
-  
-  //return if json
-  function isText(str) {
-      try {
-          return JSON.parse($.trim(str));
-      } catch (e) {
-          return $.trim(str)
-      }
-  }
-  
-  
-  function is_in_array(s,your_array) {
-      for (var i = 0; i < your_array.length; i++) {
-          if (your_array[i].toLowerCase() === s.toLowerCase()) return true;
-      }
-      return false;
-  }
-  
-  //strip_html tags
+
   function strip_tags(str){
       return str.replace(/<\/?[^>]+(>|$)/g, "");
   }
+  
   var current_file;
   var base_url = "{{URL::to('/')}}";
   var form_empty_error = "This field is required.";
@@ -90,45 +46,17 @@ $('.numbers-only').on('keypress', function(evt) {
   var form_invalid_extension = "File type is not supported.";
   var form_max_size = "Maximum file size exceeded";
   var form_invalid_password = "Password should have mininimum of 6 characters";
-  //validation
+// Standard Validation
   var validate = {
-      emailaddress : function(element){
-          var input = $(element).val().trim();
-          $(".validate_error_message").remove();
-          if(input.length > 0){
-              var email = $(element).val();
-              var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
-              if(!pattern.test(email)){
-                  $(element).addClass('err_inputs');
-                    $("<span class='validate_error_message'>"+form_invalid_email+"<br></span>").insertAfter(element);
-                    return false;
-              }
-              else{
-                  $(element).removeClass('err_inputs');
-                  return true;
-              }
-          }
-          else{
-              var error_message = "<span class='validate_error_message'>"+form_empty_error+"<br></span>"
-              $(element).addClass('err_inputs');
-              $(error_message).insertAfter(element);
-              return false;
-          }
-      },
       standard: function(element){
-          //var element = ".required_input";
           var counter = 0;
-  
           $(this).css('border-color','#b8b8b8');
           $(".validate_error_message").remove();
           var error_message = "<span class='validate_error_message'>"+form_empty_error+"<br></span>";
           $(element).each(function(){
-  
               var type = $(this).attr("type");
               if(type != "ckeditor"){
-  
                   if($(this).val() != null){
-  
                       var input = $(this).val().trim();
                         if (input.length == 0) {
   
@@ -155,8 +83,7 @@ $('.numbers-only').on('keypress', function(evt) {
               }
           });
   
-          //alpha only
-  
+          //Text only
           $(".alphaonly").each(function(){
               var str = $(this).val();
               if(/^[a-zA-Z -]*$/.test(str) == false) {
@@ -166,7 +93,6 @@ $('.numbers-only').on('keypress', function(evt) {
               }
           });
   
-          //test mobile number
           $(".mobile_number").each(function(){
               var number = $(this).val();
               if(number){
@@ -180,11 +106,8 @@ $('.numbers-only').on('keypress', function(evt) {
                       $(this).removeClass('err_inputs');
                   }
               }
-  
           });
   
-  
-          ///email validator
           $(".email").each(function(){
               if($(this).val() != ""){
                   var email = $(this).val();
@@ -198,30 +121,21 @@ $('.numbers-only').on('keypress', function(evt) {
                       $(this).removeClass('err_inputs');
                   }
               }
-  
-  
           });
   
-          ///password validator
           $(".password").each(function(){
               if($(this).val() != ""){
                   var err_pass = 0;
                   var password = $(this).val();
-                  if(password.length<6){
+                  if (password.length<6){
                       err_pass++;
                       counter++;
                   }
-                  // var pattern = /^[a-zA-Z]+[0-9]+[!@#$%^&*()_+]$/g;
-                  // if(!pattern.test(password)){
-                  //
-                  // 	err_pass++;
-                  // }
-  
-                  if(err_pass>0) {
+
+                  if (err_pass>0) {
                       $(this).addClass('err_inputs');
                         $("<span class='validate_error_message'>"+form_invalid_password+"<br></span>").insertAfter(this);
-                  }
-                  else{
+                  } else {
                       $(this).removeClass('err_inputs');
   
                   }
@@ -230,20 +144,4 @@ $('.numbers-only').on('keypress', function(evt) {
           return counter;
       }
   }
-  
-  
-    $(document).on('change', '.upload-file', function(){
-      var FileUploadPath = this.value;
-      var file_size = this.files[0].size;
-      var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-          if (Extension != "docx" && Extension != "doc" && Extension != "png" && Extension != "bmp"
-            && Extension != "jpeg" && Extension != "jpg" && Extension != "xlsx" && Extension != "csv" && Extension != "pdf") {
-              medsModal({message: 'Invalid File Format!', title: 'Error!', type: 'failed'});
-              this.value = '';
-          }
-          else if(file_size > 1000000){
-             medsModal({message: 'File is too big!', title: 'Error!', type: 'failed'});
-             this.value = '';
-           }
-    });
   

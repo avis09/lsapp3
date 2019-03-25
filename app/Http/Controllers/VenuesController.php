@@ -212,7 +212,6 @@ class VenuesController extends Controller
         }
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->userID = auth()->user()->userID;
-            $venueImages = $request->venueImages;
         if($venues->save()){
 
                 if($request->hasfile('venue_image'))
@@ -226,6 +225,7 @@ class VenuesController extends Controller
                         $venue_image->venueID = $venues->venueID;
                         $venue_image->pictureName = $venueImageName;
                         $venue_image->created_at = Carbon::now()->toDateTimeString();
+                        $venue_image->updated_at = Carbon::now()->toDateTimeString();
                         $venue_image->save();
                     }
 
@@ -263,31 +263,35 @@ class VenuesController extends Controller
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
-        $venues = Venue::find($reqeuest->venueID);
+        $venues = Venue::find($request->venueID);
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->userID = auth()->user()->userID;
-            $venueImages = $request->venueImages;
         if($venues->save()){
+                $existingPicture = json_decode($request->input('existingPicture'));
+                $delete_picture = Picture::where('venueID', $request->venueID)->whereNotIn('pictureID', $existingPicture)->delete();
                 if($request->hasfile('venue_image'))
                 {
-                    $picture = Picture::select('pictureName')->where('venueID', $request->venueID)->get();
                     // $arraysAreEqual = ($a == $b); 
                     // TRUE if $a and $b have the same key/value pairs.
                     // $arraysAreEqual = ($a === $b);
                      // TRUE if $a and $b have the same key/value pairs in the same order and of the same types.
+                    
                     foreach($request->file('venue_image') as $venueImage)
                     {
-                        $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
-                        // Store file or image to storage
-                        Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
-                        $venue_image = new Picture;
-                        $venue_image->venueID = $venues->venueID;
-                        $venue_image->pictureName = $venueImageName;
-                        $venue_image->created_at = Carbon::now()->toDateTimeString();
-                        $venue_image->save();
+                        if (!empty($venueImage)){
+                            //delete existing pictures 
+                            //adding of pictures
+                            $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
+                            Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
+                            $venue_image = new Picture;
+                            $venue_image->venueID = $request->venueID;
+                            $venue_image->pictureName = $venueImageName;
+                            $venue_image->created_at = Carbon::now()->toDateTimeString();
+                            $venue_image->save();
+                        }
                     }
 
                     if(!empty($request->input('equipment_name'))){
@@ -298,9 +302,10 @@ class VenuesController extends Controller
                         $barCode = $request->input('equipment_barcode');
                         $equipmentStatusID = json_decode($request->input('equipmentStatus'));
 
+                        $delete_equipment = Equipment::where('venueID', $request->venueID)->delete();
                         for($i=0;$i<count($equipmentName);$i++){
-                            $waiver = Equipment::updateOrCreate([
-                                "venueID" => $venues->venueID, 
+                            $waiver = Equipment::create([
+                                "venueID" => $request->venueID, 
                                 "equipmentStatusID" => $equipmentStatusID[$i],
                                 "equipmentName" =>$equipmentName[$i],
                                 "barCode" => $barCode[$i],

@@ -38,21 +38,21 @@
                                 <thead>
                                     <tr>
                                         <th>Venue Name </th>
-                                        <th>Building </th>
-                                        <th>Floor </th>
-                                        <th>Added by </th>
+                                        <th>Building</th>
+                                        <th>Modified By</th>
+                                        <th>Date Modified</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <td>Venue Name </td>
-                                        <td>Building </td>
-                                        <td>Floor </td>
-                                        <td>Added by </td>
-                                        <td>Status</td>
-                                        <td>Actions</td>
+                                        <th>Venue Name </th>
+                                        <th>Building</th>
+                                        <th>Modified By</th>
+                                        <th>Date Modified</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -102,7 +102,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Venue Images <span class="required">*</span></label>
-                                <p><b>Recommended Dimension: 320 x 280 pixels.</b></p>
+                                <p class="recommender-dimension"><b>Recommended Dimension: 320 x 280 pixels.</b></p>
+                                <div class="venue-image-message"></div>
                                 <div class="venue-image-container">
                                    <div class="venue-image-parent1">
                                        <div class="input-group venue-image-preview-container1">
@@ -111,6 +112,7 @@
                                                         <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
                                                     </div>
                                         </div>
+                                        <div class="venue-image-preview1"></div>
                                     </div>
                                 </div>
                                 <div class="mt-2">
@@ -119,6 +121,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Equipments <span class="required">*</span></label>
+                                <div class="equipment-message"></div>
                                 <div class="equipment-container">
                                    <div class="equipment-parent1">
                                        <div class="input-group equipment-content1">
@@ -183,15 +186,25 @@
             </div>
         </div>
     </div> -->
-
-
     @endsection
 
     @section('scripts')
      <script type="text/javascript"> 
 
-        $(document).on()
-        function addEquipment(){
+        function resetVenueImage(){
+            var html = '';
+                html += '<div class="venue-image-parent1">';
+                html += '<div class="input-group venue-image-preview-container1">';
+                html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
+                html += '<div class="input-group-prepend">';
+                 html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
+                html += '</div></div>';
+                html += '<div class="venue-image-preview1"></div>';
+                html += '</div>';
+                $('.venue-image-container').html(html);
+        }
+
+        function resetEquipment(){
             equipment_ctr++;
             var html = '';
             html += '<div class="equipment-parent'+equipment_ctr+'">';
@@ -216,23 +229,25 @@
             $('#menu-venues').addClass('active');
           venues = $('#table-venues').DataTable({
             ajax: {
-            url: "{{url("/registrar/venues/get-venues")}}",
+            url: "{{url('/registrar/venues/get-venues')}}",
             dataSrc: ''
             },
             responsive:true,
-                // "order": [[ 5, "desc" ]],
+                "order": [[ 3, "desc" ]],
             columns: [
-            // { data: 'userID'},
             { data: 'venueName'},
-            { data: 'f_building_v.buildingName'},
-            { data: 'floor.venueFloorName'},
-            // { data: 'f_venue_type_v.venueTypeName'},
+            { data: null,
+                render:function(data){
+                    return data.f_building_v.buildingName+' '+data.floor.venueFloorName;
+                }
+            },
             { data: null,
                 render:function(data){
                     return data.f_user_v.firstName+' '+data.f_user_v.lastName;
 
                 }
             },
+            { data: 'updated_at'},
             { data: null,
                 render:function(data){
                     return '<span class="badge badge-status badge-'+data.f_venue_status_v.venueStatusType.toLowerCase()+'">'+data.f_venue_status_v.venueStatusType+'</span>';
@@ -240,7 +255,6 @@
                 }
             },
             
-            // { data: 'actions'},
             { data: null,
                 render:function(data){
                     return '<button type="button" class="btn btn-primary btn-edit-venue btn-sm" data-id="'+data.venueID+'">Edit</button> '+
@@ -298,8 +312,10 @@
               }]
           });
           
-               $(document).on('click', '.btn-add-venue', function(e){
-                 e.preventDefault();        
+           $(document).on('click', '.btn-add-venue', function(e){
+                 e.preventDefault();
+                 resetVenueImage();
+                 resetEquipment();
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
                 $('input[type="password"]').val("");
@@ -315,8 +331,30 @@
                     e.preventDefault();
                         $('.validate_error_message').remove();
                         $('.required-input').removeClass('err_inputs');
-                        $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
                     if(validate.standard('.required-input') == 0){
+                        var checker = 0;
+                        if($('.file-venue-image').length == 0){
+                            $('.venue-image-message').html('<span class="validate_error_message">Venue Image is required.</span>');
+                             checker++;
+                        } else {
+                            $('.venue-image-message').html('');
+                            checker--;
+                        }
+
+                        if($('.equipment_name').length == 0){
+                            $('.equipment-message').html('<span class="validate_error_message">Equipment is required.</span>');
+                             checker++;
+                        } else {
+                            $('.equipment-message').html('<span class="validate_error_message">Equipment is required.</span>');
+                            // $('.equipment-message').html('');
+                            checker--;
+                        }
+
+                        if(checker > 0) {
+                            return false;
+                        }
+
+                        $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
                         var formData = new FormData(this);
                         var equipmentStatus = [];
                         $.each($(".equipment-status option:selected"), function(){            
@@ -324,7 +362,7 @@
                         });
                         formData.append('equipmentStatus', JSON.stringify(equipmentStatus));
                          $.ajax({
-                            url: "{{url("/registrar/venues/add-venue")}}",
+                            url: "{{url('/registrar/venues/add-venue')}}",
                             type: 'POST',
                             data: formData,
                             async: false,
@@ -338,16 +376,9 @@
                                   .then((result) => {
                                       if (result.value) {
                                         $('#venue-modal').modal('hide');
-                                        var html = '';
-                                        html += '<div class="venue-image-parent1">';
-                                        html += '<div class="input-group venue-image-preview-container1">';
-                                        html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
-                                        html += '<div class="input-group-prepend">';
-                                         html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
-                                        html += '</div></div></div>';
-                                        $('.venue-image-container').html(html);
                                         equipment_ctr = 0;
-                                        addEquipment();
+                                        resetVenueImage();
+                                        resetEquipment();
                                         $('select').prop('selectedIndex', 0);
                                         $('input[type="text"]').val('');
                                       }
@@ -359,7 +390,7 @@
                             contentType: false,
                             processData: false,
                         });
-                                $('.btn-confirm').removeClass('disabled').html('Confirm');
+                        $('.btn-confirm').removeClass('disabled').html('Confirm');
                      }
             });
 
@@ -369,17 +400,43 @@
                         $('.validate_error_message').remove();
                         $('.required-input').removeClass('err_inputs');
                     if(validate.standard('.required-input') == 0){
+                        var checker = 0;
+                        if($('.file-venue-image').length == 0){
+                            $('.venue-image-message').html('<span class="validate_error_message">Venue Image is required.</span>');
+                             checker++;
+                        } else {
+                            $('.venue-image-message').html('');
+                            checker--;
+                        }
+
+                        if($('.equipment_name').length == 0){
+                            $('.equipment-message').html('<span class="validate_error_message">Equipment is required.</span>');
+                             checker++;
+                        } else {
+                            $('.equipment-message').html('');
+                            checker--;
+                        }
+
+                        if(checker > 0) {
+                            return false;
+                        }
+
                         $('.btn-confirm').addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i>');
                         var formData = new FormData(this);
                         var equipmentStatus = [];
+                        var existingPicture = [];
                         $.each($(".equipment-status option:selected"), function(){            
                             equipmentStatus.push($(this).val());
                         });
+                         $.each($(".edit-venue-image"), function(){            
+                            existingPicture.push($(this).attr('data-id'));
+                        });
                         formData.append('equipmentStatus', JSON.stringify(equipmentStatus));
+                        formData.append('existingPicture', JSON.stringify(existingPicture));
                         var venueID = $('.btn-confirm').attr('data-id');
                         formData.append('venueID', venueID);
                          $.ajax({
-                            url: "{{url("/registrar/venues/update-venue")}}",
+                            url: "{{url('/registrar/venues/update-venue')}}",
                             type: 'POST',
                             data: formData,
                             async: false,
@@ -392,17 +449,10 @@
                                   })
                                   .then((result) => {
                                       if (result.value) {
-                                        $('#venue-modal').modal('hide');
-                                        var html = '';
-                                        html += '<div class="venue-image-parent1">';
-                                        html += '<div class="input-group venue-image-preview-container1">';
-                                        html +=   '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">';
-                                        html += '<div class="input-group-prepend">';
-                                         html += '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>';
-                                        html += '</div></div></div>';
-                                        $('.venue-image-container').html(html);
+                                        $('#venue-modal').modal('hide')
                                         equipment_ctr = 0;
-                                        addEquipment();
+                                        resetVenueImage();
+                                        resetEquipment();
                                         $('select').prop('selectedIndex', 0);
                                         $('input[type="text"]').val('');
                                       }
@@ -434,7 +484,7 @@
                     $('.required-input').removeClass('err_inputs');
                     $('.modal-venue-title').html('Edit Venue');
                      $.ajax({
-                        url: "{{url("/registrar/venues/get-specific-room")}}",
+                        url: "{{url('/registrar/venues/get-specific-room')}}",
                         type: 'POST',
                         data: {
                             _token: "{{csrf_token()}}",
@@ -447,7 +497,7 @@
                             $('#venueFloorID').val(data.venueFloorID);
                             $('#venueStatus').val(data.venueStatusID);
                             var html = '';
-                            var ctr = 1;
+                            var venue_ctr = 1;
                             equipment_ctr = 0;    
                             $.each(data.f_equipment, function(x,y){
                                 equipment_ctr++;
@@ -473,16 +523,17 @@
                             });
                             $('.equipment-container').html(html);
                             var html = '';
+
                             $.each(data.pictures, function(x,y){
-                                html += '<div class="venue-image-parent'+ctr+'">';
-                                html += '<div class="input-group venue-image-preview-container'+ctr+'">';
-                                html +=   '<input type="file" name="venue_image[]" value="'+y.pictureName+'" class="form-control required-input file-venue-image edit-venue-image" data-ctr="'+ctr+'">';
+                                html += '<div class="venue-image-parent'+venue_ctr+'">';
+                                html += '<div class="input-group venue-image-preview-container'+venue_ctr+'">';
+                                html +=   '<input type="file" name="venue_image[]" value="'+y.pictureName+'" class="form-control file-venue-image edit-venue-image" data-id="'+y.pictureID+'" data-ctr="'+venue_ctr+'">';
                                 html += '<div class="input-group-prepend">';
-                                html += '<button type="button" class="btn btn-danger btn-delete-venue-image delete-venue-image" data-ctr="'+ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                                html += '<button type="button" class="btn btn-danger btn-delete-venue-image delete-venue-image" data-ctr="'+venue_ctr+'"><i class="fas fa-trash-alt"></i></button>';
                                 html += '</div></div>';
-                                html += '<img class="venue-image my-2" src="/storage/venue images/rooms/'+y.pictureName+'">';
+                                html += '<div class="venue-image-preview'+venue_ctr+'"><img class="venue-image my-2" src="/storage/venue images/rooms/'+y.pictureName+'"></div>';
                                 html += '</div>';
-                                ctr++;
+                                venue_ctr++;
                             });
                             $('.venue-image-container').html(html);
                         
@@ -498,7 +549,9 @@
                 html += '<input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="'+venue_ctr+'">';
                 html += '<div class="input-group-prepend">';
                 html +=    '<button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="'+venue_ctr+'"><i class="fas fa-trash-alt"></i></button>';
-                html +=   '</div></div></div>';
+                html +=   '</div></div>';
+                html += '<div class="venue-image-preview'+venue_ctr+'"></div>';
+                html += '</div>';
                 $('.venue-image-container').append(html);
             });
             
@@ -545,7 +598,22 @@
 
 
             $(document).on('click', '.btn-add-equipment', function(e){
-                addEquipment();
+                equipment_ctr++;
+                var html = '';
+                html += '<div class="equipment-parent'+equipment_ctr+'">';
+                html += '<div class="input-group mt-2 equipment-content'+equipment_ctr+'">';
+                html += '<input type="text" name="equipment_name[]" class="form-control required-input equipment_name" data-ctr="'+equipment_ctr+'" placeholder="Equipment Name">';
+
+                html += '<input type="text" name="equipment_barcode[]" class="form-control required-input equipment_barcode" data-ctr="'+equipment_ctr+'" placeholder="Bar Code">';
+                html += '<select type="select" class="form-control required-input equipment-status">'+
+                                '<option value="" selected disabled>Select Status</option>'+
+                                '<option value="1">Available</option>'+
+                                '<option value="2">Unavailable</option>'+
+                            '</select>';
+                html += '<div class="input-group-prepend">';
+                html +=    '<button type="button" class="btn btn-danger  btn-delete-equipment" data-ctr="'+equipment_ctr+'"><i class="fas fa-trash-alt"></i></button>';
+                html +=   '</div></div></div>';
+                $('.equipment-container').append(html);
             });
             
             $(document).on('click', '.btn-delete-equipment', function(e){
@@ -556,6 +624,7 @@
             
             $(document).on('change', '.file-venue-image', function(){
                 var test = this;
+                $(this).removeClass('edit-venue-image');
                   var FileUploadPath = this.value;
                   var file_size = this.files[0].size;
                   var ctr = $(this).attr('data-ctr');
@@ -582,7 +651,7 @@
                         var reader = new FileReader();
                         reader.onload = function(e) {
                         var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
-                        $(html).insertAfter('.venue-image-preview-container'+ctr);
+                        $('.venue-image-preview'+ctr).html(html);
                         }
                         reader.readAsDataURL(this.files[0]);
           
