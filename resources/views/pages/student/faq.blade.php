@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Users | Bros</title>
+    <title>FAQs | BROS</title>
 @endsection
 
 @section('css')

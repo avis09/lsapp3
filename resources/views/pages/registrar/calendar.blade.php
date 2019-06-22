@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Calendar | Bros </title>
+    <title>Calendar | Registrar BROS </title>
 @endsection
 
 @section('css')
@@ -91,8 +91,8 @@
 @section('scripts')
 <script>
         $(document).ready(function () {
-            $('#menu-reservation').addClass('is-expanded');
-            $('#menu-calendar').addClass('active');
+            $('#menu-regrreservation').addClass('is-expanded');
+            $('#menu-regcalendar').addClass('active');
             $(document).on('change', '#venue-type', function () {
                 var id = $(this).val();
                 $('.btn-check-schedule').prop('disabled', true);

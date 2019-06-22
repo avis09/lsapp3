@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Court Venues | Bros </title>
+    <title>Court Gallery | GASD Bros </title>
 @endsection
 
 @section('css')
@@ -73,6 +73,7 @@
 <script type="text/javascript" src="{{asset('slick-1.8.1/slick/slick.min.js')}}" ></script>
 <script>
         $(document).ready(function () {
+            $('#menu-reservations').addClass('is-expanded');
             $('#menu-court-gallery').addClass('active');
 
                 $('.regular').slick({
@@ -120,13 +121,4 @@
         });
     </script>
     
-@endsection
-
-
-@section('scripts')
-    <script>
-        $(document).ready(function(){
-            $('#menu-venue-courts').addClass('active');
-        });
-    </script>
 @endsection

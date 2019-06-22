@@ -11,6 +11,7 @@ use App\User;
 use App\VenueType;
 use App\Waiver;
 use App\UserRole;
+use App\Audittrails;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
@@ -193,11 +194,11 @@ class SchedulesController extends Controller
             switch ($request->type) {
                 case '2':
                     $content_message = 'Approved';
-                    $this->sendEmailAndSMS($request->id,$request->type);
+                    $this->sendEmailAndSMS($request->userID,$request->type);
                     break;
                 case '3':
                     $content_message = 'Rejected';
-                    $this->sendEmailAndSMS($request->id,$request->type);
+                    $this->sendEmailAndSMS($request->userID,$request->type);
                     break;
                 case '4':
                     $content_message = 'Cancelled';
@@ -211,7 +212,8 @@ class SchedulesController extends Controller
                 default:
                     break;
             }
-
+            
+            Audittrails::create(['userID' => Auth::user()->userID, 'activity' => $content_message.' reservation']);
           return response()->json(['title' => 'Success', 'content_message' => 'Reservation Successfully '.$content_message, 'type' => 'success', 'success' => true]);
         }
         else{
@@ -272,6 +274,7 @@ class SchedulesController extends Controller
                     }
                 }
             }
+              Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Added reservation']);
               return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
          }
          else{
@@ -408,14 +411,11 @@ class SchedulesController extends Controller
         // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
         $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8');
 
-
         // Message details
         $numbers = array($user->phoneNumber);
         $sender = urlencode('CSB BROS');
         $message = rawurlencode($message);
-
         $numbers = implode(',', $numbers);
-
         // Prepare data for POST request
         $data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
 
@@ -426,11 +426,11 @@ class SchedulesController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
-
-        // Process your response here
+        
+        // Email sender
          Mail::to($user->email)->send(new MailSched($mail_content));
 
-        return $response;
+         return $response;
 
     }
 

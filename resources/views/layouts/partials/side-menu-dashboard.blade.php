@@ -19,7 +19,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a id="reservation-list" class="treeview-item" href="{{url('student/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation List</a></li>
-                    <li><a id="calendar" class="treeview-item" href="{{ url('student/calendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+                    <li><a id="calendar" class="treeview-item" href="{{ url('student/schedules/calendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
                 </ul>
             </li>
             <li id="menu-venues-gallery" class="treeview">
@@ -73,15 +73,15 @@
                 </ul>
             </li>
             <li>
-                <a id="menu-venues" class="app-menu__item" href="{{ url('/gasd/courts') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Court</span></a>
+                <a id="menu-gasdcourt" class="app-menu__item" href="{{ url('/gasd/courts') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Court</span></a>
             </li>
-            <li><a id="menu-feedbacks" class="app-menu__item" href="{{url('gasd/feedbacks/index2') }}"><i class="app-menu__icon fa fa-comment"></i>Feedback</a></li>
+            <li><a id="menu-feedbacks" class="app-menu__item" href="{{url('gasd/feedbacks') }}"><i class="app-menu__icon fa fa-comment"></i>Feedback</a></li>
             <li id="menu-reservations" class="treeview">
                 <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Venue Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a id="menu-reservation-request" class="treeview-item" href="{{url('gasd/schedules/list') }}"><i class="icon fa fa-circle"></i> Reservation Request</a></li>
+                    <li><a id="menu-reservation-request" class="treeview-item" href="{{url('gasd/schedules/list') }}"><i class="icon fa fa-circle"></i> Reservation Requests</a></li>
                     <li><a id="menu-court-gallery" class="treeview-item" href="{{ url('gasd/court-gallery') }}"><i class="icon fa fa-folder"></i> Court Gallery</a></li>
                 </ul>
             </li>
@@ -118,24 +118,24 @@
             <li>
                 <a id="menu-venues" class="app-menu__item" href="{{ url('registrar/venues') }}"><i class="app-menu__icon fas fa-school"></i> <span class="app-menu__label">Rooms</span></a>
             </li>
-            <li class="treeview">
-                <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
+            <li id="menu-regrreservation" class="treeview">
+                <a id="menu-aregreservation" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('registrar/schedules/regsched') }}"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
-                    <li><a id="menu-gasdcalendar" class="treeview-item" href="{{ url('registrar/calendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
+                    <li><a id="menu-regreserve" class="treeview-item" href="{{url('registrar/schedules/regsched') }}"><i class="icon fa fa-book"></i> Reserve Venue</a></li>
+                    <li><a id="menu-regcalendar" class="treeview-item" href="{{ url('registrar/calendar') }}"><i class="icon fa fa-calendar"></i> Calendar</a></li>
                 </ul>
             </li>
             <li>
                 <a id="menu-feedbacks" class="app-menu__item" href="{{ url('registrar/feedbacks/index') }}"><i class="app-menu__icon fa fa-list-ul"></i><span class="app-menu__label">Feedbacks</span></a>
             </li>
-            <li class="treeview">
-                <a id="menu-gasdroomreserve" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
+            <li id="menu-regroomreservation" class="treeview">
+                <a id="menu-aregroomreservation" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
                     <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a id="menu-gasdreserve" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation Request</a></li>
+                    <li><a id="menu-regreservereqs" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation Requests</a></li>
                     <li><a id="menu-room-gallery" class="treeview-item" href="{{ url('registrar/room-gallery') }}"><i class="icon fa fa-archive"></i> Room Gallery</a></li>
                 </ul>
             </li>
@@ -172,7 +172,7 @@
                     <span class="app-menu__label">User Reports</span><i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a id="audit-logs" class="treeview-item" href="{{ url('itd/accountlogs/index') }}"><i class="icon fa fa-key"></i> Audit Logs</a></li>
+                    <li><a id="audit-logs" class="treeview-item" href="{{ url('itd/accountlogs/index') }}"><i class="icon fa fa-key"></i> Audit Trails</a></li>
                     <li><a id="archived-users" class="treeview-item" href="{{ url('itd/users/reports-archived-users') }}"><i class="icon fa fa-user-secret"></i> Archived Users</a></li>
                 </ul>
             </li>

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Add Reservation | BROS</title>
+    <title>Add Reservation | Registrar BROS</title>
 @endsection
 
 @section('css')
@@ -204,8 +204,8 @@
         }
 
         $(document).ready(function () {
-            $('#menu-reservation').addClass('is-expanded');
-            $('#reservation-list').addClass('active');
+            $('#menu-regrreservation').addClass('is-expanded');
+            $('#menu-regreserve').addClass('active');
             reservations = $('#table-reservations').DataTable({
                 ajax: {
                     url: "/registrar/schedules/get-user-reservations",

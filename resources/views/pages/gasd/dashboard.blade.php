@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-<title>Dashboard | GASD Bros</title>
+<title>Dashboard | GASD BROS</title>
 @endsection
 
 @section('css')
@@ -27,7 +27,7 @@
     </ul>
   </div>
   <div class="row">
-    <div class="col-md-6 col-lg-3">
+    <div class="col-md-6 col-lg-4">
       <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
         <div class="info">
           <h4>Schedules Count</h4>
@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-3">
+    <div class="col-md-6 col-lg-4">
       <div class="widget-small info coloured-icon"><i class="icon fa fa-users fa-3x"></i>
         <div class="info">
           <h4>Total number of Courts</h4>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-3">
+    <div class="col-md-6 col-lg-4">
       <div class="widget-small warning coloured-icon"><i class="icon fa fa-users fa-3x"></i>
         <div class="info">
           <h4>active Court</h4>

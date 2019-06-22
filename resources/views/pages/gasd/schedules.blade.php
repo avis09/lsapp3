@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Reservations | GASD Bros</title>
+    <title>Reservation Requests | GASD Bros</title>
 @endsection
 
 @section('css')
@@ -26,7 +26,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-calendar-o"></i>Reservations </h1>
+                <h1><i class="fa fa-calendar-o"></i>Reservation Requests</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -207,7 +207,7 @@
     <script>
         var pending, all_schedules, archived;
         $(document).ready(function () {
-            $('#menu-reservation').addClass('is-expanded');
+            $('#menu-reservations').addClass('is-expanded');
             $('#menu-reservation-request').addClass('active');
 
             pending = $('#table-pending').DataTable({
@@ -245,8 +245,8 @@
                     {data: 'created_at'},
                     { data: null,
                         render:function(data){
-                            return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
-                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
+                            return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-user="'+data.user.userID+'" data-id="'+data.scheduleID+'">Approve</button> '+
+                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-user="'+data.user.userID+'" data-id="'+data.scheduleID+'">Reject</button>';
                     
                         }
                     },
@@ -370,6 +370,7 @@
 
             $(document).on('click', '.btn-update-schedule', function (e) {
                 var id = $(this).attr('data-id');
+                var userID = ($(this).attr('data-user') !== undefined) ? $(this).attr('data-user') : 0; 
                 var type = $(this).attr('data-type');
                 // if (type == 4 || type == 6) {
                     var status;
@@ -399,19 +400,19 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            if(type == 4){
+                            if (type == 4) {
                                 $('#reason-modal').modal('show');
                                 $('#textarea-reason').removeClass('err_inputs');
                                 $('.validate_error_message').remove();
                                 $(document).on('click', '.btn-confirm-reason', function(){
-                                    if(validate.standard('#textarea-reason') == 0){
+                                    if (validate.standard('#textarea-reason') == 0) {
                                         var reason = $('#textarea-reason').val();
                                         $.ajax({
                                             type: 'post',
-                                            url: "{{url("/gasd/schedule/update-reservation-status")}}",
+                                            url: "{{url('/gasd/schedule/update-reservation-status')}}",
                                             data: {
                                                 _token: "{{csrf_token()}}",
-                                                id: id,
+                                                id: id, 
                                                 type: type,
                                                 reason: reason
                                             },
@@ -431,14 +432,14 @@
                                         });
                                     }
                                 });
-                            }
-                            else{
+                            } else {
                                 $.ajax({
                                     type: 'post',
-                                    url: "{{url("/gasd/schedule/update-reservation-status")}}",
+                                    url: "{{url('/gasd/schedule/update-reservation-status')}}",
                                     data: {
                                         _token: "{{csrf_token()}}",
                                         id: id,
+                                        userID: userID,
                                         type: type
                                     },
                                     success: function (data) {

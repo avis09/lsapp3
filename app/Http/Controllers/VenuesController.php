@@ -250,6 +250,8 @@ class VenuesController extends Controller
                          }
                     }
                 }  
+
+                Audittrails::create(['userID' => auth()->user()->userID, 'activity' => 'Added new venue']);
         }
 
         return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]);
@@ -314,7 +316,8 @@ class VenuesController extends Controller
                             ]);
                          }
                     }
-                }  
+                }
+                Audittrails::create(['userID' => auth()->user()->userID, 'activity' => 'Updated venue']);  
         }
 
         return response()->json(['message' => 'Venue Successfully Updated!', 'success' => true]);

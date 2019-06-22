@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Registrar Venues | ITD Bros</title>
+    <title>Change Password | BROS</title>
 @endsection
 
 @section('css')
@@ -76,22 +76,20 @@
                        url: "/auth/update-password",
                        data: form.serialize(),
                        success: function(data) {
-                            if(data.result == 'error'){
-                                if(data.field.length > 0){
+                            if (data.result == 'error') {
+                                if (data.field.length > 0) {
                                     $.each(data.field, function(x,y){
                                         $('#'+y.field).addClass('err_inputs');
                                         $("<span class='validate_error_message'>"+y.message+"<br></span>").insertAfter('#'+y.field);
                                     });
-                                }
-                                else{
+                                } else {
                                     Swal.fire(
                                       'Error',
                                       'New password cannot be the same as your current password!',
                                       'error'
                                     );
                                 }
-                            }
-                            else{
+                            } else {
                                   Swal.fire({
                                     type: 'success',
                                     title: 'Success',

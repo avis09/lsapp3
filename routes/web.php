@@ -70,6 +70,7 @@ Route::post('/send', 'VenuesController@sendstore');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'auth'], function () {
     Route::post('/update-password', 'Auth\UsersController@updatePassword');
+    Route::post('/update-profile', 'Auth\UsersController@updateProfile');
 });
 
 //student-----------------------------------------------------------------------------------------------------------
@@ -119,7 +120,6 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 
         //PROFILE UPDATE --------
         Route::get('/profile', 'Auth\UsersController@showProfile');
-        Route::post('/update-profile', 'Auth\UsersController@updateProfile');
         //FAQ
         Route::get('/faq', function() {
          return view('pages.student.faq');
@@ -232,7 +232,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::get('/courts', 'VenuesController@showCourtPage');
     Route::get('/court-gallery', 'VenuesController@showCourtGallery');
 //    //schedules
-    Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
+    // Route::post('/schedule/update-reservation-status', 'SchedulesController@updateReservationStatus');
     //Anz
     Route::get('/schedules/list', 'SchedulesController@showReservationPageGasd');
     Route::get('/schedules/get-pending', 'SchedulesController@getPendingReservationsGasd');

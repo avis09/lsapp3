@@ -48,15 +48,15 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td>Venue Name </td>
-                                    <td>Type</td>
-                                    <td>Building</td>
-                                    <td>Scheduled Date</td>
-                                    <td>Time Reserved</td>
-                                    <td>Date Created</td>
-                                    <td>Date Updated</td>
-                                    <td>Status </td>
-                                    <td>Action </td>
+                                    <th>Venue Name </th>
+                                    <th>Type</th>
+                                    <th>Building</th>
+                                    <th>Scheduled Date</th>
+                                    <th>Time Reserved</th>
+                                    <th>Date Created</th>
+                                    <th>Date Updated</th>
+                                    <th>Status </th>
+                                    <th>Action </th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -272,11 +272,13 @@
                 },
                 { data: null,
                     render:function(data){
-                        var html = '<button type="button" class="btn btn-info btn-view-waiver btn-sm" data-type="4" data-id="'+data.scheduleID+'">View Waiver</button>';
-                        if(data.statusID == 1){
+                        var html = '';
+                        if (data.f_venue.venueTypeID ==  2) {
+                        html = '<button type="button" class="btn btn-info btn-view-waiver btn-sm" data-type="4" data-id="'+data.scheduleID+'">View Waiver</button>';
+                        } 
+                        if(data.statusID == 1) {
                              html += ' <button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
-                        }
-                        else{
+                        } else{
                             html += ' <button type="button" class="btn btn-secondary btn-update-reservation-status btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';   
                         }
                         return html;
@@ -509,8 +511,8 @@
             $('#schedule-date').attr('min', min_allowed_date);
 
             $.ajax({
-                url: "/student/schedule/get-venuesofvenuetype",
                 type: "POST",
+                url: "/student/schedules/get-venuesofvenuetype",
                 data:{
                     _token: "{{csrf_token()}}",
                     id:id

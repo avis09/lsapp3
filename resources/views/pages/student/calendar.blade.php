@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Calendar | Bros </title>
+    <title>Calendar | BROS </title>
 @endsection
 
 @section('css')
