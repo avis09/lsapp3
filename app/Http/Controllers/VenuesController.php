@@ -7,6 +7,7 @@ use App\User;
 use App\Venue;
 use App\Equipment;
 use App\VenueType;
+use App\Audittrails;
 use Illuminate\Http\Request;
 use DB;
 use Storage;
@@ -182,7 +183,7 @@ class VenuesController extends Controller
                 default:
                     break;
             }
-
+            Audittrails::create(['userID' => auth()->user()->userID, 'activity' => $content_message.' a venue [Venue name:'.$venue->venueName.']']);
           return response()->json(['title' => 'Success', 'content_message' => 'Reservation Successfully '.$content_message, 'type' => 'success', 'success' => true]);
         }
         else{
@@ -225,7 +226,7 @@ class VenuesController extends Controller
                         $venue_image->venueID = $venues->venueID;
                         $venue_image->pictureName = $venueImageName;
                         $venue_image->created_at = Carbon::now()->toDateTimeString();
-                        $venue_image->updated_at = Carbon::now()->toDateTimeString();
+                        // $venue_image->updated_at = Carbon::now()->toDateTimeString();
                         $venue_image->save();
                     }
 
