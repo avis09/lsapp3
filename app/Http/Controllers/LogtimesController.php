@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\LogTime;
+use App\Audittrails;
 use App\User;
 use App\Venue;
 use Illuminate\Http\Request;
@@ -29,7 +30,8 @@ class LogtimesController extends Controller
     public function getLogTime(){
         // $venues = Venue::select('venueID', 'buildingID', 'venueName', 'venueFloorID', 'venueTypeID', 'userID', 'venueStatusID' )->where('venueTypeID', 1)->paginate(10);
 
-        $logtime = LogTime::with('f_logs')->orderBy('inTime', 'DESC')->get();
+        // $logtime = LogTime::with('f_logs')->orderBy('inTime', 'DESC')->get();
+        $logtime = Audittrails::with('users','users.f_userrole')->orderBy('created_at', 'DESC')->get();
         return $logtime;
     }
 }

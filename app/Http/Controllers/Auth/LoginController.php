@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\LogTime;
+use App\Audittrails;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\Login1Controller;
@@ -36,11 +36,12 @@ class LoginController extends Controller
 //            Auth::user();
 //            email::where('IDnumber', $request->IDnumber)->first();
 //            return redirect()->route('schedules.create');
-            $log = new LogTime();
-            $log->userID = $user->userID;
-            $log->inTime = Carbon::now()->setTimezone('Asia/Manila');
-            $log->save();
+            // $log = new LogTime();
+            // $log->userID = $user->userID;
+            // $log->activity = 'Logged in';
+            // $log->save();
 
+            Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Logged in']);
             if(auth()->user()->userStatusID == 2 || auth()->user()->userStatusID == 3) {
                         auth()->logout();
                         return back()->withErrors(['errorMessage' => 'Your account has been deactivated.']);
@@ -72,7 +73,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        LogTime::where('userID', Auth::user()->userID)->update(['outTime' => Carbon::now()->setTimezone('Asia/Manila')]);
+        // LogTime::where('userID', Auth::user()->userID)->update(['outTime' => Carbon::now()->setTimezone('Asia/Manila')]);
+        Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Logged out']);
         Auth::logout();
         $request->session()->flush();
 //        $request->session()->regenerate();

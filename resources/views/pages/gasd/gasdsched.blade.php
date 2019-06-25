@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Add Reservation | BROS</title>
+    <title>Add Reservation | GASD BROS</title>
 @endsection
 
 @section('css')
@@ -48,15 +48,15 @@
                         </thead>
                         <tfoot>
                         <tr>
-                            <td>Venue Name </td>
-                            <td>Type</td>
-                            <td>Building</td>
-                            <td>Scheduled Date</td>
-                            <td>Time Reserved</td>
-                            <td>Date Created</td>
-                            <td>Date Updated</td>
-                            <td>Status </td>
-                            <td>Action </td>
+                            <th>Venue Name </th>
+                            <th>Type</th>
+                            <th>Building</th>
+                            <th>Scheduled Date</th>
+                            <th>Time Reserved</th>
+                            <th>Date Created</th>
+                            <th>Date Updated</th>
+                            <th>Status </th>
+                            <th>Action </th>
                         </tr>
                         </tfoot>
                     </table>
@@ -205,7 +205,7 @@
 
         $(document).ready(function () {
             $('#menu-reservation').addClass('is-expanded');
-            $('#reservation-list').addClass('active');
+            $('#menu-gasdreserve').addClass('active');
             reservations = $('#table-reservations').DataTable({
                 ajax: {
                     url: '/gasd/schedules/get-user-reservations',
@@ -241,7 +241,10 @@
                     },
                     { data: null,
                         render:function(data){
-                            var html = '<button type="button" class="btn btn-info btn-view-reservation btn-sm" data-type="4" data-id="'+data.scheduleID+'">View</button>';
+                            var html = '';
+                            if (data.f_venue.venueTypeID ==  2) {
+                                html = '<button type="button" class="btn btn-info btn-view-waiver btn-sm" data-type="4" data-id="'+data.scheduleID+'">View Waiver</button>';
+                            } 
                             if(data.statusID == 1){
                                 html += ' <button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
                             }
@@ -451,7 +454,7 @@
             $(document).on('click', '.btn-view-reservation', function () {
                 var id = $(this).attr('data-id');
                 $.ajax({
-                    url: "get-specific-schedule",
+                    url: "/gasd/schedule/get-specific-schedule",
                     type: 'POST',
                     data: {
                         _token: "{{csrf_token()}}",
@@ -512,7 +515,7 @@
                 });
                 time_arr = JSON.stringify(time_arr);
                 $.ajax({
-                    url: "get-new-available-time",
+                    url: "/get-new-available-time",
                     type: "POST",
                     data: {
                         _token: "{{csrf_token()}}",
@@ -549,6 +552,7 @@
             });
 
             $(document).on('change', '#schedule-date', function () {
+                resetTimeSchedule();
                 var venue_type = $('#venue-type').val();
                 var venue_name = $('#venue-name').val();
                 var schedule_date = $('#schedule-date').val();
@@ -568,7 +572,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'get-available-time',
+                    url: '/get-available-time',
                     data: {
                         _token: "{{csrf_token()}}",
                         id: venue_name,

@@ -40,7 +40,7 @@ $('.numbers-only').on('keypress', function(evt) {
   var base_url = "{{URL::to('/')}}";
   var form_empty_error = "This field is required.";
   var form_invalid_email = "Please enter a valid email address.";
-  var form_script = "Javascript and PHP Script are not allowed.";
+  var form_script = "Scripts are not allowed.";
   var form_invalid_mobile_no = "Invalid mobile number. Required format : 9XXXXXXXXX";
   var form_nohtml = "HTML Tags are not allowed";
   var form_invalid_extension = "File type is not supported.";
@@ -145,6 +145,38 @@ $('.numbers-only').on('keypress', function(evt) {
                   }
               }
           });
+
+        var element_script;
+		$(element).each(function() {
+			element_script = $(this).val();
+			if (element_script != undefined) {
+				element_script = element_script.trim();
+				if(element_script.indexOf("<script") != -1){
+					counter++;
+					$(this).addClass('err_inputs');
+					$("<span class='validate_error_message' style='color: red;'>"+form_script+"<br></span>").insertAfter(this);
+				}
+
+				if(element_script.indexOf("< script") != -1){
+					counter++;
+					$(this).addClass('err_inputs');
+					$("<span class='validate_error_message' style='color: red;'>"+form_script+"<br></span>").insertAfter(this);
+				}
+
+				if(element_script.indexOf("<?php") != -1){
+					counter++;
+					$(this).addClass('err_inputs');
+					$("<span class='validate_error_message' style='color: red;'>"+form_script+"<br></span>").insertAfter(this);
+				}
+
+				if(element_script.indexOf("<?=") != -1){
+					counter++;
+					$(this).addClass('err_inputs');
+					$("<span class='validate_error_message' style='color: red;'>"+form_script+"<br></span>").insertAfter(this);
+				}
+			}
+        });
+        
           return counter;
       }
   }

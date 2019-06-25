@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Profile | ITD Bros</title>
+    <title>Profile | BROS</title>
 @endsection
 
 @section('css')
@@ -84,7 +84,7 @@
                     var form = $(this);
                     $.ajax({
                        type: "POST",
-                       url: "/student/update-profile",
+                       url: "/auth/update-profile",
                        data: form.serialize(),
                        success: function(data) {
                            if(data.success === true) {
@@ -95,7 +95,8 @@
                                })
                                 .then((result) => {
                                     if (result.value) {
-                                        window.location.href = "/student/schedules/list";
+                                        // window.location.href = "/student/schedules/list";
+                                        location.reload();
                                     }
                                 });
                            }

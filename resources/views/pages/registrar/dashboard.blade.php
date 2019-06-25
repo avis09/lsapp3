@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-<title>Dashboard | Registrar Bros</title>
+<title>Dashboard | Registrar BROS</title>
 @endsection
 
 @section('css')

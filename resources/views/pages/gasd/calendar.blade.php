@@ -92,7 +92,7 @@
 <script>
         $(document).ready(function () {
             $('#menu-reservation').addClass('is-expanded');
-            $('#menu-calendar').addClass('active');
+            $('#menu-gasdcalendar').addClass('active');
             $(document).on('change', '#venue-type', function () {
                 var id = $(this).val();
                 $('.btn-check-schedule').prop('disabled', true);

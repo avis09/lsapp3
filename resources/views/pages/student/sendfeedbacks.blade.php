@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Send Feedback | Bros</title>
+    <title>Send Feedback | BROS</title>
 @endsection
 
 @section('css')
@@ -74,7 +74,7 @@ $(document).ready(function(){
     $(document).on('change', '#venue-type', function () {
         var id = $(this).val();
         $.ajax({
-            url: "{{url("/student/schedule/get-venuesofvenuetype")}}",
+            url: "{{url('/student/schedules/get-venuesofvenuetype')}}",
             type: "POST",
             data:{
                 _token: "{{csrf_token()}}",
@@ -99,7 +99,7 @@ $(document).ready(function(){
             $('.btn-send-feedback').html('<i class="fas fa-spinner fa-spin"></i>').prop('disabled', true);
             var form = $('#form-send-feedback').serialize();
                 $.ajax({
-                    url: ""{{url("/student/feedbacks/send-feedback")}},
+                    url: "{{url('/student/feedbacks/send-feedback')}}",
                     type: "POST",
                     data: form,
                     success: function(data){

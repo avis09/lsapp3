@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Users | Bros</title>
+    <title>FAQs | Registrar BROS</title>
 @endsection
 
 @section('css')
@@ -89,13 +89,13 @@
                     <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
 
                         <div class="card">
-                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq1">
+                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq4" aria-expanded="true" aria-controls="faq1">
                                 <h5 class="faq-question mb-0">
                                     Room Management
                                 </h5>
                             </div>
 
-                            <div id="faq3" class="collapse" aria-labelledby="heading3">
+                            <div id="faq4" class="collapse" aria-labelledby="heading3">
                                 <div class="card-body">
                                     •	<strong> Step 1: </strong> Select “Rooms” button <br>
                                     •	<strong> Step 2: </strong> Select “Add Rooms” if the user is going to add a room <br>
@@ -109,13 +109,13 @@
                     <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
 
                         <div class="card">
-                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq1">
+                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq5" aria-expanded="true" aria-controls="faq1">
                                 <h5 class="faq-question mb-0">
                                     View Pending and Approved Reservations
                                 </h5>
                             </div>
 
-                            <div id="faq3" class="collapse" aria-labelledby="heading3">
+                            <div id="faq5" class="collapse" aria-labelledby="heading3">
                                 <div class="card-body">
                                     •	<strong> Step 1: </strong> Select “Reservation Request” button <br>
                                     •	<strong> Step 2: </strong> The user will see a list of applicants reserving a specific venue <br>
@@ -128,13 +128,13 @@
                     <div id="accordion" class="faq-section" role="tablist" aria-multiselectable="true">
 
                         <div class="card">
-                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq3" aria-expanded="true" aria-controls="faq1">
+                            <div class="card-header  card-header-accordion card-faq" id="heading3"  data-toggle="collapse" data-target="#faq6" aria-expanded="true" aria-controls="faq1">
                                 <h5 class="faq-question mb-0">
                                     View Reservation Reports
                                 </h5>
                             </div>
 
-                            <div id="faq3" class="collapse" aria-labelledby="heading3">
+                            <div id="faq6" class="collapse" aria-labelledby="heading3">
                                 <div class="card-body">
                                     •	<strong> Step 1: </strong> Select “Dashboard” button <br>
                                     •	<strong> Step 2: </strong> The user can select a specific room/venue <br>

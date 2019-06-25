@@ -107,8 +107,8 @@
 <script type="text/javascript" src="{{asset('slick-1.8.1/slick/slick.min.js')}}" ></script>
 <script>
         $(document).ready(function () {
+            $('#menu-regroomreservation').addClass('is-expanded');
             $('#menu-room-gallery').addClass('active');
-
                 $('.regular').slick({
                     // prevArrow: false,
                     // nextArrow: false,

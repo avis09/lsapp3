@@ -7,10 +7,12 @@ use App\Practice2;
 use App\User;
 use App\Venue;
 use App\VenueType;
+use App\Audittrails;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 
 class FeedbacksController extends Controller
@@ -120,6 +122,7 @@ class FeedbacksController extends Controller
         $feedbacks->venueID = $request->venue_name;
         $feedbacks->userID = auth()->user()->userID;
         if($feedbacks->save()){
+            Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Sent a feedback']);
             return response()->json(['message' => 'Comment has been sent!', 'success' => true]); 
         }
 

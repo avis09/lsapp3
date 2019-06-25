@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-master')
 
 @section('title')
-    <title>Court Venues | Bros </title>
+    <title>Court Venues | BROS </title>
 @endsection
 
 @section('css')
@@ -74,7 +74,7 @@
 <script>
         $(document).ready(function () {
             $('#menu-venues-gallery').addClass('is-expanded');
-            $('#menu-venue-rooms').addClass('active');
+            $('#menu-venue-courts').addClass('active');
 
                 $('.regular').slick({
                     // prevArrow: false,
