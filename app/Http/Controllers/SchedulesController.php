@@ -274,7 +274,7 @@ class SchedulesController extends Controller
                     }
                 }
             }
-              Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Added reservation']);
+                Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Added reservation']);
               return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
          }
          else{
