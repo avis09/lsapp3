@@ -152,6 +152,10 @@
                         @endfor
                     </div>
                     <button type="button" class="btn btn-primary btn-add-new-name">Add</button>
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="checkbox-terms">
+                        <label class="form-check-label" for="exampleCheck1">By checking this you agree to the <a href="#" target="_blank">Terms and Agreement</a> of the school</label>
+                    </div>
                 </div>
                 <div class="modal-footer text-right">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -286,6 +290,14 @@
 
             $(document).on('click', '.btn-submit-waiver', function(e){
                 if(validate.standard('.waiver') == 0){
+                    if($('#checkbox-terms').prop('checked') == false){
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Error',
+                            text: 'Please indicate that you have read and agree to the Terms and Agreement of the school.',
+                        });
+                        return false;
+                    }
                     var json = [];
                     var str = "";
                     $('.waiver-name').each(function(){
@@ -313,7 +325,7 @@
                     time_arr = JSON.stringify(time_arr);
                     var form = $('#form-add-reservation').serialize()+'&waiver_name='+waiver_name+'&waiver_id='+waiver_id+'&times='+time_arr;
                     $.ajax({
-                        url: "{{url("/student/create-reservation")}}",
+                        url: "{{url('/registrar/schedules/create-reservation')}}",
                         type: "POST",
                         data: form,
                         success: function(data){
@@ -338,11 +350,14 @@
                                                 html += '<input type="text" name="waiver_name" class="form-control waiver waiver-name" id="waiver" data-ctr="'+i+'">';
                                                 html += '<input type="text" name="waiver_id_number" class="form-control waiver waiver-id-number" id="waiver-id-number" data-type="id-number" placeholder="ID Number" data-ctr="'+i+'">';
                                                 html += '<div class="input-group-prepend">';
-                                                html += '<button type="button" class="btn btn-danger btn-delete-name" data-ctr="{{$i}}"><i class="fas fa-trash-alt"></i></button>';
+                                                html += '<button type="button" class="btn btn-danger btn-delete-name" data-ctr="'+i+'"><i class="fas fa-trash-alt"></i></button>';
                                                 html += '</div></div>';
                                             }
                                             $('.waiver-content').html(html);
 
+                                            waiver_name = [];
+                                            waiver_id = [];
+                                            $('#checkbox-terms').prop('checked', false);
                                         }
                                     });
                                 reservations.ajax.reload();
@@ -568,7 +583,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'https://isproj2b.benilde.edu.ph/BROS/get-available-time',
+                    url: '/get-available-time',
                     data: {
                         _token: "{{csrf_token()}}",
                         id: venue_name,
