@@ -40,6 +40,7 @@
                                         <th>Venue Name </th>
                                         <th>Building</th>
                                         <th>Modified By</th>
+                                        <th>Date Created</th>
                                         <th>Date Modified</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -50,6 +51,7 @@
                                         <th>Venue Name </th>
                                         <th>Building</th>
                                         <th>Modified By</th>
+                                        <th>Date Created</th>
                                         <th>Date Modified</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -247,6 +249,7 @@
 
                 }
             },
+            { data: 'created_at'},
             { data: 'updated_at'},
             { data: null,
                 render:function(data){
