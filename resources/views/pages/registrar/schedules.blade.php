@@ -211,8 +211,8 @@
                     {data: 'created_at'},
                     { data: null,
                         render:function(data){
-                            return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-id="'+data.scheduleID+'">Approve</button> '+
-                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-id="'+data.scheduleID+'">Reject</button>';
+                            return '<button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="2" data-user="'+data.user.userID+'" data-id="'+data.scheduleID+'">Approve</button> '+
+                                '<button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="3" data-user="'+data.user.userID+'" data-id="'+data.scheduleID+'">Reject</button>';
                     
                         }
                     }
@@ -304,6 +304,7 @@
 
             $(document).on('click', '.btn-update-schedule', function (e) {
                 var id = $(this).attr('data-id');
+                var userID = ($(this).attr('data-user') !== undefined) ? $(this).attr('data-user') : 0;
                 var type = $(this).attr('data-type');
                 // if (type == 4 || type == 6) {
                     var status;
@@ -373,6 +374,7 @@
                                     data: {
                                         _token: "{{csrf_token()}}",
                                         id: id,
+                                        userID: userID,
                                         type: type
                                     },
                                     success: function (data) {

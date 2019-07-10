@@ -362,7 +362,7 @@ class SchedulesController extends Controller
         $check_schedule = Schedule::where('venueID', $request->id)->where('date', $request->date)->get();
         if(count($check_schedule) > 0){
             $schedules = Venue::distinct()->select('schedules.date','time.timeStartTime','time.timeEndTime')
-            ->selectSub('IF((SELECT timeID from schedules where timeID = time.timeID),1,0)', 'check')
+            ->selectSub('IF((SELECT timeID from schedules where timeID = time.timeID AND venueID = '.$request->id.' AND date = "'.$request->date.'"),1,0)', 'check')
             ->join('venuetype', 'venue.venueTypeID', 'venuetype.venueTypeID')
             ->leftJoin('time', 'venueType.venueTypeID', 'time.venueTypeID')
             ->rightJoin('schedules', 'venue.venueID', 'schedules.venueID')
