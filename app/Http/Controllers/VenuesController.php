@@ -266,7 +266,7 @@ class VenuesController extends Controller
         //    'cover_image' => 'image|nullable|max:1999'
         ]);
 
-        $venues = Venue::find($request->venueID);z
+        $venues = Venue::find($request->venueID);
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');

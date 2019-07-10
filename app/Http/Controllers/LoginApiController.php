@@ -21,7 +21,7 @@ class LoginApiController extends Controller
 //
 //        return LoginResource::collection($users);
 //    }
-//
+
 //    /**
 //     * Show the form for creating a new resource.
 //     *
@@ -43,16 +43,16 @@ class LoginApiController extends Controller
 //        $user = $request->isMethod('put') ? User::findOrFail($request->userID) : new User();
 //
 //        $user->userID = $request->input('userID');
-//        $user->userRoleID = $request->input('userRoleID');
-//        $user->firstName = $request->input('firstName');
-//        $user->lastName = $request->input('lastName');
-//        $user->phoneNumber = $request->input('phoneNumber');
-//        $user->email = $request->input('email');
-//        $user->apiToken = $request->input('apiToken');
-//        $user->departmentID = $request->input('departmentID');
-//        $user->userStatusID = $request->input('userStatusID');
-//        $user->IDnumber = $request->input('IDnummber');
-//      ;
+////        $user->userRoleID = $request->input('userRoleID');
+////        $user->firstName = $request->input('firstName');
+////        $user->lastName = $request->input('lastName');
+////        $user->phoneNumber = $request->input('phoneNumber');
+////        $user->email = $request->input('email');
+////        $user->apiToken = $request->input('apiToken');
+////        $user->departmentID = $request->input('departmentID');
+////        $user->userStatusID = $request->input('userStatusID');
+////        $user->IDnumber = $request->input('IDnummber');
+////      ;
 //
 //        if($user->save()){
 //            return new LoginResource($user);
@@ -108,21 +108,20 @@ class LoginApiController extends Controller
 
     public function login(Request $request)
     {
-       $attempt = Auth::attempt(['IDnumber' => $request->input('IDnumber'), 'password' => $request->input('password')], false);
-        if ($attempt) {
-//            Auth::user();
-//            email::where('IDnumber', $request->IDnumber)->first();
 
-            return response()->json(['message' => 'success']);
-//            Session::save();
-            //return redirect()->route('schedules.create');
+//$userID = new User();
+//$userID->user_id = auth()->user()->id;
+
+        $attempt = Auth::attempt(['IDnumber' => $request->input('IDnumber'), 'password' => $request->input('password')], false);
+        if ($attempt) {
+            return response()->json(['message' => 'success','userID' =>Auth::user()->userID]);
+
+//            'userStatus' =>Auth::user()->userStatusType
+
 
         }
-
-
         else {
             return response()->json(['message' => 'failed']);
         }
     }
-
 }
