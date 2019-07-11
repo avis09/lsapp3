@@ -98,7 +98,10 @@
                 $('.btn-check-schedule').prop('disabled', true);
                 $('#scheduled-date').val('');
                 $.ajax({
+
                     url: "{{url("/student/schedules/get-venuesofvenuetype")}}",
+
+                    url: "{{url('student/schedules/get-venuesofvenuetype')}}",
                     type: "POST",
                     data:{
                         _token: "{{csrf_token()}}",
@@ -136,7 +139,7 @@
                     var html = "";
                     $.ajax({
                         type: 'POST',
-                        url: "{{url("/student/show-schedules")}}",
+                        url: "{{url('student/show-schedules')}}",
                         data: {
                             _token: "{{csrf_token()}}",
                             id: venueID,

@@ -205,6 +205,8 @@ class VenuesController extends Controller
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
+        $venues->created_at = Carbon::now();
+        $venues->updated_at = Carbon::now();
         if(auth()->user()->userRoleID == 2){
              $venues->venueTypeID = 2;   
         }
@@ -271,6 +273,7 @@ class VenuesController extends Controller
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
         $venues->venueStatusID = $request->input('venueStatus');
+        $venues->updated_at = Carbon::now();
         $venues->userID = auth()->user()->userID;
         if($venues->save()){
                 $existingPicture = json_decode($request->input('existingPicture'));
