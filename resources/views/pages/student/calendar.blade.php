@@ -99,7 +99,6 @@
                 $('#scheduled-date').val('');
                 $.ajax({
 
-                    url: "{{url("/student/schedules/get-venuesofvenuetype")}}",
 
                     url: "{{url('student/schedules/get-venuesofvenuetype')}}",
                     type: "POST",

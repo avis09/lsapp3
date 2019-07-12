@@ -19,7 +19,7 @@ class Registrar
         if (!Auth::user()) {
             return redirect('login');
         } else if (Auth::user()->userRoleID != 3) {
-            return redirect('home');
+            return redirect('/error404');
         }
         //next
         return $next($request);

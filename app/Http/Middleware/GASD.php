@@ -21,7 +21,7 @@ class GASD
         {
             return redirect('login');
         } else if (Auth::user()->userRoleID != 2) {
-            return redirect('home');
+            return redirect('/error404');
         }
 
         //

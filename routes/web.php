@@ -36,6 +36,9 @@ use Illuminate\Support\Facades\Input;
 
 Route::get('/test', 'SchedulesController@showSchedules');
 
+Route::get('/error404', function() {
+    return view('pages.error404');
+   });
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/broshome', 'BroshomeController@index')->name('bros');

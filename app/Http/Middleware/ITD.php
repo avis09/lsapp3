@@ -19,7 +19,7 @@ class ITD
         if (!Auth::user()) {
             return redirect('login');
         } else if (Auth::user()->userRoleID != 4) {
-            return redirect('home');
+            return redirect('/error404');
         }
         //
         return $next($request);
