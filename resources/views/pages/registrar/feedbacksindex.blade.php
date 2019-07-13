@@ -40,7 +40,7 @@
                         </thead>
                         <tfoot>
                         <tr>
-                        <th>Commment </th>
+                        <th>Comment </th>
                         <th>Date Sent</th>
                         <th>Venue Name</th>
                         <th>Added by: </th>
@@ -69,7 +69,13 @@
                             // { data: 'userID'},
 
                             { data: 'comment'},
-                            { data: 'created_at'},
+                            { data: 'created_at',
+                                render:function(data)  {
+                                    var date_time = new Date(data);
+                                    date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                                    return date_time;
+                                }
+                            },
                             { data: 'f_venue.venueName'},
                             { data: null,
                                 render:function(data){

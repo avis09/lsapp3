@@ -249,8 +249,20 @@
 
                 }
             },
-            { data: 'created_at'},
-            { data: 'updated_at'},
+            { data: 'created_at',
+                render:function(data)  {
+                            var date_time = new Date(data);
+                            date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                            return date_time;
+                }
+                    },
+            { data: 'updated_at',
+                render:function(data)  {
+                        var date_time = new Date(data);
+                        date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                        return date_time;
+                }
+            },
             { data: null,
                 render:function(data){
                     return '<span class="badge badge-status badge-'+data.f_venue_status_v.venueStatusType.toLowerCase()+'">'+data.f_venue_status_v.venueStatusType+'</span>';
@@ -337,6 +349,7 @@
                  e.preventDefault();
                  resetVenueImage();
                  resetEquipment();
+                $('#venueStatus').prop('disabled', false);
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
                 $('input[type="password"]').val("");
@@ -366,8 +379,8 @@
                             $('.equipment-message').html('<span class="validate_error_message">Equipment is required.</span>');
                              checker++;
                         } else {
-                            $('.equipment-message').html('<span class="validate_error_message">Equipment is required.</span>');
-                            // $('.equipment-message').html('');
+                            // $('.equipment-message').html('<span class="validate_error_message">Equipment is required.</span>');
+                            $('.equipment-message').html('');
                             checker--;
                         }
 
@@ -512,6 +525,12 @@
                             id: id
                         },
                         success:function(data){
+                            if (data.f_schedule_v.length > 0) {
+                                $('#venueStatus').prop('disabled', true);
+                            } else {
+                                $('#venueStatus').prop('disabled', false);
+                            }
+
                             $('#venue-modal').modal('show');
                             $('#buildingID').val(data.buildingID);
                             $('#venueName').val(data.venueName);
@@ -644,40 +663,54 @@
 
             
             $(document).on('change', '.file-venue-image', function(){
-                var test = this;
-                $(this).removeClass('edit-venue-image');
-                  var FileUploadPath = this.value;
-                  var file_size = this.files[0].size;
-                  var ctr = $(this).attr('data-ctr');
-                  var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-                  if (Extension != "gif" && Extension != "png" && Extension != "bmp"
-                    && Extension != "jpeg" && Extension != "jpg") {
-                             Swal.fire(
-                                  'Error',
-                                  'Invalid File Format!',
-                                  'error'
-                            );
-                            this.value = '';
-                  }
-                  else if(file_size > 2000000){
-                             swal.fire(
-                                  'Error',
-                                  'File is too big!',
-                                  'error'
-                            );
-                            this.value = '';
-                   }
-                  else {
-                      if (this.files && this.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                        var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
-                        $('.venue-image-preview'+ctr).html(html);
-                        }
-                        reader.readAsDataURL(this.files[0]);
+                var formData = new FormData($('.form-venue')[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/registrar/validate-image",
+                    data:formData,
+                    async: false,
+                    success:function(data){
+                        console.log(data);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                });
+                // var test = this;
+                // $(this).removeClass('edit-venue-image');
+                //   var FileUploadPath = this.value;
+                //   var file_size = this.files[0].size;
+                //   var ctr = $(this).attr('data-ctr');
+                //   var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                //   if (Extension != "gif" && Extension != "png" && Extension != "bmp"
+                //     && Extension != "jpeg" && Extension != "jpg") {
+                //              Swal.fire(
+                //                   'Error',
+                //                   'Invalid File Format!',
+                //                   'error'
+                //             );
+                //             this.value = '';
+                //   }
+                //   else if(file_size > 2000000){
+                //              swal.fire(
+                //                   'Error',
+                //                   'File is too big!',
+                //                   'error'
+                //             );
+                //             this.value = '';
+                //    }
+                //   else {
+                //       if (this.files && this.files[0]) {
+                //         var reader = new FileReader();
+                //         reader.onload = function(e) {
+                //         var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
+                //         $('.venue-image-preview'+ctr).html(html);
+                //         }
+                //         reader.readAsDataURL(this.files[0]);
           
-                      }
-                  }
+                //       }
+                //   }
             });
         });
   </script>

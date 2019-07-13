@@ -132,10 +132,16 @@
             </li>
             <li id="menu-regroomreservation" class="treeview">
                 <a id="menu-aregroomreservation" class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i>
-                    <span class="app-menu__label">Room Reservation</span><i class="treeview-indicator fa fa-angle-right"></i>
+                    <span class="app-menu__label">Room Reservation</span>
+                    {{-- <span class="badge badge-pill badge-danger badge-reserve-request mr-1">0</span> --}}
+                    <i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a id="menu-regreservereqs" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation Requests</a></li>
+                    <li>
+                        <a id="menu-regreservereqs" class="treeview-item" href="{{url('registrar/schedules/list') }}"><i class="icon fa fa-book"></i> Reservation Requests 
+                            {{-- <span class="badge badge-pill badge-danger badge-reserve-request ml-2">0</span> --}}
+                        </a>
+                        </li>
                     <li><a id="menu-room-gallery" class="treeview-item" href="{{ url('registrar/room-gallery') }}"><i class="icon fa fa-archive"></i> Room Gallery</a></li>
                 </ul>
             </li>

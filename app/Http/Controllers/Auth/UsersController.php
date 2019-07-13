@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -304,15 +305,41 @@ class UsersController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $user = User::find(auth()->user()->userID);
-        $user->phoneNumber = "63" . $request->input('phoneNumber');
-        if ($user->save()) {
-            Audittrails::create(['userID' => auth()->user()->userID, 
-            'activity' => 'Updated Profile']);
+        $attributes = [
+            'phoneNumber' => 'Phone Number',
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'phoneNumber' => 'required|unique:users,phoneNumber,'.auth()->user()->userID.',userID|regex:/(639)[0-9]{9}/',
+            ],
+            [   'required' => 'This field is required.',
+                'phoneNumber.regex' => 'Please enter a valid phone number. Required format : 9XXXXXXXXX.',
+                'unique' => ':attribute already exists.',
+            ], $attributes);
 
-        }
+            if ($validator->fails()) {
+                $response = array(
+                    'success' => false,
+                    'errors' => $validator->getMessageBag()->toArray(),
+                    'inputs' => $request->all(),
+                );
 
-        return response()->json(['message' => 'updated profile!', 'success' => true]);
+            } else {
+                $user = User::find(auth()->user()->userID);
+                $user->phoneNumber = $request->phoneNumber;
+                if ($user->save()) {
+                    Audittrails::create(['userID' => auth()->user()->userID, 
+                    'activity' => 'Updated Profile']);
+                    $response = array(
+                        'success' => true,
+                        'message' => 'Profile Successfully Updated!',
+                        'inputs' => $request->all(),
+                    );
+
+                }
+            }
+        return response()->json($response);
     }
 
     public function archiveUser(Request $request)
