@@ -257,6 +257,7 @@
 
             $(document).on('click', '.btn-add-venue', function(e){
                 e.preventDefault();
+                $('#venueStatus').prop('disabled', false);
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
                 $('input[type="password"]').val("");
@@ -327,6 +328,12 @@
                             id: id
                         },
                         success:function(data){
+                            if (data.f_schedule_v.length > 0) {
+                                $('#venueStatus').prop('disabled', true);
+                            } else {
+                                $('#venueStatus').prop('disabled', false);
+                            }
+
                             $('#venue-modal').modal('show');
                             $('#buildingID').val(data.buildingID);
                             $('#venueName').val(data.venueName);
@@ -448,10 +455,18 @@
             });
 
             $(document).on('change', '.file-venue-image', function(){
-                var test = this;
-                var FileUploadPath = this.value;
-                var file_size = this.files[0].size;
-                var ctr = $(this).attr('data-ctr');
+                // var test = this;
+                // var FileUploadPath = this.value;
+                // var file_size = this.files[0].size;
+                // var ctr = $(this).attr('data-ctr');
+
+                const file = this.files[0];
+const  fileType = file['type'];
+const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+if (!validImageTypes.includes(fileType)) {
+    // invalid file type code goes here.
+}
+
                 var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
                 if (Extension != "gif" && Extension != "png" && Extension != "bmp"
                     && Extension != "jpeg" && Extension != "jpg") {

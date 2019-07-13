@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use DB;
 use Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 // use App\VenuesController;
 
 class VenuesController extends Controller
@@ -56,12 +57,12 @@ class VenuesController extends Controller
 
 
     public function getSpecificRoom(Request  $request){
-    $venues = Venue::with('f_buildingV','floor','f_venueStatusV','pictures', 'f_equipment')->where('venueID', $request->id)->first();
+    $venues = Venue::with('f_buildingV','floor','f_venueStatusV','pictures', 'f_equipment', 'f_scheduleV')->where('venueID', $request->id)->first();
          return response()->json($venues);
    }
 
    public function getSpecificCourt(Request  $request){
-    $venues = Venue::with('f_buildingV','floor','f_venueStatusV','pictures')->where('venueID', $request->id)->first();
+    $venues = Venue::with('f_buildingV','floor','f_venueStatusV','pictures','f_scheduleV')->where('venueID', $request->id)->first();
          return response()->json($venues);
    }
 
@@ -196,12 +197,29 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
-            'venueName' => 'required',
-        //    'cover_image' => 'image|nullable|max:1999'
-        ]);
+        $attributes = [
+            'venue_image' => 'Venue Image',
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'venueName' => 'required',
+                'venue_image' => 'image|max:15000|required'
+            ],
+            [   'required' => 'This field is required.',
+                'venue_image.image' => 'Please upload a valid image.',
+                'unique' => ':attribute already exists.',
+            ], $attributes);
 
-        $venues = new Venue;
+        // if ($validator->fails()) {
+        //     $response = array(
+        //         'success' => false,
+        //         'errors' => $validator->getMessageBag()->toArray(),
+        //         'inputs' => $request->all(),
+        //     );
+
+        // } else {
+            $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
@@ -257,9 +275,47 @@ class VenuesController extends Controller
                 Audittrails::create(['userID' => auth()->user()->userID, 'activity' => 'Added new venue']);
         }
 
+
+        // }
+
         return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]);
 
         // return redirect('registrar/venues/create')->with('success', 'Venue Added');
+    }
+
+    public function validateImage(Request $request) {
+        foreach($request->venue_image as $image) {     
+            echo $image;  
+        $attributes = [
+            'venue_image' => 'Venue Image',
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'venue_image' => ['image']
+            ],
+            [  
+                // 'venue_image.image' => 'Please upload a valid image.',
+            ], $attributes);
+
+        if ($validator->fails()) {
+            $response = array(
+                'success' => false,
+                'errors' => $validator->getMessageBag()->toArray(),
+                'inputs' => $request->all(),
+            );
+
+        } else {
+            $response = array(
+                'success' => true,
+                'errors' => $validator->getMessageBag()->toArray(),
+                'inputs' => $request->all(),
+            );
+
+        }
+    }
+
+        return response()->json($response);
     }
 
     public function updateRoomVenue(Request $request){

@@ -84,10 +84,18 @@
                     var form = $(this);
                     $.ajax({
                        type: "POST",
-                       url: "/auth/update-profile",
-                       data: form.serialize(),
+                       url: "{{url('auth/update-profile')}}",
+                       data: {
+                            _token: "{{csrf_token()}}",
+                            phoneNumber: $('#areacode').val()+$('.mobile_number').val()
+
+                       },
                        success: function(data) {
-                           if(data.success === true) {
+                        $.each(data.inputs, function(val) {
+                                $('#'+val).removeClass('err_inputs');
+                        });
+                        
+                        if(data.success === true) {
                                Swal.fire({
                                    type: 'success',
                                    title: 'Success',
@@ -99,7 +107,13 @@
                                         location.reload();
                                     }
                                 });
-                           }
+                        } else {
+                            $.each(data.errors, function (key,val) {
+                                $("<span class='validate_error_message'>"+val+"<br></span>").insertAfter('#'+key);
+                                $('#'+key).addClass('err_inputs');
+                            });
+                        }
+
                             $('.btn-save-profile').html('Save Password').prop('disabled', false);
                        }
                      });

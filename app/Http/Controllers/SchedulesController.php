@@ -183,6 +183,11 @@ class SchedulesController extends Controller
          print_r(json_encode($schedules));
     }
 
+    public function getReason(Request $request) {
+        $schedules = Schedule::select('updatedMessage')->where('scheduleID', $request->sched_id)->first();
+        return response()->json($schedules);
+    }
+
     public function updateReservationStatus(Request $request){
         $schedule = Schedule::find($request->id);
         $schedule->statusID = $request->type;
@@ -194,11 +199,11 @@ class SchedulesController extends Controller
             switch ($request->type) {
                 case '2':
                     $content_message = 'Approved';
-                    $this->sendEmailAndSMS($request->userID,$request->type);
+                    $this->sendEmailAndSMS($request->userID,$request->type, "");
                     break;
                 case '3':
                     $content_message = 'Rejected';
-                    $this->sendEmailAndSMS($request->userID,$request->type);
+                    $this->sendEmailAndSMS($request->userID,$request->type, "");
                     break;
                 case '4':
                     $content_message = 'Cancelled';
@@ -259,6 +264,7 @@ class SchedulesController extends Controller
             ]);
 
            array_push($scheduleIDs, $schedule->scheduleID);
+           $this->sendEmailAndSMS(auth()->user()->userID, 1, $request->venue_type);
         }
 
         if (!empty($schedule->scheduleID)) {
@@ -381,27 +387,49 @@ class SchedulesController extends Controller
 
     }
 
-    public function sendEmailAndSMS($userID,$type){
-        $user = User::where('userID', $userID)->first();
-        $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
-        if($type == 2){
+    public function sendEmailAndSMS($userID, $type, $venueTypeID){
+        if($type == 1){
+            $listerRole = Venue::where('venueTypeID', $venueTypeID)->first();
+            $user = User::where('userID', $listerRole->userID)->first();
+            // $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
+            $message = 'You have new reservation request.';
+            $title = 'New Reservation Request';
+            $body = 'You have new reservation request.';
+            $mail_content = array(
+                'title' => $title, 
+                'body' => $body, 
+                'receiver_name' => $user->firstName.' '.$user->lastName,
+                'user_role' => "Developer",
+                'sender_name' => "CSB BROS"
+                );
+        } else if($type == 2){
+            $user = User::where('userID', $userID)->first();
+            $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
             $message = 'Your reservation request was approved.';
             $title = 'Reservation Request';
             $body = 'Your reservation request was approved.';
-        }
-        else if($type == 3){
+            $mail_content = array(
+                'title' => $title, 
+                'body' => $body, 
+                'receiver_name' => $user->firstName.' '.$user->lastName,
+                'user_role' => $user_role->roleType,
+                'sender_name' => auth()->user()->firstName.' '.auth()->user()->lastName
+                );
+        } else if($type == 3){
+            $user = User::where('userID', $userID)->first();
+            $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
             $message = 'Your reservation request was rejected.';
             $title = 'Reservation Request';
             $body = 'Sorry, your reservation request was rejected.';
-
+            $mail_content = array(
+                'title' => $title, 
+                'body' => $body, 
+                'receiver_name' => $user->firstName.' '.$user->lastName,
+                'user_role' => $user_role->roleType,
+                'sender_name' => auth()->user()->firstName.' '.auth()->user()->lastName
+                );
         }
-        $mail_content = array(
-                        'title' => $title, 
-                        'body' => $body, 
-                        'receiver_name' => $user->firstName.' '.$user->lastName,
-                        'user_role' => $user_role->roleType,
-                        'sender_name' => auth()->user()->firstName.' '.auth()->user()->lastName
-                        );
+        
 
         // Account details
         // API key  acc for

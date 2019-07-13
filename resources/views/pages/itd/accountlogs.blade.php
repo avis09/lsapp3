@@ -91,7 +91,13 @@
                     },
                     { data: 'users.f_userrole.roleType'},
                     { data: 'activity'},
-                    { data: 'created_at'},
+                    { data: 'created_at',
+                         render:function(data)  {
+                            var date_time = new Date(data);
+                            date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                            return date_time;
+                        }
+                    },
                 ],
                 dom:'B<"clear">lfrtip',
                 "lengthMenu": [[10, 25, 50, 100, 300, 500, 700,1000,-1], [10, 25, 50,100, 300, 500,700,1000, "ALL"]],

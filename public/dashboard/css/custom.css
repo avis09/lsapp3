@@ -19,3 +19,9 @@
 .hidden{
 	display: none;
 }
+
+/* FORM CUSTOM */
+#textarea-reason{
+    height: 100px;
+    resize: none;
+}

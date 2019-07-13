@@ -196,6 +196,29 @@
             </div>
         </div>
 
+        <div class="modal fade" id="reason-modal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="modal-title modal-venue-title" id="smallmodalLabel">Reason</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Reason <span class="required">*</span></label> 
+                                <textarea class="form-control required-input" name="updatedMessage" id="textarea-reason"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-right reason-modal-footer">
+                            <button type="button" class="btn btn-secondary btn-cancel-reason" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary btn-confirm-reason">Confirm</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+
 @endsection
 
 
@@ -265,8 +288,20 @@
 
                         }
                     },
-                { data: 'created_at'},
-                { data: 'updated_at'},
+                { data: 'created_at',
+                        render:function(data)  {
+                            var date_time = new Date(data);
+                            date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                            return date_time;
+                        }
+                },
+                { data: 'updated_at',
+                        render:function(data)  {
+                            var date_time = new Date(data);
+                            date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                            return date_time;
+                        }
+                },
                 // { data: 'f_department.departmentName'},
                 { data: null,
                     render: function(data){
@@ -277,13 +312,16 @@
                 { data: null,
                     render:function(data){
                         var html = '';
+                        if  (data.updatedMessage != "" && data.updatedMessage != null) {
+                                html += '<button type="button" class="btn btn-danger btn-view-reason btn-sm" data-id="'+data.scheduleID+'">Reason</button>';
+                        }
                         if (data.f_venue.venueTypeID ==  2) {
-                        html = '<button type="button" class="btn btn-info btn-view-waiver btn-sm" data-type="4" data-id="'+data.scheduleID+'">View Waiver</button>';
+                        html += ' <button type="button" class="btn btn-info btn-view-waiver btn-sm" data-type="4" data-id="'+data.scheduleID+'">Waiver</button>';
                         } 
                         if(data.statusID == 1) {
-                             html += ' <button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
+                             html += ' <button type="button" class="btn btn-danger btn-update-reservation-status btn-sm" data-type="4" data-user="'+data.userID+'" data-id="'+data.scheduleID+'">Cancel</button>';
                         } else{
-                            html += ' <button type="button" class="btn btn-secondary btn-update-reservation-status btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';   
+                            html += ' <button type="button" class="btn btn-secondary btn-update-reservation-status btn-sm" data-type="6" data-user="'+data.userID+'" data-id="'+data.scheduleID+'">Archive</button>';   
                         }
                         return html;
 
@@ -410,7 +448,7 @@
         });
 
         $(document).on('submit', '#form-add-reservation', function () {
-            if(validate.standard('.required-input') == 0){
+            if(validate.standard('#form-add-reservation .required-input') == 0){
                 var venue_type = $('#venue-type').val();
                 if(venue_type == 2){
                     $('#waiver-modal').modal('show');
@@ -422,7 +460,7 @@
                     });
                     time_arr = JSON.stringify(time_arr);
                     $.ajax({
-                        url: "/student/schedules/create-reservation",
+                        url: "{{url('student/schedules/create-reservation')}}",
                         type: "POST",
                         data: $('#form-add-reservation').serialize()+"&times="+time_arr,
                         success: function(data){
@@ -460,6 +498,7 @@
 
         $(document).on('click', '.btn-update-reservation-status', function(e){
             var id = $(this).attr('data-id');
+            var userID = ($(this).attr('data-user') !== undefined) ? $(this).attr('data-user') : 0;
             var type = $(this).attr('data-type');
             if(type == 4 || type == 6){
                 var status = (type == 4) ? 'cancel' : 'archive';
@@ -474,23 +513,60 @@
                       reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                          $.ajax({
-                            type: 'post',
-                            url: '/student/schedule/update-reservation-status',
-                            data: {
-                                     _token: "{{csrf_token()}}",
-                                     id: id,
-                                     type: type
-                                    },
-                            success: function(data) {
-                                reservations.ajax.reload();
-                                Swal.fire(
-                                  data.title,
-                                  data.content_message,
-                                  data.type
-                                );  
+                            if(type == 4 || type  == 3){
+                                $('#reason-modal').modal('show');
+                                $('.reason-modal-footer').show();
+                                $('#textarea-reason').prop('disabled', false);
+                                $('#textarea-reason').val("");
+                                $('#textarea-reason').removeClass('err_inputs');
+                                $('.validate_error_message').remove();
+                                $(document).on('click', '.btn-confirm-reason', function(){
+                                    if(validate.standard('#textarea-reason') == 0){
+                                        var reason = $('#textarea-reason').val();
+                                        $.ajax({
+                                            type: 'post',
+                                            url: "{{url('student/schedule/update-reservation-status')}}",
+                                            data: {
+                                                _token: "{{csrf_token()}}",
+                                                id: id,
+                                                userID: userID,
+                                                type: type,
+                                                reason: reason
+                                            },
+                                            success: function (data) {
+                                                reservations.ajax.reload();
+                                                Swal.fire(
+                                                    data.title,
+                                                    data.content_message,
+                                                    data.type
+                                                );
+                                                $('#reason-modal').modal('hide');
+                                            }
+                                        });
+                                    }
+                                    return false;
+                                });
                             }
-                          });
+                            else{
+                                $.ajax({
+                                    type: 'post',
+                                    url: "{{url('student/schedule/update-reservation-status')}}",
+                                    data: {
+                                        _token: "{{csrf_token()}}",
+                                        id: id,
+                                        userID: userID,
+                                        type: type
+                                    },
+                                    success: function (data) {
+                                        reservations.ajax.reload();
+                                        Swal.fire(
+                                            data.title,
+                                            data.content_message,
+                                            data.type
+                                        );
+                                    }
+                                });
+                            }
                       }
                     })
             }
@@ -500,7 +576,7 @@
         $(document).on('click', '.btn-view-reservation', function () {
             var id = $(this).attr('data-id');
             $.ajax({
-                url: "/student/schedule/get-specific-schedule",
+                url: "{{url('student/schedule/get-specific-schedule')}}",
                 type: 'POST',
                 data: {
                     _token: "{{csrf_token()}}",
@@ -586,18 +662,36 @@
             });  
         });
 
+
+        $(document).on('click', '.btn-view-reason', function(e){
+                var sched_id = $(this).attr('data-id');
+                $('#reason-modal').modal('show');
+                $('#textarea-reason').prop('disabled', true);
+                $('.reason-modal-footer').hide();
+                $.ajax({
+                    type: 'post',
+                    url: "{{url('student/get-reason')}}",
+                    data: {
+                        _token: "{{csrf_token()}}",
+                        sched_id: sched_id, 
+                    },
+                    success: function (data) {
+                        $('#textarea-reason').val(data.updatedMessage);
+                    }
+                });
+            });
+
         $(document).on('click', '.btn-view-waiver', function(){
             var id = $(this).attr('data-id');
             $('#view-waiver-modal').modal('show');
             $.ajax({
                 type: 'post',
-                url: '/student/schedule/get-waiver',
+                url: "{{url('student/schedule/get-waiver')}}",
                 data: {
                     _token: "{{csrf_token()}}",
                     id: id
                 },
                 success: function (data) {
-                    console.log(data);
                     var html = '';
                     $.each(data, function(x,y){
                         html += '<tr>';

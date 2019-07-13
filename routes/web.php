@@ -112,12 +112,12 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
         Route::get('/venue-rooms', 'VenuesController@showRoomVenues');
         Route::get('/venue-courts', 'VenuesController@showCourtVenues');
         Route::post('/venues/get-room-equipments', 'VenuesController@getRoomEquipments');
-
+        Route::post('/get-reason', 'SchedulesController@getReason');
         //change pw ------
         Route::get('/change-password', function(){
             return view('pages.change-password');
         });
-
+        Route::post('/get-reason', 'SchedulesController@getReason');
         //PROFILE UPDATE --------
         Route::get('/profile', 'Auth\UsersController@showProfile');
         //FAQ
@@ -129,7 +129,8 @@ Route::group(['middleware' => 'student', 'prefix' => 'student'], function () {
 Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function () {
 
 
-
+    
+    Route::post('/validate-image', 'VenuesController@validateImage');
     //Dashboard ------
     Route::get('/dashboard', 'RegistrarController@showDashboard');
     //Feedbacks ------
@@ -162,7 +163,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
     Route::post('/schedule/get-venuesofvenuetype', 'SchedulesController@getVenuesOfVenueType');
     Route::post('/show-schedules', 'SchedulesController@showSchedules');
     Route::get('/room-gallery', 'VenuesController@showRoomGallery');
-
+    Route::post('/get-reason', 'SchedulesController@getReason');
     //FAQ -------
     Route::get('/registrarfaq', function() {
         return view('pages.registrar.registrarfaq');
@@ -259,7 +260,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('/schedules/create-reservation', 'SchedulesController@createReservation')->name('schedules.store');
     Route::get('/schedules/{id}/edit', 'SchedulesController@edit')->name('schedules.edit');
     Route::post('/schedules/update', 'SchedulesController@update')->name('schedules.update');
-
+    Route::post('/get-reason', 'SchedulesController@getReason');
     // profile ------
     Route::get('/profile', 'Auth\UsersController@showProfile');
     //change pw ------

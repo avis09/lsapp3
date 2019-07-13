@@ -116,7 +116,13 @@
                     { data: 'f_userrole.roleType'},
                     // { data: 'f_department.departmentName'},
                     { data: 'f_userstatus.userStatusType'},
-                    { data: 'updated_at'},
+                    { data: 'updated_at',
+                        render:function(data)  {
+                            var date_time = new Date(data);
+                            date_time = moment(date_time).format("YYYY-MM-DD HH:mm");
+                            return date_time;
+                        }
+                    },
 
                     // { data: 'actions'},
 
