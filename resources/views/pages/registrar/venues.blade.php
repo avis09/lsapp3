@@ -109,7 +109,7 @@
                                 <div class="venue-image-container">
                                    <div class="venue-image-parent1">
                                        <div class="input-group venue-image-preview-container1">
-                                                    <input type="file" name="venue_image" class="form-control required-input file-venue-image" data-ctr="1">
+                                                    <input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">
                                                     <div class="input-group-prepend">
                                                         <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
                                                     </div>
