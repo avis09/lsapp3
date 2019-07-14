@@ -464,47 +464,62 @@
             });
 
             $(document).on('change', '.file-venue-image', function(){
-                // var test = this;
-                // var FileUploadPath = this.value;
-                // var file_size = this.files[0].size;
-                // var ctr = $(this).attr('data-ctr');
-
-                const file = this.files[0];
-const  fileType = file['type'];
-const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-if (!validImageTypes.includes(fileType)) {
-    // invalid file type code goes here.
-}
-
-                var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-                if (Extension != "gif" && Extension != "png" && Extension != "bmp"
+                var test = this;
+                $(this).removeClass('edit-venue-image');
+                  var FileUploadPath = this.value;
+                  var file_size = this.files[0].size;
+                  var ctr = $(this).attr('data-ctr');
+                  var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                  if (Extension != "gif" && Extension != "png" && Extension != "bmp"
                     && Extension != "jpeg" && Extension != "jpg") {
-                    Swal.fire(
-                        'Error',
-                        'Invalid File Format!',
-                        'error'
-                    );
-                    this.value = '';
-                }
-                else if(file_size > 2000000){
-                    swal.fire(
-                        'Error',
-                        'File is too big!',
-                        'error'
-                    );
-                    this.value = '';
-                }
-                else {
-                    if (this.files && this.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            var html = '<img class="venue-image my-2" data-src="'+e.target.result+'" src="'+e.target.result+'">';
-                            $(html).insertAfter('.venue-image-preview-container'+ctr);
-                        }
-                        reader.readAsDataURL(this.files[0]);
-
-                    }
-                }
+                             Swal.fire(
+                                  'Error',
+                                  'Invalid File Format!',
+                                  'error'
+                            );
+                            this.value = '';
+                  }
+                  else if(file_size > 2000000){
+                             swal.fire(
+                                  'Error',
+                                  'File is too big!',
+                                  'error'
+                            );
+                            this.value = '';
+                   }
+                  else {
+                      if (this.files && this.files[0]) {
+                        var formData = new FormData();
+                        formData.append('_token', "{{csrf_token()}}"); 
+                        formData.append('venue_image', this.files[0]); 
+                        $.ajax({
+                            type: "POST",
+                            url: "/registrar/validate-image",
+                            data:formData,
+                            async: false,
+                            success:function(data){
+                                if (data.success === true) {
+                                    var reader = new FileReader();
+                                    reader.onload = function(e) {
+                                    var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
+                                    $('.venue-image-preview'+ctr).html(html);
+                                    }
+                                    reader.readAsDataURL(this.files[0]);
+                                } else  {
+                                    swal.fire(
+                                        'Error',
+                                        data.errors[0],
+                                        'error'
+                                    );
+                                    this.value = '';
+                                }
+                            },
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                        });
+                      }
+                  }
             });
         });
     </script>

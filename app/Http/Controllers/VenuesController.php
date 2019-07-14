@@ -271,33 +271,23 @@ class VenuesController extends Controller
         // return redirect('registrar/venues/create')->with('success', 'Venue Added');
     }
 
-    public function validateImage(Request $request) {
-        $attributes = [
-            'venue_image' => 'Venue Image',
-        ];
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'venue_image' => 'image|max:15000|required'
-            ],
-            [  
-                'venue_image.image' => 'Please upload a valid image.',
-            ], $attributes);
+    public function validateImage(Request $request)
+    {
+        $rules = array(
+            'venue_image' => 'mimes:jpeg,jpg,png,gif,svg|max:20000' // max 10000kb
+          );
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             $response = array(
                 'success' => false,
                 'errors' => $validator->getMessageBag()->toArray(),
-                'inputs' => $request->all(),
             );
-
         } else {
             $response = array(
                 'success' => true,
-                'errors' => $validator->getMessageBag()->toArray(),
-                'inputs' => $request->all(),
             );
-
         }
         return response()->json($response);
     }
