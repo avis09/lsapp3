@@ -26,6 +26,7 @@ class CreateVenueTable extends Migration
             $table->unsignedInteger('venueStatusID');
             $table->foreign('venueStatusID')->references('venueStatusID')->on('venuestatus');
             $table->string('venueName','50');
+            $table->string('venueCapacity','30');
             $table->timestamps();
 
         });

@@ -123,6 +123,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'timezone' => 'Asia/Manila',
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

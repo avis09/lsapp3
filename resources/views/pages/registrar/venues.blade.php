@@ -40,6 +40,7 @@
                                         <th>Venue Name </th>
                                         <th>Building</th>
                                         <th>Modified By</th>
+                                        <th>Venue Capacity</th>
                                         <th>Date Created</th>
                                         <th>Date Modified</th>
                                         <th>Status</th>
@@ -51,6 +52,7 @@
                                         <th>Venue Name </th>
                                         <th>Building</th>
                                         <th>Modified By</th>
+                                        <th>Venue Capacity</th>
                                         <th>Date Created</th>
                                         <th>Date Modified</th>
                                         <th>Status</th>
@@ -143,6 +145,10 @@
                                 <div class="mt-2">
                                     <button type="button" class="btn btn-primary btn-add-equipment btn-sm">Add</button>
                                 </div>                      
+                            </div>
+                            <div class="form-group">
+                                <label>Venue Capacity <span class="required">*</span></label> 
+                                <input type="number" class="form-control required-input" name="venueCapacity" id="venueCapacity"> 
                             </div>
                             <div class="form-group">
                                 <label for="venues">Venue Status <span class="required">*</span></label>
@@ -249,6 +255,7 @@
 
                 }
             },
+            { data: 'venueCapacity'},
             { data: 'created_at',
                 render:function(data)  {
                             var date_time = new Date(data);
@@ -352,6 +359,7 @@
                 $('#venueStatus').prop('disabled', false);
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
+                $('input[type="number"]').val("");
                 $('input[type="password"]').val("");
                 $('input[type="email"]').val("");
                 $('select').prop("selectedIndex", 0);
@@ -535,6 +543,7 @@
                             $('#buildingID').val(data.buildingID);
                             $('#venueName').val(data.venueName);
                             $('#venueFloorID').val(data.venueFloorID);
+                            $('#venueCapacity').val(data.venueCapacity);
                             $('#venueStatus').val(data.venueStatusID);
                             var html = '';
                             var venue_ctr = 1;

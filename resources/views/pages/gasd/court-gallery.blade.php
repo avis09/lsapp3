@@ -54,6 +54,7 @@
                                 </div>
                                 <div class="text-center venue-title">
                                     <h3>{{$venue->venueName}}</h3>
+                                    <p><b>Capacity: {{$venue->venueCapacity}}</b></p>
                                 </div>
                             </div>
                         @endforeach

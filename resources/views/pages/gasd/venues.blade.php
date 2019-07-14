@@ -40,7 +40,8 @@
                             <th>Venue Name </th>
                             <th>Building </th>
                             <th>Floor </th>
-                            <th>Added by </th>
+                            <th>Modified by </th>
+                            <th>Venue Capacity</th>
                             <th>Date Created</th>
                             <th>Date Modified</th>
                             <th>Status</th>
@@ -52,7 +53,8 @@
                             <th>Venue Name </th>
                             <th>Building </th>
                             <th>Floor </th>
-                            <th>Added by </th>
+                            <th>Modified by </th>
+                            <th>Venue Capacity</th>
                             <th>Date Created</th>
                             <th>Date Modified</th>
                             <th>Status</th>
@@ -122,6 +124,10 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Venue Capacity <span class="required">*</span></label> 
+                            <input type="number" class="form-control required-input" name="venueCapacity" id="venueCapacity"> 
+                        </div>
+                        <div class="form-group">
                             <label for="venues">Venue Status <span class="required">*</span></label>
                             <select class="form-control required-input" name="venueStatus" id="venueStatus" data-parsley-required="true">
                                 <option value="" selected disabled>Select Status</option>
@@ -169,6 +175,7 @@
 
                         }
                     },
+                    { data: 'venueCapacity'},
                     
                     // { data: 'f_department.departmentName'},
                     { data: 'created_at'},
@@ -260,6 +267,7 @@
                 $('#venueStatus').prop('disabled', false);
                 $('.btn-reset-password').hide();
                 $('input[type="text"]').val("");
+                $('input[type="number"]').val("");
                 $('input[type="password"]').val("");
                 $('input[type="email"]').val("");
                 $('select').prop("selectedIndex", 0);
@@ -338,6 +346,7 @@
                             $('#buildingID').val(data.buildingID);
                             $('#venueName').val(data.venueName);
                             $('#venueFloorID').val(data.venueFloorID);
+                            $('#venueCapacity').val(data.venueCapacity);
                             $('#venueStatus').val(data.venueStatusID);
                             var html = '';
                             var ctr = 1;

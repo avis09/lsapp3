@@ -54,6 +54,7 @@
                                 </div>
                                 <div class="text-center venue-title">
                                     <h4>{{$venue->venueName}}</h4>
+                                    <p><b>Capacity: {{$venue->venueCapacity}}</b></p>
                                     <button type="button" class="btn btn-primary btn-view-equipments mt-3" data-id="{{$venue->venueID}}">View Equipments</button>
                                 </div>
                             </div>
