@@ -396,7 +396,7 @@
                     time_arr = JSON.stringify(time_arr);
                     var form = $('#form-add-reservation').serialize()+'&waiver_name='+waiver_name+'&waiver_id='+waiver_id+'&times='+time_arr;
                     $.ajax({
-                            url: "/student/schedules/create-reservation",
+                            url: "{{url('student/schedules/create-reservation')}}",
                             type: "POST",
                             data: form,
                             success: function(data){
