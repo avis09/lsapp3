@@ -189,41 +189,58 @@ class SchedulesController extends Controller
     }
 
     public function updateReservationStatus(Request $request){
-        $schedule = Schedule::find($request->id);
-        $schedule->statusID = $request->type;
-        if(!empty($request->reason)){
-        $schedule->updatedMessage = $request->reason;
-        }
-        $schedule->updated_at = Carbon::now();
-        if($schedule->save()){
-            switch ($request->type) {
-                case '2':
-                    $content_message = 'Approved';
-                    $this->sendEmailAndSMS($request->userID,$request->type, "");
-                    break;
-                case '3':
-                    $content_message = 'Rejected';
-                    $this->sendEmailAndSMS($request->userID,$request->type, "");
-                    break;
-                case '4':
-                    $content_message = 'Cancelled';
-                    break;
-                case '5':
-                    $content_message = 'Updated';
-                    break;
-                case '6':
-                    $content_message = 'Archived';
-                    break;
-                default:
-                    break;
+
+        DB::beginTransaction();
+
+        try {
+            $schedule = Schedule::find($request->id);
+            $schedule->statusID = $request->type;
+            if(!empty($request->reason)){
+            $schedule->updatedMessage = $request->reason;
             }
+            $schedule->updated_at = Carbon::now();
+            if($schedule->save()){
+                switch ($request->type) {
+                    case '2':
+                        $content_message = 'Approved';
+                        $this->sendEmailAndSMS($request->userID,$request->type, "");
+                        break;
+                    case '3':
+                        $content_message = 'Rejected';
+                        $this->sendEmailAndSMS($request->userID,$request->type, "");
+                        break;
+                    case '4':
+                        $content_message = 'Cancelled';
+                        break;
+                    case '5':
+                        $content_message = 'Updated';
+                        break;
+                    case '6':
+                        $content_message = 'Archived';
+                        break;
+                    default:
+                        break;
+                }
+                
+                Audittrails::create(['userID' => Auth::user()->userID, 'activity' => $content_message.' reservation']);
             
-            Audittrails::create(['userID' => Auth::user()->userID, 'activity' => $content_message.' reservation']);
-          return response()->json(['title' => 'Success', 'content_message' => 'Reservation Successfully '.$content_message, 'type' => 'success', 'success' => true]);
+            } else {
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+            }
+        } catch(ValidationException $e)
+        {
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+        } catch(\Exception $e)
+        {
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
         }
-        else{
-          return response()->json(['title' => 'Error', 'content_message' => 'Something went wrong.', 'success' => false]);
-        }
+
+        DB::commit();
+        return response()->json(['title' => 'Success', 'content_message' => 'Reservation Successfully '.$content_message, 'type' => 'success', 'success' => true]);
+
+        
     }
 
     public function getCancelledReservations(){
@@ -249,43 +266,60 @@ class SchedulesController extends Controller
 
     public function createReservation(Request $request)
     {
-        $times = json_decode($request->times);
-        $scheduleIDs = array();
-        foreach ($times as $key => $timeID) {
-           $schedule = Schedule::create([
-                "userID" => auth()->user()->userID,
-                "venueID" => $request->venue,
-                "timeID" => $timeID,
-                "statusID" => 1,
-                "purpose" => $request->purpose,
-                "date" => $request->date,
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now()
-            ]);
+        DB::beginTransaction();
 
-           array_push($scheduleIDs, $schedule->scheduleID);
-           $this->sendEmailAndSMS(auth()->user()->userID, 1, $request->venue_type);
-        }
-
-        if (!empty($schedule->scheduleID)) {
-            if(!empty($request->waiver_name)){
-                $waiver_name = json_decode($request->waiver_name);
-                $waiver_id = json_decode($request->waiver_id);
-                foreach ($scheduleIDs as $key => $scheduleID) {
-                    for($i=0;$i<count($waiver_name);$i++){
-                        $waiver = Waiver::create([
-                            "scheduleID" => $scheduleID, "studentName" => $waiver_name[$i], "studentIDnumber" =>$waiver_id[$i]
-                        ]);
-                        // echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
+        try {
+            $times = json_decode($request->times);
+            $scheduleIDs = array();
+            foreach ($times as $key => $timeID) {
+               $schedule = Schedule::create([
+                    "userID" => auth()->user()->userID,
+                    "venueID" => $request->venue,
+                    "timeID" => $timeID,
+                    "statusID" => 1,
+                    "purpose" => $request->purpose,
+                    "date" => $request->date,
+                    "created_at" => Carbon::now(),
+                    "updated_at" => Carbon::now()
+                ]);
+    
+               array_push($scheduleIDs, $schedule->scheduleID);
+               $this->sendEmailAndSMS(auth()->user()->userID, 1, $request->venue_type);
+            }
+    
+            if (!empty($schedule->scheduleID)) {
+                if(!empty($request->waiver_name)){
+                    $waiver_name = json_decode($request->waiver_name);
+                    $waiver_id = json_decode($request->waiver_id);
+                    foreach ($scheduleIDs as $key => $scheduleID) {
+                        for($i=0;$i<count($waiver_name);$i++){
+                            $waiver = Waiver::create([
+                                "scheduleID" => $scheduleID, "studentName" => $waiver_name[$i], "studentIDnumber" =>$waiver_id[$i]
+                            ]);
+                            // echo "name:".$waiver_name[$i]."  id:".$waiver_id[$i];
+                        }
                     }
                 }
-            }
-              Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Added reservation']);
-              return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
-         }
-         else{
-              return response()->json(["success"=>false, "message" => "Something went wrong."]);
-         }
+                  Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Added reservation']);
+                } else {
+                  return response()->json(["success"=>false, "message" => "Something went wrong."]);
+             }
+        } catch(ValidationException $e)
+        {
+            // Rollback and then redirect
+            // back to form with errors
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+        } catch(\Exception $e)
+        {
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+        }
+
+        DB::commit();
+        return response()->json(["success"=>true, "message" => "Reservation request successfully submitted."]);
+
+        
 
     }
 
@@ -454,14 +488,12 @@ class SchedulesController extends Controller
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
         $response = curl_exec($ch);
         curl_close($ch);
-        
+        Mail::to($user->email)->send(new MailSched($mail_content));
+
         // Email sender
-         Mail::to($user->email)->send(new MailSched($mail_content));
-
-         return $response;
-
     }
 
 

@@ -670,7 +670,7 @@
                 $('.equipment-parent'+ctr).remove();
             });
 
-            
+        
             $(document).on('change', '.file-venue-image', function(){
                 var test = this;
                 $(this).removeClass('edit-venue-image');
@@ -686,6 +686,7 @@
                                   'error'
                             );
                             this.value = '';
+                            $('.venue-image-preview'+ctr).html("")
                   }
                   else if(file_size > 2000000){
                              swal.fire(
@@ -694,6 +695,7 @@
                                   'error'
                             );
                             this.value = '';
+                            $('.venue-image-preview'+ctr).html("")
                    }
                   else {
                       if (this.files && this.files[0]) {
@@ -712,14 +714,15 @@
                                     var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
                                     $('.venue-image-preview'+ctr).html(html);
                                     }
-                                    reader.readAsDataURL(this.files[0]);
+                                    reader.readAsDataURL(test.files[0]);
                                 } else  {
                                     swal.fire(
                                         'Error',
                                         data.errors[0],
                                         'error'
                                     );
-                                    this.value = '';
+                                    test.value = '';
+                                    $('.venue-image-preview'+ctr).html("");
                                 }
                             },
                             cache: false,

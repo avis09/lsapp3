@@ -110,20 +110,33 @@ class FeedbacksController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'venue_name' => 'required',
-            'comment' => 'required'
-        ]);
 
-        $feedbacks = new Feedback();
-        $feedbacks->comment = $request->input('comment');
-        $feedbacks->created_at = Carbon::now();
-        $feedbacks->venueID = $request->venue_name;
-        $feedbacks->userID = auth()->user()->userID;
-        if($feedbacks->save()){
-            Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Sent a feedback']);
-            return response()->json(['message' => 'Comment has been sent!', 'success' => true]); 
+        DB::beginTransaction();
+
+        try {
+            $feedbacks = new Feedback();
+            $feedbacks->comment = $request->input('comment');
+            $feedbacks->created_at = Carbon::now();
+            $feedbacks->venueID = $request->venue_name;
+            $feedbacks->userID = auth()->user()->userID;
+            if ($feedbacks->save()) {
+                Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Sent a feedback']);
+            }
+        } catch(ValidationException $e)
+        {
+            // Rollback and then redirect
+            // back to form with errors
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+        } catch(\Exception $e)
+        {
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
         }
+
+        DB::commit();
+        return response()->json(['message' => 'Comment has been sent!', 'success' => true]);
+        
 
         // return Redirect::to('student/schedules/create')->with('success', 'Feedback sent');
     }

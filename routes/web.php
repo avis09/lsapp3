@@ -208,6 +208,7 @@ Route::group(['middleware' => 'registrar', 'prefix' => 'registrar'], function ()
 Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::get('/dashboard', 'GasdController@showDashboard');
 //Feedbacks
+
     Route::get('feedbacks/index2', 'FeedbacksController@index2')->name('feedbacks.index2');
     //Venues
     //A
@@ -216,6 +217,7 @@ Route::group(['middleware' =>  'gasd', 'prefix' => 'gasd'], function () {
     Route::post('/venues/add-venue', 'VenuesController@store');
     Route::post('/venues/get-specific-court', 'VenuesController@getSpecificCourt');
     //
+    Route::post('/validate-image', 'VenuesController@validateImage');
     Route::get('venues/create2', 'VenuesController@create2')->name('venues.create2');
     Route::post('venues/create2', 'VenuesController@store2')->name('venues.store2');
     Route::get('venues/{id}/edit', 'VenuesController@edit')->name('venues.edit');

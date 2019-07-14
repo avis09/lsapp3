@@ -104,7 +104,7 @@ $(document).ready(function(){
                     data: form,
                     success: function(data){
                         $('.btn-send-feedback').html('Send Feedback').prop('disabled', false);
-                        if(data.success){
+                        if(data.success === true){
                             Swal.fire({
                                     type: 'success',
                                     title: 'Success',
@@ -118,6 +118,12 @@ $(document).ready(function(){
                                 $('textarea').val('');
                                 }
                             });
+                        } else {
+                            Swal.fire({
+                                    type: 'error',
+                                    title: 'Error',
+                                    text: data.message.errorInfo[2],
+                            })
                         }
                     }
                 });

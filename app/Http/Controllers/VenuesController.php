@@ -196,77 +196,89 @@ class VenuesController extends Controller
     //Registrar Store
     public function store(Request $request)
     {
+        DB::beginTransaction();
 
-
-        // if ($validator->fails()) {
-        //     $response = array(
-        //         'success' => false,
-        //         'errors' => $validator->getMessageBag()->toArray(),
-        //         'inputs' => $request->all(),
-        //     );
-
-        // } else {
-        $venues = new Venue;
-        $venues->buildingID = $request->input('buildingID');
-        $venues->venueName = $request->input('venueName');
-        $venues->venueFloorID = $request->input('venueFloorID');
-        $venues->created_at = Carbon::now();
-        $venues->updated_at = Carbon::now();
-        if(auth()->user()->userRoleID == 2){
-             $venues->venueTypeID = 2;   
-        }
-        else if(auth()->user()->userRoleID == 3){
-             $venues->venueTypeID = 1;
-        }
-        $venues->venueStatusID = $request->input('venueStatus');
-        $venues->venueCapacity = $request->input('venueCapacity');
-        $venues->userID = auth()->user()->userID;
-        if($venues->save()){
-
-                if($request->hasfile('venue_image'))
-                {
-                    foreach($request->file('venue_image') as $venueImage)
+        try {
+            // Validate, then create if valid
+            $venues = new Venue;
+            $venues->buildingID = $request->input('buildingID');
+            $venues->venueName = $request->input('venueName');
+            $venues->venueFloorID = $request->input('venueFloorID');
+            $venues->created_at = Carbon::now();
+            $venues->updated_at = Carbon::now();
+            if(auth()->user()->userRoleID == 2){
+                 $venues->venueTypeID = 2;   
+            }
+            else if(auth()->user()->userRoleID == 3){
+                 $venues->venueTypeID = 1;
+            }
+            $venues->venueStatusID = $request->input('venueStatus');
+            $venues->venueCapacity = $request->input('venueCapacity');
+            $venues->userID = auth()->user()->userID;
+            if($venues->save()){
+    
+                    if($request->hasfile('venue_image'))
                     {
-                        $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
-                        // Store file or image to storage
-                        Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
-                        $venue_image = new Picture;
-                        $venue_image->venueID = $venues->venueID;
-                        $venue_image->pictureName = $venueImageName;
-                        $venue_image->created_at = Carbon::now()->toDateTimeString();
-                        // $venue_image->updated_at = Carbon::now()->toDateTimeString();
-                        $venue_image->save();
-                    }
-
-
-                    if(!empty($request->input('equipment_name'))){
-                        $equipmentName = array();
-                        $barCode = array();
-                        $equipmentStatusID = array();
-                        $equipmentName = $request->input('equipment_name');
-                        $barCode = $request->input('equipment_barcode');
-                        $equipmentStatusID = json_decode($request->input('equipmentStatus'));
-
-                        for($i=0;$i<count($equipmentName);$i++){
-                            $waiver = Equipment::create([
-                                "venueID" => $venues->venueID, 
-                                "equipmentStatusID" => $equipmentStatusID[$i],
-                                "equipmentName" =>$equipmentName[$i],
-                                "barCode" => $barCode[$i],
-                                "created_at" => Carbon::now(),
-                                "updated_at" => Carbon::now()
-                            ]);
-                         }
-                    }
-                }  
-
-                Audittrails::create(['userID' => auth()->user()->userID, 'activity' => 'Added new venue']);
+                        foreach($request->file('venue_image') as $venueImage)
+                        {
+                            $venueImageName = $this->GenerateFilename('room', $venueImage).".".$venueImage->getClientOriginalExtension();
+                            // Store file or image to storage
+                            Storage::disk('public')->put('venue images/rooms/'.$venueImageName, file_get_contents($venueImage));
+                            $venue_image = new Picture;
+                            $venue_image->venueID = $venues->venueID;
+                            $venue_image->pictureName = $venueImageName;
+                            $venue_image->created_at = Carbon::now()->toDateTimeString();
+                            // $venue_image->updated_at = Carbon::now()->toDateTimeString();
+                            $venue_image->save();
+                        }
+    
+    
+                        if(!empty($request->input('equipment_name'))){
+                            $equipmentName = array();
+                            $barCode = array();
+                            $equipmentStatusID = array();
+                            $equipmentName = $request->input('equipment_name');
+                            $barCode = $request->input('equipment_barcode');
+                            $equipmentStatusID = json_decode($request->input('equipmentStatus'));
+    
+                            for($i=0;$i<count($equipmentName);$i++){
+                                $waiver = Equipment::create([
+                                    "venueID" => $venues->venueID, 
+                                    "equipmentStatusID" => $equipmentStatusID[$i],
+                                    "equipmentName" =>$equipmentName[$i],
+                                    "barCode" => $barCode[$i],
+                                    "created_at" => Carbon::now(),
+                                    "updated_at" => Carbon::now()
+                                ]);
+                             }
+                        }
+                    }  
+    
+                    Audittrails::create(['userID' => auth()->user()->userID, 'activity' => 'Added new venue']);
+            }
+    
+    
+        } catch(ValidationException $e)
+        {
+            // Rollback and then redirect
+            // back to form with errors
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong', 'success' => false]);
+        } catch(\Exception $e)
+        {
+            DB::rollback();
+            // throw $e;
+            return response()->json(['message' => 'Something went wrong', 'success' => false]);
         }
 
+        // If we reach here, then
+        // data is valid and working.
+        // Commit the queries!
 
-        // }
+        DB::commit();
 
         return response()->json(['message' => 'Venue Successfully Added!', 'success' => true]);
+       
 
         // return redirect('registrar/venues/create')->with('success', 'Venue Added');
     }
