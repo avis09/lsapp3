@@ -457,16 +457,25 @@
                                                 reason: reason
                                             },
                                             success: function (data) {
-                                                if(type == 2 || type == 3){
+                                                if (data.success === true) {
+                                                    if(type == 2 || type == 3){
                                                     pending.ajax.reload();
+                                                    }
+                                                    all_schedules.ajax.reload();
+                                                    archived.ajax.reload();
+                                                    Swal.fire(
+                                                        data.title,
+                                                        data.content_message,
+                                                        data.type
+                                                    );
+                                                } else  {
+                                                    Swal.fire(
+                                                        'Error',
+                                                        data.message,
+                                                        'error'
+                                                    );
                                                 }
-                                                all_schedules.ajax.reload();
-                                                archived.ajax.reload();
-                                                Swal.fire(
-                                                    data.title,
-                                                    data.content_message,
-                                                    data.type
-                                                );
+                                                
                                                 $('#reason-modal').modal('hide');
                                             }
                                         });
@@ -485,14 +494,22 @@
                                         type: type
                                     },
                                     success: function (data) {
-                                        pending.ajax.reload();
-                                        all_schedules.ajax.reload();
-                                        archived.ajax.reload();
-                                        Swal.fire(
-                                            data.title,
-                                            data.content_message,
-                                            data.type
-                                        );
+                                        if (data.success === true) {
+                                            pending.ajax.reload();
+                                            all_schedules.ajax.reload();
+                                            archived.ajax.reload();
+                                            Swal.fire(
+                                                data.title,
+                                                data.content_message,
+                                                data.type
+                                            );
+                                        } else  {
+                                            Swal.fire(
+                                                'Error',
+                                                data.message,
+                                                'error'
+                                            );
+                                        }
                                     }
                                 });
                             }

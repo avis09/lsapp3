@@ -109,16 +109,19 @@
                         </div>
                         <div class="form-group">
                             <label>Venue Images <span class="required">*</span></label>
-                            <div class="venue-image-container">
-                                <div class="venue-image-parent1">
-                                    <div class="input-group venue-image-preview-container1">
-                                        <input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">
-                                        <div class="input-group-prepend">
-                                            <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                            <p class="recommender-dimension"><b>Recommended Dimension: 320 x 280 pixels.</b></p>
+                                <div class="venue-image-message"></div>
+                                <div class="venue-image-container">
+                                   <div class="venue-image-parent1">
+                                       <div class="input-group venue-image-preview-container1">
+                                                    <input type="file" name="venue_image[]" class="form-control required-input file-venue-image" data-ctr="1">
+                                                    <div class="input-group-prepend">
+                                                        <button type="button" class="btn btn-danger btn-delete-venue-image" data-ctr="1"><i class="fas fa-trash-alt"></i></button>
+                                                    </div>
                                         </div>
+                                        <div class="venue-image-preview1"></div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="mt-2">
                                 <button type="button" class="btn btn-primary btn-add-image btn-sm">Add</button>
                             </div>
@@ -312,6 +315,12 @@
                                         }
                                     });
                                 venues.ajax.reload();
+                            } else {
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Error',
+                                    text: data.message.errorInfo[2],
+                                });
                             }
                             $('.btn-confirm').removeClass('disabled').html('Confirm');
                         },
@@ -462,7 +471,7 @@
                     }
                 })
             });
-
+           
             $(document).on('change', '.file-venue-image', function(){
                 var test = this;
                 $(this).removeClass('edit-venue-image');
@@ -478,6 +487,7 @@
                                   'error'
                             );
                             this.value = '';
+                            $('.venue-image-preview'+ctr).html("")
                   }
                   else if(file_size > 2000000){
                              swal.fire(
@@ -486,32 +496,36 @@
                                   'error'
                             );
                             this.value = '';
+                            $('.venue-image-preview'+ctr).html("")
                    }
                   else {
                       if (this.files && this.files[0]) {
                         var formData = new FormData();
                         formData.append('_token', "{{csrf_token()}}"); 
                         formData.append('venue_image', this.files[0]); 
+                        var asa = this.files[0];
                         $.ajax({
                             type: "POST",
-                            url: "/registrar/validate-image",
+                            url: "/gasd/validate-image",
                             data:formData,
                             async: false,
                             success:function(data){
                                 if (data.success === true) {
                                     var reader = new FileReader();
                                     reader.onload = function(e) {
-                                    var html = '<img class="venue-image my-2" src="'+e.target.result+'">';
+                                    var html = '<img class="venue-image  my-2" src="'+e.target.result+'">';
                                     $('.venue-image-preview'+ctr).html(html);
                                     }
-                                    reader.readAsDataURL(this.files[0]);
+                                    reader.readAsDataURL(test.files[0]);
                                 } else  {
+                                    $('.venue-image'+ctr).remove();
                                     swal.fire(
                                         'Error',
                                         data.errors[0],
                                         'error'
                                     );
-                                    this.value = '';
+                                    test.value = '';
+                                    
                                 }
                             },
                             cache: false,

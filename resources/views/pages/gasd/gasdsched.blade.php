@@ -578,12 +578,20 @@
                                                 reason: reason
                                             },
                                             success: function (data) {
-                                                reservations.ajax.reload();
-                                                Swal.fire(
-                                                    data.title,
-                                                    data.content_message,
-                                                    data.type
-                                                );
+                                                if (data.success === true) {
+                                                    reservations.ajax.reload();
+                                                    Swal.fire(
+                                                        data.title,
+                                                        data.content_message,
+                                                        data.type
+                                                    );
+                                                } else  {
+                                                    Swal.fire(
+                                                        'Error',
+                                                        data.message,
+                                                        'error'
+                                                    );
+                                                }
                                                 $('#reason-modal').modal('hide');
                                             }
                                         });
@@ -601,14 +609,24 @@
                                         type: type
                                     },
                                     success: function (data) {
-                                        reservations.ajax.reload();
-                                        Swal.fire(
-                                            data.title,
-                                            data.content_message,
-                                            data.type
-                                        );
+                                        if (data.success === true) {
+                                            reservations.ajax.reload();
+                                            Swal.fire(
+                                                data.title,
+                                                data.content_message,
+                                                data.type
+                                            );
+                                        } else  {
+                                            Swal.fire(
+                                                'Error',
+                                                data.message,
+                                                'error'
+                                            );
+                                        }
+                                        
                                     }
                                 });
+                                return false;
                             }
 
                             // $.ajax({
