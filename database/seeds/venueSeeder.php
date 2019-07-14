@@ -20,10 +20,11 @@ class venueSeeder extends Seeder
             'userID' => "2",
             'venueStatusID' => "1",
             'venueName' => "Sandejas Court",
-            'created_at'=> Carbon::now()
-
-
+            'venueCapacity' => "8",
+            'created_at'=> Carbon::now(),
+            'updated_at'=> Carbon::now()
         ]);
+
         DB::table('venue')->insert([
             'buildingID' => "2",
             'venueFloorID' => "3",
@@ -31,9 +32,9 @@ class venueSeeder extends Seeder
             'userID' => "3",
             'venueStatusID' => "1",
             'venueName' => "B301",
-            'created_at'=> Carbon::now()
-
-
+            'venueCapacity' => "8",
+            'created_at'=> Carbon::now(),
+            'updated_at'=> Carbon::now()
         ]);
     }
 }

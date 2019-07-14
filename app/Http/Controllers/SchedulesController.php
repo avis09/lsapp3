@@ -437,7 +437,9 @@ class SchedulesController extends Controller
         //$apiKey = urlencode('WPQcktKiJak-ulfoMOJHh49Byt8uDAzf3rZ0e0wvnI');
         // API key  acc for
         // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
-        $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8');
+        // $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8'); anz txt local api key
+        $apiKey = urlencode('wdcd6GV5YEw-vDCHghrSyDnFfXi7FKONiHFENOzzG1'); // enzo txt local api key
+        
 
         // Message details
         $numbers = array($user->phoneNumber);

@@ -197,19 +197,6 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
 
-        $attributes = [
-            'venue_image' => 'Venue Image',
-        ];
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'venueName' => 'required',
-                'venue_image' => 'image|max:15000|required'
-            ],
-            [   'required' => 'This field is required.',
-                'venue_image.image' => 'Please upload a valid image.',
-                'unique' => ':attribute already exists.',
-            ], $attributes);
 
         // if ($validator->fails()) {
         //     $response = array(
@@ -219,7 +206,7 @@ class VenuesController extends Controller
         //     );
 
         // } else {
-            $venues = new Venue;
+        $venues = new Venue;
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
@@ -232,6 +219,7 @@ class VenuesController extends Controller
              $venues->venueTypeID = 1;
         }
         $venues->venueStatusID = $request->input('venueStatus');
+        $venues->venueCapacity = $request->input('venueCapacity');
         $venues->userID = auth()->user()->userID;
         if($venues->save()){
 
@@ -284,18 +272,16 @@ class VenuesController extends Controller
     }
 
     public function validateImage(Request $request) {
-        foreach($request->venue_image as $image) {     
-            echo $image;  
         $attributes = [
             'venue_image' => 'Venue Image',
         ];
         $validator = Validator::make(
             $request->all(),
             [
-                'venue_image' => ['image']
+                'venue_image' => 'image|max:15000|required'
             ],
             [  
-                // 'venue_image.image' => 'Please upload a valid image.',
+                'venue_image.image' => 'Please upload a valid image.',
             ], $attributes);
 
         if ($validator->fails()) {
@@ -313,8 +299,6 @@ class VenuesController extends Controller
             );
 
         }
-    }
-
         return response()->json($response);
     }
 
@@ -328,6 +312,7 @@ class VenuesController extends Controller
         $venues->buildingID = $request->input('buildingID');
         $venues->venueName = $request->input('venueName');
         $venues->venueFloorID = $request->input('venueFloorID');
+        $venues->venueCapacity = $request->input('venueCapacity');
         $venues->venueStatusID = $request->input('venueStatus');
         $venues->updated_at = Carbon::now();
         $venues->userID = auth()->user()->userID;
