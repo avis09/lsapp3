@@ -50,7 +50,7 @@ class usersseeder extends Seeder
             'firstName' => "Peter",
             'lastName' => "Registrar",
             'password' => bcrypt('12345678'),
-            'phoneNumber' => '639171376944',
+            'phoneNumber' => '639176245666',
             'email' => 'regis@yahoo.com',
             'apiToken' => Str::random(60),
             'IDnumber' => '11501003',
