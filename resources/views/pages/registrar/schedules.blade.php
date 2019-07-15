@@ -227,7 +227,12 @@
                     {
                         data: null,
                         render: function (data) {
-                            return data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime;
+                            var startTime =  data.f_time.timeStartTime;
+                            startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                            var endTime = data.f_time.timeEndTime;
+                            endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+
+                            return startTime + ' - ' + endTime;
 
                         }
                     },
@@ -276,7 +281,12 @@
                     {
                         data: null,
                         render: function (data) {
-                            return data.f_time.timeStartTime + ' - ' + data.f_time.timeEndTime;
+                            var startTime =  data.f_time.timeStartTime;
+                            startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                            var endTime = data.f_time.timeEndTime;
+                            endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+
+                            return startTime + ' - ' + endTime;
 
                         }
                     },
@@ -306,7 +316,7 @@
                             }
 
                             if(data.reservation_status.statusID == 2){
-                                html += ' <button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="5" data-id="'+data.scheduleID+'">Done</button> <button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
+                                html += ' <button type="button" class="btn btn-primary btn-update-schedule btn-sm" data-type="5" data-id="'+data.scheduleID+'">Done</button> <button type="button" class="btn btn-danger btn-update-schedule btn-sm" data-user="'+data.user.userID+'" data-type="4" data-id="'+data.scheduleID+'">Cancel</button>';
                             }
                             else if(data.reservation_status.statusID == 3 || data.reservation_status.statusID == 4 || data.reservation_status.statusID == 5){
                                 html += ' <button type="button" class="btn btn-secondary btn-update-schedule btn-sm" data-type="6" data-id="'+data.scheduleID+'">Archive</button>';
@@ -340,7 +350,12 @@
                     { data: 'date'},
                     { data: null,
                         render:function(data){
-                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
+                            var startTime =  data.f_time.timeStartTime;
+                            startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                            var endTime = data.f_time.timeEndTime;
+                            endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+
+                            return startTime + ' - ' + endTime;
 
                         }
                     },

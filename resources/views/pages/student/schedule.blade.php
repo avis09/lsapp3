@@ -30,7 +30,13 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <button type="button" class="btn btn-primary btn-add-reservation mb-3">Add Reservation</button>
+                @if($settings->startDate < date("Y-m-d") && $settings->endDate > date("Y-m-d")) 
+                    <button type="button" class="btn btn-primary btn-add-reservation mb-3">Add Reservation</button>
+                @else
+                    <div class="alert alert-danger">
+                        Adding of new reservation is currently not available.
+                    </div>
+                @endif
             <div class="table-responsive">
                         <table id="table-reservations" class="table table-striped">
                             <thead>
@@ -70,7 +76,9 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <span class="modal-title modal-user-title" id="smallmodalLabel">Add New Reservation</span>
+                        <span class="modal-title modal-user-title" id="smallmodalLabel">
+                            Add New Reservation
+                        </span>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>

@@ -30,7 +30,15 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <button type="button" class="btn btn-primary btn-add-reservation mb-3">Add Reservation</button>
+                @if($settings->startDate < date("Y-m-d") && $settings->endDate > date("Y-m-d")) 
+                    <button type="button" class="btn btn-primary btn-add-reservation mb-3">Add Reservation</button>
+                @else
+                    <div class="alert alert-danger">
+                        Adding of new reservation is currently not available.
+                    </div>
+                @endif
+
+                
                 <div class="table-responsive">
                     <table id="table-reservations" class="table table-striped">
                         <thead>
@@ -284,7 +292,11 @@
                     { data: 'date'},
                     { data: null,
                         render:function(data){
-                            return data.f_time.timeStartTime+' - '+data.f_time.timeEndTime;
+                            var startTime =  data.f_time.timeStartTime;
+                            startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                            var endTime = data.f_time.timeEndTime;
+                            endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+                            return startTime+' - '+endTime;
 
                         }
                     },
@@ -714,7 +726,12 @@
                         html += '<select class="form-control schedule-time required-input" name="time[]" id="schedule-time" data-parsley-required="true">';
                         html += '<option value="" selected disabled>Select Time</option>';
                         for (var i = 0; i < data.length; i++) {
-                            html += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
+                            var startTime =  data[i].timeStartTime;
+                            startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                            var endTime = data[i].timeEndTime;
+                            endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+
+                            html += '<option for="time" value="' +data[i].timeID+ '">'+ startTime + '-' + endTime +'</option>';
                         }
                         html += '</select>';
                         html += '<div class="input-group-prepend">';
@@ -770,7 +787,12 @@
                             html += '<option value="" selected disabled>Select Time</option>';
                         }
                         for (var i = 0; i < data.length; i++) {
-                            html += '<option for="time" value="' +data[i].timeID+ '">'+ data[i].timeStartTime + '-' + data[i].timeEndTime +'</option>';
+                            var startTime =  data[i].timeStartTime;
+                            startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                            var endTime = data[i].timeEndTime;
+                            endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+
+                            html += '<option for="time" value="' +data[i].timeID+ '">'+ startTime + '-' + endTime +'</option>';
                         }
                         $(div).html(html);
                     },

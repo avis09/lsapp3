@@ -12,6 +12,7 @@ use App\VenueType;
 use App\Waiver;
 use App\UserRole;
 use App\Audittrails;
+use App\Reservationsettings;
 use Illuminate\Http\Request;
 use Calendar;
 use DB;
@@ -34,13 +35,15 @@ class SchedulesController extends Controller
 
     public function showRegSched()
     {
+        $settings = Reservationsettings::find(1);
         $scheduleVenueType = VenueType::all();
-        return view('pages.registrar.regsched', compact('scheduleVenueType'));
+        return view('pages.registrar.regsched', compact('scheduleVenueType', 'settings'));
     }
     public function showGasdSched()
     {
+        $settings = Reservationsettings::find(1);
         $scheduleVenueType = VenueType::all();
-        return view('pages.gasd.gasdsched', compact('scheduleVenueType'));
+        return view('pages.gasd.gasdsched', compact('scheduleVenueType', 'settings'));
     }
 
     public function index()
@@ -77,8 +80,9 @@ class SchedulesController extends Controller
      */
     public function showReservationPage()
     {
+        $settings = Reservationsettings::find(1);
         $scheduleVenueType = VenueType::all();
-        return view('pages.student.schedule', compact('scheduleVenueType'));
+        return view('pages.student.schedule', compact('scheduleVenueType', 'settings'));
     }
 
     public function getVenuesOfVenueType(Request $request){
@@ -194,6 +198,7 @@ class SchedulesController extends Controller
 
         try {
             $schedule = Schedule::find($request->id);
+            $scheduleStatus = $schedule->statusID;
             $schedule->statusID = $request->type;
             if(!empty($request->reason)){
             $schedule->updatedMessage = $request->reason;
@@ -203,14 +208,18 @@ class SchedulesController extends Controller
                 switch ($request->type) {
                     case '2':
                         $content_message = 'Approved';
-                        $this->sendEmailAndSMS($request->userID,$request->type, "");
+                        $this->sendEmailAndSMS($request->userID,$request->type, "", $request->id);
                         break;
                     case '3':
                         $content_message = 'Rejected';
-                        $this->sendEmailAndSMS($request->userID,$request->type, "");
+                        $this->sendEmailAndSMS($request->userID,$request->type, "", $request->id);
                         break;
                     case '4':
                         $content_message = 'Cancelled';
+
+                        if ($scheduleStatus == 2) {
+                            $this->sendEmailAndSMS($request->userID,$request->type, "", $request->id);
+                        }
                         break;
                     case '5':
                         $content_message = 'Updated';
@@ -266,6 +275,7 @@ class SchedulesController extends Controller
 
     public function createReservation(Request $request)
     {
+        
         DB::beginTransaction();
 
         try {
@@ -284,7 +294,7 @@ class SchedulesController extends Controller
                 ]);
     
                array_push($scheduleIDs, $schedule->scheduleID);
-               $this->sendEmailAndSMS(auth()->user()->userID, 1, $request->venue_type);
+               $this->sendEmailAndSMS(auth()->user()->userID, 1, $request->venue_type, $schedule->scheduleID);
             }
     
             if (!empty($schedule->scheduleID)) {
@@ -421,14 +431,24 @@ class SchedulesController extends Controller
 
     }
 
-    public function sendEmailAndSMS($userID, $type, $venueTypeID){
+    public function sendEmailAndSMS($userID, $type, $venueTypeID, $scheduleID){
+        $schedule = Schedule::find($scheduleID);
+        $schedule_time = Time::find($schedule->timeID);
+        $scheduler = User::where('userID', $schedule->userID)->first();
         if($type == 1){
             $listerRole = Venue::where('venueTypeID', $venueTypeID)->first();
             $user = User::where('userID', $listerRole->userID)->first();
             // $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
             $message = 'You have new reservation request.';
-            $title = 'New Reservation Request';
+            $message .=  ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $message .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $message .=  ', Reservation Purpose: '.$schedule->purpose;
+
+            $title = 'New Reservation Request. ';
             $body = 'You have new reservation request.';
+            $body .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $body .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $body .=  ', Reservation Purpose: '.$schedule->purpose;
             $mail_content = array(
                 'title' => $title, 
                 'body' => $body, 
@@ -440,8 +460,15 @@ class SchedulesController extends Controller
             $user = User::where('userID', $userID)->first();
             $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
             $message = 'Your reservation request was approved.';
+            $message .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $message .= ',  Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $message .=  ', Reservation Purpose: '.$schedule->purpose;
+
             $title = 'Reservation Request';
             $body = 'Your reservation request was approved.';
+            $body .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $body .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $body .=  ', Reservation Purpose: '.$schedule->purpose;
             $mail_content = array(
                 'title' => $title, 
                 'body' => $body, 
@@ -453,8 +480,40 @@ class SchedulesController extends Controller
             $user = User::where('userID', $userID)->first();
             $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
             $message = 'Your reservation request was rejected.';
+            $message .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $message .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $message .=  ', Reservation Purpose: '.$schedule->purpose;
+            $message .= ', Rejection Reason: '.$schedule->updatedMessage;
+
             $title = 'Reservation Request';
             $body = 'Sorry, your reservation request was rejected.';
+            $body .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $body .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $body .=  ', Reservation Purpose: '.$schedule->purpose;
+            $body .=  ', Rejection Reason: '.$schedule->updatedMessage;
+
+            $mail_content = array(
+                'title' => $title, 
+                'body' => $body, 
+                'receiver_name' => $user->firstName.' '.$user->lastName,
+                'user_role' => $user_role->roleType,
+                'sender_name' => auth()->user()->firstName.' '.auth()->user()->lastName
+                );
+        } else if($type  == 4) {
+            $user = User::where('userID', $userID)->first();
+            $user_role = UserRole::where('userRoleID', auth()->user()->userRoleID)->first();
+            $message = 'Your reservation request was cancelled.';
+            $message .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $message .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.') ';
+            $message .=  ', Reservation Purpose: '.$schedule->purpose;
+            $message .= ', Cancellation Reason: '.$schedule->updatedMessage;
+            
+            $title = 'Cancelled Reservation';
+            $body = 'Sorry, your reservation request was cancelled.';
+            $body .= ' Name: '.$scheduler->firstName.' '.$scheduler->lastName;
+            $body .= ', Schedule Date and Time: '.$schedule->date.' ('.$schedule_time->timeStartTime.' - '.$schedule_time->timeEndTime.')';
+            $body .=  ', Reservation Purpose: '.$schedule->purpose;
+            $body .=  ', Cancellation Reason: '.$schedule->updatedMessage;
             $mail_content = array(
                 'title' => $title, 
                 'body' => $body, 
@@ -472,7 +531,7 @@ class SchedulesController extends Controller
         // API key  acc for
         // User: jananzel.santos@benilde.edu.ph Pass: Anzel123
         // $apiKey = urlencode('PEht7ggsi4Q-md1NMBdZPq8mbA9dDhhc0duRmZwkS8'); anz txt local api key
-        $apiKey = urlencode('wdcd6GV5YEw-vDCHghrSyDnFfXi7FKONiHFENOzzG1'); // enzo txt local api key
+        $apiKey = urlencode('84mH9w6Fjm0-KR9SYJDXpOEYLuoxio2FZ44PxeNSbb'); // enzo txt local api key
         
 
         // Message details

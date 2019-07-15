@@ -105,7 +105,10 @@
                   <td>{{$reservation->user->firstName.' '.$reservation->user->lastName}}</td>
                   <td>{{$reservation->f_venue->venueName}}</td>
                   <td>{{$reservation->purpose}}</td>
-                  <td>{{$reservation->date.' ('.$reservation->f_time->timeStartTime.' - '.$reservation->f_time->timeEndTime.')'}}</td>
+                  @php $startTime =  date('g:i', strtotime($reservation->f_time->timeStartTime)) @endphp
+                  @php $endTime =  date('g:i', strtotime($reservation->f_time->timeEndTime)) @endphp
+                  @endphp
+                  <td>{{$reservation->date.' ('.$startTime.' - '.$endTime.')'}}</td>
                   <td><span class="badge badge-status badge-{{strtolower($reservation->reservationStatus->statusName)}}">{{$reservation->reservationStatus->statusName}}</span></td>
                 </tr>
                 @endforeach

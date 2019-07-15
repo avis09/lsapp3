@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call('usersseeder');
         $this->call('venueSeeder');
         $this->call('XequipmentSeeder');
+        $this->call('reservationSettingsSeeder');
     }
 }
 

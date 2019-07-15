@@ -677,27 +677,6 @@
                   var FileUploadPath = this.value;
                   var file_size = this.files[0].size;
                   var ctr = $(this).attr('data-ctr');
-                  var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-                  if (Extension != "gif" && Extension != "png" && Extension != "bmp"
-                    && Extension != "jpeg" && Extension != "jpg") {
-                             Swal.fire(
-                                  'Error',
-                                  'Invalid File Format!',
-                                  'error'
-                            );
-                            this.value = '';
-                            $('.venue-image-preview'+ctr).html("")
-                  }
-                  else if(file_size > 2000000){
-                             swal.fire(
-                                  'Error',
-                                  'File is too big!',
-                                  'error'
-                            );
-                            this.value = '';
-                            $('.venue-image-preview'+ctr).html("")
-                   }
-                  else {
                       if (this.files && this.files[0]) {
                         var formData = new FormData();
                         formData.append('_token', "{{csrf_token()}}"); 
@@ -718,7 +697,7 @@
                                 } else  {
                                     swal.fire(
                                         'Error',
-                                        data.errors[0],
+                                        data.errors.venue_image[0],
                                         'error'
                                     );
                                     test.value = '';
@@ -730,7 +709,6 @@
                             processData: false,
                         });
                       }
-                  }
             });
         });
   </script>
