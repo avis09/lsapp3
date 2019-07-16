@@ -37,6 +37,9 @@
 
 
             <li><a class="dropdown-item" href="{{$change_password}}"><i class="fas fa-cog fa-lg"></i> Settings</a></li>
+            @if(Auth::user()->userRoleID == 4)
+            <li><a class="dropdown-item" href="/itd/reservation-settings"><i class="fas fa-cog fa-lg"></i> Reservation Settings</a></li>
+            @endif
                 <li><a class="dropdown-item"onclick="document.getElementById('form-logout').submit();"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a></li>
                 <form id="form-logout" action="{{route('logout')}}" method="POST" style="display: none;">
                         @csrf

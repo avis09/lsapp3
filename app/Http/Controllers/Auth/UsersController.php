@@ -6,6 +6,7 @@ use App\Audittrails;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\UserRole;
+use App\Reservationsettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -302,6 +303,46 @@ class UsersController extends Controller
         return view('pages.profile', compact('userInfo'));
 
     }
+
+    public function showReservationSettings()
+    {
+        $settings = Reservationsettings::find(1);
+        return view('pages.itd.reservation-settings', compact('settings'));
+
+    }
+
+    public function updateReservationSettings(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $settings = Reservationsettings::updateOrCreate(['reservationSettingsID' => 1],
+            [
+             'startDate' => $request->startDate, 
+             'endDate' => $request->endDate,
+             'userID' => Auth::user()->userID,
+             'updated_at' => Carbon::now()
+            ]);
+
+            Audittrails::create(['userID' => Auth::user()->userID, 'activity' => 'Updated Reservation Settings']);
+            
+        } catch(ValidationException $e)
+        {
+            // Rollback and then redirect
+            // back to form with errors
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+        } catch(\Exception $e)
+        {
+            DB::rollback();
+            return response()->json(['message' => 'Something went wrong.', 'success' => false]);
+        }
+
+        DB::commit();
+        return response()->json(['message' => 'Reservation settings successfully updated!', 'success' => true]);
+
+    }
+
 
     public function updateProfile(Request $request)
     {

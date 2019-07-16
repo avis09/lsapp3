@@ -148,8 +148,13 @@
                             for (var i = 0; i < data.length; i++) {
                                 var status = (data[i].check == 1) ? "<span class='badge badge-status badge-danger'>Not Available</span>" : "<span class='badge badge-status badge-success'>Available</span>";
                                 var schedule_date = (data[i].date === undefined) ? date : data[i].date;
+                                var startTime =  data[i].timeStartTime;
+                                startTime = startTime.substring(0, startTime.indexOf(':', startTime.indexOf(':')+1));
+                                var endTime = data[i].timeEndTime;
+                                endTime = endTime.substring(0, endTime.indexOf(':', endTime.indexOf(':')+1));
+
                                 html += '<tr><td>' + schedule_date + '</td>';
-                                html +='<td>' + data[i].timeStartTime + '-' + data[i].timeEndTime + '</td>';
+                                html +='<td>' + startTime + '-' + endTime + '</td>';
                                 html +='<td>' + status + '</td><tr>';
                             }
                             // if(data.length == 0){

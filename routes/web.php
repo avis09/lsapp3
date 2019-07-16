@@ -302,6 +302,9 @@ Route::group(['middleware' => 'itd', 'prefix' => 'itd'], function () {
     });
 
     //R
+    
+    Route::get('/reservation-settings', 'Auth\UsersController@showReservationSettings');
+    Route::post('/update-reservation-settings', 'Auth\UsersController@updateReservationSettings');
     Route::post('/users/validate-email-phone', 'Auth\UsersController@validateEmailPhoneNumber');
     Route::get('/users/get-users', 'Auth\UsersController@getUsers');
     Route::post('/users/get-specific-userinfo', 'Auth\UsersController@getSpecificUserInfo');
